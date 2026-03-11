@@ -2,79 +2,78 @@ import standardMsEventsSchema from '../../../../docs/asyncapi/v1/standard-ms-eve
 import { ConsumedEventType, KnownEventType, PublishedEventType } from './event-types';
 
 export interface EventSchemaInfo {
-  eventType: KnownEventType;
-  channel: string;
-  exchange: string;
-  routingKey: string;
-  direction: 'published' | 'consumed';
-  schema: Record<string, unknown>;
+	eventType: KnownEventType;
+	channel: string;
+	exchange: string;
+	routingKey: string;
+	direction: 'published' | 'consumed';
+	schema: Record<string, unknown>;
 }
 
 class EventSchemaRegistry {
-  private readonly schemas = new Map<KnownEventType, EventSchemaInfo>();
+	private readonly schemas = new Map<KnownEventType, EventSchemaInfo>();
 
-  constructor() {
-    this.registerPublished();
-    this.registerConsumed();
-  }
+	constructor() {
+		this.registerPublished();
+		this.registerConsumed();
+	}
 
-  private registerPublished(): void {
-    const published: PublishedEventType[] = [
-      'profiles.profile.created.v1',
-      'profiles.profile.updated.v1',
-    ];
+	private registerPublished(): void {
+		const published: PublishedEventType[] = [
+			'profiles.profile.created.v1',
+			'profiles.profile.updated.v1',
+		];
 
-    published.forEach((eventType) => {
-      const channel = standardMsEventsSchema.channels[eventType];
-      const messageName = Object.keys(channel.messages)[0];
-      const message = channel.messages[messageName as keyof typeof channel.messages] as {
-        payload: Record<string, unknown>;
-      };
+		published.forEach((eventType) => {
+			const channel = standardMsEventsSchema.channels[eventType];
+			const messageName = Object.keys(channel.messages)[0];
+			const message = channel.messages[messageName as keyof typeof channel.messages] as {
+				payload: Record<string, unknown>;
+			};
 
-      this.schemas.set(eventType, {
-        eventType,
-        channel: channel.address,
-        exchange: 'profile.events',
-        routingKey: eventType,
-        direction: 'published',
-        schema: message.payload,
-      });
-    });
-  }
+			this.schemas.set(eventType, {
+				eventType,
+				channel: channel.address,
+				exchange: 'profile.events',
+				routingKey: eventType,
+				direction: 'published',
+				schema: message.payload,
+			});
+		});
+	}
 
-  private registerConsumed(): void {
-    const consumed: ConsumedEventType[] = ['classifications.classification.assigned.v1'];
+	private registerConsumed(): void {
+		const consumed: ConsumedEventType[] = ['classifications.classification.assigned.v1'];
 
-    consumed.forEach((eventType) => {
-      const channel = standardMsEventsSchema.channels[eventType];
-      const messageName = Object.keys(channel.messages)[0];
-      const message = channel.messages[messageName as keyof typeof channel.messages] as {
-        payload: Record<string, unknown>;
-      };
+		consumed.forEach((eventType) => {
+			const channel = standardMsEventsSchema.channels[eventType];
+			const messageName = Object.keys(channel.messages)[0];
+			const message = channel.messages[messageName as keyof typeof channel.messages] as {
+				payload: Record<string, unknown>;
+			};
 
-      this.schemas.set(eventType, {
-        eventType,
-        channel: channel.address,
-        exchange: 'classification.events',
-        routingKey: eventType,
-        direction: 'consumed',
-        schema: message.payload,
-      });
-    });
-  }
+			this.schemas.set(eventType, {
+				eventType,
+				channel: channel.address,
+				exchange: 'classification.events',
+				routingKey: eventType,
+				direction: 'consumed',
+				schema: message.payload,
+			});
+		});
+	}
 
-  getSchema(eventType: KnownEventType): EventSchemaInfo | undefined {
-    return this.schemas.get(eventType);
-  }
+	getSchema(eventType: KnownEventType): EventSchemaInfo | undefined {
+		return this.schemas.get(eventType);
+	}
 
-  getPublishedEvents(): EventSchemaInfo[] {
-    return Array.from(this.schemas.values()).filter((item) => item.direction === 'published');
-  }
+	getPublishedEvents(): EventSchemaInfo[] {
+		return Array.from(this.schemas.values()).filter((item) => item.direction === 'published');
+	}
 
-  getConsumedEvents(): EventSchemaInfo[] {
-    return Array.from(this.schemas.values()).filter((item) => item.direction === 'consumed');
-  }
+	getConsumedEvents(): EventSchemaInfo[] {
+		return Array.from(this.schemas.values()).filter((item) => item.direction === 'consumed');
+	}
 }
 
 export const eventSchemaRegistry = new EventSchemaRegistry();
-

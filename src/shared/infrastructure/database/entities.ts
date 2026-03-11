@@ -5,10 +5,9 @@ import ProcessedMessageSchema from '../../adapters/repositories/schemas/processe
 import ProfileSchema from '../../../features/profile/adapters/repositories/schemas/profile.schema';
 
 export const databaseEntities = [
-  ProfileSchema,
-  OutboxEventSchema,
-  IdempotencyKeySchema,
-  ProcessedMessageSchema,
-  AuditLogSchema,
+	ProfileSchema,
+	OutboxEventSchema,
+	IdempotencyKeySchema,
+	ProcessedMessageSchema,
+	AuditLogSchema,
 ];
-

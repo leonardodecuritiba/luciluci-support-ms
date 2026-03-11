@@ -14,4 +14,3 @@ Use este arquivo apenas quando houver inconsistência crítica entre documentaç
 ## Estado atual
 
 Sem drift registrado nesta release.
-

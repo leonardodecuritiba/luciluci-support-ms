@@ -4,17 +4,16 @@ import AuditLog from '../../entities/audit-log.entity';
 import IAuditLogRepository from '../../interfaces/iaudit-log.repository';
 
 export default class AuditLogTypeormRepository implements IAuditLogRepository {
-  private readonly repository: Repository<AuditLog>;
+	private readonly repository: Repository<AuditLog>;
 
-  constructor(managerOrRepository: EntityManager | Repository<AuditLog>) {
-    this.repository =
-      managerOrRepository instanceof Repository
-        ? managerOrRepository
-        : managerOrRepository.getRepository(AuditLog);
-  }
+	constructor(managerOrRepository: EntityManager | Repository<AuditLog>) {
+		this.repository =
+			managerOrRepository instanceof Repository
+				? managerOrRepository
+				: managerOrRepository.getRepository(AuditLog);
+	}
 
-  save(log: AuditLog): Promise<AuditLog> {
-    return this.repository.save(log);
-  }
+	save(log: AuditLog): Promise<AuditLog> {
+		return this.repository.save(log);
+	}
 }
-

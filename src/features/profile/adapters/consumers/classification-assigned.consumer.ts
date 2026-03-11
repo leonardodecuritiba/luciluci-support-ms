@@ -11,44 +11,44 @@ import ProcessClassificationAssignedUseCase from '../../use-cases/process-classi
 import { ClassificationAssignedEventDTO } from '../../use-cases/dtos/classification-assigned-event.dto';
 
 export default class ClassificationAssignedConsumer {
-  readonly consumerName = 'classification-assigned-consumer';
+	readonly consumerName = 'classification-assigned-consumer';
 
-  constructor(private readonly dataSource: DataSource) {}
+	constructor(private readonly dataSource: DataSource) {}
 
-  async handle(message: ConsumeMessage, channel: Channel): Promise<void> {
-    const payload = JSON.parse(message.content.toString()) as ClassificationAssignedEventDTO;
-    const messageId = message.properties.messageId || payload.eventId;
+	async handle(message: ConsumeMessage, channel: Channel): Promise<void> {
+		const payload = JSON.parse(message.content.toString()) as ClassificationAssignedEventDTO;
+		const messageId = message.properties.messageId || payload.eventId;
 
-    await this.dataSource.transaction(async (manager) => {
-      const processedRepository = new ProcessedMessageTypeormRepository(manager);
-      const alreadyProcessed = await processedRepository.findByConsumerAndMessageId(
-        this.consumerName,
-        messageId,
-      );
+		await this.dataSource.transaction(async (manager) => {
+			const processedRepository = new ProcessedMessageTypeormRepository(manager);
+			const alreadyProcessed = await processedRepository.findByConsumerAndMessageId(
+				this.consumerName,
+				messageId,
+			);
 
-      if (alreadyProcessed) {
-        logger.info({ messageId }, 'Skipping duplicated consumed event.');
-        return;
-      }
+			if (alreadyProcessed) {
+				logger.info({ messageId }, 'Skipping duplicated consumed event.');
+				return;
+			}
 
-      const useCase = new ProcessClassificationAssignedUseCase(
-        new ProfileTypeormRepository(manager),
-        new AuditLogTypeormRepository(manager),
-      );
+			const useCase = new ProcessClassificationAssignedUseCase(
+				new ProfileTypeormRepository(manager),
+				new AuditLogTypeormRepository(manager),
+			);
 
-      await useCase.execute(payload);
+			await useCase.execute(payload);
 
-      const processedMessage = new ProcessedMessage();
-      processedMessage.id = randomUUID();
-      processedMessage.consumerName = this.consumerName;
-      processedMessage.messageId = messageId;
-      processedMessage.correlationId =
-        message.properties.correlationId || payload.correlationId;
-      processedMessage.processedAt = new Date();
+			const processedMessage = new ProcessedMessage();
+			processedMessage.id = randomUUID();
+			processedMessage.consumerName = this.consumerName;
+			processedMessage.messageId = messageId;
+			processedMessage.correlationId =
+				message.properties.correlationId || payload.correlationId;
+			processedMessage.processedAt = new Date();
 
-      await processedRepository.save(processedMessage);
-    });
+			await processedRepository.save(processedMessage);
+		});
 
-    channel.ack(message);
-  }
+		channel.ack(message);
+	}
 }

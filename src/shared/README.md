@@ -8,4 +8,3 @@ Leia nesta ordem:
 2. `infrastructure/`
 3. `openapi/`
 4. `adapters/`
-

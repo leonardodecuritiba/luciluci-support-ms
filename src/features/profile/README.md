@@ -10,4 +10,3 @@ Arquivos-chave:
 - `adapters/controllers/profile.controller.ts`
 
 Leia primeiro as rotas e depois os casos de uso.
-

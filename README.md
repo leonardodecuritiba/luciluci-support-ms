@@ -27,9 +27,11 @@ Template prático de microserviço do ecossistema LuciLuci. Este repositório ex
 
 1. Clone ou copie este template.
 2. Monte `luciluci-docs` como submodule em `./luciluci-docs/`.
+
 ```bash
 git submodule add git@github.com:lucilucitecnologia/luciluci-docs.git
 ```
+
 3. Renomeie a feature `profile` para o domínio real.
 4. Atualize PRD/TDD/TP em `./luciluci-docs/<servico>/`.
 5. Implemente RF por RF mantendo `ACTUAL_STATE.md` vivo.

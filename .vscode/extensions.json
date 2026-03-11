@@ -1,0 +1,9 @@
+{
+	"recommendations": [
+		"esbenp.prettier-vscode",
+		"yzhang.markdown-all-in-one",
+		"DavidAnson.vscode-markdownlint",
+		"ms-vscode.vscode-json"
+	],
+	"unwantedRecommendations": []
+}

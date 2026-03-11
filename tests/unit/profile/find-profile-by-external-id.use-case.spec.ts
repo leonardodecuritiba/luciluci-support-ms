@@ -5,23 +5,22 @@ import FindProfileByExternalIdUseCase from '../../../src/features/profile/use-ca
 import FakeProfileRepository from './fakes/fake-profile.repository';
 
 describe('FindProfileByExternalIdUseCase', () => {
-  it('returns the mapped profile', async () => {
-    const profiles = new FakeProfileRepository();
-    const useCase = new FindProfileByExternalIdUseCase(profiles);
+	it('returns the mapped profile', async () => {
+		const profiles = new FakeProfileRepository();
+		const useCase = new FindProfileByExternalIdUseCase(profiles);
 
-    const profile = new Profile();
-    profile.id = '6756bd03-dde0-42f8-9af1-96acae4d24cb';
-    profile.externalId = 'profile-001';
-    profile.displayName = 'Alpha';
-    profile.email = 'alpha@example.com';
-    profile.entityType = EntityType.Individual;
-    profile.status = ProfileStatus.Active;
-    await profiles.save(profile);
+		const profile = new Profile();
+		profile.id = '6756bd03-dde0-42f8-9af1-96acae4d24cb';
+		profile.externalId = 'profile-001';
+		profile.displayName = 'Alpha';
+		profile.email = 'alpha@example.com';
+		profile.entityType = EntityType.Individual;
+		profile.status = ProfileStatus.Active;
+		await profiles.save(profile);
 
-    const output = await useCase.execute('profile-001');
+		const output = await useCase.execute('profile-001');
 
-    expect(output.externalId).toBe('profile-001');
-    expect(output.displayName).toBe('Alpha');
-  });
+		expect(output.externalId).toBe('profile-001');
+		expect(output.displayName).toBe('Alpha');
+	});
 });
-

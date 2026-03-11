@@ -16,4 +16,3 @@ Fluxo principal:
 3. Escritas persistem entidade, audit log e outbox na mesma transação
 4. Worker publica eventos pendentes do outbox
 5. Consumer externo atualiza snapshot com idempotência de consumo
-

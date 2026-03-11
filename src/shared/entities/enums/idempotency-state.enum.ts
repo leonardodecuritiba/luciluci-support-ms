@@ -1,7 +1,6 @@
 enum IdempotencyState {
-  Pending = 'pending',
-  Completed = 'completed',
+	Pending = 'pending',
+	Completed = 'completed',
 }
 
 export default IdempotencyState;
-

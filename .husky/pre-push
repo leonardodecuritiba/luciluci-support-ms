@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+npm run format
+
+if ! git diff --quiet --exit-code; then
+	echo "Prettier ajustou arquivos durante o pre-push."
+	echo "Revise as mudanças, faça um novo commit e tente o push novamente."
+	exit 1
+fi
+
+npm run format:check
+npm run build
+npm run test

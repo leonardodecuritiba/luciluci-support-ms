@@ -32,37 +32,36 @@ import ProfileStatus from '../../../entities/enums/profile-status.enum';
  *           enum: [pending, active, inactive, blocked]
  */
 export default class CreateProfileRequestDTO {
-  @IsString()
-  @MaxLength(120)
-  externalId!: string;
+	@IsString()
+	@MaxLength(120)
+	externalId!: string;
 
-  @IsString()
-  @MaxLength(255)
-  displayName!: string;
+	@IsString()
+	@MaxLength(255)
+	displayName!: string;
 
-  @IsEmail()
-  email!: string;
+	@IsEmail()
+	email!: string;
 
-  @IsOptional()
-  @IsString()
-  @MaxLength(50)
-  phone?: string;
+	@IsOptional()
+	@IsString()
+	@MaxLength(50)
+	phone?: string;
 
-  @IsEnum(EntityType)
-  entityType!: EntityType;
+	@IsEnum(EntityType)
+	entityType!: EntityType;
 
-  @IsOptional()
-  @IsString()
-  @MaxLength(2)
-  country?: string;
+	@IsOptional()
+	@IsString()
+	@MaxLength(2)
+	country?: string;
 
-  @IsOptional()
-  @IsString()
-  @MaxLength(120)
-  city?: string;
+	@IsOptional()
+	@IsString()
+	@MaxLength(120)
+	city?: string;
 
-  @IsOptional()
-  @IsEnum(ProfileStatus)
-  status?: ProfileStatus;
+	@IsOptional()
+	@IsEnum(ProfileStatus)
+	status?: ProfileStatus;
 }
-

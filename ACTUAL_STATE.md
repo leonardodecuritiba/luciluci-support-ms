@@ -34,6 +34,7 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 ## Checklist por RF
 
 ### RF01
+
 - [x] Endpoint
 - [x] Persistência
 - [x] Idempotência
@@ -43,6 +44,7 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 - [x] Testes de contrato
 
 ### RF02
+
 - [x] Endpoint
 - [x] Regras de campos editáveis
 - [x] Idempotência
@@ -52,18 +54,21 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 - [x] Testes de contrato
 
 ### RF03
+
 - [x] Endpoint
 - [x] Paginação, filtros e ordenação
 - [x] Testes de integração
 - [x] Contrato OpenAPI
 
 ### RF04
+
 - [x] Endpoint
 - [x] 404 mapeado
 - [x] Testes unitários
 - [x] Testes de integração
 
 ### RF05
+
 - [x] Consumer
 - [x] Idempotência de consumo
 - [x] Snapshot atualizado

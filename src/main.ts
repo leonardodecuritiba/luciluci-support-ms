@@ -9,36 +9,35 @@ import OutboxEventTypeormRepository from './shared/adapters/repositories/outbox-
 import OutboxEventPublisherWorker from './shared/adapters/workers/outbox-event-publisher.worker';
 
 async function bootstrap(): Promise<void> {
-  await retry(() => AppDataSource.initialize(), 10, 3000);
+	await retry(() => AppDataSource.initialize(), 10, 3000);
 
-  const rabbitMqService = new RabbitMQService();
-  await retry(() => rabbitMqService.connect(), 10, 3000);
+	const rabbitMqService = new RabbitMQService();
+	await retry(() => rabbitMqService.connect(), 10, 3000);
 
-  const outboxWorker = new OutboxEventPublisherWorker(
-    new OutboxEventTypeormRepository(AppDataSource.manager),
-    rabbitMqService,
-    env.outbox.pollIntervalMs,
-    env.outbox.batchSize,
-  );
-  outboxWorker.start();
+	const outboxWorker = new OutboxEventPublisherWorker(
+		new OutboxEventTypeormRepository(AppDataSource.manager),
+		rabbitMqService,
+		env.outbox.pollIntervalMs,
+		env.outbox.batchSize,
+	);
+	outboxWorker.start();
 
-  const classificationConsumer = new ClassificationAssignedConsumer(AppDataSource);
-  await rabbitMqService.consume(
-    'standard-ms.classification.assigned.v1',
-    env.rabbitmq.classificationExchange,
-    'classifications.classification.assigned.v1',
-    (message, channel) => classificationConsumer.handle(message, channel),
-  );
+	const classificationConsumer = new ClassificationAssignedConsumer(AppDataSource);
+	await rabbitMqService.consume(
+		'standard-ms.classification.assigned.v1',
+		env.rabbitmq.classificationExchange,
+		'classifications.classification.assigned.v1',
+		(message, channel) => classificationConsumer.handle(message, channel),
+	);
 
-  const app = createApp(AppDataSource, rabbitMqService);
+	const app = createApp(AppDataSource, rabbitMqService);
 
-  app.listen(env.serverPort, () => {
-    logger.info({ port: env.serverPort }, 'standard-ms is running.');
-  });
+	app.listen(env.serverPort, () => {
+		logger.info({ port: env.serverPort }, 'standard-ms is running.');
+	});
 }
 
 bootstrap().catch((error) => {
-  logger.error({ err: error }, 'Failed to bootstrap standard-ms.');
-  process.exit(1);
+	logger.error({ err: error }, 'Failed to bootstrap standard-ms.');
+	process.exit(1);
 });
-

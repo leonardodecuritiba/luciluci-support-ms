@@ -8,4 +8,3 @@ Leia nesta ordem:
 2. `main.ts`
 3. `features/README.md`
 4. `shared/README.md`
-

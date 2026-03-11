@@ -66,49 +66,48 @@ import ProfileStatus from '../../../entities/enums/profile-status.enum';
  *           format: date-time
  */
 export default class ListProfilesQueryDTO {
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  page = 1;
+	@Type(() => Number)
+	@IsInt()
+	@Min(1)
+	page = 1;
 
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  @Max(100)
-  limit = 10;
+	@Type(() => Number)
+	@IsInt()
+	@Min(1)
+	@Max(100)
+	limit = 10;
 
-  @IsOptional()
-  @IsEnum(ProfileStatus)
-  status?: ProfileStatus;
+	@IsOptional()
+	@IsEnum(ProfileStatus)
+	status?: ProfileStatus;
 
-  @IsOptional()
-  @IsString()
-  externalId?: string;
+	@IsOptional()
+	@IsString()
+	externalId?: string;
 
-  @IsOptional()
-  @IsString()
-  classificationIdSnapshot?: string;
+	@IsOptional()
+	@IsString()
+	classificationIdSnapshot?: string;
 
-  @IsOptional()
-  @IsString()
-  displayName?: string;
+	@IsOptional()
+	@IsString()
+	displayName?: string;
 
-  @IsOptional()
-  @IsString()
-  email?: string;
+	@IsOptional()
+	@IsString()
+	email?: string;
 
-  @IsOptional()
-  @IsEnum(EntityType)
-  entityType?: EntityType;
+	@IsOptional()
+	@IsEnum(EntityType)
+	entityType?: EntityType;
 
-  @IsOptional()
-  @IsString()
-  @Transform(({ value }) => String(value))
-  sortBy?: string;
+	@IsOptional()
+	@IsString()
+	@Transform(({ value }) => String(value))
+	sortBy?: string;
 
-  @IsOptional()
-  @Transform(({ value }) => String(value).toUpperCase())
-  @IsEnum({ ASC: 'ASC', DESC: 'DESC' })
-  order?: 'ASC' | 'DESC';
+	@IsOptional()
+	@Transform(({ value }) => String(value).toUpperCase())
+	@IsEnum({ ASC: 'ASC', DESC: 'DESC' })
+	order?: 'ASC' | 'DESC';
 }
-

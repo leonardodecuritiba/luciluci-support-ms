@@ -1,62 +1,62 @@
 services:
-  app:
-    build:
-      context: .
-    container_name: standard-ms-app
-    restart: unless-stopped
-    depends_on:
-      - db
-      - rabbitmq
-    environment:
-      NODE_ENV: production
-      SERVER_PORT: 3000
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: ${DB_USER:-postgres}
-      DB_PASSWORD: ${DB_PASSWORD:-postgres}
-      DB_NAME: ${DB_NAME:-standard_ms}
-      RABBITMQ_HOST: rabbitmq
-      RABBITMQ_PORT: 5672
-      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-guest}
-      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
-      RABBITMQ_VHOST: ${RABBITMQ_VHOST:-/}
-      RABBITMQ_PROFILE_EXCHANGE: ${RABBITMQ_PROFILE_EXCHANGE:-profile.events}
-      RABBITMQ_CLASSIFICATION_EXCHANGE: ${RABBITMQ_CLASSIFICATION_EXCHANGE:-classification.events}
-      RABBITMQ_CONNECTION_TIMEOUT: ${RABBITMQ_CONNECTION_TIMEOUT:-30000}
-      RABBITMQ_HEARTBEAT: ${RABBITMQ_HEARTBEAT:-60}
-      OUTBOX_POLL_INTERVAL_MS: ${OUTBOX_POLL_INTERVAL_MS:-2000}
-      OUTBOX_BATCH_SIZE: ${OUTBOX_BATCH_SIZE:-20}
-      CONSUMER_PREFETCH: ${CONSUMER_PREFETCH:-10}
-    ports:
-      - '${SERVER_PORT:-3000}:3000'
+    app:
+        build:
+            context: .
+        container_name: standard-ms-app
+        restart: unless-stopped
+        depends_on:
+            - db
+            - rabbitmq
+        environment:
+            NODE_ENV: production
+            SERVER_PORT: 3000
+            DB_HOST: db
+            DB_PORT: 5432
+            DB_USER: ${DB_USER:-postgres}
+            DB_PASSWORD: ${DB_PASSWORD:-postgres}
+            DB_NAME: ${DB_NAME:-standard_ms}
+            RABBITMQ_HOST: rabbitmq
+            RABBITMQ_PORT: 5672
+            RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-guest}
+            RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
+            RABBITMQ_VHOST: ${RABBITMQ_VHOST:-/}
+            RABBITMQ_PROFILE_EXCHANGE: ${RABBITMQ_PROFILE_EXCHANGE:-profile.events}
+            RABBITMQ_CLASSIFICATION_EXCHANGE: ${RABBITMQ_CLASSIFICATION_EXCHANGE:-classification.events}
+            RABBITMQ_CONNECTION_TIMEOUT: ${RABBITMQ_CONNECTION_TIMEOUT:-30000}
+            RABBITMQ_HEARTBEAT: ${RABBITMQ_HEARTBEAT:-60}
+            OUTBOX_POLL_INTERVAL_MS: ${OUTBOX_POLL_INTERVAL_MS:-2000}
+            OUTBOX_BATCH_SIZE: ${OUTBOX_BATCH_SIZE:-20}
+            CONSUMER_PREFETCH: ${CONSUMER_PREFETCH:-10}
+        ports:
+            - '${SERVER_PORT:-3000}:3000'
 
-  db:
-    image: postgres:16
-    container_name: standard-ms-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-      POSTGRES_DB: ${DB_NAME:-standard_ms}
-    ports:
-      - '${DB_PORT:-5432}:5432'
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    db:
+        image: postgres:16
+        container_name: standard-ms-db
+        restart: unless-stopped
+        environment:
+            POSTGRES_USER: ${DB_USER:-postgres}
+            POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+            POSTGRES_DB: ${DB_NAME:-standard_ms}
+        ports:
+            - '${DB_PORT:-5432}:5432'
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
 
-  rabbitmq:
-    image: rabbitmq:4-management
-    container_name: standard-ms-rabbitmq
-    restart: unless-stopped
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME:-guest}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
-      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-/}
-    ports:
-      - '${RABBITMQ_PORT:-5672}:5672'
-      - '15672:15672'
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
+    rabbitmq:
+        image: rabbitmq:4-management
+        container_name: standard-ms-rabbitmq
+        restart: unless-stopped
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME:-guest}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
+            RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-/}
+        ports:
+            - '${RABBITMQ_PORT:-5672}:5672'
+            - '15672:15672'
+        volumes:
+            - rabbitmq_data:/var/lib/rabbitmq
 
 volumes:
-  postgres_data:
-  rabbitmq_data:
+    postgres_data:
+    rabbitmq_data:
