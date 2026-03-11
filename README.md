@@ -54,6 +54,22 @@ npm run test
 npm run asyncapi:check
 ```
 
+## Como acessar a documentação e a infraestrutura local
+
+Consulte `docs/runbooks/infra-access.md`.
+
+Regra do template:
+
+- Todo microserviço derivado deste template deve documentar explicitamente como acessar:
+- OpenAPI/Swagger
+- AsyncAPI/event docs
+- consoles e portas da infraestrutura local usada pelo serviço
+- credenciais padrão ou fonte das credenciais
+- serviços opcionais, quando existirem, como Redis, MinIO, Kafka, LocalStack ou equivalentes
+- serviços ausentes nesta release, quando não fizerem parte do stack mínimo
+
+Não é aceitável deixar descoberta de portas, URLs ou credenciais implícita.
+
 ## Submodule `luciluci-docs`
 
 O path canônico deste template é `./luciluci-docs/`. Enquanto o submodule não estiver montado, use `../luciluci-docs/` apenas como referência de leitura temporária durante a construção do serviço.
@@ -91,6 +107,7 @@ Regras obrigatórias:
 Objetivo:
 - Implementar um microserviço executável, verificável e de baixo custo de contexto.
 - Preservar os pilares do ecossistema: correlação, idempotência, eventos, erros, testes, observabilidade e CI/CD.
+- Documentar sempre como acessar OpenAPI, AsyncAPI e toda a infraestrutura local relevante.
 ```
 
 ## Artefatos principais
@@ -100,4 +117,3 @@ Objetivo:
 - `DRIFT_REPORT.md`: template de bloqueio por inconsistência documental.
 - `docs/asyncapi/v1/standard-ms-events.json`: contrato de eventos.
 - `src/app.ts` e `src/main.ts`: bootstrap HTTP e runtime da aplicação.
-

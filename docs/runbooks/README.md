@@ -2,5 +2,7 @@
 
 Runbooks operacionais do template.
 
-Leia primeiro `local-development.md`.
+Leia nesta ordem:
 
+1. `local-development.md`
+2. `infra-access.md`

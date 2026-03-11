@@ -21,10 +21,11 @@ Regras operacionais:
 - Pare imediatamente se houver DRIFT entre docs e implementação.
 - Não invente contrato, evento ou modelagem em caso de ambiguidade crítica.
 - Em handoff, documente próximos passos, bloqueios e comandos de validação.
+- Todo microserviço deve documentar acesso à documentação e à infraestrutura local relevante.
 
 Navegação de baixo custo:
 
 - `src/features/profile/` mostra o padrão da feature.
 - `src/shared/` concentra kernel, infra e contratos reutilizáveis.
 - `tests/` reflete o desenho real do template.
-
+- `docs/runbooks/infra-access.md` concentra URLs, portas e credenciais operacionais.
