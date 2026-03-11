@@ -1,0 +1,81 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "title": "standard-ms events",
+    "version": "1.0.0",
+    "description": "AsyncAPI contract for the standard-ms template."
+  },
+  "servers": {
+    "rabbitmq": {
+      "host": "localhost:5672",
+      "protocol": "amqp"
+    }
+  },
+  "channels": {
+    "profiles.profile.created.v1": {
+      "address": "profiles.profile.created.v1",
+      "messages": {
+        "profileCreated": {
+          "payload": {
+            "type": "object",
+            "required": ["eventId", "correlationId", "occurredAt", "profileId", "externalId", "status", "entityType", "email"],
+            "properties": {
+              "eventId": { "type": "string", "format": "uuid" },
+              "correlationId": { "type": "string", "format": "uuid" },
+              "occurredAt": { "type": "string", "format": "date-time" },
+              "profileId": { "type": "string", "format": "uuid" },
+              "externalId": { "type": "string" },
+              "status": { "type": "string", "enum": ["pending", "active", "inactive", "blocked"] },
+              "entityType": { "type": "string", "enum": ["individual", "organization"] },
+              "email": { "type": "string", "format": "email" }
+            }
+          }
+        }
+      }
+    },
+    "profiles.profile.updated.v1": {
+      "address": "profiles.profile.updated.v1",
+      "messages": {
+        "profileUpdated": {
+          "payload": {
+            "type": "object",
+            "required": ["eventId", "correlationId", "occurredAt", "profileId", "externalId", "changedFields", "status", "entityType", "email"],
+            "properties": {
+              "eventId": { "type": "string", "format": "uuid" },
+              "correlationId": { "type": "string", "format": "uuid" },
+              "occurredAt": { "type": "string", "format": "date-time" },
+              "profileId": { "type": "string", "format": "uuid" },
+              "externalId": { "type": "string" },
+              "changedFields": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "status": { "type": "string", "enum": ["pending", "active", "inactive", "blocked"] },
+              "entityType": { "type": "string", "enum": ["individual", "organization"] },
+              "email": { "type": "string", "format": "email" }
+            }
+          }
+        }
+      }
+    },
+    "classifications.classification.assigned.v1": {
+      "address": "classifications.classification.assigned.v1",
+      "messages": {
+        "classificationAssigned": {
+          "payload": {
+            "type": "object",
+            "required": ["eventId", "correlationId", "profileId", "classificationId", "classificationName", "occurredAt"],
+            "properties": {
+              "eventId": { "type": "string", "format": "uuid" },
+              "correlationId": { "type": "string", "format": "uuid" },
+              "profileId": { "type": "string", "format": "uuid" },
+              "classificationId": { "type": "string" },
+              "classificationName": { "type": "string" },
+              "occurredAt": { "type": "string", "format": "date-time" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
