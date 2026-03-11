@@ -54,6 +54,7 @@ export default class UpdateProfileUseCase {
 
     if (changedFields.length > 0) {
       const event = new OutboxEvent();
+      event.id = randomUUID();
       event.aggregateType = 'Profile';
       event.aggregateId = profile.id;
       event.eventType = 'profiles.profile.updated.v1';
@@ -76,6 +77,7 @@ export default class UpdateProfileUseCase {
     }
 
     const auditLog = new AuditLog();
+    auditLog.id = randomUUID();
     auditLog.action = 'profile.updated';
     auditLog.resourceType = 'profile';
     auditLog.resourceId = profile.id;

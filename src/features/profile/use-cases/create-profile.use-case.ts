@@ -61,6 +61,7 @@ export default class CreateProfileUseCase {
     await this.profileRepository.save(profile);
 
     const event = new OutboxEvent();
+    event.id = randomUUID();
     event.aggregateType = 'Profile';
     event.aggregateId = profile.id;
     event.eventType = 'profiles.profile.created.v1';
@@ -81,6 +82,7 @@ export default class CreateProfileUseCase {
     await this.outboxRepository.save(event);
 
     const auditLog = new AuditLog();
+    auditLog.id = randomUUID();
     auditLog.action = 'profile.created';
     auditLog.resourceType = 'profile';
     auditLog.resourceId = profile.id;

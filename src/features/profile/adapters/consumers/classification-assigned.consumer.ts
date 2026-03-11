@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { Channel, ConsumeMessage } from 'amqplib';
 import { DataSource } from 'typeorm';
 
@@ -38,6 +39,7 @@ export default class ClassificationAssignedConsumer {
       await useCase.execute(payload);
 
       const processedMessage = new ProcessedMessage();
+      processedMessage.id = randomUUID();
       processedMessage.consumerName = this.consumerName;
       processedMessage.messageId = messageId;
       processedMessage.correlationId =
@@ -50,4 +52,3 @@ export default class ClassificationAssignedConsumer {
     channel.ack(message);
   }
 }
-

@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 import AuditLog from '../../../shared/entities/audit-log.entity';
 import IAuditLogRepository from '../../../shared/interfaces/iaudit-log.repository';
 import IProfileRepository from './repositories/iprofile.repository';
@@ -16,6 +18,7 @@ export default class ProcessClassificationAssignedUseCase {
     await this.profileRepository.save(profile);
 
     const auditLog = new AuditLog();
+    auditLog.id = randomUUID();
     auditLog.action = 'classification.assigned.consumed';
     auditLog.resourceType = 'profile';
     auditLog.resourceId = profile.id;
@@ -31,4 +34,3 @@ export default class ProcessClassificationAssignedUseCase {
     await this.auditLogRepository.save(auditLog);
   }
 }
-
