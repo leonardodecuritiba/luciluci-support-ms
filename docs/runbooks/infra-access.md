@@ -36,7 +36,7 @@ Essa informação deve ficar, no mínimo:
 ## PostgreSQL
 
 - Host local: `localhost`
-- Porta local: `5432`
+- Porta local: `5436`
 - Database padrão: `standard_ms`
 - Usuário padrão: `postgres`
 - Senha padrão: `postgres`
