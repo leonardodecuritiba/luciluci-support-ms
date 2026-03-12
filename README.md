@@ -100,6 +100,7 @@ git submodule update --remote --recursive
 ## Prompt para iniciar um novo microserviço
 
 ```text
+Iremos implementar o microserviço `<MICROSERVIÇO>`.
 Você está trabalhando a partir do template standard-ms.
 
 Regras obrigatórias:
