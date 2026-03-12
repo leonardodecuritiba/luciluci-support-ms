@@ -6,7 +6,7 @@ Leia nesta ordem:
 2. `docs/architecture/overview.md`
 3. `src/README.md`
 4. `tests/README.md`
-5. `./luciluci-docs/<servico>/` quando o submodule estiver montado
+5. `./luciluci-docs/<servico>/`
 
 Precedência documental:
 

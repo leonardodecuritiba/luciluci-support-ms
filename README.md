@@ -26,11 +26,9 @@ Template prático de microserviço do ecossistema LuciLuci. Este repositório ex
 ## Como usar
 
 1. Clone ou copie este template.
-2. Remova a pasta `luciluci-docs`
-3. Monte `luciluci-docs` como submodule em: `git submodule add git@github.com:lucilucitecnologia/luciluci-docs.git`
-4. Renomeie a feature `profile` para o domínio real.
-5. Atualize PRD/TDD/TP em `./luciluci-docs/<servico>/`.
-6. Implemente RF por RF mantendo `ACTUAL_STATE.md` vivo.
+2. Renomeie a feature `profile` para o domínio real.
+3. Atualize PRD/TDD/TP em `./luciluci-docs/<servico>/`.
+4. Implemente RF por RF mantendo `ACTUAL_STATE.md` vivo.
 
 ## Como rodar localmente
 
@@ -70,7 +68,7 @@ Não é aceitável deixar descoberta de portas, URLs ou credenciais implícita.
 
 ## Submodule `luciluci-docs`
 
-O path canônico deste template é `./luciluci-docs/`. Enquanto o submodule não estiver montado, use `../luciluci-docs/` apenas como referência de leitura temporária durante a construção do serviço.
+O path canônico deste template é `./luciluci-docs/`.
 
 ## Mapa da estrutura
 
