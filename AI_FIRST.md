@@ -17,6 +17,7 @@ Precedência documental:
 Regras operacionais:
 
 - Trabalhe RF por RF.
+- Antes de usar `./luciluci-docs/`, execute `git submodule update --remote --recursive`.
 - Atualize `ACTUAL_STATE.md` ao abrir, executar e concluir blocos relevantes.
 - Pare imediatamente se houver DRIFT entre docs e implementação.
 - Não invente contrato, evento ou modelagem em caso de ambiguidade crítica.

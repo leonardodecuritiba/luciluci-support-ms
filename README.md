@@ -26,9 +26,16 @@ Template prático de microserviço do ecossistema LuciLuci. Este repositório ex
 ## Como usar
 
 1. Clone ou copie este template.
-2. Renomeie a feature `profile` para o domínio real.
-3. Atualize PRD/TDD/TP em `./luciluci-docs/<servico>/`.
-4. Implemente RF por RF mantendo `ACTUAL_STATE.md` vivo.
+2. Monte `luciluci-docs` como submodule em `./luciluci-docs/`.
+3. Atualize o submodule antes de usar a documentação canônica:
+
+```bash
+git submodule update --remote --recursive
+```
+
+4. Renomeie a feature `profile` para o domínio real.
+5. Atualize PRD/TDD/TP em `./luciluci-docs/<servico>/`.
+6. Implemente RF por RF mantendo `ACTUAL_STATE.md` vivo.
 
 ## Como rodar localmente
 
@@ -70,6 +77,12 @@ Não é aceitável deixar descoberta de portas, URLs ou credenciais implícita.
 
 O path canônico deste template é `./luciluci-docs/`.
 
+Sempre que clonar o projeto ou precisar sincronizar a documentação canônica mais recente, execute:
+
+```bash
+git submodule update --remote --recursive
+```
+
 ## Mapa da estrutura
 
 ```text
@@ -92,6 +105,7 @@ Você está trabalhando a partir do template standard-ms.
 Regras obrigatórias:
 - Leia primeiro `AI_FIRST.md`.
 - Leia `ACTUAL_STATE.md` antes de qualquer alteração.
+- Execute `git submodule update --remote --recursive` antes de usar `./luciluci-docs/`.
 - Leia a documentação do domínio em `./luciluci-docs/<servico>/`.
 - Trabalhe RF por RF.
 - Faça um plano inicial antes de codar.
