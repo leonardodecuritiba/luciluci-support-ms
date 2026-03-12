@@ -1,0 +1,3 @@
+[submodule "luciluci-docs"]
+	path = luciluci-docs
+	url = git@github.com:lucilucitecnologia/luciluci-docs.git
