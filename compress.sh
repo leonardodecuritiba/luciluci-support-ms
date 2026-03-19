@@ -2,14 +2,13 @@
 
 # Script para compactar standard-ms excluindo node_modules e .env
 
-SOURCE_DIR="standard-ms"
-OUTPUT_FILE="standard-ms.tar.gz"
+SOURCE_DIR="$(basename "$PWD")"
+OUTPUT_FILE="${SOURCE_DIR}.tar.gz"
 
 echo "Compactando $SOURCE_DIR..."
 echo "Arquivo de saída: $OUTPUT_FILE"
 
 tar -czf "../$OUTPUT_FILE" \
-  --exclude="$SOURCE_DIR/luciluci-docs" \
   --exclude="$SOURCE_DIR/node_modules" \
   --exclude="$SOURCE_DIR/**/node_modules" \
   --exclude="$SOURCE_DIR/.env" \
