@@ -1,0 +1,45 @@
+# docs/reports
+
+Artefatos de avaliação de completude do microserviço e da documentação canônica associada.
+
+## Finalidade
+
+Os arquivos em `docs/reports/` são relatórios humanos de revisão rápida, gerados com apoio de IA e supervisionados por um desenvolvedor.
+Eles **não substituem** o código, o `ACTUAL_STATE.md`, o PRD, o TDD, o TP nem a documentação global; eles resumem aderência, gaps e riscos de forma operacional.
+
+## Convenção de nome
+
+Cada novo relatório deve ser criado com timestamp no nome do arquivo:
+
+- `docs/reports/REPORT-YYYYMMDD-HHmmss.md`
+
+Exemplo:
+
+- `docs/reports/REPORT-20260319-221500.md`
+
+## Cabeçalho interno obrigatório
+
+Todo report gerado deve começar com um cabeçalho explícito contendo, no mínimo:
+
+- `generated_by`
+- `generated_at`
+- `review_mode` (`wave-1`, `wave-2`, `final`, etc.)
+- `microservice`
+- `repository_ref`
+- `documentation_ref`
+- `reviewer` (quando houver)
+
+## Modo de geração
+
+Os reports devem ser gerados em **ondas**:
+
+1. **Wave 1** - leitura inicial, inventário e gaps óbvios
+2. **Wave 2** - cruzamento RF x código x testes x contratos
+3. **Wave 3** - divergências, riscos e completude técnico-documental
+4. **Final** - consolidação para revisão humana
+
+Cada onda pode sobrescrever ou complementar o report em andamento, mas o artefato final deve manter a estrutura canônica do template.
+
+## Template oficial
+
+Use `docs/reports/REPORT-TEMPLATE.md` como esqueleto obrigatório para novos reports.
