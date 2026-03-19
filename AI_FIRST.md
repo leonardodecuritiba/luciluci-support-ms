@@ -35,6 +35,11 @@ Regras operacionais:
 - O arquivo `api.http` deve cobrir todos os endpoints ativos e relevantes do microserviço, incluindo health, métricas, documentação e endpoints funcionais do domínio.
 - Sempre que houver criação, remoção ou alteração de rota, método, path, headers obrigatórios, query params, request body ou exemplos de resposta, o `api.http` deve ser atualizado no mesmo trabalho.
 - Não considerar a implementação concluída se o `api.http` estiver desatualizado em relação ao contrato e ao comportamento real do serviço.
+- Todo microserviço derivado deve possuir seed com volume significativo de dados para desenvolvimento, validação manual e testes de integração locais.
+- Seeds muito pequenos não devem ser tratados como suficientes para validar listagens, paginação, filtros, ordenação, cargas operacionais e fluxos em massa.
+- Sempre que fizer sentido, usar `faker` para gerar massa realista, porém com determinismo controlado por seed fixa/reprodutível.
+- A documentação do serviço deve declarar explicitamente a estratégia de seed, os volumes mínimos esperados e exemplos concretos por domínio.
+- Exemplo de referência: no `products-ms`, o seed deve gerar aproximadamente `200 produtos` e `30 categorias`, com dados variados e relacionamentos válidos.
 
 Navegação de baixo custo:
 

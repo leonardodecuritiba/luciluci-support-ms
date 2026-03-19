@@ -69,6 +69,51 @@ O `api.http` é o artefato padrão de validação manual dos endpoints HTTP do s
 - Não considerar um microserviço aderente ao template se o `api.http` estiver ausente.
 - Não considerar uma mudança de API concluída se o `api.http` não tiver sido revisado e atualizado no mesmo ciclo.
 
+## Regra obrigatória: seed com massa significativa
+
+Todo microserviço derivado deste template deve possuir um processo de seed que gere massa de dados suficiente para validação manual, desenvolvimento local e testes de integração.
+
+### Objetivo
+
+O seed não deve existir apenas para “subir o projeto”, mas para criar uma base minimamente útil para:
+
+- listagens reais com paginação
+- filtros e ordenações
+- relacionamentos entre entidades
+- cenários administrativos
+- fluxos em massa
+- inspeção manual via `api.http`, Swagger e queries locais
+
+### Requisitos mínimos
+
+- Sempre que fizer sentido, usar `faker` para gerar dados realistas.
+- O uso de `faker` deve ser preferencialmente determinístico, com seed fixa/reprodutível, para evitar comportamento aleatório difícil de depurar.
+- O volume do seed deve ser significativo para o domínio, e não apenas “mínimo para funcionar”.
+- A estratégia e os volumes mínimos de seed devem ser documentados no microserviço.
+
+### Exemplo de referência
+
+Para o `products-ms`, considerar como baseline:
+
+- aproximadamente `200 produtos`
+- aproximadamente `30 categorias`
+
+com variação suficiente de:
+
+- status
+- tipos de produto
+- ambientes
+- categorias
+- preços
+- pontuação
+- regras de visibilidade/compra quando aplicável
+
+### Regra de aderência
+
+- Não considerar a estratégia de seed suficiente quando ela gerar apenas poucos registros estáticos sem utilidade real para validação.
+- Sempre que o domínio crescer, revisar também o seed para manter massa representativa.
+- Alterações relevantes no domínio devem refletir em `scripts/seed.ts` e na documentação correspondente.
+
 ## Regra transversal obrigatória: X-Correlation-ID
 
 Todo microserviço HTTP derivado deste template, quando aplicável, deve exigir `X-Correlation-ID` como header obrigatório de entrada.
@@ -189,5 +234,6 @@ Objetivo:
 - `ACTUAL_STATE.md`: estado vivo do template e handoff.
 - `DRIFT_REPORT.md`: template de bloqueio por inconsistência documental.
 - `api.http`: validação manual padronizada dos endpoints HTTP do serviço; deve permanecer sempre atualizado.
+- `scripts/seed.ts`: geração de massa inicial e dados de referência para desenvolvimento e validação local; deve permanecer alinhado ao domínio real.
 - `docs/asyncapi/v1/standard-ms-events.json`: contrato de eventos.
 - `src/app.ts` e `src/main.ts`: bootstrap HTTP e runtime da aplicação.
