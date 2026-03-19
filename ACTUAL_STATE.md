@@ -104,6 +104,21 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 2. Renomear a feature `profile` para o domínio real
 3. Seguir com novas RFs somente a partir da documentação canônica do novo serviço
 
+## Regra mandatória para serviços derivados
+
+- `profile` é apenas a feature de referência do template.
+- Ao bootstrapar um novo microserviço, todas as referências a `profile` / `profiles` devem ser removidas ou substituídas pelo domínio real.
+- Isso inclui, no mínimo:
+  - `src/`
+  - `tests/`
+  - `README.md`
+  - `AI_FIRST.md`
+  - `ACTUAL_STATE.md`
+  - `docs/`
+  - contratos OpenAPI / AsyncAPI
+  - exemplos de payload, eventos, filas, exchanges, rotas e nomes de RF
+- A existência de diretórios vazios, exemplos residuais, endpoints, eventos ou menções textuais a `profile` caracteriza drift de template e deve ser tratada antes da validação do serviço derivado.
+
 ## Comandos de validação
 
 ```bash

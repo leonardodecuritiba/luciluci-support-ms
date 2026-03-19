@@ -23,6 +23,18 @@ Regras operacionais:
 - Não invente contrato, evento ou modelagem em caso de ambiguidade crítica.
 - Em handoff, documente próximos passos, bloqueios e comandos de validação.
 - Todo microserviço deve documentar acesso à documentação e à infraestrutura local relevante.
+- Ao derivar um novo microserviço a partir deste template, remova todas as menções à feature de exemplo `profile` de código, testes, docs, contratos, exemplos, eventos, rotas e artefatos auxiliares.
+- Nenhum serviço derivado pode ser considerado aderente enquanto ainda existirem referências residuais a `profile` ou `profiles` fora de documentação histórica explicitamente marcada como template legado.
+- Todo microserviço HTTP aplicável deve exigir `X-Correlation-ID` como header obrigatório de entrada.
+- Não é permitido fallback silencioso por autogeração de `X-Correlation-ID` em requisições HTTP externas.
+- Na ausência de `X-Correlation-ID`, a requisição deve ser rejeitada com erro de cliente, usando o envelope padrão de erro.
+- A OpenAPI local deve marcar `X-Correlation-ID` como `required: true` nos endpoints aplicáveis.
+- O valor de `X-Correlation-ID` deve ser propagado para response, logs, auditoria, eventos e chamadas downstream quando aplicável.
+- Components sem boundary HTTP direto (workers, consumers, jobs) podem gerar `correlation_id` apenas quando não houver contexto anterior para propagar.
+- Todo microserviço derivado deve manter um arquivo `api.http` na raiz do repositório para validação manual dos endpoints HTTP expostos pelo serviço.
+- O arquivo `api.http` deve cobrir todos os endpoints ativos e relevantes do microserviço, incluindo health, métricas, documentação e endpoints funcionais do domínio.
+- Sempre que houver criação, remoção ou alteração de rota, método, path, headers obrigatórios, query params, request body ou exemplos de resposta, o `api.http` deve ser atualizado no mesmo trabalho.
+- Não considerar a implementação concluída se o `api.http` estiver desatualizado em relação ao contrato e ao comportamento real do serviço.
 
 Navegação de baixo custo:
 
