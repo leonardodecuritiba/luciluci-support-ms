@@ -83,6 +83,12 @@ export default class RabbitMQService {
 		});
 	}
 
+	async purgeQueue(queue: string): Promise<void> {
+		const channel = this.getChannel();
+		await channel.assertQueue(queue, { durable: true });
+		await channel.purgeQueue(queue);
+	}
+
 	isHealthy(): boolean {
 		return Boolean(this.connection && this.channel);
 	}
@@ -90,10 +96,12 @@ export default class RabbitMQService {
 	async close(): Promise<void> {
 		if (this.channel) {
 			await this.channel.close();
+			this.channel = undefined;
 		}
 
 		if (this.connection) {
 			await this.connection.close();
+			this.connection = undefined;
 		}
 	}
 
