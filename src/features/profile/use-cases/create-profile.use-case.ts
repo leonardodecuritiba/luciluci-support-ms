@@ -67,6 +67,7 @@ export default class CreateProfileUseCase {
 		event.eventType = 'profiles.profile.created.v1';
 		event.exchange = env.rabbitmq.profileExchange;
 		event.routingKey = event.eventType;
+		event.topic = event.routingKey;
 		event.occurredAt = new Date();
 		event.payload = {
 			eventId: randomUUID(),

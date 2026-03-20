@@ -60,6 +60,7 @@ export default class UpdateProfileUseCase {
 			event.eventType = 'profiles.profile.updated.v1';
 			event.exchange = env.rabbitmq.profileExchange;
 			event.routingKey = event.eventType;
+			event.topic = event.routingKey;
 			event.occurredAt = new Date();
 			event.payload = {
 				eventId: randomUUID(),

@@ -35,10 +35,10 @@ const OutboxEventSchema = new EntitySchema<OutboxEvent>({
 			type: String,
 		},
 		payload: {
-			type: 'jsonb',
+			type: 'simple-json',
 		},
 		headers: {
-			type: 'jsonb',
+			type: 'simple-json',
 			nullable: true,
 		},
 		attempts: {
