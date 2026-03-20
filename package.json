@@ -19,6 +19,7 @@
 		"test:unit": "jest --runInBand tests/unit",
 		"test:integration": "jest --runInBand tests/integration",
 		"test:contract": "jest --runInBand tests/contract",
+		"test:coverage": "jest --runInBand --coverage --coverageReporters=text-summary --coverageReporters=json-summary",
 		"migration:run": "ts-node -r reflect-metadata src/shared/infrastructure/database/run-migrations.ts",
 		"migration:revert": "ts-node -r reflect-metadata src/shared/infrastructure/database/revert-migration.ts",
 		"migration:run:dist": "node dist/shared/infrastructure/database/run-migrations.js",
@@ -27,8 +28,12 @@
 		"infra:up": "docker compose -f docker-compose-dev.yaml up -d",
 		"infra:down": "docker compose -f docker-compose-dev.yaml down -v",
 		"prepare": "husky || true",
-		"asyncapi:check": "node -e \"const fs=require('fs'); JSON.parse(fs.readFileSync('docs/asyncapi/v1/products-events.json','utf8')); console.log('AsyncAPI OK')\"",
-		"asyncapi:compat": "node scripts/check-asyncapi-backward-compatibility.js"
+		"asyncapi:compat": "node scripts/check-asyncapi-backward-compatibility.js",
+		"openapi:export": "node -r ts-node/register/transpile-only -r reflect-metadata scripts/export-openapi.js",
+		"openapi:check": "node scripts/check-openapi.js docs/openapi/v1/profiles-api.json",
+		"asyncapi:check": "node scripts/check-asyncapi.js docs/asyncapi/v1/standard-ms-events.json",
+		"openapi:compat": "node scripts/check-openapi-backward-compatibility.js",
+		"coverage:check": "node scripts/check-coverage.js coverage/coverage-summary.json"
 	},
 	"lint-staged": {
 		"*.ts": [

@@ -1,7 +1,6 @@
 name: cd-template
 
 on:
-    workflow_dispatch:
     push:
         tags:
             - 'v*'
@@ -23,5 +22,7 @@ jobs:
             - uses: docker/build-push-action@v6
               with:
                   context: .
-                  push: false
-                  tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+                  push: true
+                  tags: |
+                      ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+                      ghcr.io/${{ github.repository }}:sha-${{ github.sha }}

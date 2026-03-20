@@ -30,3 +30,13 @@ No `products-ms`, a baseline esperada é:
 - cerca de `30 categorias`
 
 com diversidade suficiente para validar os comportamentos principais do serviço.
+
+Scripts principais desta release:
+
+- `seed.ts`
+- `check-asyncapi.js`
+- `check-asyncapi-backward-compatibility.js`
+- `export-openapi.js`
+- `check-openapi.js`
+- `check-openapi-backward-compatibility.js`
+- `check-coverage.js`

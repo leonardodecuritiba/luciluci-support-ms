@@ -127,9 +127,15 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 ```bash
 npm run lint
 npm run build
+npm run openapi:export
+npm run openapi:check
 npm run asyncapi:check
-npm run asyncapi:compat -- docs/asyncapi/v1/products-events.json docs/asyncapi/v1/products-events.json
+npm run openapi:compat -- docs/openapi/v1/profiles-api.json docs/openapi/v1/profiles-api.json
+npm run asyncapi:compat -- docs/asyncapi/v1/profiles-events.json docs/asyncapi/v1/profiles-events.json
+npm run test:coverage
+npm run coverage:check
 npm run test -- --runTestsByPath tests/unit/scripts/check-asyncapi-backward-compatibility.spec.ts tests/contract/asyncapi/published-events.contract.test.ts tests/contract/asyncapi/consumed-events.contract.test.ts
+npm run test -- --runTestsByPath tests/unit/scripts/check-openapi-backward-compatibility.spec.ts tests/unit/scripts/check-coverage.spec.ts
 npm run test -- --runTestsByPath tests/unit/shared/correlation-id.middleware.spec.ts tests/contract/openapi/openapi.contract.test.ts tests/integration/http/error-matrix.spec.ts
 npm run test
 npm run asyncapi:check
@@ -159,6 +165,10 @@ Notas da validação:
 - a suíte `tests/unit/scripts/check-asyncapi-backward-compatibility.spec.ts` comprovou que o checker bloqueia remoção de canal e remoção de campo obrigatório no AsyncAPI `v1`.
 - após o endurecimento do schema, da matriz de erros, da segurança OpenAPI e do gate de compatibilidade AsyncAPI, `npm run test` passou com `10` suites / `32` testes.
 - as suítes `tests/unit/shared/correlation-id.middleware.spec.ts`, `tests/contract/openapi/openapi.contract.test.ts` e `tests/integration/http/error-matrix.spec.ts` passaram a comprovar que `X-Correlation-ID` é obrigatório nas rotas HTTP públicas, que o OpenAPI o modela como `required: true` e que a ausência é rejeitada com `400 bad_request`.
+- o artefato `docs/openapi/v1/profiles-api.json` passou a ser gerado a partir da spec local e validado formalmente no CI por `npm run openapi:check`.
+- o checker `scripts/check-openapi-backward-compatibility.js` passou a bloquear remoção de paths/operações, endurecimento de request params/body e quebra de response schema na OpenAPI `v1`.
+- o gate `npm run coverage:check` passou a bloquear o pipeline quando a cobertura global ficar abaixo de `85%` em `lines/statements/functions` ou abaixo de `65%` em `branches`.
+- o workflow `.github/workflows/cd.yml` deixou de ser apenas um template de build e passou a publicar imagens reais no GHCR em tags `v*`; continua sem deploy de ambiente.
 
 ## Bloqueios
 

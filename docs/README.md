@@ -13,3 +13,4 @@ Leia nesta ordem:
 7. `prompts/bootstrap-prompt.md`
 8. `prompts/report-completeness-prompt.md`
 9. `asyncapi/README.md`
+10. `openapi/README.md`

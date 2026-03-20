@@ -160,9 +160,26 @@ npm run dev
 ```bash
 npm run lint
 npm run build
-npm run test
+npm run openapi:export
+npm run openapi:check
 npm run asyncapi:check
+npm run test:coverage
+npm run coverage:check
 ```
+
+## Hooks locais, CI e publicação
+
+- Hooks locais:
+  - `pre-commit`: `lint-staged`, `npm run lint`, `npm run test`
+  - `pre-push`: `npm run format`, bloqueio se houver arquivos alterados, `npm run format:check`, `npm run build`, `npm run test`
+- CI central (`.github/workflows/ci.yml`):
+  - `lint` + `build`
+  - export e validação formal do artefato OpenAPI versionado
+  - compatibilidade backward para OpenAPI e AsyncAPI usando baseline da branch base/commit anterior
+  - suíte completa com cobertura e gate mínimo global
+- Publicação central (`.github/workflows/cd.yml`):
+  - publica imagem Docker real no GHCR apenas em tags `v*`
+  - não executa deploy de ambiente nesta release
 
 ## Como acessar a documentação e a infraestrutura local
 
@@ -230,6 +247,7 @@ Objetivo:
 
 ## Artefatos principais
 
+- `docs/openapi/v1/profiles-api.json`
 - `AI_FIRST.md`: instruções operacionais para humanos e IA.
 - `ACTUAL_STATE.md`: estado vivo do template e handoff.
 - `DRIFT_REPORT.md`: template de bloqueio por inconsistência documental.

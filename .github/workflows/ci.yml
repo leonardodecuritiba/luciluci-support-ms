@@ -64,6 +64,26 @@ jobs:
             - run: npm ci
             - run: npm run lint
             - run: npm run build
+            - run: npm run openapi:export
+            - name: Check OpenAPI artifact sync
+              run: git diff --exit-code docs/openapi/v1/profiles-api.json
+            - run: npm run openapi:check
+            - name: Check OpenAPI backward compatibility
+              run: |
+                  if [ "${{ github.event_name }}" = "pull_request" ]; then
+                    git fetch origin "${{ github.base_ref }}" --depth=1
+                    if git cat-file -e FETCH_HEAD:docs/openapi/v1/profiles-api.json 2>/dev/null; then
+                      git show FETCH_HEAD:docs/openapi/v1/profiles-api.json > /tmp/profiles-api-baseline.json
+                      npm run openapi:compat -- /tmp/profiles-api-baseline.json docs/openapi/v1/profiles-api.json
+                    else
+                      echo "No OpenAPI baseline found on base branch; skipping backward compatibility check."
+                    fi
+                  elif git cat-file -e HEAD^:docs/openapi/v1/profiles-api.json 2>/dev/null; then
+                    git show HEAD^:docs/openapi/v1/profiles-api.json > /tmp/profiles-api-baseline.json
+                    npm run openapi:compat -- /tmp/profiles-api-baseline.json docs/openapi/v1/profiles-api.json
+                  else
+                    echo "No OpenAPI baseline found; skipping backward compatibility check."
+                  fi
             - run: npm run asyncapi:check
             - name: Check AsyncAPI backward compatibility
               run: |
@@ -77,4 +97,5 @@ jobs:
                   else
                     echo "No AsyncAPI baseline found; skipping backward compatibility check."
                   fi
-            - run: npm run test
+            - run: npm run test:coverage
+            - run: npm run coverage:check

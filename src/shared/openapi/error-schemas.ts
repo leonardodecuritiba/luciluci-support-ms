@@ -30,6 +30,18 @@
  *           type: array
  *           items:
  *             $ref: '#/components/schemas/ErrorItem'
+ *     Pagination:
+ *       type: object
+ *       required: [page, limit, total, totalPages]
+ *       properties:
+ *         page:
+ *           type: integer
+ *         limit:
+ *           type: integer
+ *         total:
+ *           type: integer
+ *         totalPages:
+ *           type: integer
  *   responses:
  *     BadRequestResponse:
  *       description: Request payload or headers are invalid for this operation
@@ -85,18 +97,6 @@
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/ErrorResponse'
- *     Pagination:
- *       type: object
- *       required: [page, limit, total, totalPages]
- *       properties:
- *         page:
- *           type: integer
- *         limit:
- *           type: integer
- *         total:
- *           type: integer
- *         totalPages:
- *           type: integer
  *   parameters:
  *     CorrelationIdHeader:
  *       in: header
