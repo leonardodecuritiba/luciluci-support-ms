@@ -21,8 +21,8 @@ export default function createApp(
 	const app = express();
 
 	app.use(cors());
-	app.use(express.json());
 	app.use(correlationIdMiddleware);
+	app.use(express.json());
 	app.use(performedByMiddleware);
 	app.use(metricsMiddleware);
 	app.use(loggerMiddleware);

@@ -104,7 +104,8 @@
  *       schema:
  *         type: string
  *         format: uuid
- *       required: false
+ *       description: Required end-to-end correlation identifier propagated across HTTP, logs and events.
+ *       required: true
  *     IdempotencyKeyHeader:
  *       in: header
  *       name: X-Idempotency-Key

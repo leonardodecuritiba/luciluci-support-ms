@@ -91,6 +91,7 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 - Runtime local e produção em PostgreSQL
 - Testes de integração em SQLite em memória
 - Suíte de integração `tests/integration/events/outbox-rabbitmq.spec.ts` adicionada para provar `HTTP -> DB/outbox -> OutboxEventPublisherWorker -> RabbitMQ` com app real, PostgreSQL real e broker real
+- `X-Correlation-ID` passou a ser exigido explicitamente nas rotas HTTP públicas de `profiles`, com parâmetro OpenAPI `required: true`, middleware antes do parse do body e evidência automatizada para rejeição de ausência
 
 ## Artefatos importantes
 
@@ -129,6 +130,7 @@ npm run build
 npm run asyncapi:check
 npm run asyncapi:compat -- docs/asyncapi/v1/products-events.json docs/asyncapi/v1/products-events.json
 npm run test -- --runTestsByPath tests/unit/scripts/check-asyncapi-backward-compatibility.spec.ts tests/contract/asyncapi/published-events.contract.test.ts tests/contract/asyncapi/consumed-events.contract.test.ts
+npm run test -- --runTestsByPath tests/unit/shared/correlation-id.middleware.spec.ts tests/contract/openapi/openapi.contract.test.ts tests/integration/http/error-matrix.spec.ts
 npm run test
 npm run asyncapi:check
 npm run infra:up
@@ -156,6 +158,7 @@ Notas da validação:
 - o gate local `npm run asyncapi:compat -- docs/asyncapi/v1/standard-events.json docs/asyncapi/v1/standard-events.json` comprovou o caminho feliz do checker de backward compatibility.
 - a suíte `tests/unit/scripts/check-asyncapi-backward-compatibility.spec.ts` comprovou que o checker bloqueia remoção de canal e remoção de campo obrigatório no AsyncAPI `v1`.
 - após o endurecimento do schema, da matriz de erros, da segurança OpenAPI e do gate de compatibilidade AsyncAPI, `npm run test` passou com `10` suites / `32` testes.
+- as suítes `tests/unit/shared/correlation-id.middleware.spec.ts`, `tests/contract/openapi/openapi.contract.test.ts` e `tests/integration/http/error-matrix.spec.ts` passaram a comprovar que `X-Correlation-ID` é obrigatório nas rotas HTTP públicas, que o OpenAPI o modela como `required: true` e que a ausência é rejeitada com `400 bad_request`.
 
 ## Bloqueios
 

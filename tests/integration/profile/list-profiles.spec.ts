@@ -56,13 +56,17 @@ describe('Integration: GET /profiles', () => {
 			}),
 		]);
 
-		const response = await request(app).get('/profiles').query({
-			page: 1,
-			limit: 1,
-			status: 'active',
-			sortBy: 'displayName',
-			order: 'ASC',
-		});
+		const response = await request(app)
+			.get('/profiles')
+			.set('X-Idempotency-Key', 'list-key')
+			.set('X-Correlation-ID', 'corr-key')
+			.query({
+				page: 1,
+				limit: 1,
+				status: 'active',
+				sortBy: 'displayName',
+				order: 'ASC',
+			});
 
 		expect(response.status).toBe(200);
 		expect(response.body.data).toHaveLength(1);

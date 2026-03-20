@@ -39,6 +39,7 @@ describe('Integration: PATCH /profiles/:profileId', () => {
 		const response = await request(app)
 			.patch(`/profiles/${profile.id}`)
 			.set('X-Idempotency-Key', 'update-key')
+			.set('X-Correlation-ID', 'corr-1')
 			.set('X-Performed-By', 'admin-1')
 			.set('X-Performed-By-Type', 'admin')
 			.send({

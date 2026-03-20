@@ -54,7 +54,7 @@ describe('Contract: OpenAPI', () => {
 
 		const response = await request(app)
 			.post('/profiles')
-			.set('Idempotency-Key', 'openapi-key')
+			.set('X-Correlation-ID', '8021b0b0-5855-4c1c-8086-85bba8f4ec94')
 			.send({
 				externalId: 'profile-001',
 			});
@@ -76,9 +76,40 @@ describe('Contract: OpenAPI', () => {
 	it('returns a documented 404 error for unknown externalId lookups', async () => {
 		const app = buildTestApp();
 
-		const response = await request(app).get('/profiles/by-external-id/not-found');
+		const response = await request(app)
+			.get('/profiles/by-external-id/not-found')
+			.set('X-Correlation-ID', '8021b0b0-5855-4c1c-8086-85bba8f4ec94');
 
 		expect(response.status).toBe(404);
 		expect(response.body.message).toBe('PROFILE_NOT_FOUND');
+	});
+
+	it('documents X-Correlation-ID as a required header for public operations', () => {
+		const spec = swaggerSpec as OpenAPIV3.Document;
+		const correlationIdHeader = spec.components?.parameters?.CorrelationIdHeader as
+			| OpenAPIV3.ParameterObject
+			| undefined;
+		const profilesGet = spec.paths?.['/profiles']?.get;
+		const profilesPost = spec.paths?.['/profiles']?.post;
+
+		expect(correlationIdHeader).toMatchObject({
+			in: 'header',
+			name: 'X-Correlation-ID',
+			required: true,
+		});
+		expect(profilesGet?.parameters).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({
+					$ref: '#/components/parameters/CorrelationIdHeader',
+				}),
+			]),
+		);
+		expect(profilesPost?.parameters).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({
+					$ref: '#/components/parameters/CorrelationIdHeader',
+				}),
+			]),
+		);
 	});
 });

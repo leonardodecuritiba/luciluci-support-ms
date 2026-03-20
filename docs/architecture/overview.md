@@ -9,6 +9,7 @@ O `standard-ms` segue o modelo validado no ecossistema LuciLuci:
 - Outbox para publicação confiável
 - Contrato público de autenticação documentado como `Bearer JWT` via Identity/API Gateway; a validação do token é upstream e o bootstrap local usa `X-Auth-*` apenas em `development/test`
 - Clean Architecture com separação por feature
+- `X-Correlation-ID` obrigatório nas operações HTTP públicas de `profiles`; o middleware local rejeita ausência com `400 bad_request` e o valor é propagado para logs, auditoria, idempotência e outbox
 
 Fluxo principal:
 

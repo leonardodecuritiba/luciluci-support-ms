@@ -62,16 +62,21 @@ describe('Integration: POST /profiles', () => {
 	it('returns 409 when the same key is reused with a different body', async () => {
 		const app = buildTestApp();
 
-		await request(app).post('/profiles').set('X-Idempotency-Key', 'create-key').send({
-			externalId: 'profile-001',
-			displayName: 'Alpha',
-			email: 'alpha@example.com',
-			entityType: 'individual',
-		});
+		await request(app)
+			.post('/profiles')
+			.set('X-Idempotency-Key', 'create-key')
+			.set('X-Correlation-ID', '0ca30ca2-86cb-4b6f-9f25-7d9b99197cea')
+			.send({
+				externalId: 'profile-001',
+				displayName: 'Alpha',
+				email: 'alpha@example.com',
+				entityType: 'individual',
+			});
 
 		const response = await request(app)
 			.post('/profiles')
 			.set('X-Idempotency-Key', 'create-key')
+			.set('X-Correlation-ID', '0ca30ca2-86cb-4b6f-9f25-7d9b99197cea')
 			.send({
 				externalId: 'profile-002',
 				displayName: 'Beta',
