@@ -10,6 +10,49 @@ on:
 jobs:
     quality:
         runs-on: ubuntu-latest
+        env:
+            DB_HOST: 127.0.0.1
+            DB_PORT: 5432
+            DB_USER: postgres
+            DB_PASSWORD: postgres
+            DB_NAME: profiles_ms
+            TEST_DB_NAME: profiles_ms_test
+            RABBITMQ_HOST: 127.0.0.1
+            RABBITMQ_PORT: 5672
+            RABBITMQ_USERNAME: guest
+            RABBITMQ_PASSWORD: guest
+            RABBITMQ_VHOST: /
+            RABBITMQ_PROFILE_EXCHANGE: profiles.events
+            OUTBOX_POLL_INTERVAL_MS: 2000
+            OUTBOX_BATCH_SIZE: 20
+            CONSUMER_PREFETCH: 10
+        services:
+            postgres:
+                image: postgres:16
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: postgres
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd="pg_isready -U postgres"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=5
+            rabbitmq:
+                image: rabbitmq:4-management
+                env:
+                    RABBITMQ_DEFAULT_USER: guest
+                    RABBITMQ_DEFAULT_PASS: guest
+                    RABBITMQ_DEFAULT_VHOST: /
+                ports:
+                    - 5672:5672
+                options: >-
+                    --health-cmd="rabbitmq-diagnostics -q ping"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=5
         steps:
             - uses: actions/checkout@v4
               with:

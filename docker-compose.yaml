@@ -53,7 +53,7 @@ services:
             RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-/}
         ports:
             - '${RABBITMQ_PORT:-5672}:5672'
-            - '15672:15672'
+            - '${RABBITMQ_ADMIN_PORT:-15672}:15672'
         volumes:
             - rabbitmq_data:/var/lib/rabbitmq
 

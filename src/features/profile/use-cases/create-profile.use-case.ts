@@ -72,6 +72,9 @@ export default class CreateProfileUseCase {
 		event.routingKey = event.eventType;
 		event.topic = event.routingKey;
 		event.occurredAt = new Date();
+		event.headers = {
+			'X-Correlation-ID': context.correlationId,
+		};
 		event.payload = {
 			eventId: randomUUID(),
 			correlationId: context.correlationId,

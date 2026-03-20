@@ -90,6 +90,7 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 - Idempotência HTTP e de consumo persistidas no PostgreSQL
 - Runtime local e produção em PostgreSQL
 - Testes de integração em SQLite em memória
+- Suíte de integração `tests/integration/events/outbox-rabbitmq.spec.ts` adicionada para provar `HTTP -> DB/outbox -> OutboxEventPublisherWorker -> RabbitMQ` com app real, PostgreSQL real e broker real
 
 ## Artefatos importantes
 
