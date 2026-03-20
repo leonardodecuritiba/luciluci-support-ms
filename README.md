@@ -181,6 +181,26 @@ npm run coverage:check
   - publica imagem Docker real no GHCR apenas em tags `v*`
   - não executa deploy de ambiente nesta release
 
+## Observabilidade e resiliência nesta release
+
+- Implementado no serviço:
+  - logs estruturados com `X-Correlation-ID`
+  - métricas Prometheus em `/metrics`
+  - healthcheck em `/health`
+  - outbox transacional com publicação real em RabbitMQ
+  - CI com validação formal de OpenAPI/AsyncAPI, compatibilidade backward e gate global de cobertura
+- Parcial nesta release:
+  - retry apenas no bootstrap de `PostgreSQL` e `RabbitMQ`, com atraso fixo; não há backoff exponencial de processamento
+  - `event-schema-registry.ts` é um registry local em memória derivado do AsyncAPI versionado do repositório, não um Schema Registry externo
+- Não implementado no `standard-ms` nesta release:
+  - tracing distribuído com OpenTelemetry
+  - DLQ / TTL / redrive / retry exponencial para filas/consumidores RabbitMQ
+  - Schema Registry externo
+  - gates automatizados de carga/performance e segurança no CI
+  - deploy automático de ambiente no workflow central
+- Responsabilidade upstream/infra:
+  - `429 rate_limited` permanece no API Gateway/BFF, não no processo `standard-ms`
+
 ## Como acessar a documentação e a infraestrutura local
 
 Consulte `docs/runbooks/infra-access.md`.

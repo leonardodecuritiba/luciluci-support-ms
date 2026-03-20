@@ -53,3 +53,11 @@ Consulte `infra-access.md` para URLs, portas, credenciais padrão e regra docume
 - logs estruturados com correlation id
 - métricas Prometheus
 - payload padronizado de erro
+
+## Limites operacionais desta release
+
+- não há tracing distribuído com OpenTelemetry instrumentado no processo
+- não há rate limiting local; `429` permanece responsabilidade do API Gateway/BFF
+- o RabbitMQ local usa filas duráveis, mas o serviço ainda não materializa DLQ, TTL, redrive ou retry exponencial
+- `src/shared/infrastructure/events/event-schema-registry.ts` é um registry local em memória derivado do AsyncAPI versionado do repositório, não um Schema Registry externo
+- o CI central valida OpenAPI/AsyncAPI, compatibilidade backward e cobertura, mas não executa suites dedicadas de carga/performance ou segurança

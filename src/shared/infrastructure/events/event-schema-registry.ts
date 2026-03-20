@@ -14,6 +14,8 @@ class EventSchemaRegistry {
 	private readonly schemas = new Map<KnownEventType, EventSchemaInfo>();
 
 	constructor() {
+		// Local read-only registry derived from the checked-in AsyncAPI artifact.
+		// This service does not integrate with an external schema registry in v1.
 		this.registerPublished();
 		this.registerConsumed();
 	}

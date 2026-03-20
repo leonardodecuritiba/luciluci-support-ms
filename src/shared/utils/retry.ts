@@ -1,3 +1,5 @@
+// Fixed-delay retry helper used only during local bootstrap of infrastructure dependencies.
+// It is not an operational message-processing backoff policy.
 export async function retry<T>(
 	action: () => Promise<T>,
 	attempts: number,

@@ -92,6 +92,10 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 - Testes de integração em SQLite em memória
 - Suíte de integração `tests/integration/events/outbox-rabbitmq.spec.ts` adicionada para provar `HTTP -> DB/outbox -> OutboxEventPublisherWorker -> RabbitMQ` com app real, PostgreSQL real e broker real
 - `X-Correlation-ID` passou a ser exigido explicitamente nas rotas HTTP públicas de `profiles`, com parâmetro OpenAPI `required: true`, middleware antes do parse do body e evidência automatizada para rejeição de ausência
+- observabilidade materializada nesta release = logs estruturados + métricas Prometheus + `X-Correlation-ID`; tracing distribuído com OpenTelemetry continua ausente
+- resiliência materializada em mensageria = outbox, filas duráveis, idempotência e worker real; DLQ/TTL/redrive/retry exponencial continuam ausentes no serviço
+- `event-schema-registry.ts` é apenas um registry local em memória derivado do AsyncAPI versionado; não há Schema Registry externo integrado ao `products-ms`
+- o CI central já aplica validação formal/backward de OpenAPI e AsyncAPI e gate global de cobertura; não há gates dedicados de carga/performance ou segurança nesta release
 
 ## Artefatos importantes
 
@@ -169,6 +173,18 @@ Notas da validação:
 - o checker `scripts/check-openapi-backward-compatibility.js` passou a bloquear remoção de paths/operações, endurecimento de request params/body e quebra de response schema na OpenAPI `v1`.
 - o gate `npm run coverage:check` passou a bloquear o pipeline quando a cobertura global ficar abaixo de `85%` em `lines/statements/functions` ou abaixo de `65%` em `branches`.
 - o workflow `.github/workflows/cd.yml` deixou de ser apenas um template de build e passou a publicar imagens reais no GHCR em tags `v*`; continua sem deploy de ambiente.
+- auditoria documental de observabilidade/resiliência concluída:
+  - OpenTelemetry reclassificado como não implementado no serviço
+  - rate limit mantido como responsabilidade upstream do gateway/BFF
+  - DLQ/TTL/redrive/retry exponencial reclassificados como ausentes no `standard-ms`
+  - Schema Registry reclassificado como helper local derivado do AsyncAPI versionado, não integração externa
+  - CI contratual e gate de cobertura confirmados como implementados
+  - testes/gates dedicados de carga/performance e segurança confirmados como ausentes nesta release
+
+## Riscos residuais
+
+- a documentação canônica ainda prevê OpenTelemetry, DLQ/TTL/redrive/backoff, Schema Registry externo e evidências operacionais de carga/segurança; nesta release esses itens foram explicitamente reclassificados como ausentes ou externos, não implementados localmente
+- se o escopo futuro exigir aderência total a esses itens, a próxima evolução deve tratar separadamente tracing distribuído, política operacional de mensageria e testes/gates específicos de carga e segurança
 
 ## Bloqueios
 
