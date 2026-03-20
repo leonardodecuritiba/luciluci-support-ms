@@ -10,6 +10,7 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 - 5 RFs canônicas
 - Infra local com PostgreSQL e RabbitMQ
 - OpenAPI, AsyncAPI, outbox, idempotência, correlação, observabilidade, testes e CI/CD
+- CI endurecido com gate automático de compatibilidade backward para o AsyncAPI versionado em `docs/asyncapi/v1/standard-events.json`, comparando o contrato atual com o baseline da branch base/commit anterior
 
 ## RFs
 
@@ -124,6 +125,9 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 ```bash
 npm run lint
 npm run build
+npm run asyncapi:check
+npm run asyncapi:compat -- docs/asyncapi/v1/products-events.json docs/asyncapi/v1/products-events.json
+npm run test -- --runTestsByPath tests/unit/scripts/check-asyncapi-backward-compatibility.spec.ts tests/contract/asyncapi/published-events.contract.test.ts tests/contract/asyncapi/consumed-events.contract.test.ts
 npm run test
 npm run asyncapi:check
 npm run infra:up
@@ -145,6 +149,12 @@ npm run asyncapi:check
 docker compose -f docker-compose-dev.yaml config
 docker compose -f docker-compose.yaml config
 ```
+
+Notas da validação:
+
+- o gate local `npm run asyncapi:compat -- docs/asyncapi/v1/standard-events.json docs/asyncapi/v1/standard-events.json` comprovou o caminho feliz do checker de backward compatibility.
+- a suíte `tests/unit/scripts/check-asyncapi-backward-compatibility.spec.ts` comprovou que o checker bloqueia remoção de canal e remoção de campo obrigatório no AsyncAPI `v1`.
+- após o endurecimento do schema, da matriz de erros, da segurança OpenAPI e do gate de compatibilidade AsyncAPI, `npm run test` passou com `10` suites / `32` testes.
 
 ## Bloqueios
 

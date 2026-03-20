@@ -27,7 +27,8 @@
 		"infra:up": "docker compose -f docker-compose-dev.yaml up -d",
 		"infra:down": "docker compose -f docker-compose-dev.yaml down -v",
 		"prepare": "husky || true",
-		"asyncapi:check": "node -e \"const fs=require('fs'); JSON.parse(fs.readFileSync('docs/asyncapi/v1/standard-ms-events.json','utf8')); console.log('AsyncAPI OK')\""
+		"asyncapi:check": "node -e \"const fs=require('fs'); JSON.parse(fs.readFileSync('docs/asyncapi/v1/products-events.json','utf8')); console.log('AsyncAPI OK')\"",
+		"asyncapi:compat": "node scripts/check-asyncapi-backward-compatibility.js"
 	},
 	"lint-staged": {
 		"*.ts": [

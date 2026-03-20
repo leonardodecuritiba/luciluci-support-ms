@@ -12,6 +12,8 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
             - uses: actions/setup-node@v4
               with:
                   node-version: 22
@@ -19,4 +21,17 @@ jobs:
             - run: npm ci
             - run: npm run lint
             - run: npm run build
+            - run: npm run asyncapi:check
+            - name: Check AsyncAPI backward compatibility
+              run: |
+                  if [ "${{ github.event_name }}" = "pull_request" ]; then
+                    git fetch origin "${{ github.base_ref }}" --depth=1
+                    git show FETCH_HEAD:docs/asyncapi/v1/standard-ms-events.json > /tmp/standard-events-baseline.json
+                    npm run asyncapi:compat -- /tmp/standard-events-baseline.json docs/asyncapi/v1/standard-events.json
+                  elif git cat-file -e HEAD^:docs/asyncapi/v1/standard-events.json 2>/dev/null; then
+                    git show HEAD^:docs/asyncapi/v1/standard-events.json > /tmp/standard-events-baseline.json
+                    npm run asyncapi:compat -- /tmp/standard-events-baseline.json docs/asyncapi/v1/standard-events.json
+                  else
+                    echo "No AsyncAPI baseline found; skipping backward compatibility check."
+                  fi
             - run: npm run test
