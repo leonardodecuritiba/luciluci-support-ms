@@ -80,10 +80,10 @@ Execução de testes/coverage:
 
 # 3. Matriz principal RF x implementação
 
-| RF   | Título | Documento-fonte | Endpoints relacionados | Status | Evidência de código | Evidência de testes | Eventos relacionados | Capacidades transversais envolvidas | Observações |
-| ---- | ------ | --------------- | ---------------------- | ------ | ------------------- | ------------------- | -------------------- | ----------------------------------- | ----------- |
-| RF01 | `<ex.: CRUD Produtos (Admin)>` | `<prd.md RF01; tdd.md RF01; tp.md 2.3 RF01>` | `<POST /products ...>` | **Implementado** | `<paths/classe/métodos>` | `<tests/integration/...>` | `<products.product.created.v1>` | `<PostgreSQL, outbox, OpenAPI, correlation id>` | `<nota curta>` |
-| RF02 | `<...>` | `<...>` | `<...>` | **Parcial** | `<...>` | `<Nenhum teste dedicado encontrado>` | `<...>` | `<...>` | `<...>` |
+| RF   | Título                         | Documento-fonte                              | Endpoints relacionados | Status           | Evidência de código      | Evidência de testes                  | Eventos relacionados            | Capacidades transversais envolvidas             | Observações    |
+| ---- | ------------------------------ | -------------------------------------------- | ---------------------- | ---------------- | ------------------------ | ------------------------------------ | ------------------------------- | ----------------------------------------------- | -------------- |
+| RF01 | `<ex.: CRUD Produtos (Admin)>` | `<prd.md RF01; tdd.md RF01; tp.md 2.3 RF01>` | `<POST /products ...>` | **Implementado** | `<paths/classe/métodos>` | `<tests/integration/...>`            | `<products.product.created.v1>` | `<PostgreSQL, outbox, OpenAPI, correlation id>` | `<nota curta>` |
+| RF02 | `<...>`                        | `<...>`                                      | `<...>`                | **Parcial**      | `<...>`                  | `<Nenhum teste dedicado encontrado>` | `<...>`                         | `<...>`                                         | `<...>`        |
 
 > Regra: não invente RF. Use apenas RFs realmente encontradas na documentação canônica do domínio analisado.
 
@@ -149,39 +149,39 @@ Integrações:
 
 ## Endpoints funcionais
 
-| Método | Path | Handler/controller | RF associada | Status | Observações |
-| ------ | ---- | ------------------ | ------------ | ------ | ----------- |
-| `POST` | `/<recurso>` | `<controller#handler>` | `RF01` | **Implementado** | `<nota>` |
-| `GET` | `/<recurso>` | `<controller#handler>` | `RF03` | **Parcial** | `<nota>` |
+| Método | Path         | Handler/controller     | RF associada | Status           | Observações |
+| ------ | ------------ | ---------------------- | ------------ | ---------------- | ----------- |
+| `POST` | `/<recurso>` | `<controller#handler>` | `RF01`       | **Implementado** | `<nota>`    |
+| `GET`  | `/<recurso>` | `<controller#handler>` | `RF03`       | **Parcial**      | `<nota>`    |
 
 ## Endpoints operacionais / contratos
 
-| Método | Path | Handler/controller | RF associada | Status | Observações |
-| ------ | ---- | ------------------ | ------------ | ------ | ----------- |
-| `GET` | `/health` | `<src/app.ts>` | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>` |
-| `GET` | `/metrics` | `<src/app.ts>` | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>` |
-| `GET` | `/api-docs` | `<src/app.ts>` | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>` |
-| `GET` | `/api-docs-json` | `<src/app.ts>` | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>` |
-| `GET` | `/events-docs` | `<src/app.ts>` | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>` |
+| Método | Path             | Handler/controller | RF associada      | Status                                        | Observações |
+| ------ | ---------------- | ------------------ | ----------------- | --------------------------------------------- | ----------- |
+| `GET`  | `/health`        | `<src/app.ts>`     | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>`    |
+| `GET`  | `/metrics`       | `<src/app.ts>`     | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>`    |
+| `GET`  | `/api-docs`      | `<src/app.ts>`     | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>`    |
+| `GET`  | `/api-docs-json` | `<src/app.ts>`     | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>`    |
+| `GET`  | `/events-docs`   | `<src/app.ts>`     | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>`    |
 
 # 8. Capacidades transversais
 
-| Capacidade | Status | Evidência | Observação |
-| ---------- | ------ | --------- | ---------- |
-| migrations | **Implementado** | `<path da migration / helper de testes>` | `<ex.: schema existe, mas sem FKs/CHECKs do TDD>` |
-| seeds | **Implementado** | `<scripts/seed.ts>` | `<escopo do seed>` |
-| CRUD | **Implementado** | `<rotas/controllers/services/repositories>` | `<lacunas de cobertura>` |
-| eventos publicados | **Implementado** | `<outbox + worker + asyncapi>` | `<sem teste broker E2E>` |
-| eventos consumidos | **Não encontrado** | `<consumedEventTypes = []>` | `<se aplicável>` |
-| idempotência | **Implementado** | `<middleware + service + tabela>` | `<nota>` |
-| correlation id | **Parcial** | `<middleware + logs + eventos>` | `<ex.: propaga, mas não exige entrada>` |
-| error mapping | **Implementado** | `<exceptions + error handler + testes>` | `<nota>` |
-| openapi | **Implementado** | `<swagger.ts + /api-docs>` | `<sem securitySchemes/JWT, se aplicável>` |
-| asyncapi | **Implementado** | `<docs/asyncapi/... + asyncapi:check>` | `<sem gate backward em CI, se aplicável>` |
-| unit tests | **Implementado** | `<tests/unit/...>` | `<escopo muito restrito, se aplicável>` |
-| integration tests | **Implementado** | `<tests/integration/...>` | `<cobertura parcial, se aplicável>` |
-| contract tests | **Implementado** | `<tests/contract/...>` | `<sem prova de wiring real, se aplicável>` |
-| ci/cd | **Parcial** | `<.github/workflows/...>` | `<lacunas de gate de cobertura/contrato/deploy>` |
+| Capacidade         | Status             | Evidência                                   | Observação                                        |
+| ------------------ | ------------------ | ------------------------------------------- | ------------------------------------------------- |
+| migrations         | **Implementado**   | `<path da migration / helper de testes>`    | `<ex.: schema existe, mas sem FKs/CHECKs do TDD>` |
+| seeds              | **Implementado**   | `<scripts/seed.ts>`                         | `<escopo do seed>`                                |
+| CRUD               | **Implementado**   | `<rotas/controllers/services/repositories>` | `<lacunas de cobertura>`                          |
+| eventos publicados | **Implementado**   | `<outbox + worker + asyncapi>`              | `<sem teste broker E2E>`                          |
+| eventos consumidos | **Não encontrado** | `<consumedEventTypes = []>`                 | `<se aplicável>`                                  |
+| idempotência       | **Implementado**   | `<middleware + service + tabela>`           | `<nota>`                                          |
+| correlation id     | **Parcial**        | `<middleware + logs + eventos>`             | `<ex.: propaga, mas não exige entrada>`           |
+| error mapping      | **Implementado**   | `<exceptions + error handler + testes>`     | `<nota>`                                          |
+| openapi            | **Implementado**   | `<swagger.ts + /api-docs>`                  | `<sem securitySchemes/JWT, se aplicável>`         |
+| asyncapi           | **Implementado**   | `<docs/asyncapi/... + asyncapi:check>`      | `<sem gate backward em CI, se aplicável>`         |
+| unit tests         | **Implementado**   | `<tests/unit/...>`                          | `<escopo muito restrito, se aplicável>`           |
+| integration tests  | **Implementado**   | `<tests/integration/...>`                   | `<cobertura parcial, se aplicável>`               |
+| contract tests     | **Implementado**   | `<tests/contract/...>`                      | `<sem prova de wiring real, se aplicável>`        |
+| ci/cd              | **Parcial**        | `<.github/workflows/...>`                   | `<lacunas de gate de cobertura/contrato/deploy>`  |
 
 # 9. Cobertura de testes
 
