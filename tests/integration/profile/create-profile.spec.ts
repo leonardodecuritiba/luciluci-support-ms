@@ -84,8 +84,6 @@ describe('Integration: POST /profiles', () => {
 				entityType: 'organization',
 			});
 
-		console.log(response.body);
-
 		expect(response.status).toBe(409);
 		expect(response.body.message).toBe('conflict');
 	});
