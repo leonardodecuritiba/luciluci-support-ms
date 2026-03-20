@@ -1,23 +1,90 @@
 /**
  * @openapi
  * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *       description: Public authentication uses Bearer JWT issued by Identity MS. Token validation and enforcement are handled upstream by the API Gateway/BFF; this local bootstrap only accepts X-Auth-* mock headers in development/test.
  *   schemas:
- *     ErrorResponse:
+ *     ErrorItem:
  *       type: object
- *       required: [code, message, statusCode, correlationId]
+ *       required: [code]
  *       properties:
+ *         field:
+ *           type: string
  *         code:
  *           type: string
  *         message:
  *           type: string
- *         statusCode:
+ *     ErrorResponse:
+ *       type: object
+ *       required: [status_code, message]
+ *       properties:
+ *         status_code:
  *           type: integer
- *         correlationId:
+ *         message:
  *           type: string
- *           format: uuid
- *         details:
- *           type: object
- *           additionalProperties: true
+ *         errors:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/ErrorItem'
+ *   responses:
+ *     BadRequestResponse:
+ *       description: Request payload or headers are invalid for this operation
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ErrorResponse'
+ *     UnauthorizedResponse:
+ *       description: Authentication context is missing or invalid
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ErrorResponse'
+ *     ForbiddenResponse:
+ *       description: Authenticated caller lacks the required role or scope
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ErrorResponse'
+ *     NotFoundResponse:
+ *       description: Requested resource was not found
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ErrorResponse'
+ *     ConflictResponse:
+ *       description: Request conflicts with persisted state or idempotency guarantees
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ErrorResponse'
+ *     PayloadTooLargeResponse:
+ *       description: Uploaded payload exceeded the supported size
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ErrorResponse'
+ *     UnsupportedMediaResponse:
+ *       description: Uploaded media type is not supported
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ErrorResponse'
+ *     ValidationErrorResponse:
+ *       description: Request payload failed semantic validation
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ErrorResponse'
+ *     InternalErrorResponse:
+ *       description: Unexpected internal server error
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ErrorResponse'
  *     Pagination:
  *       type: object
  *       required: [page, limit, total, totalPages]
@@ -40,7 +107,7 @@
  *       required: false
  *     IdempotencyKeyHeader:
  *       in: header
- *       name: Idempotency-Key
+ *       name: X-Idempotency-Key
  *       schema:
  *         type: string
  *       required: true

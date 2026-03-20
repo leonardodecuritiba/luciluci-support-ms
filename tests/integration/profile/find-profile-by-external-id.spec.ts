@@ -28,11 +28,15 @@ describe('Integration: GET /profiles/by-external-id/:externalId', () => {
 			.set('X-Correlation-ID', '3f00bd9d-638d-4ae7-92f8-b73f49943ca1');
 
 		expect(response.status).toBe(404);
-		expect(response.body).toEqual(
-			expect.objectContaining({
-				code: 'PROFILE_NOT_FOUND',
-				correlationId: '3f00bd9d-638d-4ae7-92f8-b73f49943ca1',
-			}),
-		);
+		expect(response.body).toEqual({
+			status_code: 404,
+			message: 'PROFILE_NOT_FOUND',
+			errors: [
+				{
+					code: 'profile_found',
+					message: 'Profile not found.',
+				},
+			],
+		});
 	});
 });

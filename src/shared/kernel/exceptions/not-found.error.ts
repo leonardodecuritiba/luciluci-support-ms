@@ -1,7 +1,8 @@
 import AppError from './app.error';
+import { ErrorDetail } from './app.error';
 
 export default class NotFoundError extends AppError {
-	constructor(code: string, message: string) {
-		super(404, code, message);
+	constructor(message = 'not_found', errors?: ErrorDetail[]) {
+		super(404, message, errors);
 	}
 }

@@ -1,13 +1,14 @@
-export interface ErrorDetails {
-	[key: string]: unknown;
+export interface ErrorDetail {
+	field?: string;
+	code: string;
+	message?: string;
 }
 
 export default class AppError extends Error {
 	constructor(
 		public readonly statusCode: number,
-		public readonly code: string,
 		message: string,
-		public readonly details?: ErrorDetails,
+		public readonly errors?: ErrorDetail[],
 	) {
 		super(message);
 		this.name = new.target.name;

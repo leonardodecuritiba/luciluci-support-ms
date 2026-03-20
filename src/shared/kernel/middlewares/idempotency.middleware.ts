@@ -3,30 +3,41 @@ import { NextFunction, Request, Response } from 'express';
 import BadRequestError from '../exceptions/bad-request.error';
 import IdempotencyService from '../../services/idempotency.service';
 
-export default function createIdempotencyMiddleware(service: IdempotencyService) {
+type FingerprintBuilder = (req: Request) => unknown | Promise<unknown>;
+
+export default function createIdempotencyMiddleware(
+	service: IdempotencyService,
+	fingerprintBuilder?: FingerprintBuilder,
+) {
 	return async function idempotencyMiddleware(
 		req: Request,
 		res: Response,
 		next: NextFunction,
 	): Promise<void> {
-		const key = req.header('Idempotency-Key');
+		const key = req.header('X-Idempotency-Key');
 
 		if (!key) {
 			next(
-				new BadRequestError(
-					'IDEMPOTENCY_KEY_REQUIRED',
-					'Idempotency-Key header is required for write operations.',
-				),
+				new BadRequestError('bad_request', [
+					{
+						field: 'X-Idempotency-Key',
+						code: 'required',
+						message: 'X-Idempotency-Key header is required for write operations.',
+					},
+				]),
 			);
 			return;
 		}
 
 		try {
+			const fingerprintPayload = fingerprintBuilder
+				? await fingerprintBuilder(req)
+				: req.body;
 			const result = await service.startRequest(
 				key,
 				req.method,
 				req.originalUrl,
-				req.body,
+				fingerprintPayload,
 				req.correlationId,
 			);
 

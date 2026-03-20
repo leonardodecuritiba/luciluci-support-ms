@@ -41,10 +41,13 @@ export default class CreateProfileUseCase {
 		const existing = await this.profileRepository.findByExternalId(input.externalId);
 
 		if (existing) {
-			throw new ConflictError(
-				'PROFILE_EXTERNAL_ID_ALREADY_EXISTS',
-				'A profile with the same externalId already exists.',
-			);
+			throw new ConflictError('PROFILE_EXTERNAL_ID_ALREADY_EXISTS', [
+				{
+					field: 'name',
+					code: 'externalId',
+					message: 'A profile with the same externalId already exists.',
+				},
+			]);
 		}
 
 		const profile = new Profile();

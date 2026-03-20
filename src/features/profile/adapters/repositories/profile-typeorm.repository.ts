@@ -24,7 +24,12 @@ export default class ProfileTypeormRepository implements IProfileRepository {
 		const profile = await this.repository.findOneBy({ id });
 
 		if (!profile) {
-			throw new NotFoundError('PROFILE_NOT_FOUND', 'Profile not found.');
+			throw new NotFoundError('PROFILE_NOT_FOUND', [
+				{
+					code: 'profile_found',
+					message: 'Profile not found.',
+				},
+			]);
 		}
 
 		return profile;
@@ -34,7 +39,12 @@ export default class ProfileTypeormRepository implements IProfileRepository {
 		const profile = await this.repository.findOneBy({ externalId });
 
 		if (!profile) {
-			throw new NotFoundError('PROFILE_NOT_FOUND', 'Profile not found.');
+			throw new NotFoundError('PROFILE_NOT_FOUND', [
+				{
+					code: 'profile_found',
+					message: 'Profile not found.',
+				},
+			]);
 		}
 
 		return profile;

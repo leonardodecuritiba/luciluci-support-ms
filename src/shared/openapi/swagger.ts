@@ -8,7 +8,8 @@ const swaggerOptions: swaggerJSDoc.Options = {
 		info: {
 			title: 'standard-ms',
 			version: '1.0.0',
-			description: 'OpenAPI contract for the standard-ms template.',
+			description:
+				'OpenAPI contract for the standard-ms template. Public authentication uses Bearer JWT via Identity MS, with validation enforced upstream by the API Gateway/BFF. The local Express bootstrap accepts X-Auth-* headers only for development and test flows.',
 		},
 	},
 	apis: isDev

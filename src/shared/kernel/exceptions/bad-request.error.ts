@@ -1,7 +1,8 @@
 import AppError from './app.error';
+import { ErrorDetail } from './app.error';
 
 export default class BadRequestError extends AppError {
-	constructor(code: string, message: string, details?: Record<string, unknown>) {
-		super(400, code, message, details);
+	constructor(message = 'bad_request', errors?: ErrorDetail[]) {
+		super(400, message, errors);
 	}
 }

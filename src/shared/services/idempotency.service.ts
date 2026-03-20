@@ -37,16 +37,35 @@ export default class IdempotencyService {
 		body: unknown,
 		correlationId: string,
 	): Promise<{ replay?: ReplayResponse; context?: IdempotencyContext }> {
+		return this.startRequestWithFingerprint(
+			key,
+			IdempotencyService.buildFingerprint(method, route, body),
+			method,
+			route,
+			correlationId,
+		);
+	}
+
+	async startRequestWithFingerprint(
+		key: string,
+		fingerprint: string,
+		method: string,
+		route: string,
+		correlationId: string,
+	): Promise<{ replay?: ReplayResponse; context?: IdempotencyContext }> {
 		const repository = new IdempotencyKeyTypeormRepository(this.dataSource.manager);
 		const existing = await repository.findByKey(key);
-		const fingerprint = IdempotencyService.buildFingerprint(method, route, body);
 
 		if (existing) {
 			if (existing.fingerprint !== fingerprint) {
-				throw new ConflictError(
-					'IDEMPOTENCY_KEY_REUSED',
-					'Idempotency-Key was already used with a different request payload.',
-				);
+				throw new ConflictError('conflict', [
+					{
+						field: 'X-Idempotency-Key',
+						code: 'reused_with_different_payload',
+						message:
+							'X-Idempotency-Key was already used with a different request payload.',
+					},
+				]);
 			}
 
 			if (existing.state === IdempotencyState.Completed && existing.responseBody) {
@@ -58,10 +77,13 @@ export default class IdempotencyService {
 				};
 			}
 
-			throw new ConflictError(
-				'IDEMPOTENT_REQUEST_IN_PROGRESS',
-				'An idempotent request with this key is already being processed.',
-			);
+			throw new ConflictError('conflict', [
+				{
+					field: 'X-Idempotency-Key',
+					code: 'request_in_progress',
+					message: 'An idempotent request with this key is already being processed.',
+				},
+			]);
 		}
 
 		const record = new IdempotencyKey();

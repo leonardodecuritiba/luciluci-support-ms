@@ -1,7 +1,8 @@
 import AppError from './app.error';
+import { ErrorDetail } from './app.error';
 
 export default class UnprocessableEntityError extends AppError {
-	constructor(code: string, message: string, details?: Record<string, unknown>) {
-		super(422, code, message, details);
+	constructor(message = 'validation_error', errors?: ErrorDetail[]) {
+		super(422, message, errors);
 	}
 }

@@ -1,16 +1,25 @@
 import { plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 
-import BadRequestError from '../exceptions/bad-request.error';
+import UnprocessableEntityError from '../exceptions/unprocessable-entity.error';
+import { ErrorDetail } from '../exceptions/app.error';
 
-function mapValidationErrors(errors: ValidationError[]): Record<string, string[]> {
-	return errors.reduce<Record<string, string[]>>((acc, error) => {
-		if (error.constraints) {
-			acc[error.property] = Object.values(error.constraints);
-		}
+function mapValidationErrors(errors: ValidationError[], parentPath?: string): ErrorDetail[] {
+	return errors.flatMap((error) => {
+		const path = parentPath ? `${parentPath}.${error.property}` : error.property;
+		const ownErrors =
+			error.constraints === undefined
+				? []
+				: Object.entries(error.constraints).map(([code, message]) => ({
+						field: path,
+						code,
+						message,
+					}));
 
-		return acc;
-	}, {});
+		const children = error.children?.length ? mapValidationErrors(error.children, path) : [];
+
+		return [...ownErrors, ...children];
+	});
 }
 
 export async function validateDto<T extends object>(
@@ -24,11 +33,7 @@ export async function validateDto<T extends object>(
 	});
 
 	if (errors.length > 0) {
-		throw new BadRequestError(
-			'INVALID_INPUT',
-			'Invalid input data.',
-			mapValidationErrors(errors),
-		);
+		throw new UnprocessableEntityError('validation_error', mapValidationErrors(errors));
 	}
 
 	return dto;

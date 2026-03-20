@@ -2,8 +2,34 @@ import { NextFunction, Request, Response } from 'express';
 import { DataSource } from 'typeorm';
 
 import logger from '../../infrastructure/logger';
+import BadRequestError from '../exceptions/bad-request.error';
 import AppError from '../exceptions/app.error';
 import IdempotencyService from '../../services/idempotency.service';
+
+interface JsonParseError extends SyntaxError {
+	status?: number;
+	type?: string;
+}
+
+function normalizeHttpError(error: Error): Error {
+	const candidate = error as JsonParseError;
+
+	if (
+		error instanceof SyntaxError &&
+		candidate.status === 400 &&
+		candidate.type === 'entity.parse.failed'
+	) {
+		return new BadRequestError('bad_request', [
+			{
+				field: 'body',
+				code: 'invalid_json',
+				message: 'Request body contains invalid JSON.',
+			},
+		]);
+	}
+
+	return error;
+}
 
 export default function createErrorHandler(dataSource: DataSource) {
 	const idempotencyService = new IdempotencyService(dataSource);
@@ -16,33 +42,30 @@ export default function createErrorHandler(dataSource: DataSource) {
 	): Promise<void> {
 		await idempotencyService.releaseRequest(res.locals.idempotencyContext);
 
-		if (error instanceof AppError) {
+		const normalizedError = normalizeHttpError(error);
+
+		if (normalizedError instanceof AppError) {
 			logger.warn(
 				{
-					code: error.code,
-					statusCode: error.statusCode,
+					statusCode: normalizedError.statusCode,
 					correlationId: req.correlationId,
-					details: error.details,
+					errors: normalizedError.errors,
 				},
-				error.message,
+				normalizedError.message,
 			);
 
-			res.status(error.statusCode).json({
-				code: error.code,
-				message: error.message,
-				statusCode: error.statusCode,
-				correlationId: req.correlationId,
-				details: error.details,
+			res.status(normalizedError.statusCode).json({
+				status_code: normalizedError.statusCode,
+				message: normalizedError.message,
+				errors: normalizedError.errors,
 			});
 			return;
 		}
 
-		logger.error({ err: error, correlationId: req.correlationId }, 'Unhandled error');
+		logger.error({ err: normalizedError, correlationId: req.correlationId }, 'Unhandled error');
 		res.status(500).json({
-			code: 'INTERNAL_SERVER_ERROR',
-			message: 'Internal server error.',
-			statusCode: 500,
-			correlationId: req.correlationId,
+			status_code: 500,
+			message: 'internal_error',
 		});
 	};
 }

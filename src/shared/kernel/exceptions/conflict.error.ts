@@ -1,7 +1,8 @@
 import AppError from './app.error';
+import { ErrorDetail } from './app.error';
 
 export default class ConflictError extends AppError {
-	constructor(code: string, message: string, details?: Record<string, unknown>) {
-		super(409, code, message, details);
+	constructor(message = 'conflict', errors?: ErrorDetail[]) {
+		super(409, message, errors);
 	}
 }

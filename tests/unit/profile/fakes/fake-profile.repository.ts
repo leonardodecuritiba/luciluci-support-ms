@@ -26,7 +26,12 @@ export default class FakeProfileRepository implements IProfileRepository {
 		const item = this.items.find((profile) => profile.id === id);
 
 		if (!item) {
-			throw new NotFoundError('PROFILE_NOT_FOUND', 'Profile not found.');
+			throw new NotFoundError('PROFILE_NOT_FOUND', [
+				{
+					code: 'profile_found',
+					message: 'Profile not found.',
+				},
+			]);
 		}
 
 		return item;
@@ -36,7 +41,12 @@ export default class FakeProfileRepository implements IProfileRepository {
 		const item = this.items.find((profile) => profile.externalId === externalId);
 
 		if (!item) {
-			throw new NotFoundError('PROFILE_NOT_FOUND', 'Profile not found.');
+			throw new NotFoundError('PROFILE_NOT_FOUND', [
+				{
+					code: 'profile_found',
+					message: 'Profile not found.',
+				},
+			]);
 		}
 
 		return item;

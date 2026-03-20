@@ -1,7 +1,8 @@
 import AppError from './app.error';
+import { ErrorDetail } from './app.error';
 
 export default class ForbiddenError extends AppError {
-	constructor(code = 'FORBIDDEN', message = 'Forbidden') {
-		super(403, code, message);
+	constructor(message = 'forbidden', errors?: ErrorDetail[]) {
+		super(403, message, errors);
 	}
 }

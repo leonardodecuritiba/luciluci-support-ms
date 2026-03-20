@@ -27,18 +27,50 @@ describe('errorHandler', () => {
 		} as unknown as Response;
 
 		await handler(
-			new BadRequestError('INVALID_INPUT', 'Invalid input data.'),
+			new BadRequestError('bad_request', [
+				{
+					field: 'name',
+					code: 'required',
+					message: 'name is required.',
+				},
+			]),
 			req,
 			res,
 			jest.fn() as NextFunction,
 		);
 
 		expect(status).toHaveBeenCalledWith(400);
-		expect(json).toHaveBeenCalledWith(
-			expect.objectContaining({
-				code: 'INVALID_INPUT',
-				correlationId: req.correlationId,
-			}),
-		);
+		expect(json).toHaveBeenCalledWith({
+			status_code: 400,
+			message: 'bad_request',
+			errors: [
+				{
+					field: 'name',
+					code: 'required',
+					message: 'name is required.',
+				},
+			],
+		});
+	});
+
+	it('returns 500 internal_error for unexpected exceptions', async () => {
+		const handler = createErrorHandler(TestDataSource);
+		const req = {
+			correlationId: '8021b0b0-5855-4c1c-8086-85bba8f4ec94',
+		} as Request;
+		const json = jest.fn();
+		const status = jest.fn(() => ({ json }));
+		const res = {
+			locals: {},
+			status,
+		} as unknown as Response;
+
+		await handler(new Error('unexpected'), req, res, jest.fn() as NextFunction);
+
+		expect(status).toHaveBeenCalledWith(500);
+		expect(json).toHaveBeenCalledWith({
+			status_code: 500,
+			message: 'internal_error',
+		});
 	});
 });
