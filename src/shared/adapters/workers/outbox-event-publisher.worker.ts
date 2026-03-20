@@ -36,12 +36,15 @@ export default class OutboxEventPublisherWorker {
 
 		for (const event of events) {
 			try {
+				const correlationId = this.resolveCorrelationId(event);
+
 				await this.rabbitMqService.publish({
 					exchange: event.exchange,
-					routingKey: event.routingKey,
+					routingKey: event.topic,
 					payload: event.payload,
 					messageId: String(event.payload.eventId),
-					correlationId: String(event.payload.correlationId),
+					correlationId,
+					headers: event.headers ?? undefined,
 				});
 
 				await this.outboxRepository.markProcessed(event.id);
@@ -52,5 +55,18 @@ export default class OutboxEventPublisherWorker {
 				);
 			}
 		}
+	}
+
+	private resolveCorrelationId(event: {
+		headers?: Record<string, unknown> | null;
+		payload: Record<string, unknown>;
+	}): string {
+		const headerValue = event.headers?.['X-Correlation-ID'];
+
+		if (typeof headerValue === 'string' && headerValue.length > 0) {
+			return headerValue;
+		}
+
+		return String(event.payload.correlationId);
 	}
 }

@@ -20,6 +20,9 @@ const OutboxEventSchema = new EntitySchema<OutboxEvent>({
 			name: 'aggregate_id',
 			type: String,
 		},
+		topic: {
+			type: String,
+		},
 		eventType: {
 			name: 'event_type',
 			type: String,
@@ -32,7 +35,11 @@ const OutboxEventSchema = new EntitySchema<OutboxEvent>({
 			type: String,
 		},
 		payload: {
-			type: 'simple-json',
+			type: 'jsonb',
+		},
+		headers: {
+			type: 'jsonb',
+			nullable: true,
 		},
 		attempts: {
 			type: Number,
@@ -47,6 +54,11 @@ const OutboxEventSchema = new EntitySchema<OutboxEvent>({
 			name: 'occurred_at',
 			type: Date,
 			createDate: false,
+		},
+		publishedAt: {
+			name: 'published_at',
+			type: Date,
+			nullable: true,
 		},
 		processedAt: {
 			name: 'processed_at',

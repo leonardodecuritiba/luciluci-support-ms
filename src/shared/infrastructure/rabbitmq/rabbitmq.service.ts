@@ -9,6 +9,7 @@ export interface PublishMessageInput {
 	payload: Record<string, unknown>;
 	messageId: string;
 	correlationId: string;
+	headers?: Record<string, unknown>;
 }
 
 export default class RabbitMQService {
@@ -38,9 +39,6 @@ export default class RabbitMQService {
 	async assertInfrastructure(): Promise<void> {
 		const channel = this.getChannel();
 		await channel.assertExchange(env.rabbitmq.profileExchange, 'topic', { durable: true });
-		await channel.assertExchange(env.rabbitmq.classificationExchange, 'topic', {
-			durable: true,
-		});
 	}
 
 	async publish(input: PublishMessageInput): Promise<void> {
@@ -54,6 +52,7 @@ export default class RabbitMQService {
 				persistent: true,
 				messageId: input.messageId,
 				correlationId: input.correlationId,
+				headers: input.headers,
 				contentType: 'application/json',
 			},
 		);

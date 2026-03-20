@@ -20,14 +20,18 @@ export default class OutboxEventTypeormRepository implements IOutboxEventReposit
 	findPending(limit: number): Promise<OutboxEvent[]> {
 		return this.repository
 			.createQueryBuilder('outbox_event')
-			.where('outbox_event.processedAt IS NULL')
-			.orderBy('outbox_event.createdAt', 'ASC')
+			.where('outbox_event.publishedAt IS NULL')
+			.orderBy('outbox_event.occurredAt', 'ASC')
 			.take(limit)
 			.getMany();
 	}
 
 	async markProcessed(id: string): Promise<void> {
-		await this.repository.update({ id }, { processedAt: new Date(), lastError: null });
+		const processedAt = new Date();
+		await this.repository.update(
+			{ id },
+			{ publishedAt: processedAt, processedAt, lastError: null },
+		);
 	}
 
 	async markFailed(id: string, errorMessage: string): Promise<void> {
