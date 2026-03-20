@@ -26,6 +26,7 @@ Regras operacionais:
 - Ao derivar um novo microserviço a partir deste template, remova todas as menções à feature de exemplo `profile` de código, testes, docs, contratos, exemplos, eventos, rotas e artefatos auxiliares.
 - Nenhum serviço derivado pode ser considerado aderente enquanto ainda existirem referências residuais a `profile` ou `profiles` fora de documentação histórica explicitamente marcada como template legado.
 - Todo microserviço HTTP aplicável deve exigir `X-Correlation-ID` como header obrigatório de entrada.
+- Ao derivar o `standard-ms` para um domínio real, remova todas as menções residuais a `profile` em código, testes, docs, contratos e artefatos gerados. Diretórios vazios e referências herdadas do template também devem ser eliminados.
 - Não é permitido fallback silencioso por autogeração de `X-Correlation-ID` em requisições HTTP externas.
 - Na ausência de `X-Correlation-ID`, a requisição deve ser rejeitada com erro de cliente, usando o envelope padrão de erro.
 - A OpenAPI local deve marcar `X-Correlation-ID` como `required: true` nos endpoints aplicáveis.
@@ -43,7 +44,7 @@ Regras operacionais:
 
 Navegação de baixo custo:
 
-- `src/features/profile/` mostra o padrão da feature.
+- `src/features/` mostra o desenho real das features do serviço atual; qualquer menção remanescente a `profile` deve ser tratada como resíduo de template e removida.
 - `src/shared/` concentra kernel, infra e contratos reutilizáveis.
 - `tests/` reflete o desenho real do template.
 - `docs/runbooks/infra-access.md` concentra URLs, portas e credenciais operacionais.
