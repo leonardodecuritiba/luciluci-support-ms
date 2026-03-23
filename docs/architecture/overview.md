@@ -29,6 +29,34 @@ Essa superfície:
 - é isenta da exigência de entrada de `X-Correlation-ID`
 - pode receber um `X-Correlation-ID` gerado/ecoado pelo middleware apenas para observabilidade local quando o header não vier da origem
 
+## Fronteira NFR padrão do template
+
+Antes de registrar qualquer NFR como gap do microserviço derivado, o template exige classificar a fronteira do item:
+
+- `implementado localmente`
+- `upstream/plataforma`
+- `compartilhado`
+- `fora do escopo desta release`
+- `gap real local`
+
+Presença em documentação global do ecossistema não implica obrigação local automática no serviço derivado.
+
+| NFR / capacidade                               | Categoria padrão sugerida      | Precisa decisão por serviço derivado? | Como reportar no microserviço derivado                                                                                |
+| ---------------------------------------------- | ------------------------------ | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Rate limit                                     | `upstream/plataforma`          | sim                                   | registrar como responsabilidade do gateway/BFF; só vira gap local se o serviço for exposto sem esse boundary          |
+| Tracing distribuído / OpenTelemetry            | `compartilhado`                | sim                                   | separar plataforma de observabilidade vs instrumentação local; ausência local só vira gap após decisão explícita      |
+| Schema Registry externo                        | `upstream/plataforma`          | sim                                   | não marcar gap local automático; distinguir integração externa do helper local do serviço                             |
+| Registry local de eventos derivado do AsyncAPI | `implementado localmente`      | não                                   | reportar como capacidade local quando `event-schema-registry.ts` estiver alinhado ao contrato versionado              |
+| DLQ / TTL / redrive / retry exponencial        | `compartilhado`                | sim                                   | só marcar gap local quando o serviço assumir a política operacional da fila/consumer                                  |
+| Evidência automatizada de segurança            | `fora do escopo desta release` | sim                                   | não tratar ausência como gap local automático; abrir gap apenas quando o repositório assumir suíte/pipeline dedicados |
+| Evidência automatizada de performance/carga    | `fora do escopo desta release` | sim                                   | mesma regra; não virar gap local sem escopo explícito                                                                 |
+| CDC / integração de streaming genérica         | `fora do escopo desta release` | sim                                   | não inferir requisito local sem documentação canônica do domínio e decisão explícita                                  |
+
+Regra de fechamento:
+
+- `gap real local` só pode ser usado quando a responsabilidade local estiver explícita e a evidência continuar ausente
+- itens `upstream/plataforma`, `compartilhado` sem decisão local ou `fora do escopo desta release` não devem aparecer como falso gap do serviço
+
 ## Capacidade operacional materializada
 
 | Capacidade documentada                              | Estado atual no `standard-ms` | Evidência objetiva                                                                                                                                              | Ação adotada nesta rodada                                                      |

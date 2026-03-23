@@ -176,6 +176,7 @@ Notas da validação:
 - o gate `npm run coverage:check` passou a bloquear o pipeline quando a cobertura global ficar abaixo de `85%` em `lines/statements/functions` ou abaixo de `65%` em `branches`.
 - o workflow `.github/workflows/cd.yml` deixou de ser apenas um template de build e passou a publicar imagens reais no GHCR em tags `v*`; continua sem deploy de ambiente.
 - reports derivados do template passaram a exigir evidência remota real do GitHub Actions para considerar CI/CD comprovado; a mera presença de `.github/workflows/*.yml` não basta
+- a fronteira NFR herdada passou a ser explícita no template: `rate limit` e `Schema Registry externo` = `upstream/plataforma`; `event-schema-registry.ts` = helper local; `OpenTelemetry` e políticas avançadas de mensageria = `compartilhado`; evidência automatizada de `segurança`, `performance/carga` e `CDC/streaming` = `fora do escopo desta release` por padrão
 - auditoria documental de observabilidade/resiliência concluída:
   - OpenTelemetry reclassificado como não implementado no serviço
   - rate limit mantido como responsabilidade upstream do gateway/BFF
@@ -191,6 +192,10 @@ Notas da validação:
   - o run remoto `ci` `23461102938` em `main` / SHA `bd70b70165c74f88064ef826bfc83d907598dc05` falhou no job `quality`, step `Check OpenAPI artifact sync`
   - a causa objetiva identificada foi incompatibilidade entre o formatter do repositório e o output de `npm run openapi:export`, deixando `docs/openapi/v1/profiles-api.json` permanentemente fora de sync
   - a execução local de `test:coverage` no sandbox falhou por `EPERM`; com permissão ampliada a suíte passou integralmente, confirmando limitação do ambiente local e não falha funcional do template
+- auditoria documental do `DRIFT-007` concluída:
+  - `AI_FIRST.md`, `README.md`, `docs/architecture/overview.md` e `docs/runbooks/local-development.md` passaram a codificar a fronteira NFR serviço vs plataforma no template
+  - `docs/reports/REPORT-TEMPLATE.md`, `docs/reports/README.md` e `docs/prompts/report-completeness-prompt.md` passaram a exigir classificação de NFR antes de registrar gap real local
+  - o `bootstrap-prompt` herdado passou a instruir o microservice-startup a classificar NFRs em `implementado localmente`, `upstream/plataforma`, `compartilhado` ou `fora do escopo desta release` antes de concluir lacunas
 
 ## Riscos residuais
 

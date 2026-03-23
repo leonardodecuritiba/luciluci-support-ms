@@ -43,3 +43,20 @@ Cada onda pode sobrescrever ou complementar o report em andamento, mas o artefat
 ## Template oficial
 
 Use `docs/reports/REPORT-TEMPLATE.md` como esqueleto obrigatório para novos reports.
+
+## Regra obrigatória de fronteira NFR
+
+Antes de registrar qualquer NFR como gap do microserviço, o report deve classificá-lo em uma destas categorias:
+
+- `implementado localmente`
+- `upstream/plataforma`
+- `compartilhado`
+- `fora do escopo desta release`
+- `gap real local`
+
+Regras:
+
+- presença em documentação global do ecossistema não implica obrigação local automática no repositório do serviço
+- itens `upstream/plataforma` não devem ser promovidos a gap local
+- itens `compartilhado` só viram gap local após decisão explícita do serviço derivado
+- itens `fora do escopo desta release` devem ser reportados como tal, sem inflar a lista de lacunas reais locais

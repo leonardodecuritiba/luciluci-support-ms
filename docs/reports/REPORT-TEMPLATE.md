@@ -3,6 +3,7 @@
 > Ele deve ser usado como artefato humano de revisão rápida, normalmente gerado por IA **em ondas**, sob supervisão de outro desenvolvedor.
 > **Não é fonte de verdade.** A precedência continua sendo: `luciluci-docs/` -> código executável -> contratos/versionamentos locais -> report.
 > `workflow` versionado no repositório **não é prova suficiente** de CI/CD saudável; o report deve registrar evidência remota real do GitHub Actions quando houver, ou declarar explicitamente sua ausência.
+> NFR documentado globalmente **não é gap local automático**; classifique sempre a fronteira serviço vs plataforma antes de concluir ausência.
 > Mantenha **todas as seções** deste template, mesmo quando uma seção estiver vazia ou inconclusiva.
 
 # REPORT - Avaliação de completude do microserviço
@@ -27,6 +28,11 @@
 - RFs classificadas como **Não encontrado**: `<n>`
 - RFs classificadas como **Ambíguo**: `<n>`
 - Itens classificados como **Superfície operacional local herdada do template**: `<n>`
+- NFRs classificados como **Implementado localmente**: `<n>`
+- NFRs classificados como **Upstream/plataforma**: `<n>`
+- NFRs classificados como **Compartilhado**: `<n>`
+- NFRs classificados como **Fora do escopo desta release**: `<n>`
+- NFRs classificados como **Gap real local**: `<n>`
 
 Principais divergências:
 
@@ -100,6 +106,18 @@ Evidência remota de CI/CD:
 > Quando não houver run remoto comprovado, declarar isso explicitamente no report.
 > Quando houver run remoto falho, registrar URL, ID, SHA, status, conclusion, job/step falhos e resumo objetivo do erro.
 
+Classificação obrigatória de fronteira NFR:
+
+- `implementado localmente`
+- `upstream/plataforma`
+- `compartilhado`
+- `fora do escopo desta release`
+- `gap real local`
+
+> Regra: presença em documentação global do ecossistema não implica obrigação local automática no microserviço.
+> Regra: só usar `gap real local` quando a responsabilidade local estiver explícita e a evidência continuar ausente.
+> Regra: itens `upstream/plataforma`, `compartilhado` sem decisão local e `fora do escopo desta release` não entram na lista de lacunas reais locais.
+
 # 3. Matriz principal RF x implementação
 
 | RF   | Título                         | Documento-fonte                              | Endpoints relacionados | Status           | Evidência de código      | Evidência de testes                  | Eventos relacionados            | Capacidades transversais envolvidas             | Observações    |
@@ -150,7 +168,8 @@ Regras técnicas:
 - [x] Idempotência
 - [x] Correlation ID nas rotas de negócio; endpoints operacionais locais + `OPTIONS` isentos pelo template
 - [x] Error mapping padronizado
-- [ ] OpenTelemetry / DLQ / TTL / redrive / compatibilidade contratual em CI, quando previstos
+- [x] Compatibilidade contratual em CI, quando materializada localmente
+- [!] NFRs de plataforma/compartilhados foram classificados antes de qualquer conclusão de gap local
 
 Integrações:
 
@@ -190,7 +209,25 @@ Classifique `/health`, `/metrics`, `/api-docs`, `/api-docs-json`, `/events-docs`
 | `GET`  | `/events-docs`                           | `<src/app.ts>`     | `não é RF do domínio` | **Superfície operacional local herdada do template** | `<nota>`    |
 | `GET`  | `/docs/asyncapi/<versão>/<arquivo>.json` | `<src/app.ts>`     | `não é RF do domínio` | **Superfície operacional local herdada do template** | `<nota>`    |
 
-# 8. Capacidades transversais
+# 8. Fronteira NFR e capacidades transversais
+
+## 8.1 Matriz obrigatória de fronteira NFR
+
+| NFR do template                             | Categoria padrão sugerida      | Precisa decisão por serviço? | Estado local observado                            | Evidência                                   | Como reportar no microserviço derivado?                                        | Gap real local?                               |
+| ------------------------------------------- | ------------------------------ | ---------------------------- | ------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------- |
+| rate limit                                  | `upstream/plataforma`          | `sim`                        | `<ausente localmente ou implementado localmente>` | `<gateway/BFF, middleware local, docs>`     | `<registrar como upstream; só vira gap local sem esse boundary>`               | `<não por padrão>`                            |
+| OpenTelemetry / tracing distribuído         | `compartilhado`                | `sim`                        | `<ausente localmente, parcial ou implementado>`   | `<deps, instrumentação, docs>`              | `<separar plataforma de observabilidade vs instrumentação do serviço>`         | `<só após decisão explícita>`                 |
+| Schema Registry externo                     | `upstream/plataforma`          | `sim`                        | `<ausente localmente ou integrado>`               | `<cliente/SDK, docs, contratos>`            | `<não confundir com helper local de eventos>`                                  | `<não por padrão>`                            |
+| registry local de eventos                   | `implementado localmente`      | `não`                        | `<implementado ou ausente>`                       | `<event-schema-registry.ts, testes>`        | `<reportar como helper local derivado do AsyncAPI versionado>`                 | `<sim, se o helper esperado estiver ausente>` |
+| DLQ / TTL / redrive / retry exponencial     | `compartilhado`                | `sim`                        | `<ausente localmente, parcial ou implementado>`   | `<topologia de filas, args, workers, docs>` | `<só registrar gap local quando a política for assumida pelo serviço>`         | `<só após decisão explícita>`                 |
+| evidência automatizada de segurança         | `fora do escopo desta release` | `sim`                        | `<ausente ou implementado>`                       | `<workflow, suite, scanner>`                | `<reportar fora do escopo por padrão; não inflar lacunas locais>`              | `<não por padrão>`                            |
+| evidência automatizada de performance/carga | `fora do escopo desta release` | `sim`                        | `<ausente ou implementado>`                       | `<k6, artillery, workflow>`                 | `<reportar fora do escopo por padrão; só vira gap com escopo local explícito>` | `<não por padrão>`                            |
+| CDC / integração de streaming               | `fora do escopo desta release` | `sim`                        | `<não materializado ou implementado>`             | `<docs do domínio, adapters, contratos>`    | `<não inferir requisito local sem documentação canônica do domínio>`           | `<não por padrão>`                            |
+
+## 8.2 Capacidades transversais
+
+> Antes de marcar ausência como lacuna, use a matriz `8.1`.
+> Itens classificados como `upstream/plataforma`, `compartilhado` sem decisão local ou `fora do escopo desta release` não entram como `gap real local`.
 
 | Capacidade         | Status             | Evidência                                           | Observação                                                                                         |
 | ------------------ | ------------------ | --------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
@@ -266,6 +303,8 @@ Riscos relevantes:
 
 ## 10.1 Documentação prevê, código não comprova
 
+Não registrar aqui NFR já classificado como `upstream/plataforma`, `compartilhado` sem decisão local ou `fora do escopo desta release`, a menos que a documentação local atribua explicitamente a responsabilidade ao serviço.
+
 - `<item 1>`
   - Documentação: `<path + resumo>`
   - Código: `<path + resumo>`
@@ -295,6 +334,7 @@ Não use esta seção para `/health`, `/metrics`, `/api-docs`, `/api-docs-json`,
 - `<coverage por tipo>`
 - `<entrega real no broker>`
 - `<mapeamento ORM vs migration>`
+- `<NFR sem classificação segura entre serviço vs plataforma>`
 - `<qualquer outro item onde não há prova suficiente>`
 
 # 11. Conclusão
@@ -309,7 +349,7 @@ Maturidade do microserviço:
 - `<scaffolding | parcial | moderada | avançada>`
 - `<justificativa curta>`
 
-Lacunas prioritárias:
+Lacunas reais locais prioritárias:
 
 - `<top 3 a 5 lacunas reais>`
 

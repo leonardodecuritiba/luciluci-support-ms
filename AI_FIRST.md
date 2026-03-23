@@ -55,6 +55,18 @@ Regras operacionais:
 - Se a tarefa tocar modelo físico, revisar também migrations, entities/schemas, seeds e testes de persistência.
 - Se a tarefa tocar comportamento funcional, revisar também PRD/TDD/TP e documentação do microserviço quando houver drift documental.
 - Sempre manter consistência entre implementação e documentação.
+- Antes de marcar qualquer NFR como gap local, classifique o item em uma destas categorias herdadas do template:
+  - `implementado localmente`
+  - `upstream/plataforma`
+  - `compartilhado`
+  - `fora do escopo desta release`
+  - `gap real local`
+- Presença em `luciluci-docs/` ou em documentação global do ecossistema não implica obrigação local automática em cada microserviço derivado.
+- Classificação padrão herdada do `standard-ms`:
+  - `rate limit` e `Schema Registry externo` = `upstream/plataforma`
+  - `event-schema-registry.ts` = helper `implementado localmente`
+  - `OpenTelemetry`, `DLQ`, `TTL`, `redrive` e `retry exponencial` = `compartilhado`, exigindo decisão explícita por serviço derivado antes de virar gap local
+  - evidência automatizada de `segurança`, `performance/carga` e `CDC/streaming` = `fora do escopo desta release` por padrão; só viram gap local quando o serviço assumir esse escopo explicitamente
 
 Navegação de baixo custo:
 

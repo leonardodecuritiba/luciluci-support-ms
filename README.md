@@ -181,6 +181,31 @@ npm run coverage:check
   - publica imagem Docker real no GHCR apenas em tags `v*`
   - não executa deploy de ambiente nesta release
 
+## Fronteira NFR do template
+
+O `standard-ms` não trata toda menção global a NFR como obrigação local automática do microserviço derivado.
+
+Antes de registrar qualquer gap em startup, report ou review, classifique o item em uma destas categorias:
+
+- `implementado localmente`
+- `upstream/plataforma`
+- `compartilhado`
+- `fora do escopo desta release`
+- `gap real local`
+
+Classificação padrão herdada do template:
+
+- `rate limit` e `Schema Registry externo`: `upstream/plataforma`
+- `event-schema-registry.ts`: `implementado localmente` como helper derivado do AsyncAPI versionado
+- `OpenTelemetry`, `DLQ`, `TTL`, `redrive` e `retry exponencial`: `compartilhado`, exigindo decisão explícita por serviço derivado
+- evidência automatizada de `segurança`, `performance/carga` e `CDC/streaming`: `fora do escopo desta release` por padrão
+
+Regra de report:
+
+- não marcar automaticamente como gap local um item classificado como `upstream/plataforma`
+- não marcar automaticamente como gap local um item `compartilhado` sem decisão explícita do serviço derivado
+- só usar `gap real local` quando a responsabilidade local estiver assumida e a evidência continuar ausente
+
 ## Observabilidade e resiliência nesta release
 
 - Implementado no serviço:
@@ -197,6 +222,7 @@ npm run coverage:check
   - DLQ / TTL / redrive / retry exponencial para filas/consumidores RabbitMQ
   - Schema Registry externo
   - gates automatizados de carga/performance e segurança no CI
+  - CDC / integrações de streaming genéricas no template
   - deploy automático de ambiente no workflow central
 - Responsabilidade upstream/infra:
   - `429 rate_limited` permanece no API Gateway/BFF, não no processo `standard-ms`

@@ -69,3 +69,14 @@ Consulte `infra-access.md` para URLs, portas, credenciais padrão e regra docume
 - o RabbitMQ local usa filas duráveis, mas o serviço ainda não materializa DLQ, TTL, redrive ou retry exponencial
 - `src/shared/infrastructure/events/event-schema-registry.ts` é um registry local em memória derivado do AsyncAPI versionado do repositório, não um Schema Registry externo
 - o CI central valida OpenAPI/AsyncAPI, compatibilidade backward e cobertura, mas não executa suites dedicadas de carga/performance ou segurança
+
+## Interpretação herdada de NFRs no startup
+
+No processo de microservice-startup, ausência local não deve virar gap automático quando o NFR pertencer a outro boundary.
+
+Regra operacional:
+
+- classifique primeiro o NFR como `implementado localmente`, `upstream/plataforma`, `compartilhado`, `fora do escopo desta release` ou `gap real local`
+- `rate limit` e `Schema Registry externo` não devem aparecer como gaps locais automáticos quando o serviço estiver atrás de gateway/plataforma
+- `OpenTelemetry`, `DLQ`, `TTL`, `redrive` e `retry exponencial` exigem decisão explícita do serviço derivado antes de virarem gap local
+- evidência automatizada de `segurança`, `performance/carga` e `CDC/streaming` fica fora do escopo padrão desta release até decisão contrária

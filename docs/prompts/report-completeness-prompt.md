@@ -15,6 +15,9 @@ Regras:
 - não inventar RF nem requisito
 - distinguir claramente os status das RFs: implementado, parcial, não encontrado e ambíguo
 - classificar `/health`, `/metrics`, `/api-docs`, `/api-docs-json`, `/events-docs` e `/docs/asyncapi/*` como `superfície operacional local herdada do template`, não como RF do domínio nem como classificação ambígua antiga do template
+- classificar cada NFR relevante como `implementado localmente`, `upstream/plataforma`, `compartilhado`, `fora do escopo desta release` ou `gap real local` antes de concluir lacuna
+- não marcar `rate limit`, `OpenTelemetry`, `Schema Registry externo`, `DLQ/TTL/redrive/retry`, evidência automatizada de `segurança` ou `performance/carga` como gap local automático
+- separar explicitamente `registry local de eventos` do serviço vs `Schema Registry externo`
 - citar paths reais de código, testes, contratos e docs
 - explicitar quando algo foi inferido e quando foi comprovado
 - gerar em modo `wave-1`, `wave-2`, `wave-3` ou `final`
