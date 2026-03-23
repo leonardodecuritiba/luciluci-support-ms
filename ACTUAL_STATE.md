@@ -81,7 +81,7 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 ## Status atual
 
 - status: `done`
-- foco atual: release inicial concluída e validada
+- foco atual: release inicial validada e política documental do `DRIFT-005` consolidada no template
 
 ## Decisões tomadas
 
@@ -91,7 +91,9 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 - Runtime local e produção em PostgreSQL
 - Testes de integração em SQLite em memória
 - Suíte de integração `tests/integration/events/outbox-rabbitmq.spec.ts` adicionada para provar `HTTP -> DB/outbox -> OutboxEventPublisherWorker -> RabbitMQ` com app real, PostgreSQL real e broker real
-- `X-Correlation-ID` passou a ser exigido explicitamente nas rotas HTTP públicas de `profiles`, com parâmetro OpenAPI `required: true`, middleware antes do parse do body e evidência automatizada para rejeição de ausência
+- `X-Correlation-ID` passou a ser exigido explicitamente nas rotas HTTP públicas de negócio de `profiles`, com parâmetro OpenAPI `required: true`, middleware antes do parse do body e evidência automatizada para rejeição de ausência
+- `/health`, `/metrics`, `/api-docs`, `/api-docs-json`, `/events-docs` e `/docs/asyncapi/*` passaram a ficar codificados no template como superfície operacional local herdada do `standard-ms`, não como RF de domínio
+- a exceção de `X-Correlation-ID` ficou formalizada como controlada e restrita à superfície operacional local + `OPTIONS`; nessas rotas o middleware pode gerar/retornar o valor apenas para observabilidade local
 - observabilidade materializada nesta release = logs estruturados + métricas Prometheus + `X-Correlation-ID`; tracing distribuído com OpenTelemetry continua ausente
 - resiliência materializada em mensageria = outbox, filas duráveis, idempotência e worker real; DLQ/TTL/redrive/retry exponencial continuam ausentes no serviço
 - `event-schema-registry.ts` é apenas um registry local em memória derivado do AsyncAPI versionado; não há Schema Registry externo integrado ao `products-ms`
@@ -180,6 +182,10 @@ Notas da validação:
   - Schema Registry reclassificado como helper local derivado do AsyncAPI versionado, não integração externa
   - CI contratual e gate de cobertura confirmados como implementados
   - testes/gates dedicados de carga/performance e segurança confirmados como ausentes nesta release
+- auditoria documental do `DRIFT-005` concluída:
+  - `AI_FIRST.md`, `docs/architecture/overview.md` e `docs/runbooks/local-development.md` passaram a formalizar a superfície operacional local herdada do template
+  - `docs/reports/REPORT-TEMPLATE.md` e `docs/prompts/report-completeness-prompt.md` deixaram de induzir a classificação ambígua antiga para endpoints operacionais herdados
+  - a política herdada passou a distinguir rotas de negócio vs superfície operacional local para `X-Correlation-ID`
 
 ## Riscos residuais
 

@@ -28,10 +28,12 @@ Regras operacionais:
 - Todo microserviço deve documentar acesso à documentação e à infraestrutura local relevante.
 - Ao derivar um novo microserviço a partir deste template, remova todas as menções à feature de exemplo `profile` de código, testes, docs, contratos, exemplos, eventos, rotas e artefatos auxiliares.
 - Nenhum serviço derivado pode ser considerado aderente enquanto ainda existirem referências residuais a `profile` ou `profiles` fora de documentação histórica explicitamente marcada como template legado.
-- Todo microserviço HTTP aplicável deve exigir `X-Correlation-ID` como header obrigatório de entrada.
-- Não é permitido fallback silencioso por autogeração de `X-Correlation-ID` em requisições HTTP externas.
-- Na ausência de `X-Correlation-ID`, a requisição deve ser rejeitada com erro de cliente, usando o envelope padrão de erro.
-- A OpenAPI local deve marcar `X-Correlation-ID` como `required: true` nos endpoints aplicáveis.
+- Todo microserviço HTTP aplicável deve exigir `X-Correlation-ID` como header obrigatório de entrada nas rotas HTTP públicas de negócio.
+- A superfície operacional local herdada do template compreende `/health`, `/metrics`, `/api-docs`, `/api-docs-json`, `/events-docs` e `/docs/asyncapi/*`; ela não é RF do domínio e deve ser documentada como superfície operacional local em runbooks e reports.
+- Não é permitido fallback silencioso por autogeração de `X-Correlation-ID` em requisições HTTP externas de negócio.
+- Na ausência de `X-Correlation-ID` em rota de negócio, a requisição deve ser rejeitada com erro de cliente, usando o envelope padrão de erro.
+- A OpenAPI local deve marcar `X-Correlation-ID` como `required: true` nos endpoints de negócio aplicáveis.
+- Endpoints operacionais locais e requisições `OPTIONS` são isentos dessa exigência de entrada; nesses casos o middleware pode aceitar ausência do header e gerar/retornar um valor para observabilidade local.
 - O valor de `X-Correlation-ID` deve ser propagado para response, logs, auditoria, eventos e chamadas downstream quando aplicável.
 - Components sem boundary HTTP direto (workers, consumers, jobs) podem gerar `correlation_id` apenas quando não houver contexto anterior para propagar.
 - Todo microserviço derivado deve manter um arquivo `api.http` na raiz do repositório para validação manual dos endpoints HTTP expostos pelo serviço.

@@ -25,7 +25,7 @@
 - RFs classificadas como **Parcial**: `<n>`
 - RFs classificadas como **Não encontrado**: `<n>`
 - RFs classificadas como **Ambíguo**: `<n>`
-- RFs classificadas como **Implementado sem vínculo documental claro**: `<n>`
+- Itens classificados como **Superfície operacional local herdada do template**: `<n>`
 
 Principais divergências:
 
@@ -86,6 +86,7 @@ Execução de testes/coverage:
 | RF02 | `<...>`                        | `<...>`                                      | `<...>`                | **Parcial**      | `<...>`                  | `<Nenhum teste dedicado encontrado>` | `<...>`                         | `<...>`                                         | `<...>`        |
 
 > Regra: não invente RF. Use apenas RFs realmente encontradas na documentação canônica do domínio analisado.
+> Endpoints operacionais herdados do template não entram na matriz de RF.
 
 # 4. Checklist consolidado por PRD
 
@@ -125,7 +126,7 @@ Componentes:
 Regras técnicas:
 
 - [x] Idempotência
-- [~] Correlation ID
+- [x] Correlation ID nas rotas de negócio; endpoints operacionais locais + `OPTIONS` isentos pelo template
 - [x] Error mapping padronizado
 - [ ] OpenTelemetry / DLQ / TTL / redrive / compatibilidade contratual em CI, quando previstos
 
@@ -156,32 +157,35 @@ Integrações:
 
 ## Endpoints operacionais / contratos
 
-| Método | Path             | Handler/controller | RF associada      | Status                                        | Observações |
-| ------ | ---------------- | ------------------ | ----------------- | --------------------------------------------- | ----------- |
-| `GET`  | `/health`        | `<src/app.ts>`     | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>`    |
-| `GET`  | `/metrics`       | `<src/app.ts>`     | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>`    |
-| `GET`  | `/api-docs`      | `<src/app.ts>`     | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>`    |
-| `GET`  | `/api-docs-json` | `<src/app.ts>`     | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>`    |
-| `GET`  | `/events-docs`   | `<src/app.ts>`     | `sem RF canônica` | **Implementado sem vínculo documental claro** | `<nota>`    |
+Classifique `/health`, `/metrics`, `/api-docs`, `/api-docs-json`, `/events-docs` e `/docs/asyncapi/*` como superfície operacional local herdada do template, não como RF do domínio.
+
+| Método | Path                                     | Handler/controller | RF associada          | Status                                               | Observações |
+| ------ | ---------------------------------------- | ------------------ | --------------------- | ---------------------------------------------------- | ----------- |
+| `GET`  | `/health`                                | `<src/app.ts>`     | `não é RF do domínio` | **Superfície operacional local herdada do template** | `<nota>`    |
+| `GET`  | `/metrics`                               | `<src/app.ts>`     | `não é RF do domínio` | **Superfície operacional local herdada do template** | `<nota>`    |
+| `GET`  | `/api-docs`                              | `<src/app.ts>`     | `não é RF do domínio` | **Superfície operacional local herdada do template** | `<nota>`    |
+| `GET`  | `/api-docs-json`                         | `<src/app.ts>`     | `não é RF do domínio` | **Superfície operacional local herdada do template** | `<nota>`    |
+| `GET`  | `/events-docs`                           | `<src/app.ts>`     | `não é RF do domínio` | **Superfície operacional local herdada do template** | `<nota>`    |
+| `GET`  | `/docs/asyncapi/<versão>/<arquivo>.json` | `<src/app.ts>`     | `não é RF do domínio` | **Superfície operacional local herdada do template** | `<nota>`    |
 
 # 8. Capacidades transversais
 
-| Capacidade         | Status             | Evidência                                   | Observação                                        |
-| ------------------ | ------------------ | ------------------------------------------- | ------------------------------------------------- |
-| migrations         | **Implementado**   | `<path da migration / helper de testes>`    | `<ex.: schema existe, mas sem FKs/CHECKs do TDD>` |
-| seeds              | **Implementado**   | `<scripts/seed.ts>`                         | `<escopo do seed>`                                |
-| CRUD               | **Implementado**   | `<rotas/controllers/services/repositories>` | `<lacunas de cobertura>`                          |
-| eventos publicados | **Implementado**   | `<outbox + worker + asyncapi>`              | `<sem teste broker E2E>`                          |
-| eventos consumidos | **Não encontrado** | `<consumedEventTypes = []>`                 | `<se aplicável>`                                  |
-| idempotência       | **Implementado**   | `<middleware + service + tabela>`           | `<nota>`                                          |
-| correlation id     | **Parcial**        | `<middleware + logs + eventos>`             | `<ex.: propaga, mas não exige entrada>`           |
-| error mapping      | **Implementado**   | `<exceptions + error handler + testes>`     | `<nota>`                                          |
-| openapi            | **Implementado**   | `<swagger.ts + /api-docs>`                  | `<sem securitySchemes/JWT, se aplicável>`         |
-| asyncapi           | **Implementado**   | `<docs/asyncapi/... + asyncapi:check>`      | `<sem gate backward em CI, se aplicável>`         |
-| unit tests         | **Implementado**   | `<tests/unit/...>`                          | `<escopo muito restrito, se aplicável>`           |
-| integration tests  | **Implementado**   | `<tests/integration/...>`                   | `<cobertura parcial, se aplicável>`               |
-| contract tests     | **Implementado**   | `<tests/contract/...>`                      | `<sem prova de wiring real, se aplicável>`        |
-| ci/cd              | **Parcial**        | `<.github/workflows/...>`                   | `<lacunas de gate de cobertura/contrato/deploy>`  |
+| Capacidade         | Status             | Evidência                                   | Observação                                                                                         |
+| ------------------ | ------------------ | ------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| migrations         | **Implementado**   | `<path da migration / helper de testes>`    | `<ex.: schema existe, mas sem FKs/CHECKs do TDD>`                                                  |
+| seeds              | **Implementado**   | `<scripts/seed.ts>`                         | `<escopo do seed>`                                                                                 |
+| CRUD               | **Implementado**   | `<rotas/controllers/services/repositories>` | `<lacunas de cobertura>`                                                                           |
+| eventos publicados | **Implementado**   | `<outbox + worker + asyncapi>`              | `<sem teste broker E2E>`                                                                           |
+| eventos consumidos | **Não encontrado** | `<consumedEventTypes = []>`                 | `<se aplicável>`                                                                                   |
+| idempotência       | **Implementado**   | `<middleware + service + tabela>`           | `<nota>`                                                                                           |
+| correlation id     | **Implementado**   | `<middleware + logs + eventos>`             | `<ex.: obrigatório nas rotas de negócio; operacionais locais + OPTIONS são isentos pelo template>` |
+| error mapping      | **Implementado**   | `<exceptions + error handler + testes>`     | `<nota>`                                                                                           |
+| openapi            | **Implementado**   | `<swagger.ts + /api-docs>`                  | `<sem securitySchemes/JWT, se aplicável>`                                                          |
+| asyncapi           | **Implementado**   | `<docs/asyncapi/... + asyncapi:check>`      | `<sem gate backward em CI, se aplicável>`                                                          |
+| unit tests         | **Implementado**   | `<tests/unit/...>`                          | `<escopo muito restrito, se aplicável>`                                                            |
+| integration tests  | **Implementado**   | `<tests/integration/...>`                   | `<cobertura parcial, se aplicável>`                                                                |
+| contract tests     | **Implementado**   | `<tests/contract/...>`                      | `<sem prova de wiring real, se aplicável>`                                                         |
+| ci/cd              | **Parcial**        | `<.github/workflows/...>`                   | `<lacunas de gate de cobertura/contrato/deploy>`                                                   |
 
 # 9. Cobertura de testes
 
@@ -248,6 +252,8 @@ Riscos relevantes:
   - Código: `<...>`
 
 ## 10.2 Código existe, documentação não comprova
+
+Não use esta seção para `/health`, `/metrics`, `/api-docs`, `/api-docs-json`, `/events-docs` ou `/docs/asyncapi/*` quando a cobertura vier do `standard-ms` como superfície operacional local herdada do template.
 
 - `<endpoint operacional, query param, header, comportamento>`
   - Código: `<path>`

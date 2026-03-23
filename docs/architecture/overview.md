@@ -9,7 +9,25 @@ O `standard-ms` segue o modelo validado no ecossistema LuciLuci:
 - Outbox para publicação confiável
 - Contrato público de autenticação documentado como `Bearer JWT` via Identity/API Gateway; a validação do token é upstream e o bootstrap local usa `X-Auth-*` apenas em `development/test`
 - Clean Architecture com separação por feature
-- `X-Correlation-ID` obrigatório nas operações HTTP públicas de `profiles`; o middleware local rejeita ausência com `400 bad_request` e o valor é propagado para logs, auditoria, idempotência e outbox
+- `X-Correlation-ID` obrigatório nas operações HTTP públicas de negócio de `profiles`; o middleware local rejeita ausência com `400 bad_request`, propaga o valor para logs, auditoria, idempotência e outbox e isenta apenas a superfície operacional local + `OPTIONS`
+
+## Superfície operacional local herdada do template
+
+O `standard-ms` expõe uma superfície operacional local herdada pelo processo de microservice-startup:
+
+- `/health`
+- `/metrics`
+- `/api-docs`
+- `/api-docs-json`
+- `/events-docs`
+- `/docs/asyncapi/*`
+
+Essa superfície:
+
+- não é RF do domínio
+- deve ser inventariada em runbooks e reports como superfície operacional local herdada do template
+- é isenta da exigência de entrada de `X-Correlation-ID`
+- pode receber um `X-Correlation-ID` gerado/ecoado pelo middleware apenas para observabilidade local quando o header não vier da origem
 
 ## Capacidade operacional materializada
 
@@ -29,7 +47,7 @@ O `standard-ms` segue o modelo validado no ecossistema LuciLuci:
 
 Fluxo principal:
 
-1. Requisição HTTP entra com `X-Correlation-ID`
+1. Requisição HTTP de negócio entra com `X-Correlation-ID`
 2. Controller valida DTO e orquestra o caso de uso
 3. Escritas persistem entidade, audit log e outbox na mesma transação
 4. Worker publica eventos pendentes do outbox

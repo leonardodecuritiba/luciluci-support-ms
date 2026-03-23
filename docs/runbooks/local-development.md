@@ -11,13 +11,21 @@ npm run seed
 npm run dev
 ```
 
-## Endpoints úteis
+## Superfície operacional local herdada do template
 
 - `GET /health`
 - `GET /metrics`
 - `GET /api-docs`
 - `GET /api-docs-json`
 - `GET /events-docs`
+- `GET /docs/asyncapi/<versão>/<arquivo>.json`
+
+Esses endpoints são herdados do `standard-ms` como superfície operacional local:
+
+- não são RFs do domínio
+- devem aparecer em runbooks e reports como superfície operacional local herdada do template
+- são isentos de `X-Correlation-ID` na entrada
+- permitem que o middleware gere/retorne um correlation id para observabilidade local quando o header não vier na requisição
 
 ## Acesso à documentação e à infraestrutura
 
