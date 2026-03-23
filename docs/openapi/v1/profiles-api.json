@@ -6,43 +6,32 @@
 				"in": "header",
 				"name": "X-Correlation-ID",
 				"required": true,
-				"schema": {
-					"format": "uuid",
-					"type": "string"
-				}
+				"schema": { "format": "uuid", "type": "string" }
 			},
 			"IdempotencyKeyHeader": {
 				"in": "header",
 				"name": "X-Idempotency-Key",
 				"required": true,
-				"schema": {
-					"type": "string"
-				}
+				"schema": { "type": "string" }
 			},
 			"PerformedByHeader": {
 				"in": "header",
 				"name": "X-Performed-By",
 				"required": false,
-				"schema": {
-					"type": "string"
-				}
+				"schema": { "type": "string" }
 			},
 			"PerformedByTypeHeader": {
 				"in": "header",
 				"name": "X-Performed-By-Type",
 				"required": false,
-				"schema": {
-					"type": "string"
-				}
+				"schema": { "type": "string" }
 			}
 		},
 		"responses": {
 			"BadRequestResponse": {
 				"content": {
 					"application/json": {
-						"schema": {
-							"$ref": "#/components/schemas/ErrorResponse"
-						}
+						"schema": { "$ref": "#/components/schemas/ErrorResponse" }
 					}
 				},
 				"description": "Request payload or headers are invalid for this operation"
@@ -50,9 +39,7 @@
 			"ConflictResponse": {
 				"content": {
 					"application/json": {
-						"schema": {
-							"$ref": "#/components/schemas/ErrorResponse"
-						}
+						"schema": { "$ref": "#/components/schemas/ErrorResponse" }
 					}
 				},
 				"description": "Request conflicts with persisted state or idempotency guarantees"
@@ -60,9 +47,7 @@
 			"ForbiddenResponse": {
 				"content": {
 					"application/json": {
-						"schema": {
-							"$ref": "#/components/schemas/ErrorResponse"
-						}
+						"schema": { "$ref": "#/components/schemas/ErrorResponse" }
 					}
 				},
 				"description": "Authenticated caller lacks the required role or scope"
@@ -70,9 +55,7 @@
 			"InternalErrorResponse": {
 				"content": {
 					"application/json": {
-						"schema": {
-							"$ref": "#/components/schemas/ErrorResponse"
-						}
+						"schema": { "$ref": "#/components/schemas/ErrorResponse" }
 					}
 				},
 				"description": "Unexpected internal server error"
@@ -80,9 +63,7 @@
 			"NotFoundResponse": {
 				"content": {
 					"application/json": {
-						"schema": {
-							"$ref": "#/components/schemas/ErrorResponse"
-						}
+						"schema": { "$ref": "#/components/schemas/ErrorResponse" }
 					}
 				},
 				"description": "Requested resource was not found"
@@ -90,9 +71,7 @@
 			"PayloadTooLargeResponse": {
 				"content": {
 					"application/json": {
-						"schema": {
-							"$ref": "#/components/schemas/ErrorResponse"
-						}
+						"schema": { "$ref": "#/components/schemas/ErrorResponse" }
 					}
 				},
 				"description": "Uploaded payload exceeded the supported size"
@@ -100,9 +79,7 @@
 			"UnauthorizedResponse": {
 				"content": {
 					"application/json": {
-						"schema": {
-							"$ref": "#/components/schemas/ErrorResponse"
-						}
+						"schema": { "$ref": "#/components/schemas/ErrorResponse" }
 					}
 				},
 				"description": "Authentication context is missing or invalid"
@@ -110,9 +87,7 @@
 			"UnsupportedMediaResponse": {
 				"content": {
 					"application/json": {
-						"schema": {
-							"$ref": "#/components/schemas/ErrorResponse"
-						}
+						"schema": { "$ref": "#/components/schemas/ErrorResponse" }
 					}
 				},
 				"description": "Uploaded media type is not supported"
@@ -120,9 +95,7 @@
 			"ValidationErrorResponse": {
 				"content": {
 					"application/json": {
-						"schema": {
-							"$ref": "#/components/schemas/ErrorResponse"
-						}
+						"schema": { "$ref": "#/components/schemas/ErrorResponse" }
 					}
 				},
 				"description": "Request payload failed semantic validation"
@@ -131,29 +104,13 @@
 		"schemas": {
 			"CreateProfileRequestDTO": {
 				"properties": {
-					"city": {
-						"type": "string"
-					},
-					"country": {
-						"type": "string"
-					},
-					"displayName": {
-						"type": "string"
-					},
-					"email": {
-						"format": "email",
-						"type": "string"
-					},
-					"entityType": {
-						"enum": ["individual", "organization"],
-						"type": "string"
-					},
-					"externalId": {
-						"type": "string"
-					},
-					"phone": {
-						"type": "string"
-					},
+					"city": { "type": "string" },
+					"country": { "type": "string" },
+					"displayName": { "type": "string" },
+					"email": { "format": "email", "type": "string" },
+					"entityType": { "enum": ["individual", "organization"], "type": "string" },
+					"externalId": { "type": "string" },
+					"phone": { "type": "string" },
 					"status": {
 						"enum": ["pending", "active", "inactive", "blocked"],
 						"type": "string"
@@ -164,15 +121,9 @@
 			},
 			"ErrorItem": {
 				"properties": {
-					"code": {
-						"type": "string"
-					},
-					"field": {
-						"type": "string"
-					},
-					"message": {
-						"type": "string"
-					}
+					"code": { "type": "string" },
+					"field": { "type": "string" },
+					"message": { "type": "string" }
 				},
 				"required": ["code"],
 				"type": "object"
@@ -180,17 +131,11 @@
 			"ErrorResponse": {
 				"properties": {
 					"errors": {
-						"items": {
-							"$ref": "#/components/schemas/ErrorItem"
-						},
+						"items": { "$ref": "#/components/schemas/ErrorItem" },
 						"type": "array"
 					},
-					"message": {
-						"type": "string"
-					},
-					"status_code": {
-						"type": "integer"
-					}
+					"message": { "type": "string" },
+					"status_code": { "type": "integer" }
 				},
 				"required": ["status_code", "message"],
 				"type": "object"
@@ -198,85 +143,39 @@
 			"ListProfilesResponse": {
 				"properties": {
 					"data": {
-						"items": {
-							"$ref": "#/components/schemas/ProfileResponse"
-						},
+						"items": { "$ref": "#/components/schemas/ProfileResponse" },
 						"type": "array"
 					},
-					"pagination": {
-						"$ref": "#/components/schemas/Pagination"
-					}
+					"pagination": { "$ref": "#/components/schemas/Pagination" }
 				},
 				"required": ["data", "pagination"],
 				"type": "object"
 			},
 			"Pagination": {
 				"properties": {
-					"limit": {
-						"type": "integer"
-					},
-					"page": {
-						"type": "integer"
-					},
-					"total": {
-						"type": "integer"
-					},
-					"totalPages": {
-						"type": "integer"
-					}
+					"limit": { "type": "integer" },
+					"page": { "type": "integer" },
+					"total": { "type": "integer" },
+					"totalPages": { "type": "integer" }
 				},
 				"required": ["page", "limit", "total", "totalPages"],
 				"type": "object"
 			},
 			"ProfileResponse": {
 				"properties": {
-					"city": {
-						"nullable": true,
-						"type": "string"
-					},
-					"classificationIdSnapshot": {
-						"nullable": true,
-						"type": "string"
-					},
-					"classificationNameSnapshot": {
-						"nullable": true,
-						"type": "string"
-					},
-					"country": {
-						"nullable": true,
-						"type": "string"
-					},
-					"createdAt": {
-						"format": "date-time",
-						"type": "string"
-					},
-					"displayName": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"entityType": {
-						"type": "string"
-					},
-					"externalId": {
-						"type": "string"
-					},
-					"id": {
-						"format": "uuid",
-						"type": "string"
-					},
-					"phone": {
-						"nullable": true,
-						"type": "string"
-					},
-					"status": {
-						"type": "string"
-					},
-					"updatedAt": {
-						"format": "date-time",
-						"type": "string"
-					}
+					"city": { "nullable": true, "type": "string" },
+					"classificationIdSnapshot": { "nullable": true, "type": "string" },
+					"classificationNameSnapshot": { "nullable": true, "type": "string" },
+					"country": { "nullable": true, "type": "string" },
+					"createdAt": { "format": "date-time", "type": "string" },
+					"displayName": { "type": "string" },
+					"email": { "type": "string" },
+					"entityType": { "type": "string" },
+					"externalId": { "type": "string" },
+					"id": { "format": "uuid", "type": "string" },
+					"phone": { "nullable": true, "type": "string" },
+					"status": { "type": "string" },
+					"updatedAt": { "format": "date-time", "type": "string" }
 				},
 				"required": [
 					"id",
@@ -292,26 +191,12 @@
 			},
 			"UpdateProfileRequestDTO": {
 				"properties": {
-					"city": {
-						"type": "string"
-					},
-					"country": {
-						"type": "string"
-					},
-					"displayName": {
-						"type": "string"
-					},
-					"email": {
-						"format": "email",
-						"type": "string"
-					},
-					"entityType": {
-						"enum": ["individual", "organization"],
-						"type": "string"
-					},
-					"phone": {
-						"type": "string"
-					},
+					"city": { "type": "string" },
+					"country": { "type": "string" },
+					"displayName": { "type": "string" },
+					"email": { "format": "email", "type": "string" },
+					"entityType": { "enum": ["individual", "organization"], "type": "string" },
+					"phone": { "type": "string" },
 					"status": {
 						"enum": ["pending", "active", "inactive", "blocked"],
 						"type": "string"
@@ -339,88 +224,31 @@
 		"/profiles": {
 			"get": {
 				"parameters": [
-					{
-						"$ref": "#/components/parameters/CorrelationIdHeader"
-					},
-					{
-						"in": "query",
-						"name": "page",
-						"schema": {
-							"type": "integer"
-						}
-					},
-					{
-						"in": "query",
-						"name": "limit",
-						"schema": {
-							"type": "integer"
-						}
-					},
-					{
-						"in": "query",
-						"name": "status",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "externalId",
-						"schema": {
-							"type": "string"
-						}
-					},
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{ "in": "query", "name": "page", "schema": { "type": "integer" } },
+					{ "in": "query", "name": "limit", "schema": { "type": "integer" } },
+					{ "in": "query", "name": "status", "schema": { "type": "string" } },
+					{ "in": "query", "name": "externalId", "schema": { "type": "string" } },
 					{
 						"in": "query",
 						"name": "classificationIdSnapshot",
-						"schema": {
-							"type": "string"
-						}
+						"schema": { "type": "string" }
 					},
-					{
-						"in": "query",
-						"name": "displayName",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "email",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "entityType",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "sortBy",
-						"schema": {
-							"type": "string"
-						}
-					},
+					{ "in": "query", "name": "displayName", "schema": { "type": "string" } },
+					{ "in": "query", "name": "email", "schema": { "type": "string" } },
+					{ "in": "query", "name": "entityType", "schema": { "type": "string" } },
+					{ "in": "query", "name": "sortBy", "schema": { "type": "string" } },
 					{
 						"in": "query",
 						"name": "order",
-						"schema": {
-							"enum": ["ASC", "DESC"],
-							"type": "string"
-						}
+						"schema": { "enum": ["ASC", "DESC"], "type": "string" }
 					}
 				],
 				"responses": {
 					"200": {
 						"content": {
 							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ListProfilesResponse"
-								}
+								"schema": { "$ref": "#/components/schemas/ListProfilesResponse" }
 							}
 						},
 						"description": "Paginated profile list"
@@ -431,25 +259,15 @@
 			},
 			"post": {
 				"parameters": [
-					{
-						"$ref": "#/components/parameters/CorrelationIdHeader"
-					},
-					{
-						"$ref": "#/components/parameters/IdempotencyKeyHeader"
-					},
-					{
-						"$ref": "#/components/parameters/PerformedByHeader"
-					},
-					{
-						"$ref": "#/components/parameters/PerformedByTypeHeader"
-					}
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{ "$ref": "#/components/parameters/IdempotencyKeyHeader" },
+					{ "$ref": "#/components/parameters/PerformedByHeader" },
+					{ "$ref": "#/components/parameters/PerformedByTypeHeader" }
 				],
 				"requestBody": {
 					"content": {
 						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateProfileRequestDTO"
-							}
+							"schema": { "$ref": "#/components/schemas/CreateProfileRequestDTO" }
 						}
 					},
 					"required": true
@@ -460,10 +278,7 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"profileId": {
-											"format": "uuid",
-											"type": "string"
-										}
+										"profileId": { "format": "uuid", "type": "string" }
 									},
 									"type": "object"
 								}
@@ -474,9 +289,7 @@
 					"400": {
 						"content": {
 							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
-								}
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
 							}
 						},
 						"description": "Invalid request"
@@ -484,9 +297,7 @@
 					"409": {
 						"content": {
 							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
-								}
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
 							}
 						},
 						"description": "Idempotency or externalId conflict"
@@ -499,34 +310,21 @@
 		"/profiles/{profileId}": {
 			"patch": {
 				"parameters": [
-					{
-						"$ref": "#/components/parameters/CorrelationIdHeader"
-					},
-					{
-						"$ref": "#/components/parameters/IdempotencyKeyHeader"
-					},
-					{
-						"$ref": "#/components/parameters/PerformedByHeader"
-					},
-					{
-						"$ref": "#/components/parameters/PerformedByTypeHeader"
-					},
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{ "$ref": "#/components/parameters/IdempotencyKeyHeader" },
+					{ "$ref": "#/components/parameters/PerformedByHeader" },
+					{ "$ref": "#/components/parameters/PerformedByTypeHeader" },
 					{
 						"in": "path",
 						"name": "profileId",
 						"required": true,
-						"schema": {
-							"format": "uuid",
-							"type": "string"
-						}
+						"schema": { "format": "uuid", "type": "string" }
 					}
 				],
 				"requestBody": {
 					"content": {
 						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UpdateProfileRequestDTO"
-							}
+							"schema": { "$ref": "#/components/schemas/UpdateProfileRequestDTO" }
 						}
 					},
 					"required": true
@@ -537,18 +335,10 @@
 							"application/json": {
 								"schema": {
 									"properties": {
-										"profileId": {
-											"format": "uuid",
-											"type": "string"
-										},
-										"updatedAt": {
-											"format": "date-time",
-											"type": "string"
-										},
+										"profileId": { "format": "uuid", "type": "string" },
+										"updatedAt": { "format": "date-time", "type": "string" },
 										"updatedFields": {
-											"items": {
-												"type": "string"
-											},
+											"items": { "type": "string" },
 											"type": "array"
 										}
 									},
@@ -561,9 +351,7 @@
 					"404": {
 						"content": {
 							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
-								}
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
 							}
 						},
 						"description": "Profile not found"
@@ -576,25 +364,19 @@
 		"/profiles/by-external-id/{externalId}": {
 			"get": {
 				"parameters": [
-					{
-						"$ref": "#/components/parameters/CorrelationIdHeader"
-					},
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
 					{
 						"in": "path",
 						"name": "externalId",
 						"required": true,
-						"schema": {
-							"type": "string"
-						}
+						"schema": { "type": "string" }
 					}
 				],
 				"responses": {
 					"200": {
 						"content": {
 							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ProfileResponse"
-								}
+								"schema": { "$ref": "#/components/schemas/ProfileResponse" }
 							}
 						},
 						"description": "Profile found"
@@ -602,9 +384,7 @@
 					"404": {
 						"content": {
 							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
-								}
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
 							}
 						},
 						"description": "Profile not found"

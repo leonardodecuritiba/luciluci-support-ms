@@ -189,7 +189,7 @@ Notas da validação:
   - a política herdada passou a distinguir rotas de negócio vs superfície operacional local para `X-Correlation-ID`
 - auditoria remota do `DRIFT-006` iniciada:
   - o run remoto `ci` `23461102938` em `main` / SHA `bd70b70165c74f88064ef826bfc83d907598dc05` falhou no job `quality`, step `Check OpenAPI artifact sync`
-  - a causa objetiva identificada foi drift do artefato versionado `docs/openapi/v1/profiles-api.json` em relação ao JSON realmente gerado por `npm run openapi:export`
+  - a causa objetiva identificada foi incompatibilidade entre o formatter do repositório e o output de `npm run openapi:export`, deixando `docs/openapi/v1/profiles-api.json` permanentemente fora de sync
   - a execução local de `test:coverage` no sandbox falhou por `EPERM`; com permissão ampliada a suíte passou integralmente, confirmando limitação do ambiente local e não falha funcional do template
 
 ## Riscos residuais
