@@ -2,6 +2,7 @@
 > Este arquivo é um **template de report de avaliação de completude** para qualquer microserviço derivado do ecossistema.
 > Ele deve ser usado como artefato humano de revisão rápida, normalmente gerado por IA **em ondas**, sob supervisão de outro desenvolvedor.
 > **Não é fonte de verdade.** A precedência continua sendo: `luciluci-docs/` -> código executável -> contratos/versionamentos locais -> report.
+> `workflow` versionado no repositório **não é prova suficiente** de CI/CD saudável; o report deve registrar evidência remota real do GitHub Actions quando houver, ou declarar explicitamente sua ausência.
 > Mantenha **todas as seções** deste template, mesmo quando uma seção estiver vazia ou inconclusiva.
 
 # REPORT - Avaliação de completude do microserviço
@@ -77,6 +78,27 @@ Execução de testes/coverage:
 - `<ex.: npm run build -> passou>`
 - `<ex.: npm run asyncapi:check -> passou>`
 - `<registre falhas de reprodutibilidade, EPERM, portas, containers ausentes, etc.>`
+
+Evidência remota de CI/CD:
+
+- `workflow_file`: `<ex.: .github/workflows/ci.yml>`
+- `workflow_name`: `<ex.: ci>`
+- `workflow_versioned_present`: `<sim | não>`
+- `remote_run_evidence`: `<comprovado | ausente>`
+- `remote_run_url`: `<url do run remoto | ausente>`
+- `remote_run_id`: `<run id | ausente>`
+- `remote_run_attempt`: `<attempt | ausente>`
+- `remote_run_trigger`: `<push main | pull_request #123 | workflow_dispatch | ausente>`
+- `remote_head_sha`: `<sha analisado | ausente>`
+- `remote_status`: `<queued | in_progress | completed | ausente>`
+- `remote_conclusion`: `<success | failure | cancelled | timed_out | action_required | neutral | ausente>`
+- `failed_job`: `<job name/id | n/a>`
+- `failed_step`: `<step name | n/a>`
+- `error_summary`: `<trecho curto do log ou resumo objetivo | n/a>`
+
+> Regra: não classificar CI/CD como comprovado apenas pela presença de `.github/workflows/*.yml`.
+> Quando não houver run remoto comprovado, declarar isso explicitamente no report.
+> Quando houver run remoto falho, registrar URL, ID, SHA, status, conclusion, job/step falhos e resumo objetivo do erro.
 
 # 3. Matriz principal RF x implementação
 
@@ -170,22 +192,22 @@ Classifique `/health`, `/metrics`, `/api-docs`, `/api-docs-json`, `/events-docs`
 
 # 8. Capacidades transversais
 
-| Capacidade         | Status             | Evidência                                   | Observação                                                                                         |
-| ------------------ | ------------------ | ------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| migrations         | **Implementado**   | `<path da migration / helper de testes>`    | `<ex.: schema existe, mas sem FKs/CHECKs do TDD>`                                                  |
-| seeds              | **Implementado**   | `<scripts/seed.ts>`                         | `<escopo do seed>`                                                                                 |
-| CRUD               | **Implementado**   | `<rotas/controllers/services/repositories>` | `<lacunas de cobertura>`                                                                           |
-| eventos publicados | **Implementado**   | `<outbox + worker + asyncapi>`              | `<sem teste broker E2E>`                                                                           |
-| eventos consumidos | **Não encontrado** | `<consumedEventTypes = []>`                 | `<se aplicável>`                                                                                   |
-| idempotência       | **Implementado**   | `<middleware + service + tabela>`           | `<nota>`                                                                                           |
-| correlation id     | **Implementado**   | `<middleware + logs + eventos>`             | `<ex.: obrigatório nas rotas de negócio; operacionais locais + OPTIONS são isentos pelo template>` |
-| error mapping      | **Implementado**   | `<exceptions + error handler + testes>`     | `<nota>`                                                                                           |
-| openapi            | **Implementado**   | `<swagger.ts + /api-docs>`                  | `<sem securitySchemes/JWT, se aplicável>`                                                          |
-| asyncapi           | **Implementado**   | `<docs/asyncapi/... + asyncapi:check>`      | `<sem gate backward em CI, se aplicável>`                                                          |
-| unit tests         | **Implementado**   | `<tests/unit/...>`                          | `<escopo muito restrito, se aplicável>`                                                            |
-| integration tests  | **Implementado**   | `<tests/integration/...>`                   | `<cobertura parcial, se aplicável>`                                                                |
-| contract tests     | **Implementado**   | `<tests/contract/...>`                      | `<sem prova de wiring real, se aplicável>`                                                         |
-| ci/cd              | **Parcial**        | `<.github/workflows/...>`                   | `<lacunas de gate de cobertura/contrato/deploy>`                                                   |
+| Capacidade         | Status             | Evidência                                           | Observação                                                                                         |
+| ------------------ | ------------------ | --------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| migrations         | **Implementado**   | `<path da migration / helper de testes>`            | `<ex.: schema existe, mas sem FKs/CHECKs do TDD>`                                                  |
+| seeds              | **Implementado**   | `<scripts/seed.ts>`                                 | `<escopo do seed>`                                                                                 |
+| CRUD               | **Implementado**   | `<rotas/controllers/services/repositories>`         | `<lacunas de cobertura>`                                                                           |
+| eventos publicados | **Implementado**   | `<outbox + worker + asyncapi>`                      | `<sem teste broker E2E>`                                                                           |
+| eventos consumidos | **Não encontrado** | `<consumedEventTypes = []>`                         | `<se aplicável>`                                                                                   |
+| idempotência       | **Implementado**   | `<middleware + service + tabela>`                   | `<nota>`                                                                                           |
+| correlation id     | **Implementado**   | `<middleware + logs + eventos>`                     | `<ex.: obrigatório nas rotas de negócio; operacionais locais + OPTIONS são isentos pelo template>` |
+| error mapping      | **Implementado**   | `<exceptions + error handler + testes>`             | `<nota>`                                                                                           |
+| openapi            | **Implementado**   | `<swagger.ts + /api-docs>`                          | `<sem securitySchemes/JWT, se aplicável>`                                                          |
+| asyncapi           | **Implementado**   | `<docs/asyncapi/... + asyncapi:check>`              | `<sem gate backward em CI, se aplicável>`                                                          |
+| unit tests         | **Implementado**   | `<tests/unit/...>`                                  | `<escopo muito restrito, se aplicável>`                                                            |
+| integration tests  | **Implementado**   | `<tests/integration/...>`                           | `<cobertura parcial, se aplicável>`                                                                |
+| contract tests     | **Implementado**   | `<tests/contract/...>`                              | `<sem prova de wiring real, se aplicável>`                                                         |
+| ci/cd              | **Parcial**        | `<workflow versionado + run URL/ID/SHA/conclusion>` | `<workflow versionado sem run remoto comprovado não basta; registrar evidência ou ausência>`       |
 
 # 9. Cobertura de testes
 

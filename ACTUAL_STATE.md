@@ -175,6 +175,7 @@ Notas da validação:
 - o checker `scripts/check-openapi-backward-compatibility.js` passou a bloquear remoção de paths/operações, endurecimento de request params/body e quebra de response schema na OpenAPI `v1`.
 - o gate `npm run coverage:check` passou a bloquear o pipeline quando a cobertura global ficar abaixo de `85%` em `lines/statements/functions` ou abaixo de `65%` em `branches`.
 - o workflow `.github/workflows/cd.yml` deixou de ser apenas um template de build e passou a publicar imagens reais no GHCR em tags `v*`; continua sem deploy de ambiente.
+- reports derivados do template passaram a exigir evidência remota real do GitHub Actions para considerar CI/CD comprovado; a mera presença de `.github/workflows/*.yml` não basta
 - auditoria documental de observabilidade/resiliência concluída:
   - OpenTelemetry reclassificado como não implementado no serviço
   - rate limit mantido como responsabilidade upstream do gateway/BFF
@@ -186,6 +187,10 @@ Notas da validação:
   - `AI_FIRST.md`, `docs/architecture/overview.md` e `docs/runbooks/local-development.md` passaram a formalizar a superfície operacional local herdada do template
   - `docs/reports/REPORT-TEMPLATE.md` e `docs/prompts/report-completeness-prompt.md` deixaram de induzir a classificação ambígua antiga para endpoints operacionais herdados
   - a política herdada passou a distinguir rotas de negócio vs superfície operacional local para `X-Correlation-ID`
+- auditoria remota do `DRIFT-006` iniciada:
+  - o run remoto `ci` `23461102938` em `main` / SHA `bd70b70165c74f88064ef826bfc83d907598dc05` falhou no job `quality`, step `Check OpenAPI artifact sync`
+  - a causa objetiva identificada foi drift do artefato versionado `docs/openapi/v1/profiles-api.json` em relação ao JSON realmente gerado por `npm run openapi:export`
+  - a execução local de `test:coverage` no sandbox falhou por `EPERM`; com permissão ampliada a suíte passou integralmente, confirmando limitação do ambiente local e não falha funcional do template
 
 ## Riscos residuais
 
