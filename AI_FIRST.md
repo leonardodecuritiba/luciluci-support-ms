@@ -2,11 +2,14 @@
 
 Leia nesta ordem:
 
-1. `ACTUAL_STATE.md`
-2. `docs/architecture/overview.md`
-3. `src/README.md`
-4. `tests/README.md`
-5. `./luciluci-docs/<servico>/`
+1. `AGENTS.md`
+2. `ACTUAL_STATE.md`
+3. `docs/architecture/overview.md`
+4. `src/README.md`
+5. `tests/README.md`
+6. `./luciluci-docs/<servico>/`
+7. `.codex/skills/drift-fix.md` quando a tarefa for correção de drift
+8. `.codex/drifts/<arquivo informado>` quando houver um drift específico em execução
 
 Precedência documental:
 
@@ -16,7 +19,7 @@ Precedência documental:
 
 Regras operacionais:
 
-- Trabalhe RF por RF.
+- Trabalhe RF por RF ou drift por drift, nunca misturando múltiplos drifts na mesma rodada.
 - Antes de usar `./luciluci-docs/`, execute `git submodule update --remote --recursive`.
 - Atualize `ACTUAL_STATE.md` ao abrir, executar e concluir blocos relevantes.
 - Pare imediatamente se houver DRIFT entre docs e implementação.
@@ -26,7 +29,6 @@ Regras operacionais:
 - Ao derivar um novo microserviço a partir deste template, remova todas as menções à feature de exemplo `profile` de código, testes, docs, contratos, exemplos, eventos, rotas e artefatos auxiliares.
 - Nenhum serviço derivado pode ser considerado aderente enquanto ainda existirem referências residuais a `profile` ou `profiles` fora de documentação histórica explicitamente marcada como template legado.
 - Todo microserviço HTTP aplicável deve exigir `X-Correlation-ID` como header obrigatório de entrada.
-- Ao derivar o `standard-ms` para um domínio real, remova todas as menções residuais a `profile` em código, testes, docs, contratos e artefatos gerados. Diretórios vazios e referências herdadas do template também devem ser eliminados.
 - Não é permitido fallback silencioso por autogeração de `X-Correlation-ID` em requisições HTTP externas.
 - Na ausência de `X-Correlation-ID`, a requisição deve ser rejeitada com erro de cliente, usando o envelope padrão de erro.
 - A OpenAPI local deve marcar `X-Correlation-ID` como `required: true` nos endpoints aplicáveis.
@@ -41,6 +43,16 @@ Regras operacionais:
 - Sempre que fizer sentido, usar `faker` para gerar massa realista, porém com determinismo controlado por seed fixa/reprodutível.
 - A documentação do serviço deve declarar explicitamente a estratégia de seed, os volumes mínimos esperados e exemplos concretos por domínio.
 - Exemplo de referência: no `products-ms`, o seed deve gerar aproximadamente `200 produtos` e `30 categorias`, com dados variados e relacionamentos válidos.
+- Estratégia de drift assistida por IA:
+  - a instrução operacional global fica em `AGENTS.md`
+  - a skill de correção de drift fica em `.codex/skills/drift-fix.md`
+  - cada drift deve ser materializado em um arquivo próprio em `.codex/drifts/`
+  - a execução deve ocorrer um drift por vez, com a menor mudança segura possível
+- Se a tarefa tocar API HTTP, revisar também OpenAPI, `api.http`, testes relacionados e documentação operacional/endpoints.
+- Se a tarefa tocar eventos/mensageria, revisar também AsyncAPI, publisher/outbox/consumer e testes aplicáveis.
+- Se a tarefa tocar modelo físico, revisar também migrations, entities/schemas, seeds e testes de persistência.
+- Se a tarefa tocar comportamento funcional, revisar também PRD/TDD/TP e documentação do microserviço quando houver drift documental.
+- Sempre manter consistência entre implementação e documentação.
 
 Navegação de baixo custo:
 
@@ -48,3 +60,4 @@ Navegação de baixo custo:
 - `src/shared/` concentra kernel, infra e contratos reutilizáveis.
 - `tests/` reflete o desenho real do template.
 - `docs/runbooks/infra-access.md` concentra URLs, portas e credenciais operacionais.
+- `.codex/` concentra a estratégia operacional de prompts/skills de drift para uso no editor.
