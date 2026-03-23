@@ -323,14 +323,14 @@
 		"securitySchemes": {
 			"BearerAuth": {
 				"bearerFormat": "JWT",
-				"description": "Public authentication uses Bearer JWT issued by Identity MS. Token validation and enforcement are handled upstream by the API Gateway/BFF; this local bootstrap only accepts X-Auth-* mock headers in development/test.",
+				"description": "Public authentication uses Bearer JWT issued by Identity MS. Token validation and enforcement are handled upstream by the API Gateway/BFF.",
 				"scheme": "bearer",
 				"type": "http"
 			}
 		}
 	},
 	"info": {
-		"description": "OpenAPI contract for the standard-ms template. Public authentication uses Bearer JWT via Identity MS, with validation enforced upstream by the API Gateway/BFF. The local Express bootstrap accepts X-Auth-* headers only for development and test flows.",
+		"description": "OpenAPI contract for the standard-ms template. Public authentication uses Bearer JWT via Identity MS, with validation enforced upstream by the API Gateway/BFF.",
 		"title": "standard-ms",
 		"version": "1.0.0"
 	},

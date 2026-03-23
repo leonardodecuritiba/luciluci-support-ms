@@ -7,7 +7,7 @@ O `standard-ms` segue o modelo validado no ecossistema LuciLuci:
 - PostgreSQL como banco principal
 - RabbitMQ para integração assíncrona
 - Outbox para publicação confiável
-- Contrato público de autenticação documentado como `Bearer JWT` via Identity/API Gateway; a validação do token é upstream e o bootstrap local usa `X-Auth-*` apenas em `development/test`
+- Contrato público de autenticação documentado como `Bearer JWT` via Identity/API Gateway; a validação do token pertence ao boundary público/upstream do serviço
 - Clean Architecture com separação por feature
 - `X-Correlation-ID` obrigatório nas operações HTTP públicas de negócio de `profiles`; o middleware local rejeita ausência com `400 bad_request`, propaga o valor para logs, auditoria, idempotência e outbox e isenta apenas a superfície operacional local + `OPTIONS`
 

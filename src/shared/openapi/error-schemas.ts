@@ -6,7 +6,7 @@
  *       type: http
  *       scheme: bearer
  *       bearerFormat: JWT
- *       description: Public authentication uses Bearer JWT issued by Identity MS. Token validation and enforcement are handled upstream by the API Gateway/BFF; this local bootstrap only accepts X-Auth-* mock headers in development/test.
+ *       description: Public authentication uses Bearer JWT issued by Identity MS. Token validation and enforcement are handled upstream by the API Gateway/BFF.
  *   schemas:
  *     ErrorItem:
  *       type: object

@@ -29,7 +29,7 @@
 
 Principais divergências:
 
-- `<ex.: AuthN via JWT descrita em products/prd.md e tdd.md, mas o código atual ainda usa X-Auth-* mockado em development/test.>`
+- `<ex.: AuthN pública via Bearer JWT está descrita na documentação canônica, mas o contrato local/OpenAPI ainda diverge do boundary público esperado.>`
 - `<ex.: RFs de CSV retornam CsvJobOutcome, enquanto a documentação descreve results[] / errors[] por linha.>`
 
 Principais evidências de maturidade:

@@ -39,14 +39,14 @@ describe('Contract: OpenAPI', () => {
 
 		expect(spec.info.description).toContain('Bearer JWT');
 		expect(spec.info.description).toContain('API Gateway/BFF');
-		expect(spec.info.description).toContain('X-Auth-*');
+		expect(spec.info.description).not.toContain('X-Auth-*');
 		expect(bearerAuth).toMatchObject({
 			type: 'http',
 			scheme: 'bearer',
 			bearerFormat: 'JWT',
 		});
 		expect(bearerAuth?.description).toContain('upstream');
-		expect(bearerAuth?.description).toContain('X-Auth-*');
+		expect(bearerAuth?.description).not.toContain('X-Auth-*');
 	});
 
 	it('returns an error shape documented by the contract for invalid create requests', async () => {
