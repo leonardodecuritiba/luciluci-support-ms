@@ -197,7 +197,7 @@ Classificação padrão herdada do template:
 
 - `rate limit` e `Schema Registry externo`: `upstream/plataforma`
 - `event-schema-registry.ts`: `implementado localmente` como helper derivado do AsyncAPI versionado
-- `OpenTelemetry`, `DLQ`, `TTL`, `redrive` e `retry exponencial`: `compartilhado`, exigindo decisão explícita por serviço derivado
+- `OpenTelemetry`, `DLQ`, `TTL`, `redrive`, `retry exponencial` e `poison message handling`: `compartilhado`, exigindo decisão explícita por serviço derivado
 - evidência automatizada de `segurança`, `performance/carga` e `CDC/streaming`: `fora do escopo desta release` por padrão
 
 Regra de report:
@@ -207,6 +207,23 @@ Regra de report:
 - só usar `gap real local` quando a responsabilidade local estiver assumida e a evidência continuar ausente
 
 ## Observabilidade e resiliência nesta release
+
+- Baseline herdável padrão de RabbitMQ no template:
+  - exchange durável
+  - fila durável
+  - outbox transacional com publicação real
+  - worker real de publicação
+  - consumer de exemplo com idempotência de consumo
+- Fora da baseline herdável padrão de RabbitMQ:
+  - `DLQ`
+  - `TTL`
+  - `redrive`
+  - `retry exponencial`
+  - `poison message handling`
+- Regra herdada:
+  - esses itens avançados continuam `compartilhado` no `standard-ms`
+  - não viram gap local automático em serviços derivados
+  - só entram como implementação local quando o serviço assumir explicitamente essa política operacional
 
 - Implementado no serviço:
   - logs estruturados com `X-Correlation-ID`
@@ -219,7 +236,7 @@ Regra de report:
   - `event-schema-registry.ts` é um registry local em memória derivado do AsyncAPI versionado do repositório, não um Schema Registry externo
 - Não implementado no `standard-ms` nesta release:
   - tracing distribuído com OpenTelemetry
-  - DLQ / TTL / redrive / retry exponencial para filas/consumidores RabbitMQ
+  - DLQ / TTL / redrive / retry exponencial / poison message handling para filas/consumidores RabbitMQ
   - Schema Registry externo
   - gates automatizados de carga/performance e segurança no CI
   - CDC / integrações de streaming genéricas no template

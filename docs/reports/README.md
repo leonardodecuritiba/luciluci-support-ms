@@ -60,3 +60,4 @@ Regras:
 - itens `upstream/plataforma` não devem ser promovidos a gap local
 - itens `compartilhado` só viram gap local após decisão explícita do serviço derivado
 - itens `fora do escopo desta release` devem ser reportados como tal, sem inflar a lista de lacunas reais locais
+- `DLQ`, `TTL`, `redrive`, `retry exponencial` e `poison message handling` em RabbitMQ não entram como gap local automático no `standard-ms`; a baseline padrão herdável fica restrita a exchange/fila duráveis, outbox, consumer de exemplo e idempotência de consumo

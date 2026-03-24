@@ -96,6 +96,7 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 - a exceção de `X-Correlation-ID` ficou formalizada como controlada e restrita à superfície operacional local + `OPTIONS`; nessas rotas o middleware pode gerar/retornar o valor apenas para observabilidade local
 - observabilidade materializada nesta release = logs estruturados + métricas Prometheus + `X-Correlation-ID`; tracing distribuído com OpenTelemetry continua ausente
 - resiliência materializada em mensageria = outbox, filas duráveis, idempotência e worker real; DLQ/TTL/redrive/retry exponencial continuam ausentes no serviço
+- baseline herdável padrão de RabbitMQ no template = exchange/fila duráveis, outbox publisher real, consumer de exemplo e idempotência de consumo; `DLQ`, `TTL`, `redrive`, `retry exponencial` e `poison message handling` não entram por padrão e permanecem como item `compartilhado`, dependente de decisão explícita do serviço derivado
 - `event-schema-registry.ts` é apenas um registry local em memória derivado do AsyncAPI versionado; não há Schema Registry externo integrado ao `products-ms`
 - o CI central já aplica validação formal/backward de OpenAPI e AsyncAPI e gate global de cobertura; não há gates dedicados de carga/performance ou segurança nesta release
 
@@ -196,6 +197,10 @@ Notas da validação:
   - `AI_FIRST.md`, `README.md`, `docs/architecture/overview.md` e `docs/runbooks/local-development.md` passaram a codificar a fronteira NFR serviço vs plataforma no template
   - `docs/reports/REPORT-TEMPLATE.md`, `docs/reports/README.md` e `docs/prompts/report-completeness-prompt.md` passaram a exigir classificação de NFR antes de registrar gap real local
   - o `bootstrap-prompt` herdado passou a instruir o microservice-startup a classificar NFRs em `implementado localmente`, `upstream/plataforma`, `compartilhado` ou `fora do escopo desta release` antes de concluir lacunas
+- auditoria documental do `DRIFT-010` concluída:
+  - `DLQ`, `TTL`, `redrive`, `retry exponencial` e `poison message handling` foram mantidos fora da baseline herdável padrão do `standard-ms`
+  - a baseline herdável de RabbitMQ ficou explicitada como `exchange/fila duráveis + outbox + consumer de exemplo + idempotência de consumo`
+  - o `REPORT-TEMPLATE.md` passou a instruir que resiliência avançada de RabbitMQ só vira `gap real local` após decisão explícita do serviço derivado
 
 ## Riscos residuais
 

@@ -66,7 +66,8 @@ Consulte `infra-access.md` para URLs, portas, credenciais padrão e regra docume
 
 - não há tracing distribuído com OpenTelemetry instrumentado no processo
 - não há rate limiting local; `429` permanece responsabilidade do API Gateway/BFF
-- o RabbitMQ local usa filas duráveis, mas o serviço ainda não materializa DLQ, TTL, redrive ou retry exponencial
+- o RabbitMQ local usa exchange/fila duráveis, outbox e consumer de exemplo, mas o serviço ainda não materializa `DLQ`, `TTL`, `redrive`, `retry exponencial` ou `poison message handling`
+- em falha de consumo, o runtime atual faz `nack(message, false, false)` e depende de topologia externa caso exista DLX; o template não provisiona política herdável de redrive/DLQ por padrão
 - `src/shared/infrastructure/events/event-schema-registry.ts` é um registry local em memória derivado do AsyncAPI versionado do repositório, não um Schema Registry externo
 - o CI central valida OpenAPI/AsyncAPI, compatibilidade backward e cobertura, mas não executa suites dedicadas de carga/performance ou segurança
 
@@ -78,5 +79,5 @@ Regra operacional:
 
 - classifique primeiro o NFR como `implementado localmente`, `upstream/plataforma`, `compartilhado`, `fora do escopo desta release` ou `gap real local`
 - `rate limit` e `Schema Registry externo` não devem aparecer como gaps locais automáticos quando o serviço estiver atrás de gateway/plataforma
-- `OpenTelemetry`, `DLQ`, `TTL`, `redrive` e `retry exponencial` exigem decisão explícita do serviço derivado antes de virarem gap local
+- `OpenTelemetry`, `DLQ`, `TTL`, `redrive`, `retry exponencial` e `poison message handling` exigem decisão explícita do serviço derivado antes de virarem gap local
 - evidência automatizada de `segurança`, `performance/carga` e `CDC/streaming` fica fora do escopo padrão desta release até decisão contrária
