@@ -73,6 +73,7 @@
 	"devDependencies": {
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
+		"@faker-js/faker": "^10.4.0",
 		"@types/amqplib": "^0.10.7",
 		"@types/cors": "^2.8.19",
 		"@types/express": "^5.0.3",

@@ -1,0 +1,84 @@
+# standard-ms bootstrap API requests
+#
+# Este arquivo existe para materializar a estratégia herdável de validação manual.
+# Ao derivar um novo microserviço, mantenha o artefato e substitua a feature
+# de exemplo `profile` pelo domínio real no mesmo ciclo de bootstrap.
+
+@baseUrl = http://localhost:3000
+@correlationId = 8a7dd7bb-7b3f-4b3b-8b8e-0b7e2819d001
+@idempotencyKeyCreate = 0e8f363f-6f6e-4e65-a75a-cdf2c0cf9001
+@idempotencyKeyUpdate = 4c72180b-6e2f-4058-8fb1-16865d74d002
+@performedBy = template-operator
+@performedByType = system
+@seedProfileId = 0d88f29d-cb90-41d7-98ac-fd084cd15911
+@seedProfileExternalId = seed-profile-001
+
+### Health
+GET {{baseUrl}}/health
+Accept: application/json
+
+### Metrics
+GET {{baseUrl}}/metrics
+Accept: text/plain
+
+### OpenAPI JSON
+GET {{baseUrl}}/api-docs-json
+Accept: application/json
+
+### OpenAPI UI
+GET {{baseUrl}}/api-docs
+Accept: text/html
+
+### AsyncAPI UI
+GET {{baseUrl}}/events-docs
+Accept: text/html
+
+### AsyncAPI JSON
+GET {{baseUrl}}/docs/asyncapi/v1/standard-ms-events.json
+Accept: application/json
+
+### List profiles
+GET {{baseUrl}}/profiles?page=1&limit=10&status=active&sortBy=createdAt&order=DESC
+X-Correlation-ID: {{correlationId}}
+Accept: application/json
+
+### Find seeded profile by externalId
+GET {{baseUrl}}/profiles/by-external-id/{{seedProfileExternalId}}
+X-Correlation-ID: {{correlationId}}
+Accept: application/json
+
+### Create profile
+POST {{baseUrl}}/profiles
+X-Correlation-ID: {{correlationId}}
+X-Idempotency-Key: {{idempotencyKeyCreate}}
+X-Performed-By: {{performedBy}}
+X-Performed-By-Type: {{performedByType}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "externalId": "api-http-profile-001",
+  "displayName": "API HTTP Profile",
+  "email": "api-http-profile-001@standard-ms.local",
+  "phone": "+55 11 98888-0001",
+  "entityType": "individual",
+  "country": "BR",
+  "city": "Sao Paulo",
+  "status": "active"
+}
+
+### Update seeded profile
+PATCH {{baseUrl}}/profiles/{{seedProfileId}}
+X-Correlation-ID: {{correlationId}}
+X-Idempotency-Key: {{idempotencyKeyUpdate}}
+X-Performed-By: {{performedBy}}
+X-Performed-By-Type: {{performedByType}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "displayName": "Alpha Profile Updated Via ApiHttp",
+  "phone": "+55 41 99999-0001",
+  "city": "Curitiba",
+  "status": "active"
+}

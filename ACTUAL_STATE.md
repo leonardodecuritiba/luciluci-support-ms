@@ -99,6 +99,7 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 - baseline herdável padrão de RabbitMQ no template = exchange/fila duráveis, outbox publisher real, consumer de exemplo e idempotência de consumo; `DLQ`, `TTL`, `redrive`, `retry exponencial` e `poison message handling` não entram por padrão e permanecem como item `compartilhado`, dependente de decisão explícita do serviço derivado
 - `event-schema-registry.ts` é apenas um registry local em memória derivado do AsyncAPI versionado; não há Schema Registry externo integrado ao `standard-ms`
 - rastreabilidade mínima `RF -> unit / integration / functional` passou a ser tratada como regra de template/processo para serviços derivados; o `standard-ms` não deve ser usado como prova automática dessa tríade para domínios futuros
+- o template passou a materializar `api.http` na raiz e um seed robusto/reprodutível em `scripts/seed.ts`, para que o bootstrap herdado não dependa apenas de regra documental
 - o CI central já aplica validação formal/backward de OpenAPI e AsyncAPI e gate global de cobertura; não há gates dedicados de carga/performance ou segurança nesta release
 
 ## Artefatos importantes
@@ -210,6 +211,10 @@ Notas da validação:
   - o `REPORT-TEMPLATE.md` passou a exigir uma matriz explícita `RF -> unit / integration / functional`
   - o processo herdado passou a permitir agrupamentos/exceções somente com justificativa objetiva
   - o template deixou explícito que a tríade mínima por RF pertence ao serviço derivado e não deve ser inferida artificialmente a partir do `standard-ms`
+- auditoria documental/materialização do `DRIFT-013` concluída:
+  - `api.http` passou a existir na raiz do template cobrindo endpoints funcionais e operacionais da feature de exemplo
+  - `scripts/seed.ts` passou a combinar registros de referência fixos com massa gerada deterministicamente via `faker`
+  - `README.md`, `scripts/README.md`, `docs/reports/README.md` e `REPORT-TEMPLATE.md` passaram a orientar objetivamente como o serviço derivado deve herdar e reescrever esses artefatos no bootstrap
 
 ## Riscos residuais
 

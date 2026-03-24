@@ -56,6 +56,11 @@ Regras:
 
 Todo microserviço derivado deste template deve possuir um arquivo `api.http` na raiz do repositório.
 
+Materialização no `standard-ms`:
+
+- este repositório versiona um `api.http` real na raiz, cobrindo a feature de exemplo `profile` e a superfície operacional local herdada
+- no bootstrap de um serviço derivado, o arquivo deve ser mantido e os exemplos de `profile` devem ser substituídos pelo domínio real no mesmo ciclo de renomeação
+
 ### Finalidade
 
 O `api.http` é o artefato padrão de validação manual dos endpoints HTTP do serviço e deve permitir inspeção rápida do comportamento real durante desenvolvimento, revisão técnica, troubleshooting e handoff.
@@ -106,22 +111,19 @@ O seed não deve existir apenas para “subir o projeto”, mas para criar uma b
 - O volume do seed deve ser significativo para o domínio, e não apenas “mínimo para funcionar”.
 - A estratégia e os volumes mínimos de seed devem ser documentados no microserviço.
 
-### Exemplo de referência
+### Materialização no `standard-ms`
 
-Para o `products-ms`, considerar como baseline:
+O template agora materializa a estratégia em `scripts/seed.ts` com:
 
-- aproximadamente `200 produtos`
-- aproximadamente `30 categorias`
+- `3` perfis de referência fixos para bootstrap/manual validation
+- `117` perfis gerados deterministicamente com `faker`
+- variação de `status`, `entityType`, `country`, `city` e `classification snapshot`
 
-com variação suficiente de:
+Regra de herança:
 
-- status
-- tipos de produto
-- ambientes
-- categorias
-- preços
-- pontuação
-- regras de visibilidade/compra quando aplicável
+- esses números são apenas o exemplo do template-base
+- o serviço derivado deve redefinir os volumes concretos do seu domínio
+- o importante é preservar a lógica de massa útil, reprodutível e alinhada aos relacionamentos/regras locais
 
 ### Regra de aderência
 

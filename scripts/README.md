@@ -22,14 +22,20 @@ Ele deve produzir uma massa de dados útil para:
 - O volume gerado deve ser significativo para o domínio do microserviço.
 - O seed deve acompanhar a evolução do domínio e não pode ficar congelado em poucos registros estáticos.
 
-## Exemplo de referência
+## Estratégia materializada no template
 
-No `products-ms`, a baseline esperada é:
+O `standard-ms` agora materializa a estratégia com:
 
-- cerca de `200 produtos`
-- cerca de `30 categorias`
+- `3` perfis de referência fixos, usados também como apoio para o `api.http`
+- `117` perfis adicionais gerados com `faker`
+- seed fixa `20260324` para manter reprodutibilidade
+- variação de `status`, `entityType`, `country`, `city` e `classification snapshot`
 
-com diversidade suficiente para validar os comportamentos principais do serviço.
+Regra de herança:
+
+- esse volume é apenas o exemplo do template-base
+- o microserviço derivado deve redefinir volumes, entidades e relacionamentos de acordo com o domínio real
+- a expectativa herdável é manter massa útil para paginação, filtros, ordenação, validação manual e testes locais
 
 Scripts principais desta release:
 

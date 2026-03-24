@@ -57,6 +57,19 @@ Regras:
 - não marcar `[x]` ou `completa` sem evidência objetiva
 - quando a coluna `functional` estiver ausente, registrar a ausência ou a exceção; não substituí-la por inferência
 
+## Regra obrigatória de bootstrap herdado
+
+O report deve registrar objetivamente se o serviço derivado herdou e atualizou:
+
+- `api.http`
+- `scripts/seed.ts`
+
+Regras:
+
+- `api.http` não conta como presente apenas por regra documental; o arquivo precisa existir e cobrir endpoints funcionais + superfície operacional aplicável
+- o seed não conta como robusto apenas por existir; o report deve registrar volume, estratégia, uso de `faker` quando aplicável e reprodutibilidade
+- quando o domínio derivado ainda não tiver definido volumes finais, o report deve marcar isso explicitamente como pendência local e não como evidência completa
+
 ## Regra obrigatória de fronteira NFR
 
 Antes de registrar qualquer NFR como gap do microserviço, o report deve classificá-lo em uma destas categorias:

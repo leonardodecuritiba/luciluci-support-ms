@@ -79,12 +79,14 @@ Artefatos auxiliares usados:
 - `docs/runbooks/local-development.md`
 - `docs/runbooks/infra-access.md`
 - `api.http`
+- `scripts/seed.ts`
 
 Execução de testes/coverage:
 
 - `<ex.: npm run test -- --coverage -> passou>`
 - `<ex.: npm run build -> passou>`
 - `<ex.: npm run asyncapi:check -> passou>`
+- `<ex.: npm run seed -> passou | falhou | não executado>`
 - `<registre falhas de reprodutibilidade, EPERM, portas, containers ausentes, etc.>`
 
 Evidência remota de CI/CD:
@@ -260,7 +262,9 @@ Classifique `/health`, `/metrics`, `/api-docs`, `/api-docs-json`, `/events-docs`
 | Capacidade         | Status             | Evidência                                           | Observação                                                                                         |
 | ------------------ | ------------------ | --------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | migrations         | **Implementado**   | `<path da migration / helper de testes>`            | `<ex.: schema existe, mas sem FKs/CHECKs do TDD>`                                                  |
+| api.http           | **Implementado**   | `<api.http>`                                        | `<cobre endpoints funcionais e operacionais aplicáveis; headers e exemplos alinhados>`             |
 | seeds              | **Implementado**   | `<scripts/seed.ts>`                                 | `<escopo do seed>`                                                                                 |
+| seed robusto       | **Implementado**   | `<scripts/seed.ts + docs>`                          | `<volume significativo, faker determinístico quando aplicável, relações/regras coerentes>`         |
 | CRUD               | **Implementado**   | `<rotas/controllers/services/repositories>`         | `<lacunas de cobertura>`                                                                           |
 | eventos publicados | **Implementado**   | `<outbox + worker + asyncapi>`                      | `<sem teste broker E2E>`                                                                           |
 | eventos consumidos | **Não encontrado** | `<consumedEventTypes = []>`                         | `<se aplicável>`                                                                                   |
