@@ -37,6 +37,21 @@ git submodule update --remote --recursive
 5. Atualize PRD/TDD/TP em `./luciluci-docs/<servico>/`.
 6. Implemente RF por RF mantendo `ACTUAL_STATE.md` vivo.
 
+## Regra obrigatória: rastreabilidade mínima por RF
+
+Todo microserviço derivado deve conseguir demonstrar, no report de completude, como cada RF do domínio se conecta a:
+
+- pelo menos uma evidência `unit`
+- pelo menos uma evidência `integration`
+- pelo menos uma evidência `functional`, quando o `TP` do domínio exigir essa camada
+
+Regras:
+
+- essa prova pertence ao serviço derivado; o `standard-ms` não deve ser tratado como evidência automática para RFs do domínio futuro
+- a matriz `RF -> unit / integration / functional` deve apontar paths reais de testes, suites, casos ou artefatos equivalentes
+- quando um mesmo fluxo/teste cobrir múltiplas RFs, o agrupamento deve ser explicado explicitamente
+- quando a evidência funcional estiver ausente, isso deve ser declarado no report; não marcar cobertura completa por inferência
+
 ## Regra obrigatória: arquivo `api.http`
 
 Todo microserviço derivado deste template deve possuir um arquivo `api.http` na raiz do repositório.

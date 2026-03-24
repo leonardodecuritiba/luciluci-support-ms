@@ -44,6 +44,19 @@ Cada onda pode sobrescrever ou complementar o report em andamento, mas o artefat
 
 Use `docs/reports/REPORT-TEMPLATE.md` como esqueleto obrigatório para novos reports.
 
+## Regra obrigatória de rastreabilidade por RF
+
+O report final deve montar uma matriz explícita `RF -> unit / integration / functional`.
+
+Regras:
+
+- cada RF real encontrada em `prd.md`, `tdd.md` e `tp.md` deve aparecer na matriz
+- a matriz deve apontar paths, suites, casos ou artefatos reais de evidência
+- o `standard-ms` não prova automaticamente a tríade para qualquer domínio futuro; o serviço derivado precisa montar sua própria rastreabilidade
+- agrupamentos são permitidos quando múltiplas RFs compartilham o mesmo fluxo/teste, mas a justificativa precisa ficar explícita na linha da matriz
+- não marcar `[x]` ou `completa` sem evidência objetiva
+- quando a coluna `functional` estiver ausente, registrar a ausência ou a exceção; não substituí-la por inferência
+
 ## Regra obrigatória de fronteira NFR
 
 Antes de registrar qualquer NFR como gap do microserviço, o report deve classificá-lo em uma destas categorias:

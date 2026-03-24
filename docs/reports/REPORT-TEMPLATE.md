@@ -27,6 +27,8 @@
 - RFs classificadas como **Parcial**: `<n>`
 - RFs classificadas como **Não encontrado**: `<n>`
 - RFs classificadas como **Ambíguo**: `<n>`
+- RFs com matriz **unit + integration + functional** completa: `<n>`
+- RFs com **agrupamento/exceção justificados** na matriz: `<n>`
 - Itens classificados como **Superfície operacional local herdada do template**: `<n>`
 - NFRs classificados como **Implementado localmente**: `<n>`
 - NFRs classificados como **Upstream/plataforma**: `<n>`
@@ -127,6 +129,7 @@ Classificação obrigatória de fronteira NFR:
 
 > Regra: não invente RF. Use apenas RFs realmente encontradas na documentação canônica do domínio analisado.
 > Endpoints operacionais herdados do template não entram na matriz de RF.
+> Regra: a coluna `Evidência de testes` resume o panorama; a prova detalhada da tríade `unit + integration + functional` por RF deve aparecer na seção `6.1`.
 
 # 4. Checklist consolidado por PRD
 
@@ -183,9 +186,32 @@ Integrações:
 - [x] Existem testes de integração
 - [x] Existem testes de contrato
 - [ ] Existem testes E2E
-- [ ] Existe rastreabilidade mínima "1 unit + 1 integration + 1 functional" por RF
+- [ ] Existe matriz explícita `RF -> unit / integration / functional`
+- [ ] Cada RF central tem tríade mínima comprovada ou justificativa explícita de agrupamento/exceção
+- [ ] Não há `[x]` na rastreabilidade sem path/evidência objetiva
 - [ ] Existem testes dedicados para os RFs centrais do domínio
 - [!] `<registre limitações de ambiente na execução dos testes, se houver>`
+
+## 6.1 Matriz obrigatória RF -> testes
+
+Preencha uma linha para cada RF realmente encontrada em `prd.md`, `tdd.md` e `tp.md`.
+
+Regras:
+
+- não reutilizar automaticamente a feature de exemplo do `standard-ms` como se ela provasse RFs do domínio derivado
+- não marcar cobertura como completa sem apontar paths/suites/casos reais
+- `functional` significa teste funcional/de sistema previsto no `TP` do domínio; pode ser suite funcional/E2E, UAT roteirizado ou fluxo manual roteirizado com evidência objetiva
+- teste de contrato isolado não substitui automaticamente a coluna `functional`
+- o mesmo teste pode cobrir múltiplas RFs, mas isso deve aparecer explicitamente em `Agrupamento / exceção`
+- quando a tríade não existir, registrar `ausente`, `parcial` ou a exceção concreta; não inflar a marcação com `[x]`
+
+| RF   | Unit                          | Integration                          | Functional                                                                  | Agrupamento / exceção                                                      | Evidência / observação                                     | Status da rastreabilidade        |
+| ---- | ----------------------------- | ------------------------------------ | --------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------- | -------------------------------- |
+| RF01 | `<tests/unit/... ou ausente>` | `<tests/integration/... ou ausente>` | `<tests/functional/...; tests/e2e/...; UAT/manual roteirizado; ou ausente>` | `<ex.: mesmo fluxo cobre RF01 e RF02; justificar fronteira das asserções>` | `<paths, comando executado, ID do caso, ou nota objetiva>` | `<completa / parcial / ausente>` |
+| RF02 | `<...>`                       | `<...>`                              | `<...>`                                                                     | `<...>`                                                                    | `<...>`                                                    | `<...>`                          |
+
+> Regra: só considerar a tríade mínima comprovada quando a linha tiver evidência explícita para `unit`, `integration` e `functional`, ou quando houver agrupamento/exceção documentados de forma objetiva e auditável.
+> Regra: se o serviço não possuir automação funcional, declarar isso; não substituir essa ausência por inferência estrutural.
 
 # 7. Inventário de endpoints reais
 
