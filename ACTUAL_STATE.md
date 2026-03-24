@@ -10,7 +10,7 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 - 5 RFs canônicas
 - Infra local com PostgreSQL e RabbitMQ
 - OpenAPI, AsyncAPI, outbox, idempotência, correlação, observabilidade, testes e CI/CD
-- CI endurecido com gate automático de compatibilidade backward para o AsyncAPI versionado em `docs/asyncapi/v1/standard-events.json`, comparando o contrato atual com o baseline da branch base/commit anterior
+- CI endurecido com gate automático de compatibilidade backward para o AsyncAPI versionado em `docs/asyncapi/v1/standard-ms-events.json`, comparando o contrato atual com o baseline da branch base/commit anterior
 
 ## RFs
 
@@ -97,7 +97,7 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 - observabilidade materializada nesta release = logs estruturados + métricas Prometheus + `X-Correlation-ID`; tracing distribuído com OpenTelemetry continua ausente
 - resiliência materializada em mensageria = outbox, filas duráveis, idempotência e worker real; DLQ/TTL/redrive/retry exponencial continuam ausentes no serviço
 - baseline herdável padrão de RabbitMQ no template = exchange/fila duráveis, outbox publisher real, consumer de exemplo e idempotência de consumo; `DLQ`, `TTL`, `redrive`, `retry exponencial` e `poison message handling` não entram por padrão e permanecem como item `compartilhado`, dependente de decisão explícita do serviço derivado
-- `event-schema-registry.ts` é apenas um registry local em memória derivado do AsyncAPI versionado; não há Schema Registry externo integrado ao `products-ms`
+- `event-schema-registry.ts` é apenas um registry local em memória derivado do AsyncAPI versionado; não há Schema Registry externo integrado ao `standard-ms`
 - o CI central já aplica validação formal/backward de OpenAPI e AsyncAPI e gate global de cobertura; não há gates dedicados de carga/performance ou segurança nesta release
 
 ## Artefatos importantes
@@ -138,7 +138,7 @@ npm run openapi:export
 npm run openapi:check
 npm run asyncapi:check
 npm run openapi:compat -- docs/openapi/v1/profiles-api.json docs/openapi/v1/profiles-api.json
-npm run asyncapi:compat -- docs/asyncapi/v1/profiles-events.json docs/asyncapi/v1/profiles-events.json
+npm run asyncapi:compat -- docs/asyncapi/v1/standard-ms-events.json docs/asyncapi/v1/standard-ms-events.json
 npm run test:coverage
 npm run coverage:check
 npm run test -- --runTestsByPath tests/unit/scripts/check-asyncapi-backward-compatibility.spec.ts tests/contract/asyncapi/published-events.contract.test.ts tests/contract/asyncapi/consumed-events.contract.test.ts
@@ -168,7 +168,7 @@ docker compose -f docker-compose.yaml config
 
 Notas da validação:
 
-- o gate local `npm run asyncapi:compat -- docs/asyncapi/v1/standard-events.json docs/asyncapi/v1/standard-events.json` comprovou o caminho feliz do checker de backward compatibility.
+- o gate local `npm run asyncapi:compat -- docs/asyncapi/v1/standard-ms-events.json docs/asyncapi/v1/standard-ms-events.json` comprovou o caminho feliz do checker de backward compatibility.
 - a suíte `tests/unit/scripts/check-asyncapi-backward-compatibility.spec.ts` comprovou que o checker bloqueia remoção de canal e remoção de campo obrigatório no AsyncAPI `v1`.
 - após o endurecimento do schema, da matriz de erros, da segurança OpenAPI e do gate de compatibilidade AsyncAPI, `npm run test` passou com `10` suites / `32` testes.
 - as suítes `tests/unit/shared/correlation-id.middleware.spec.ts`, `tests/contract/openapi/openapi.contract.test.ts` e `tests/integration/http/error-matrix.spec.ts` passaram a comprovar que `X-Correlation-ID` é obrigatório nas rotas HTTP públicas, que o OpenAPI o modela como `required: true` e que a ausência é rejeitada com `400 bad_request`.
@@ -182,7 +182,7 @@ Notas da validação:
   - OpenTelemetry reclassificado como não implementado no serviço
   - rate limit mantido como responsabilidade upstream do gateway/BFF
   - DLQ/TTL/redrive/retry exponencial reclassificados como ausentes no `standard-ms`
-  - Schema Registry reclassificado como helper local derivado do AsyncAPI versionado, não integração externa
+  - `event-schema-registry.ts` reclassificado como helper local derivado do AsyncAPI versionado; `Schema Registry externo` mantido como responsabilidade upstream/plataforma
   - CI contratual e gate de cobertura confirmados como implementados
   - testes/gates dedicados de carga/performance e segurança confirmados como ausentes nesta release
 - auditoria documental do `DRIFT-005` concluída:
@@ -201,6 +201,10 @@ Notas da validação:
   - `DLQ`, `TTL`, `redrive`, `retry exponencial` e `poison message handling` foram mantidos fora da baseline herdável padrão do `standard-ms`
   - a baseline herdável de RabbitMQ ficou explicitada como `exchange/fila duráveis + outbox + consumer de exemplo + idempotência de consumo`
   - o `REPORT-TEMPLATE.md` passou a instruir que resiliência avançada de RabbitMQ só vira `gap real local` após decisão explícita do serviço derivado
+- auditoria documental do `DRIFT-011` concluída:
+  - `event-schema-registry.ts` ficou explicitado como registry local derivado do AsyncAPI versionado do repositório
+  - `Schema Registry externo` ficou explicitado como responsabilidade `upstream/plataforma`, não evidência local automática do microserviço
+  - o `REPORT-TEMPLATE.md` passou a proibir a mistura entre helper local de eventos e integração externa de registry
 
 ## Riscos residuais
 

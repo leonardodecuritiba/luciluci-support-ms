@@ -205,6 +205,8 @@ Regra de report:
 - não marcar automaticamente como gap local um item classificado como `upstream/plataforma`
 - não marcar automaticamente como gap local um item `compartilhado` sem decisão explícita do serviço derivado
 - só usar `gap real local` quando a responsabilidade local estiver assumida e a evidência continuar ausente
+- não usar `event-schema-registry.ts` como prova de integração com `Schema Registry externo`
+- ausência de cliente/SDK/configuração de `Schema Registry externo` no serviço não é gap local automático quando o boundary continuar em plataforma/ecossistema
 
 ## Observabilidade e resiliência nesta release
 
@@ -233,7 +235,7 @@ Regra de report:
   - CI com validação formal de OpenAPI/AsyncAPI, compatibilidade backward e gate global de cobertura
 - Parcial nesta release:
   - retry apenas no bootstrap de `PostgreSQL` e `RabbitMQ`, com atraso fixo; não há backoff exponencial de processamento
-  - `event-schema-registry.ts` é um registry local em memória derivado do AsyncAPI versionado do repositório, não um Schema Registry externo
+  - `event-schema-registry.ts` é um registry local em memória derivado do AsyncAPI versionado do repositório; ele ajuda a consultar schemas já versionados no próprio template, mas não substitui integração com `Schema Registry externo`
 - Não implementado no `standard-ms` nesta release:
   - tracing distribuído com OpenTelemetry
   - DLQ / TTL / redrive / retry exponencial / poison message handling para filas/consumidores RabbitMQ
@@ -243,6 +245,7 @@ Regra de report:
   - deploy automático de ambiente no workflow central
 - Responsabilidade upstream/infra:
   - `429 rate_limited` permanece no API Gateway/BFF, não no processo `standard-ms`
+  - governança/integração com `Schema Registry externo` permanece fora do runtime padrão do template, salvo decisão explícita do serviço derivado
 
 ## Como acessar a documentação e a infraestrutura local
 
