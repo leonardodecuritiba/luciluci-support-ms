@@ -31,11 +31,19 @@ Todo report gerado deve começar com um cabeçalho explícito contendo, no míni
 
 ## Modo de geração
 
+Toda geração/atualização de report deve usar em conjunto:
+
+- `.codex/skills/report-review.md`
+- `docs/prompts/report-completeness-prompt.md`
+- `docs/reports/REPORT-TEMPLATE.md`
+
+## Modo de revisão em ondas
+
 Os reports devem ser gerados em **ondas**:
 
 1. **Wave 1** - leitura inicial, inventário e gaps óbvios
 2. **Wave 2** - cruzamento RF x código x testes x contratos
-3. **Wave 3** - divergências, riscos e completude técnico-documental
+3. **Wave 3** - divergências, riscos, NFRs e completude técnico-documental
 4. **Final** - consolidação para revisão humana
 
 Cada onda pode sobrescrever ou complementar o report em andamento, mas o artefato final deve manter a estrutura canônica do template.

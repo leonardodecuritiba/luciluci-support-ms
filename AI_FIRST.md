@@ -10,6 +10,8 @@ Leia nesta ordem:
 6. `./luciluci-docs/<servico>/`
 7. `.codex/skills/drift-fix.md` quando a tarefa for correção de drift
 8. `.codex/drifts/<arquivo informado>` quando houver um drift específico em execução
+9. `.codex/skills/report-review.md` quando a tarefa for geração/atualização de report de completude
+10. `docs/prompts/report-completeness-prompt.md` quando a tarefa for geração/atualização de report de completude
 
 Precedência documental:
 
@@ -50,6 +52,12 @@ Regras operacionais:
   - a skill de correção de drift fica em `.codex/skills/drift-fix.md`
   - cada drift deve ser materializado em um arquivo próprio em `.codex/drifts/`
   - a execução deve ocorrer um drift por vez, com a menor mudança segura possível
+- Estratégia de review de completude assistida por IA:
+  - a instrução operacional global fica em `AGENTS.md`
+  - a skill de review fica em `.codex/skills/report-review.md`
+  - o prompt operacional fica em `docs/prompts/report-completeness-prompt.md`
+  - o esqueleto obrigatório do artefato fica em `docs/reports/REPORT-TEMPLATE.md`
+  - o resultado deve ser salvo em `docs/reports/REPORT-<timestamp>.md`
 - Se a tarefa tocar API HTTP, revisar também OpenAPI, `api.http`, testes relacionados e documentação operacional/endpoints.
 - Se a tarefa tocar eventos/mensageria, revisar também AsyncAPI, publisher/outbox/consumer e testes aplicáveis.
 - Se a tarefa tocar modelo físico, revisar também migrations, entities/schemas, seeds e testes de persistência.

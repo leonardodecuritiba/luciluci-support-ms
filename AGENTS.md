@@ -24,7 +24,9 @@ Antes de alterar qualquer coisa, leia nesta ordem:
 7. `DRIFT_REPORT.md`
 8. `.codex/skills/drift-fix.md` quando a tarefa for correção de drift
 9. `.codex/drifts/<arquivo informado pelo usuário>` quando houver um drift específico
-10. `luciluci-docs/` quando a tarefa exigir validação contra documentação canônica de um domínio real
+10. `.codex/skills/report-review.md` quando a tarefa for geração/atualização de report de completude
+11. `docs/prompts/report-completeness-prompt.md` quando a tarefa for geração/atualização de report de completude
+12. `luciluci-docs/` quando a tarefa exigir validação contra documentação canônica de um domínio real
 
 ## Fonte de verdade
 
@@ -70,6 +72,20 @@ Quando a tarefa disser respeito a um drift:
 6. valide com evidência objetiva
 7. entregue resumo pronto para PR
 
+## Estratégia operacional de reports de completude
+
+Quando a tarefa disser respeito a report de completude:
+
+1. leia `.codex/skills/report-review.md`
+2. leia `docs/prompts/report-completeness-prompt.md`
+3. use `docs/reports/REPORT-TEMPLATE.md` como esqueleto obrigatório
+4. compare template, implementação viva, contratos, testes, runbooks e CI
+5. quando houver domínio real, compare também com `luciluci-docs/`
+6. preencha a matriz RF x implementação e a matriz `RF -> unit / integration / functional` quando aplicável
+7. classifique NFRs antes de registrar gaps locais
+8. registre explicitamente o que foi comprovado, inferido ou bloqueado por ambiente
+9. gere ou atualize `docs/reports/REPORT-<timestamp>.md`
+
 ## Regras do template
 
 - A feature `profile` existe apenas como exemplo do template e deve ser removida em serviços derivados.
@@ -78,7 +94,7 @@ Quando a tarefa disser respeito a um drift:
 - Todo microserviço derivado deve manter `api.http` atualizado.
 - Todo microserviço derivado deve manter seed com massa significativa e documentação dessa estratégia.
 - Todo serviço derivado deve alinhar código, testes, contratos e docs no mesmo ciclo de mudança.
-- O template deve carregar instruções suficientes para execução assistida por IA no editor, incluindo `AGENTS.md` e `.codex/`.
+- O template deve carregar instruções suficientes para execução assistida por IA no editor, incluindo `AGENTS.md`, `.codex/`, `.codex/skills/report-review.md` e `docs/prompts/report-completeness-prompt.md`.
 
 ## Regras específicas por superfície
 
