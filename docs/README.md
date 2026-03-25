@@ -19,7 +19,7 @@ Fluxo canônico herdado do template:
 - O `standard-ms` é o template base; `profile` existe apenas como feature de exemplo.
 - Toda derivação deve partir de `service-identity.json` na raiz como fonte de verdade local da identidade do serviço/template.
 - Toda derivação deve começar auditando resíduos de `profile`, `profiles`, `standard-ms` e `standard_ms`.
-- Trabalhe RF por RF em lotes pequenos, preferencialmente `2-4 arquivos` por vez.
+- Trabalhe RF por RF em lotes pequenos.
 - Alinhe no mesmo ciclo: código, testes, contratos, docs, prompts e CI.
 
 ## Navegação recomendada

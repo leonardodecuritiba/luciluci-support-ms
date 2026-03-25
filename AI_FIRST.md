@@ -48,7 +48,6 @@ Regras operacionais:
 - No bootstrap/derivação, materialize ou valide `service-identity.json` antes de abrir frentes de renomeação.
 - Toda derivação deve começar auditando resíduos de `profile`, `profiles`, `standard-ms` e `standard_ms`.
 - Trabalhe RF por RF ou drift por drift, nunca misturando múltiplos drifts na mesma rodada.
-- Prefira lotes de `2-4 arquivos` por vez.
 - Antes de usar `./luciluci-docs/`, execute `git submodule update --remote --recursive`.
 - Atualize `ACTUAL_STATE.md` ao abrir, executar e concluir blocos relevantes.
 - Pare imediatamente se houver DRIFT entre docs e implementação.

@@ -34,7 +34,7 @@ Regras:
 
 - comece a partir de `service-identity.json` como fonte de verdade local da identidade do serviço/template
 - audite resíduos `profile`, `profiles`, `standard-ms` e `standard_ms` antes de implementar RF
-- implemente RF por RF em lotes de `2-4 arquivos` por vez
+- implemente RF por RF em pequenos lotes
 - mantenha alinhados no mesmo ciclo: código, testes, OpenAPI, AsyncAPI, `api.http`, `ACTUAL_STATE.md`, docs, prompts e CI
 
 ## Report/review de completude

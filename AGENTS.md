@@ -80,7 +80,7 @@ Regras:
 - Não faça refactor amplo fora do escopo.
 - Não invente requisito fora da documentação canônica ou das regras do template.
 - Toda derivação deve começar auditando resíduos de `profile`, `profiles`, `standard-ms` e `standard_ms`.
-- Prefira executar em lotes pequenos, idealmente `2-4 arquivos` por vez; só ultrapasse isso quando houver renomeação mecânica inevitável.
+- Prefira executar em lotes pequenos.
 - Sempre alinhe código, testes, contratos/specs, docs, prompts e CI tocados pela mudança.
 - Atualize `ACTUAL_STATE.md` ao abrir, executar e concluir blocos relevantes, quando aplicável.
 - Em handoff, documente próximos passos, bloqueios e comandos de validação.
