@@ -2,12 +2,13 @@
 
 Use `.codex/skills/microservice-builder.md`.
 
-Transforme este repositório derivado do `standard-ms` em `<MICROSERVICE_NAME>`, usando `./luciluci-docs/<DOMAIN_SLUG>/` como fonte de verdade do domínio.
+Transforme este repositório derivado do `standard-ms` em `<MICROSERVICE_NAME>`, usando `service-identity.json` como fonte de verdade local de identidade e `./luciluci-docs/<DOMAIN_SLUG>/` como fonte de verdade do domínio.
 
 Modo atual: `<startup | wave-1 | wave-2 | wave-3 | final-implementation>`.
 
 Regras:
-- comece auditando resíduos de `profile`, `profiles` e `standard-ms`
+
+- comece auditando resíduos de `profile`, `profiles`, `standard-ms` e `standard_ms`
 - monte a matriz de renomeação obrigatória antes de implementar RF
 - implemente RF por RF em ordem de prioridade documental
 - trabalhe em lotes de até `4 arquivos` por vez
@@ -16,6 +17,6 @@ Regras:
   - conteúdo pronto para copiar/colar
   - comandos de validação
   - resultado esperado
-- mantenha alinhados no mesmo ciclo: código, testes, OpenAPI, AsyncAPI, `api.http`, `ACTUAL_STATE.md` e docs tocadas
+- mantenha alinhados no mesmo ciclo: código, testes, OpenAPI, AsyncAPI, `api.http`, `ACTUAL_STATE.md`, docs, prompts e CI tocados
 - não gere report nesta etapa
 - ao finalizar o lote, pare e aguarde `OK_APPLIED`

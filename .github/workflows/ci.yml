@@ -15,14 +15,14 @@ jobs:
             DB_PORT: 5432
             DB_USER: postgres
             DB_PASSWORD: postgres
-            DB_NAME: profiles_ms
-            TEST_DB_NAME: profiles_ms_test
+            DB_NAME: standard_ms
+            TEST_DB_NAME: standard_ms_test
             RABBITMQ_HOST: 127.0.0.1
             RABBITMQ_PORT: 5672
             RABBITMQ_USERNAME: guest
             RABBITMQ_PASSWORD: guest
             RABBITMQ_VHOST: /
-            RABBITMQ_PROFILE_EXCHANGE: profiles.events
+            RABBITMQ_PROFILE_EXCHANGE: profile.events
             OUTBOX_POLL_INTERVAL_MS: 2000
             OUTBOX_BATCH_SIZE: 20
             CONSUMER_PREFETCH: 10
@@ -89,11 +89,15 @@ jobs:
               run: |
                   if [ "${{ github.event_name }}" = "pull_request" ]; then
                     git fetch origin "${{ github.base_ref }}" --depth=1
-                    git show FETCH_HEAD:docs/asyncapi/v1/standard-ms-events.json > /tmp/standard-events-baseline.json
-                    npm run asyncapi:compat -- /tmp/standard-events-baseline.json docs/asyncapi/v1/standard-events.json
-                  elif git cat-file -e HEAD^:docs/asyncapi/v1/standard-events.json 2>/dev/null; then
-                    git show HEAD^:docs/asyncapi/v1/standard-events.json > /tmp/standard-events-baseline.json
-                    npm run asyncapi:compat -- /tmp/standard-events-baseline.json docs/asyncapi/v1/standard-events.json
+                    if git cat-file -e FETCH_HEAD:docs/asyncapi/v1/standard-ms-events.json 2>/dev/null; then
+                      git show FETCH_HEAD:docs/asyncapi/v1/standard-ms-events.json > /tmp/standard-ms-events-baseline.json
+                      npm run asyncapi:compat -- /tmp/standard-ms-events-baseline.json docs/asyncapi/v1/standard-ms-events.json
+                    else
+                      echo "No AsyncAPI baseline found on base branch; skipping backward compatibility check."
+                    fi
+                  elif git cat-file -e HEAD^:docs/asyncapi/v1/standard-ms-events.json 2>/dev/null; then
+                    git show HEAD^:docs/asyncapi/v1/standard-ms-events.json > /tmp/standard-ms-events-baseline.json
+                    npm run asyncapi:compat -- /tmp/standard-ms-events-baseline.json docs/asyncapi/v1/standard-ms-events.json
                   else
                     echo "No AsyncAPI baseline found; skipping backward compatibility check."
                   fi

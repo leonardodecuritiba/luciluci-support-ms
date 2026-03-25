@@ -1,0 +1,23 @@
+{
+	"templateSlug": "standard-ms",
+	"serviceSlug": "standard-ms",
+	"serviceDisplayName": "Standard MS",
+	"exampleFeatureSingular": "profile",
+	"exampleFeaturePlural": "profiles",
+	"defaultDbName": "standard_ms",
+	"defaultAsyncApiArtifact": "docs/asyncapi/v1/standard-ms-events.json",
+	"defaultOpenApiArtifact": "docs/openapi/v1/profiles-api.json",
+	"defaultHttpCollection": "api.http",
+	"defaultRabbitMqExchanges": {
+		"profile": "profile.events",
+		"classification": "classification.events"
+	},
+	"mustBeReplacedWhenDeriving": [
+		"standard-ms",
+		"standard_ms",
+		"profile",
+		"profiles",
+		"profile.events"
+	],
+	"luciluciDocsPathPattern": "./luciluci-docs/<service>/"
+}

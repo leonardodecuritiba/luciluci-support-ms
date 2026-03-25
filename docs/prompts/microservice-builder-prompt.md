@@ -3,12 +3,14 @@
 Use `.codex/skills/microservice-builder.md`.
 
 Objetivo:
+
 - transformar este repositório derivado do `standard-ms` em um microserviço real do ecossistema LuciLuci
 - remover os resíduos do domínio de exemplo `profile`
 - implementar o microserviço a partir da documentação canônica do domínio
 - avançar RF por RF, em ondas, mantendo código, testes, contratos e docs alinhados
 
 Parâmetros da execução:
+
 - `microservice_name`: `<MICROSERVICE_NAME>`
 - `domain_slug`: `<DOMAIN_SLUG>`
 - `documentation_path`: `./luciluci-docs/<DOMAIN_SLUG>/`
@@ -16,6 +18,7 @@ Parâmetros da execução:
 - `scope`: `<RFs alvo desta rodada>`
 
 Regras:
+
 - leia primeiro:
   - `AGENTS.md`
   - `AI_FIRST.md`
@@ -25,10 +28,12 @@ Regras:
   - `src/README.md`
   - `tests/README.md`
   - `docs/prompts/bootstrap-prompt.md`
+  - `service-identity.json`
   - `./luciluci-docs/<DOMAIN_SLUG>/`
+- trate `service-identity.json` como fonte de verdade local de slug, artefatos versionados, banco e exchanges do serviço derivado
 - trate `./luciluci-docs/<DOMAIN_SLUG>/` como fonte de verdade do domínio
 - produza antes de codar:
-  - auditoria de resíduos `profile` / `standard-ms`
+  - auditoria de resíduos `profile` / `profiles` / `standard-ms` / `standard_ms`
   - matriz de renomeação obrigatória
   - ordem de execução das RFs
 - trabalhe um RF por vez ou um slice pequeno claramente acoplado
@@ -40,11 +45,13 @@ Regras:
   - `api.http`
   - `ACTUAL_STATE.md`
   - docs tocadas pela mudança
+  - prompts e CI tocados pela mudança
 - não gere report de completude nesta etapa
 - não execute correção de drift nesta etapa
 - quando concluir a wave atual, pare e indique explicitamente o próximo passo
 
 Formato esperado da resposta:
+
 1. `CONTEXTO LIDO`
 2. `AUDITORIA INICIAL`
 3. `LOTE ATUAL`

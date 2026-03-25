@@ -2,4 +2,7 @@
 
 Visão arquitetural do template.
 
-Arquivo principal: `overview.md`
+Arquivos principais:
+
+- `overview.md`
+- `service-identity.md`

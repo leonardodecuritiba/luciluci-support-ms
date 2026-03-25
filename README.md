@@ -18,10 +18,12 @@ Template prático de microserviço do ecossistema LuciLuci. Este repositório ex
 
 1. `AI_FIRST.md`
 2. `ACTUAL_STATE.md`
-3. `docs/architecture/overview.md`
-4. `docs/runbooks/local-development.md`
-5. `src/README.md`
-6. `tests/README.md`
+3. `service-identity.json`
+4. `docs/architecture/service-identity.md`
+5. `docs/architecture/overview.md`
+6. `docs/runbooks/local-development.md`
+7. `src/README.md`
+8. `tests/README.md`
 
 ## Como usar
 
@@ -33,9 +35,12 @@ Template prático de microserviço do ecossistema LuciLuci. Este repositório ex
 git submodule update --remote --recursive
 ```
 
-4. Renomeie a feature `profile` para o domínio real.
-5. Atualize PRD/TDD/TP em `./luciluci-docs/<servico>/`.
-6. Implemente RF por RF mantendo `ACTUAL_STATE.md` vivo.
+4. Revise e atualize `service-identity.json` com slug, display name, artefatos versionados, banco e exchanges canônicos do serviço derivado.
+5. Audite resíduos de `profile`, `profiles`, `standard-ms` e `standard_ms` antes de implementar qualquer RF.
+6. Renomeie a feature `profile` para o domínio real.
+7. Atualize PRD/TDD/TP em `./luciluci-docs/<servico>/`.
+8. Execute o ciclo herdado `bootstrap/build -> report -> drift-fix -> report -> drift-fix -> wave final`.
+9. Implemente RF por RF mantendo `ACTUAL_STATE.md` vivo.
 
 ## Regra obrigatória: rastreabilidade mínima por RF
 

@@ -51,17 +51,19 @@ Antes de alterar qualquer coisa, leia nesta ordem:
 6. `src/README.md`
 7. `tests/README.md`
 8. `docs/prompts/bootstrap-prompt.md`
-9. `./luciluci-docs/<servico>/` quando houver domínio real
-10. documentação adicional do domínio (`prd.md`, `tdd.md`, `tp.md`, ADRs, contratos e runbooks), quando existir
+9. `service-identity.json`
+10. `./luciluci-docs/<servico>/` quando houver domínio real
+11. documentação adicional do domínio (`prd.md`, `tdd.md`, `tp.md`, ADRs, contratos e runbooks), quando existir
 
 ## Fonte de verdade
 
 Precedência:
 
-1. documentação canônica do domínio em `./luciluci-docs/<servico>/`
-2. regras transversais do template registradas neste repositório
-3. implementação viva do serviço atual
-4. referências históricas
+1. regras transversais do template registradas neste repositório
+2. `service-identity.json` para a identidade local do template/serviço
+3. documentação canônica do domínio em `./luciluci-docs/<servico>/`
+4. implementação viva do serviço atual
+5. referências históricas
 
 Se houver conflito entre template e domínio real:
 
@@ -76,6 +78,7 @@ Se houver conflito entre template e domínio real:
 
 Antes de implementar RFs, materialize a identidade do novo serviço:
 
+- `service-identity.json` atualizado e coerente com a derivação
 - nome do microserviço
 - bounded context
 - aggregate roots / entidades centrais
@@ -88,10 +91,11 @@ Antes de implementar RFs, materialize a identidade do novo serviço:
 Produza uma **matriz de renomeação obrigatória** cobrindo no mínimo:
 
 - `standard-ms` -> `<novo-servico>`
+- `standard_ms` -> `<novo-servico_ou_db_canônico>`
 - `profile` / `profiles` -> `<domínio real>`
 - `profiles-api.json` -> `<artifact-name>.json`
 - `standard-ms-events.json` -> `<artifact-name>.json`
-- `profiles_ms` / `profiles_ms_test` -> nomes reais do banco
+- `standard_ms` / `standard_ms_test` -> nomes reais do banco
 - `RABBITMQ_PROFILE_EXCHANGE` -> nome real do exchange/env var
 - exemplos de payload, nomes de eventos, filas, rotas, seeds e testes
 
@@ -105,13 +109,14 @@ Audite antes de alterar:
 - `README.md`
 - `AI_FIRST.md`
 - `ACTUAL_STATE.md`
+- `service-identity.json`
 - `.github/workflows/**`
 - `docker-compose*.yaml`
 - `.env.example`
 - `api.http`
 - `scripts/**`
 
-Mapeie todo resíduo de `profile`, `profiles`, `standard-ms` e nomes/examples antigos que precisem ser removidos ou substituídos.
+Mapeie todo resíduo de `profile`, `profiles`, `standard-ms`, `standard_ms` e nomes/examples antigos que precisem ser removidos ou substituídos.
 
 ## Fase 2 — Inventário e priorização das RFs
 
@@ -139,7 +144,7 @@ Trabalhe em ondas pequenas e auditáveis.
 ### Regras de execução
 
 - Trabalhe **um RF por vez** ou um slice funcional pequeno e claramente acoplado.
-- Mantenha código, testes, contratos e documentação alinhados no mesmo ciclo.
+- Mantenha código, testes, contratos, documentação, prompts e CI alinhados no mesmo ciclo.
 - Atualize `ACTUAL_STATE.md` sempre que abrir ou concluir uma etapa relevante.
 - Não misture geração de report com implementação.
 - Não misture correção de drift com implementação de novas RFs.

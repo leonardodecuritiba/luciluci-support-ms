@@ -1,5 +1,8 @@
 # standard-ms workflow recommendations for builder/report/drift cycle
 
+> Documento de auditoria histórica que originou os ajustes já aplicados no template.
+> A fonte de verdade operacional atual fica em `AGENTS.md`, `AI_FIRST.md`, `service-identity.json` e `.github/workflows/ci.yml`.
+
 ## Objetivo
 
 Adaptar o `standard-ms` para suportar explicitamente o workflow:

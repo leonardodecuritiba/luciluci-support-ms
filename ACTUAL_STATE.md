@@ -81,7 +81,7 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 ## Status atual
 
 - status: `done`
-- foco atual: release inicial validada e política documental do `DRIFT-005` consolidada no template
+- foco atual: template ajustado para bootstrap/report/drift em ondas, com identidade central do serviço e CI alinhado ao AsyncAPI canônico
 
 ## Decisões tomadas
 
@@ -101,20 +101,27 @@ Entregar o `standard-ms` como template AI-first, executável e verificável para
 - rastreabilidade mínima `RF -> unit / integration / functional` passou a ser tratada como regra de template/processo para serviços derivados; o `standard-ms` não deve ser usado como prova automática dessa tríade para domínios futuros
 - o template passou a materializar `api.http` na raiz e um seed robusto/reprodutível em `scripts/seed.ts`, para que o bootstrap herdado não dependa apenas de regra documental
 - o CI central já aplica validação formal/backward de OpenAPI e AsyncAPI e gate global de cobertura; não há gates dedicados de carga/performance ou segurança nesta release
+- `service-identity.json` passa a ser a fonte de verdade local machine-readable para slug, naming de artefatos, banco e exchanges do template
+- o artefato AsyncAPI canônico do template fica padronizado em `docs/asyncapi/v1/standard-ms-events.json` em documentação, scripts e CI
+- o naming canônico do exchange de exemplo fica padronizado em `profile.events`
+- o CI passa a usar `standard_ms` e `standard_ms_test` como nomes coerentes com a identidade do template
 
 ## Artefatos importantes
 
 - `README.md`
 - `AI_FIRST.md`
 - `DRIFT_REPORT.md`
+- `service-identity.json`
 - `docs/architecture/overview.md`
+- `docs/architecture/service-identity.md`
 - `docs/runbooks/local-development.md`
 
 ## Próximos passos
 
 1. Montar `./luciluci-docs/` como submodule canônico
-2. Renomear a feature `profile` para o domínio real
-3. Seguir com novas RFs somente a partir da documentação canônica do novo serviço
+2. Atualizar `service-identity.json` antes de qualquer derivação real do template
+3. Renomear a feature `profile` para o domínio real
+4. Seguir com novas RFs somente a partir da documentação canônica do novo serviço
 
 ## Regra mandatória para serviços derivados
 
@@ -162,14 +169,19 @@ docker compose -f docker-compose.yaml config
 npm install
 npm run lint
 npm run build
-npm run test
+npm run openapi:export
+npm run openapi:check
 npm run asyncapi:check
+npm run asyncapi:compat -- docs/asyncapi/v1/standard-ms-events.json docs/asyncapi/v1/standard-ms-events.json
+npm run test
 docker compose -f docker-compose-dev.yaml config
 docker compose -f docker-compose.yaml config
 ```
 
 Notas da validação:
 
+- na rodada de alinhamento do workflow AI-first e da identidade central do template, `npm run build`, `npm run lint`, `npm run openapi:check`, `npm run asyncapi:check` e `npm run asyncapi:compat -- docs/asyncapi/v1/standard-ms-events.json docs/asyncapi/v1/standard-ms-events.json` passaram localmente após `npm install`
+- o sincronismo do artefato OpenAPI foi revalidado com `npm run openapi:export` seguido de `git diff --exit-code docs/openapi/v1/profiles-api.json`, sem diff residual
 - o gate local `npm run asyncapi:compat -- docs/asyncapi/v1/standard-ms-events.json docs/asyncapi/v1/standard-ms-events.json` comprovou o caminho feliz do checker de backward compatibility.
 - a suíte `tests/unit/scripts/check-asyncapi-backward-compatibility.spec.ts` comprovou que o checker bloqueia remoção de canal e remoção de campo obrigatório no AsyncAPI `v1`.
 - após o endurecimento do schema, da matriz de erros, da segurança OpenAPI e do gate de compatibilidade AsyncAPI, `npm run test` passou com `10` suites / `32` testes.
