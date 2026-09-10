@@ -20,8 +20,14 @@ PostgreSQL, processo e imagem executadas. A
 ## RF01
 
 [Report RF01](REPORT-SUPPORT-RF01-20260910-174742.md): endpoint, migration,
-OpenAPI, testes e prova PostgreSQL/processo compilado; RF02–RF13 continuam não
+OpenAPI, testes e prova PostgreSQL/processo compilado; RF03–RF13 continuam não
 implementadas.
+
+## RF02
+
+[Report do checkpoint RF02](REPORT-SUPPORT-RF02-CHECKPOINT-20260910-182050.md) registra
+o contrato congelado. A implementação e as provas estão em
+[REPORT-SUPPORT-RF02-20260910-185500.md](REPORT-SUPPORT-RF02-20260910-185500.md).
 
 ## Finalidade
 
@@ -116,3 +122,7 @@ Regras:
 - itens `compartilhado` só viram gap local após decisão explícita do serviço derivado
 - itens `fora do escopo desta release` devem ser reportados como tal, sem inflar a lista de lacunas reais locais
 - `DLQ`, `TTL`, `redrive`, `retry exponencial` e `poison message handling` em RabbitMQ não entram como gap local automático no `standard-ms`; a baseline padrão herdável fica restrita a exchange/fila duráveis, outbox, consumer de exemplo e idempotência de consumo
+
+## Support — RF02 integration checkpoint
+
+- `REPORT-SUPPORT-RF02-INTEGRATION-CHECKPOINT-20260910.md` — fechamento local de RF02 e gates para commit/push/PR/merge.

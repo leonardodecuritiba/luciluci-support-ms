@@ -7,7 +7,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			title: 'support-ms',
 			version: '1.0.0',
 			description:
-				'Support OpenAPI contract. RF01 creates departments; RF02–RF13 remain unavailable until their own contracts are implemented.',
+				'Support OpenAPI contract. RF01 creates and RF02 updates departments; RF03–RF13 remain unavailable until their own contracts are implemented.',
 		},
 		components: {
 			parameters: {
@@ -33,6 +33,19 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						type: { $ref: '#/components/schemas/DepartmentType' },
 					},
 				},
+				UpdateDepartmentRequest: {
+					type: 'object',
+					additionalProperties: false,
+					minProperties: 1,
+					properties: {
+						name: { type: 'string', pattern: '.*\\S.*' },
+						allowedUserIds: {
+							type: 'array',
+							items: { type: 'string', pattern: '.*\\S.*' },
+						},
+						type: { $ref: '#/components/schemas/DepartmentType' },
+					},
+				},
 				Department: {
 					type: 'object',
 					required: [
@@ -49,7 +62,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						name: { type: 'string' },
 						allowedUserIds: { type: 'array', items: { type: 'string' } },
 						type: { $ref: '#/components/schemas/DepartmentType' },
-						active: { type: 'boolean', enum: [true] },
+						active: { type: 'boolean' },
 						createdAt: { type: 'string', format: 'date-time' },
 						updatedAt: { type: 'string', format: 'date-time' },
 					},
@@ -98,6 +111,71 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						},
 						'422': {
 							description: 'Invalid request body.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'500': {
+							description: 'Unexpected error.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+					},
+				},
+			},
+			'/api/support/departments/{departmentId}': {
+				patch: {
+					summary: 'Update a department',
+					tags: ['Departments'],
+					parameters: [
+						{ $ref: '#/components/parameters/CorrelationIdHeader' },
+						{
+							in: 'path',
+							name: 'departmentId',
+							required: true,
+							schema: { type: 'string', format: 'uuid' },
+						},
+					],
+					requestBody: {
+						required: true,
+						content: {
+							'application/json': {
+								schema: { $ref: '#/components/schemas/UpdateDepartmentRequest' },
+							},
+						},
+					},
+					responses: {
+						'200': {
+							description: 'Department updated.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/Department' },
+								},
+							},
+						},
+						'400': {
+							description: 'Malformed JSON or missing correlation.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'404': {
+							description: 'Department not found.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'422': {
+							description: 'Invalid path or request body.',
 							content: {
 								'application/json': {
 									schema: { $ref: '#/components/schemas/ErrorResponse' },

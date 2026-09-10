@@ -12,13 +12,14 @@ Documentação operacional do `support-ms`.
   após RF01.
 - `reports/`: avaliações por onda.
 
-S1 e RF01 estão `IMPLEMENTED_AND_PROVEN`; veja o
-[report RF01](reports/REPORT-SUPPORT-RF01-20260910-174742.md) e o
+S1, RF01 e RF02 estão `IMPLEMENTED_AND_PROVEN` nesta branch; veja os
+[reports de RF01](reports/REPORT-SUPPORT-RF01-20260910-174742.md),
+[RF02](reports/REPORT-SUPPORT-RF02-20260910-185500.md) e o
 [fechamento S1](reports/REPORT-SUPPORT-S1-CLOSURE-20260910-163634.md).
 O prompt `prompts/support-main-baseline-publication-prompt.md` publica o baseline
 bootstrap + RF01 com guardas Git. Os prompts de correção e RF01 são históricos.
-RF02–RF13 não estão liberadas; o próximo trabalho requer checkpoint contratual
-próprio de RF02 e branch dedicada criada a partir de `main` sincronizada.
+O prompt RF02 foi executado na branch `feat/support-rf02-update-department`.
+RF03–RF13 continuam bloqueadas.
 
 A documentação canônica de negócio fica em `../luciluci-docs/support/`.
 O anexo de revisão não contém esse submódulo; verificar sua revisão real local.

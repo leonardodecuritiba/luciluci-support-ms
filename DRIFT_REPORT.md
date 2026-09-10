@@ -26,22 +26,26 @@ a reprodução posterior e supera a declaração de ausência de drifts abertos.
 
 ## Escopo atual e futuro
 
-RF01 está `IMPLEMENTED_AND_PROVEN` neste HEAD. A documentação canônica 0.3
-fechou DEC-SUP-01, 03, 08, 09 e 10 **somente para RF01**, materializada em
-`POST /api/support/departments`. RF02–RF13 e as mesmas decisões em seus outros
-slices permanecem abertas.
+RF01 e RF02 estão `IMPLEMENTED_AND_PROVEN` nesta branch. O checkpoint canônico
+0.4 fecha DEC-SUP-01, 03, 06, 08, 09, 10 e 12 somente no recorte RF02.
+RF03–RF13 e decisões fora desses recortes permanecem abertas.
 
-Não há drift técnico aberto conhecido após S1/RF01. O próximo trabalho é o
-checkpoint de RF02, não novo bootstrap nem mensageria.
+Não há drift técnico aberto conhecido após S1/RF01/RF02. A implementação isolada
+de RF02 está nesta branch; não iniciar novo bootstrap, RF03 ou mensageria.
 
 ## Fechamento de baseline e continuidade
 
-Não há drift técnico aberto conhecido no recorte S1 + RF01. O estado publicável
-é `MAIN_BASELINE_RF01`: bootstrap e RF01 comprovados; RF02–RF13 permanecem
-`NOT_IMPLEMENTED` e suas rotas devem continuar ausentes até o respectivo lote.
+Não há drift técnico aberto conhecido no recorte S1 + RF01 + RF02. A branch
+`feat/support-rf02-update-department` contém a implementação comprovada de RF02;
+`main` continua sendo a baseline `MAIN_BASELINE_RF01` até integração posterior.
+RF03–RF13 permanecem `NOT_IMPLEMENTED` e suas rotas devem continuar ausentes.
 
-Após a publicação desta baseline, nenhuma RF funcional nova deve ser desenvolvida
-diretamente em `main`. Cada RF deve partir de `main` sincronizada em branch própria,
-passar por seu checkpoint documental e retornar a `main` somente após evidência do
-recorte. A política operacional está em
-`docs/workflows/support-development-branch-policy.md`.
+A RF02 está pronta para publicação por PR, sem drift técnico novo conhecido. O
+commit canônico de `luciluci-docs` que contém Support 0.4 foi publicado como
+`7cc153fab92b634c898727b983078c4c696d3ea9`; o `support-ms` deve registrar esse
+gitlink exato antes de publicar `feat/support-rf02-update-department`.
+
+Quando a revisão RF02 estiver integrada em `main`, ela define `MAIN_BASELINE_RF02`.
+RF03–RF13 continuam fora do escopo e sem rotas; RF03 só pode começar após checkpoint
+contratual próprio em branch derivada de `main` sincronizada. A política operacional
+está em `docs/workflows/support-development-branch-policy.md`.

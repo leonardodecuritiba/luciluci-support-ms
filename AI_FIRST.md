@@ -3,7 +3,7 @@
 ## Estado de trabalho
 
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
-materializada e RF01 está `IMPLEMENTED_AND_PROVEN`; RF02–RF13 continuam
+materializada e RF01/RF02 estão `IMPLEMENTED_AND_PROVEN` nesta branch. RF03–RF13 permanecem
 `NOT_IMPLEMENTED`. A revisão pós-S1 reabriu o fechamento por
 `DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
 
@@ -15,11 +15,12 @@ materializada e RF01 está `IMPLEMENTED_AND_PROVEN`; RF02–RF13 continuam
 4. A identidade e o código reais.
 5. `luciluci-docs/support/notes.md` para decisões por recorte de RF.
 6. `luciluci-docs/support/` na revisão local fixada, sem `--remote`.
-7. Para o próximo lote, o checkpoint contratual específico de RF02.
+7. Para referência do lote RF02 executado, `docs/prompts/support-rf02-implementation-prompt.md`.
 
 ## Limites
 
-Não reexecutar o drift ou RF01. Não avançar para RF02 sem novo checkpoint.
+Não reexecutar o drift ou RF01. O checkpoint RF02 já está fechado e a implementação
+foi limitada à branch própria, após conferir o contrato 0.4 real.
 Não reintroduzir Profile ou mensageria.
 Seed de domínio continua fora do escopo salvo decisão explícita do lote.
 Proteger bancos/volumes existentes; qualquer prova futura exige recursos

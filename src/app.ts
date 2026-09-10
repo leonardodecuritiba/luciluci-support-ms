@@ -17,7 +17,8 @@ export default function createApp(dataSource: DataSource): Express {
 
 	app.use(cors());
 	app.use(correlationIdMiddleware);
-	app.use(express.json());
+	// Parse valid JSON primitives so business routes can classify non-object bodies as 422.
+	app.use(express.json({ strict: false }));
 	app.use(performedByMiddleware);
 	app.use(metricsMiddleware);
 	app.use(loggerMiddleware);

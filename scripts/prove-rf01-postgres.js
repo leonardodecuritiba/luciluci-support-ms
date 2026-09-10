@@ -248,6 +248,7 @@ async function main() {
 				'/api-docs',
 				'/api-docs-json',
 				'/api/support/departments',
+				'/api/support/departments/{departmentId}',
 				'/health',
 				'/metrics',
 			]);
@@ -256,7 +257,6 @@ async function main() {
 				200,
 			);
 			const pendingRoutes = [
-				['PATCH', `/api/support/departments/${randomUUID()}`],
 				['GET', '/api/support/departments'],
 				['DELETE', `/api/support/departments/${randomUUID()}`],
 				['POST', '/api/support/tickets'],

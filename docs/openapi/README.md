@@ -17,5 +17,7 @@ Read first:
   - `npm run openapi:check`
   - `npm run openapi:compat -- <baseline.json> docs/openapi/v1/support-api.json`
 
-During bootstrap S1, the contract describes only `/health`, `/metrics`,
-`/api-docs`, and `/api-docs-json`. RF01–RF13 have no public endpoint yet.
+The current contract describes `/health`, `/metrics`, `/api-docs`,
+`/api-docs-json`, `POST /api/support/departments` (RF01), and
+`PATCH /api/support/departments/{departmentId}` (RF02). RF03–RF13 have no
+public endpoint yet.

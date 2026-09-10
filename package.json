@@ -37,6 +37,7 @@
 		"coverage:check": "node scripts/check-coverage.js coverage/coverage-summary.json",
 		"proof:s1:postgres": "node scripts/prove-s1-postgres.js",
 		"proof:rf01:postgres": "node scripts/prove-rf01-postgres.js",
+		"proof:rf02:postgres": "node scripts/prove-rf02-postgres.js",
 		"proof:s1:image": "node scripts/prove-s1-image.js"
 	},
 	"lint-staged": {
