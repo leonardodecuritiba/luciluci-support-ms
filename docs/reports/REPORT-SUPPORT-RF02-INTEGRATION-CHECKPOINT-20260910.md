@@ -1,6 +1,6 @@
 # REPORT — RF02 Integration Checkpoint
 
-**status:** `DOCS_COMMIT_PUBLISHED / READY_FOR_SERVICE_COMMIT_PUSH_PR`
+**status:** `DOCS_COMMIT_PUBLISHED / SERVICE_PUSHED / PR_OPEN_QUALITY_IN_PROGRESS`
 **microservice:** `support-ms`
 **branch:** `feat/support-rf02-update-department`
 **functional_state:** RF01 `IMPLEMENTED_AND_PROVEN`; RF02 `IMPLEMENTED_AND_PROVEN`; RF03–RF13 `NOT_IMPLEMENTED`
@@ -30,8 +30,9 @@ revisão já comprovada.
 
 `luciluci-docs` foi publicado na branch `docs/support-rf02-contract` com o commit
 `7cc153fab92b634c898727b983078c4c696d3ea9`, já resolvível em
-`origin/docs/support-rf02-contract`. Antes de commitar o serviço, registre esse
-SHA no gitlink.
+`origin/docs/support-rf02-contract`. O SHA foi registrado no gitlink pelo commit
+`d347786442dd16d00fc4a71fe3a911f2788feda6` do serviço, publicado na branch
+`feat/support-rf02-update-department`.
 
 Não publicar no `support-ms` um gitlink que aponte somente para um commit local.
 Não incluir alterações documentais alheias ao Support/RF02 no mesmo commit sem
@@ -54,8 +55,10 @@ Título recomendado:
 
 `feat(support): implement RF02 department update`
 
-A PR deve ter base `main`, head `feat/support-rf02-update-department` e registrar
-que RF03–RF13 continuam fora do escopo. O merge só é elegível quando:
+A PR [#1](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/1) foi
+aberta com base `main`, head `feat/support-rf02-update-department` e registra
+que RF03–RF13 continuam fora do escopo. No momento, o check remoto `quality`
+está `IN_PROGRESS`; o merge só é elegível quando:
 
 1. o commit canônico de documentação referenciado pelo gitlink existir remotamente;
 2. a branch estiver publicada sem force;

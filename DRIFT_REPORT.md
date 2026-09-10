@@ -40,10 +40,11 @@ Não há drift técnico aberto conhecido no recorte S1 + RF01 + RF02. A branch
 `main` continua sendo a baseline `MAIN_BASELINE_RF01` até integração posterior.
 RF03–RF13 permanecem `NOT_IMPLEMENTED` e suas rotas devem continuar ausentes.
 
-A RF02 está pronta para publicação por PR, sem drift técnico novo conhecido. O
-commit canônico de `luciluci-docs` que contém Support 0.4 foi publicado como
-`7cc153fab92b634c898727b983078c4c696d3ea9`; o `support-ms` deve registrar esse
-gitlink exato antes de publicar `feat/support-rf02-update-department`.
+A RF02 está publicada em `feat/support-rf02-update-department` e aberta na PR
+[#1](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/1), sem drift
+técnico novo conhecido. O commit canônico de `luciluci-docs` que contém Support
+0.4 foi publicado como `7cc153fab92b634c898727b983078c4c696d3ea9` e está
+registrado no gitlink da feature.
 
 Quando a revisão RF02 estiver integrada em `main`, ela define `MAIN_BASELINE_RF02`.
 RF03–RF13 continuam fora do escopo e sem rotas; RF03 só pode começar após checkpoint

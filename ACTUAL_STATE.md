@@ -85,9 +85,10 @@ baseline publicada e que o submódulo contém o contrato congelado.
 
 RF02 está `IMPLEMENTED_AND_PROVEN` nesta revisão. O commit canônico de
 `luciluci-docs` (`7cc153fab92b634c898727b983078c4c696d3ea9`) foi publicado na
-branch documental própria. O próximo passo é registrar esse SHA no gitlink,
-commitar/pushar esta branch e abrir a PR de RF02 contra `main`. O merge só é
-elegível quando os checks da PR estiverem verdes.
+branch documental própria; o gitlink foi registrado no commit da feature
+`d347786442dd16d00fc4a71fe3a911f2788feda6`. A PR #1 foi aberta contra `main`;
+o check remoto `quality` está `IN_PROGRESS`. O merge só é elegível quando os
+checks da PR estiverem verdes.
 
 Após a integração, `main` passa a representar `MAIN_BASELINE_RF02`. RF03–RF13
 continuam `NOT_IMPLEMENTED`; o próximo trabalho funcional é somente o checkpoint
