@@ -2,6 +2,27 @@
 
 Artefatos de avaliação de completude do microserviço e da documentação canônica associada.
 
+## Baseline para `main`
+
+[Report de fechamento da baseline](REPORT-SUPPORT-MAIN-BASELINE-20260910-145800.md):
+bootstrap S1 + RF01 formam `MAIN_BASELINE_RF01` e estão prontos para publicação
+Git, sem atribuir push remoto ainda não comprovado. Após a publicação, RF02–RF13
+devem seguir branches próprias.
+
+## Fechamento atual de S1
+
+[Report de fechamento](REPORT-SUPPORT-S1-CLOSURE-20260910-163634.md): estado
+`BOOTSTRAP_IMPLEMENTED_AND_PROVEN`, drift resolvido e provas locais de
+PostgreSQL, processo e imagem executadas. A
+[revisão independente](REPORT-SUPPORT-S1-REVIEW-20260910-161432.md) e o
+[report original](REPORT-SUPPORT-BOOTSTRAP-20260910-154444.md) são históricos.
+
+## RF01
+
+[Report RF01](REPORT-SUPPORT-RF01-20260910-174742.md): endpoint, migration,
+OpenAPI, testes e prova PostgreSQL/processo compilado; RF02–RF13 continuam não
+implementadas.
+
 ## Finalidade
 
 Os arquivos em `docs/reports/` são relatórios humanos de revisão rápida, gerados com apoio de IA e supervisionados por um desenvolvedor.

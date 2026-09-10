@@ -1,102 +1,32 @@
-# Arquitetura
+# Arquitetura S1 + RF01 — Support
 
-O `standard-ms` segue o modelo validado no ecossistema LuciLuci:
+O serviço usa Express, TypeORM e PostgreSQL. O runtime ativo preserva logs
+estruturados, métricas Prometheus, envelope de erro, idempotência genérica e
+correlação.
 
-- Express para HTTP
-- TypeORM para persistência
-- PostgreSQL como banco principal
-- RabbitMQ para integração assíncrona
-- Outbox para publicação confiável
-- Contrato público de autenticação documentado como `Bearer JWT` via Identity/API Gateway; a validação do token pertence ao boundary público/upstream do serviço
-- Clean Architecture com separação por feature
-- `X-Correlation-ID` obrigatório nas operações HTTP públicas de negócio de `profiles`; o middleware local rejeita ausência com `400 bad_request`, propaga o valor para logs, auditoria, idempotência e outbox e isenta apenas a superfície operacional local + `OPTIONS`
-
-## Superfície operacional local herdada do template
-
-O `standard-ms` expõe uma superfície operacional local herdada pelo processo de microservice-startup:
+## Superfície exposta
 
 - `/health`
 - `/metrics`
 - `/api-docs`
 - `/api-docs-json`
-- `/events-docs`
-- `/docs/asyncapi/*`
+- `POST /api/support/departments`
 
-Essa superfície:
+Os quatro primeiros são superfície operacional e isentos de
+`X-Correlation-ID`. O último é a RF01 e exige esse header; RF02–RF13 seguem
+sem rota registrada.
 
-- não é RF do domínio
-- deve ser inventariada em runbooks e reports como superfície operacional local herdada do template
-- é isenta da exigência de entrada de `X-Correlation-ID`
-- pode receber um `X-Correlation-ID` gerado/ecoado pelo middleware apenas para observabilidade local quando o header não vier da origem
+## Mensageria
 
-## Fronteira NFR padrão do template
+Mensageria é `not_applicable` no S1: não há contrato AsyncAPI, exchange,
+publisher, consumer ou outbox ativo. O health declara essa condição
+explicitamente. O gate `npm run messaging:check` verifica a identidade, a
+ausência dos assets e a falta de wiring no runtime.
 
-Antes de registrar qualquer NFR como gap do microserviço derivado, o template exige classificar a fronteira do item:
+## Persistência
 
-- `implementado localmente`
-- `upstream/plataforma`
-- `compartilhado`
-- `fora do escopo desta release`
-- `gap real local`
-
-Presença em documentação global do ecossistema não implica obrigação local automática no serviço derivado.
-
-| NFR / capacidade                                                  | Categoria padrão sugerida      | Precisa decisão por serviço derivado? | Como reportar no microserviço derivado                                                                                  |
-| ----------------------------------------------------------------- | ------------------------------ | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Rate limit                                                        | `upstream/plataforma`          | sim                                   | registrar como responsabilidade do gateway/BFF; só vira gap local se o serviço for exposto sem esse boundary            |
-| Tracing distribuído / OpenTelemetry                               | `compartilhado`                | sim                                   | separar plataforma de observabilidade vs instrumentação local; ausência local só vira gap após decisão explícita        |
-| Schema Registry externo                                           | `upstream/plataforma`          | sim                                   | não marcar gap local automático; distinguir integração externa do helper local do serviço                               |
-| Registry local de eventos derivado do AsyncAPI versionado         | `implementado localmente`      | não                                   | reportar como capacidade local quando `event-schema-registry.ts` estiver alinhado ao contrato versionado do repositório |
-| DLQ / TTL / redrive / retry exponencial / poison message handling | `compartilhado`                | sim                                   | só marcar gap local quando o serviço assumir a política operacional da fila/consumer                                    |
-| Evidência automatizada de segurança                               | `fora do escopo desta release` | sim                                   | não tratar ausência como gap local automático; abrir gap apenas quando o repositório assumir suíte/pipeline dedicados   |
-| Evidência automatizada de performance/carga                       | `fora do escopo desta release` | sim                                   | mesma regra; não virar gap local sem escopo explícito                                                                   |
-| CDC / integração de streaming genérica                            | `fora do escopo desta release` | sim                                   | não inferir requisito local sem documentação canônica do domínio e decisão explícita                                    |
-
-Regra de fechamento:
-
-- `gap real local` só pode ser usado quando a responsabilidade local estiver explícita e a evidência continuar ausente
-- itens `upstream/plataforma`, `compartilhado` sem decisão local ou `fora do escopo desta release` não devem aparecer como falso gap do serviço
-- não consolidar `registry local derivado do AsyncAPI` e `Schema Registry externo` na mesma evidência ou no mesmo achado
-
-Baseline herdável padrão de RabbitMQ no `standard-ms`:
-
-- exchange durável
-- fila durável
-- outbox publisher real
-- consumer de exemplo
-- idempotência de consumo
-
-Fora da baseline herdável padrão de RabbitMQ:
-
-- `DLQ`
-- `TTL`
-- `redrive`
-- `retry exponencial`
-- `poison message handling`
-
-Esses itens permanecem `compartilhado` e só viram `gap real local` quando o serviço derivado assumir explicitamente a política operacional de falha/redrive da fila ou do consumer.
-
-## Capacidade operacional materializada
-
-| Capacidade documentada                                                        | Estado atual no `standard-ms` | Evidência objetiva                                                                                                                                                                                                   | Ação adotada nesta rodada                                                                     |
-| ----------------------------------------------------------------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| Logs estruturados e correlação                                                | implementado                  | `src/shared/infrastructure/logger/index.ts`, `src/shared/kernel/middlewares/logger.middleware.ts`, `src/shared/kernel/middlewares/correlation-id.middleware.ts`                                                      | mantido como capacidade real do serviço                                                       |
-| Métricas HTTP/health                                                          | implementado                  | `src/shared/infrastructure/metrics/registry.ts`, `src/shared/kernel/middlewares/metrics.middleware.ts`, `src/app.ts` (`/metrics`, `/health`)                                                                         | mantido como capacidade real do serviço                                                       |
-| Tracing distribuído com OpenTelemetry                                         | não implementado              | ausência de dependências/instrumentação `@opentelemetry/*` em `package.json` e `src/`                                                                                                                                | documentação local reclassificada; sem implementação nova                                     |
-| Rate limiting                                                                 | upstream, não no serviço      | `luciluci-docs/docs/architecture-and-service-bus.md` atribui rate limit ao gateway; `standard-ms` não tem middleware de rate limit                                                                                   | documentação local mantida/alinhada como responsabilidade upstream                            |
-| Outbox + publicação real no broker                                            | implementado                  | `src/shared/adapters/workers/outbox-event-publisher.worker.ts`, `tests/integration/events/outbox-rabbitmq.spec.ts`                                                                                                   | mantido como capacidade real do serviço                                                       |
-| DLQ / TTL / redrive / retry exponencial / poison message handling em RabbitMQ | não implementado              | `src/shared/infrastructure/rabbitmq/rabbitmq.service.ts` usa filas duráveis sem argumentos de DLQ/TTL e faz `nack(..., false, false)` sem política local de redrive; `src/shared/utils/retry.ts` é só bootstrap fixo | documentação local reclassificada; baseline herdável mantida sem mensageria operacional nova  |
-| Registry local de eventos derivado do AsyncAPI                                | implementado                  | `src/shared/infrastructure/events/event-schema-registry.ts` carrega o AsyncAPI versionado localmente e expõe consulta em memória para eventos publicados/consumidos                                                  | mantido como helper local do template                                                         |
-| Schema Registry externo de plataforma                                         | upstream, não no serviço      | ausência de cliente/SDK/configuração externa no `standard-ms`; `luciluci-docs/docs/architecture-and-service-bus.md` trata governança de contratos em nível de ecossistema                                            | documentação local alinhada para não confundir integração externa com helper local do serviço |
-| CI contratual/backward compatibility                                          | implementado                  | `.github/workflows/ci.yml`, `package.json`, `scripts/check-openapi*.js`, `scripts/check-asyncapi*.js`                                                                                                                | mantido como capacidade real do pipeline                                                      |
-| Cobertura de carga/performance                                                | não implementado              | ausência de suites `k6`, `artillery` ou equivalente no repositório e no CI                                                                                                                                           | documentação local reclassificada                                                             |
-| Cobertura de segurança/OWASP                                                  | não implementado              | não há workflow/suite dedicada além de auth/error/rbac                                                                                                                                                               | documentação local reclassificada                                                             |
-| CD/publicação                                                                 | parcial                       | `.github/workflows/cd.yml` publica imagem real no GHCR, mas não há deploy automático de ambiente                                                                                                                     | documentação local explicitada para não chamar isso de deploy                                 |
-
-Fluxo principal:
-
-1. Requisição HTTP de negócio entra com `X-Correlation-ID`
-2. Controller valida DTO e orquestra o caso de uso
-3. Escritas persistem entidade, audit log e outbox na mesma transação
-4. Worker publica eventos pendentes do outbox
-5. Consumer externo atualiza snapshot com idempotência de consumo
+Em banco Support novo e isolado, migrations criam `idempotency_keys`,
+`departments` e `department_allowed_users`. A membership usa PK composta
+`(department_id, position)`, FK e índice `(user_id, department_id)`, preservando
+ordem/duplicatas sem serialização. A criação é transacional; RF01 não ativa
+idempotência, auditoria, outbox ou mensageria.

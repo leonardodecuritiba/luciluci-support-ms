@@ -1,5 +1,15 @@
 # Skill: microservice-builder
 
+## Precedência específica de Support — revisão 0.2
+
+No lote startup deste serviço, executar `docs/prompts/support-bootstrap-prompt.md`
+e `docs/workflows/support-bootstrap-plan.md`. O escopo é S0 + S1 sem RFs,
+sem eventos de domínio e sem seed de domínio. A sugestão genérica de renomear
+Profile não autoriza transformá-lo em Ticket. Não usar `--remote`, não avançar
+para RF01 e não interromper a derivação só porque ultrapassa 2–4 arquivos: a
+retirada do exemplo deve preservar consistência de imports, contratos e CI.
+As demais regras continuam aplicáveis naquilo que não conflitar com esse recorte.
+
 ## Objetivo
 
 Transformar o `standard-ms` em um microserviço real do ecossistema LuciLuci, com execução AI-first, guiada por documentação, aderente à arquitetura backend e pronta para avançar RF por RF em ondas.

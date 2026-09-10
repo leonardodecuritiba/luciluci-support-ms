@@ -3,14 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import BadRequestError from '../exceptions/bad-request.error';
 
-const EXEMPT_PATH_PREFIXES = [
-	'/api-docs',
-	'/api-docs-json',
-	'/events-docs',
-	'/docs/asyncapi',
-	'/metrics',
-	'/health',
-];
+const EXEMPT_PATH_PREFIXES = ['/api-docs', '/api-docs-json', '/metrics', '/health'];
 
 export default function correlationIdMiddleware(
 	req: Request,

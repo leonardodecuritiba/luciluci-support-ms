@@ -4,112 +4,49 @@ import { OpenAPIV3 } from 'openapi-types';
 import swaggerSpec from '../../../src/shared/openapi/swagger';
 import {
 	buildTestApp,
-	clearDatabase,
 	destroyTestDataSource,
 	initializeTestDataSource,
 } from '../../helpers/test-helpers';
 
-describe('Contract: OpenAPI', () => {
+describe('Contract: Support bootstrap OpenAPI', () => {
 	beforeAll(async () => {
 		await initializeTestDataSource();
-	});
-
-	beforeEach(async () => {
-		await clearDatabase();
 	});
 
 	afterAll(async () => {
 		await destroyTestDataSource();
 	});
 
-	it('documents the canonical profile endpoints', () => {
+	it('documents operational paths and RF01 only', () => {
 		const spec = swaggerSpec as OpenAPIV3.Document;
 
-		expect(spec.paths?.['/profiles']?.post).toBeDefined();
-		expect(spec.paths?.['/profiles']?.get).toBeDefined();
-		expect(spec.paths?.['/profiles/{profileId}']?.patch).toBeDefined();
-		expect(spec.paths?.['/profiles/by-external-id/{externalId}']?.get).toBeDefined();
-	});
-
-	it('models Bearer JWT security as the public contract with upstream enforcement notes', () => {
-		const spec = swaggerSpec as OpenAPIV3.Document;
-		const bearerAuth = spec.components?.securitySchemes?.BearerAuth as
-			| OpenAPIV3.HttpSecurityScheme
-			| undefined;
-
-		expect(spec.info.description).toContain('Bearer JWT');
-		expect(spec.info.description).toContain('API Gateway/BFF');
-		expect(spec.info.description).not.toContain('X-Auth-*');
-		expect(bearerAuth).toMatchObject({
-			type: 'http',
-			scheme: 'bearer',
-			bearerFormat: 'JWT',
-		});
-		expect(bearerAuth?.description).toContain('upstream');
-		expect(bearerAuth?.description).not.toContain('X-Auth-*');
-	});
-
-	it('returns an error shape documented by the contract for invalid create requests', async () => {
-		const app = buildTestApp();
-
-		const response = await request(app)
-			.post('/profiles')
-			.set('X-Correlation-ID', '8021b0b0-5855-4c1c-8086-85bba8f4ec94')
-			.send({
-				externalId: 'profile-001',
-			});
-
-		expect(response.status).toBe(400);
-		expect(response.body).toEqual({
-			status_code: 400,
-			message: 'bad_request',
-			errors: [
-				{
-					code: 'required',
-					field: 'X-Idempotency-Key',
-					message: 'X-Idempotency-Key header is required for write operations.',
-				},
-			],
-		});
-	});
-
-	it('returns a documented 404 error for unknown externalId lookups', async () => {
-		const app = buildTestApp();
-
-		const response = await request(app)
-			.get('/profiles/by-external-id/not-found')
-			.set('X-Correlation-ID', '8021b0b0-5855-4c1c-8086-85bba8f4ec94');
-
-		expect(response.status).toBe(404);
-		expect(response.body.message).toBe('PROFILE_NOT_FOUND');
-	});
-
-	it('documents X-Correlation-ID as a required header for public operations', () => {
-		const spec = swaggerSpec as OpenAPIV3.Document;
-		const correlationIdHeader = spec.components?.parameters?.CorrelationIdHeader as
-			| OpenAPIV3.ParameterObject
-			| undefined;
-		const profilesGet = spec.paths?.['/profiles']?.get;
-		const profilesPost = spec.paths?.['/profiles']?.post;
-
-		expect(correlationIdHeader).toMatchObject({
-			in: 'header',
-			name: 'X-Correlation-ID',
-			required: true,
-		});
-		expect(profilesGet?.parameters).toEqual(
-			expect.arrayContaining([
-				expect.objectContaining({
-					$ref: '#/components/parameters/CorrelationIdHeader',
-				}),
-			]),
+		expect(Object.keys(spec.paths ?? {}).sort()).toEqual([
+			'/api-docs',
+			'/api-docs-json',
+			'/api/support/departments',
+			'/health',
+			'/metrics',
+		]);
+		expect(spec.paths?.['/profiles']).toBeUndefined();
+		expect(spec.paths?.['/api/support/departments']?.post?.parameters).toEqual([
+			{ $ref: '#/components/parameters/CorrelationIdHeader' },
+		]);
+		expect(spec.paths?.['/api/support/departments']?.post?.responses).toEqual(
+			expect.objectContaining({
+				'201': expect.any(Object),
+				'400': expect.any(Object),
+				'422': expect.any(Object),
+				'500': expect.any(Object),
+			}),
 		);
-		expect(profilesPost?.parameters).toEqual(
-			expect.arrayContaining([
-				expect.objectContaining({
-					$ref: '#/components/parameters/CorrelationIdHeader',
-				}),
-			]),
-		);
+		expect(spec.info.title).toBe('support-ms');
+	});
+
+	it('serves the runtime OpenAPI document without requiring correlation', async () => {
+		const response = await request(buildTestApp()).get('/api-docs-json');
+
+		expect(response.status).toBe(200);
+		expect(response.headers['x-correlation-id']).toEqual(expect.any(String));
+		expect(response.body.paths).toEqual((swaggerSpec as OpenAPIV3.Document).paths);
 	});
 });

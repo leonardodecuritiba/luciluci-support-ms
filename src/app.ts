@@ -1,10 +1,8 @@
 import cors from 'cors';
 import express, { Express } from 'express';
 import swaggerUi from 'swagger-ui-express';
-import path from 'path';
 import { DataSource } from 'typeorm';
 
-import buildProfileRouter from './features/profile/adapters/routes/profile.routes';
 import createErrorHandler from './shared/kernel/middlewares/error-handler';
 import correlationIdMiddleware from './shared/kernel/middlewares/correlation-id.middleware';
 import loggerMiddleware from './shared/kernel/middlewares/logger.middleware';
@@ -12,12 +10,9 @@ import metricsMiddleware from './shared/kernel/middlewares/metrics.middleware';
 import performedByMiddleware from './shared/kernel/middlewares/performed-by.middleware';
 import { metricsRegistry } from './shared/infrastructure/metrics/registry';
 import swaggerSpec from './shared/openapi/swagger';
-import RabbitMQService from './shared/infrastructure/rabbitmq/rabbitmq.service';
+import buildDepartmentRouter from './features/department/adapters/routes/department.routes';
 
-export default function createApp(
-	dataSource: DataSource,
-	rabbitMqService?: RabbitMQService,
-): Express {
+export default function createApp(dataSource: DataSource): Express {
 	const app = express();
 
 	app.use(cors());
@@ -27,13 +22,10 @@ export default function createApp(
 	app.use(metricsMiddleware);
 	app.use(loggerMiddleware);
 
-	app.use('/profiles', buildProfileRouter(dataSource));
 	app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 	app.get('/api-docs-json', (_req, res) => {
 		res.status(200).json(swaggerSpec);
 	});
-	app.use('/events-docs', express.static(path.join(process.cwd(), 'docs/asyncapi/html')));
-	app.use('/docs/asyncapi', express.static(path.join(process.cwd(), 'docs/asyncapi')));
 	app.get('/metrics', async (_req, res) => {
 		res.setHeader('Content-Type', metricsRegistry.contentType);
 		res.status(200).send(await metricsRegistry.metrics());
@@ -43,9 +35,13 @@ export default function createApp(
 			status: 'ok',
 			timestamp: new Date().toISOString(),
 			database: dataSource.isInitialized,
-			rabbitmq: rabbitMqService?.isHealthy() ?? false,
+			messaging: {
+				enabled: false,
+				status: 'not_applicable',
+			},
 		});
 	});
+	app.use('/api/support/departments', buildDepartmentRouter(dataSource));
 
 	app.use(createErrorHandler(dataSource));
 

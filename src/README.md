@@ -1,10 +1,9 @@
 # src
 
-Código-fonte do template.
+Código ativo de Support após S1 e RF01.
 
-Leia nesta ordem:
-
-1. `app.ts`
-2. `main.ts`
-3. `features/README.md`
-4. `shared/README.md`
+- `features/department/` materializa exclusivamente RF01.
+- `app.ts` expõe endpoints operacionais e `POST /api/support/departments`.
+- `main.ts` inicializa PostgreSQL e HTTP; não inicia broker ou worker.
+- `shared/` contém o kernel técnico preservado.
+- RF02–RF13 não possuem feature nem rota.

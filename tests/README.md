@@ -1,9 +1,10 @@
 # tests
 
-Testes reais do template.
+As suítes provam S1 e RF01: identidade, ausência de Profile, mensageria inativa,
+kernel HTTP, Department, OpenAPI, seed bloqueada e idempotência genérica.
 
-Leia nesta ordem:
+- `unit/`: kernel e invariantes de bootstrap.
+- `integration/`: superfície HTTP com Express e SQLite em memória, incluindo RF01.
+- `contract/`: OpenAPI operacional e RF01.
 
-1. `unit/`
-2. `integration/`
-3. `contract/`
+RF02–RF13 e fluxos funcionais/E2E permanecem ausentes.

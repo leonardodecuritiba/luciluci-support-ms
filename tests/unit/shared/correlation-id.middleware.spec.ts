@@ -6,7 +6,7 @@ describe('correlation-id.middleware', () => {
 	it('rejects business requests without X-Correlation-ID', () => {
 		const req = {
 			method: 'GET',
-			path: '/profiles',
+			path: '/synthetic-business-route',
 			header: jest.fn().mockReturnValue(undefined),
 		} as unknown as Request;
 		const res = {
@@ -35,7 +35,7 @@ describe('correlation-id.middleware', () => {
 	it('accepts business requests when X-Correlation-ID is provided', () => {
 		const req = {
 			method: 'GET',
-			path: '/profiles',
+			path: '/synthetic-business-route',
 			header: jest.fn().mockReturnValue('8021b0b0-5855-4c1c-8086-85bba8f4ec94'),
 		} as unknown as Request;
 		const res = {

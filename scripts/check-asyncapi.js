@@ -231,7 +231,12 @@ function validateAsyncApiDocument(document) {
 }
 
 function main() {
-	const inputPath = process.argv[2] ?? 'docs/asyncapi/v1/standard-ms-events.json';
+	const inputPath = process.argv[2];
+
+	if (!inputPath) {
+		console.error('Usage: node scripts/check-asyncapi.js <contract.json>');
+		process.exit(1);
+	}
 	const result = validateAsyncApiDocument(readJson(inputPath));
 
 	if (!result.valid) {

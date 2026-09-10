@@ -1,9 +1,9 @@
-# Bootstrap Prompt
+# Bootstrap — entrada atual de Support
 
-Leia `AI_FIRST.md`, `ACTUAL_STATE.md`, `service-identity.json` e atualize `./luciluci-docs/` com `git submodule update --remote --recursive` antes de tocar no código.
+S0 + S1 e o defeito posterior de build foram concluídos. O checkpoint
+documental 0.3 liberou **RF01 somente**.
 
-Depois leia a documentação do domínio em `./luciluci-docs/<servico>/`.
-
-Trabalhe RF por RF, mantenha `ACTUAL_STATE.md` atualizado e pare imediatamente em caso de DRIFT.
-Comece auditando resíduos de `profile`, `profiles`, `standard-ms` e `standard_ms` antes de abrir a primeira RF.
-Antes de registrar qualquer gap NFR no serviço derivado, classifique explicitamente a fronteira `implementado localmente` vs `upstream/plataforma` vs `compartilhado` vs `fora do escopo desta release`.
+O [prompt de derivação](support-bootstrap-prompt.md) é histórico. Para avançar,
+use [support-rf01-implementation-prompt.md](support-rf01-implementation-prompt.md).
+Não refaça Profile/bootstrap, não altere o submódulo com `--remote` e não
+avance para RF02–RF13.

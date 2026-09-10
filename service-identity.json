@@ -1,23 +1,25 @@
 {
 	"templateSlug": "standard-ms",
-	"serviceSlug": "standard-ms",
-	"serviceDisplayName": "Standard MS",
-	"exampleFeatureSingular": "profile",
-	"exampleFeaturePlural": "profiles",
-	"defaultDbName": "standard_ms",
-	"defaultAsyncApiArtifact": "docs/asyncapi/v1/standard-ms-events.json",
-	"defaultOpenApiArtifact": "docs/openapi/v1/profiles-api.json",
+	"serviceSlug": "support-ms",
+	"serviceDisplayName": "Support (Suporte)",
+	"domainSlug": "support",
+	"defaultDbName": "support_ms",
+	"defaultTestDbName": "support_ms_test",
+	"defaultAsyncApiArtifact": null,
+	"defaultOpenApiArtifact": "docs/openapi/v1/support-api.json",
 	"defaultHttpCollection": "api.http",
-	"defaultRabbitMqExchanges": {
-		"profile": "profile.events",
-		"classification": "classification.events"
+	"defaultRabbitMqExchanges": {},
+	"capabilities": {
+		"http": true,
+		"messaging": false
 	},
 	"mustBeReplacedWhenDeriving": [
 		"standard-ms",
 		"standard_ms",
 		"profile",
 		"profiles",
-		"profile.events"
+		"classification",
+		"classifications"
 	],
-	"luciluciDocsPathPattern": "./luciluci-docs/<service>/"
+	"luciluciDocsPath": "./luciluci-docs/support/"
 }

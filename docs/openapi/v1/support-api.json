@@ -1,0 +1,183 @@
+{
+	"components": {
+		"parameters": {
+			"CorrelationIdHeader": {
+				"in": "header",
+				"name": "X-Correlation-ID",
+				"required": true,
+				"schema": { "format": "uuid", "type": "string" }
+			}
+		},
+		"schemas": {
+			"CreateDepartmentRequest": {
+				"additionalProperties": false,
+				"properties": {
+					"allowedUserIds": {
+						"items": { "pattern": ".*\\S.*", "type": "string" },
+						"type": "array"
+					},
+					"name": { "pattern": ".*\\S.*", "type": "string" },
+					"type": { "$ref": "#/components/schemas/DepartmentType" }
+				},
+				"required": ["name", "type"],
+				"type": "object"
+			},
+			"Department": {
+				"properties": {
+					"active": { "enum": [true], "type": "boolean" },
+					"allowedUserIds": { "items": { "type": "string" }, "type": "array" },
+					"createdAt": { "format": "date-time", "type": "string" },
+					"id": { "format": "uuid", "type": "string" },
+					"name": { "type": "string" },
+					"type": { "$ref": "#/components/schemas/DepartmentType" },
+					"updatedAt": { "format": "date-time", "type": "string" }
+				},
+				"required": [
+					"id",
+					"name",
+					"allowedUserIds",
+					"type",
+					"active",
+					"createdAt",
+					"updatedAt"
+				],
+				"type": "object"
+			},
+			"DepartmentType": { "enum": ["todos", "backoffice", "cd"], "type": "string" },
+			"ErrorResponse": {
+				"properties": {
+					"errors": { "items": { "type": "object" }, "type": "array" },
+					"message": { "type": "string" },
+					"status_code": { "type": "integer" }
+				},
+				"required": ["status_code", "message"],
+				"type": "object"
+			}
+		}
+	},
+	"info": {
+		"description": "Support OpenAPI contract. RF01 creates departments; RF02–RF13 remain unavailable until their own contracts are implemented.",
+		"title": "support-ms",
+		"version": "1.0.0"
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/api-docs": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": { "text/html": { "schema": { "type": "string" } } },
+						"description": "Interactive OpenAPI documentation."
+					}
+				},
+				"summary": "Swagger UI"
+			}
+		},
+		"/api-docs-json": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": { "application/json": { "schema": { "type": "object" } } },
+						"description": "Current OpenAPI document."
+					}
+				},
+				"summary": "OpenAPI document"
+			}
+		},
+		"/api/support/departments": {
+			"post": {
+				"parameters": [{ "$ref": "#/components/parameters/CorrelationIdHeader" }],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/CreateDepartmentRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"201": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/Department" }
+							}
+						},
+						"description": "Department created."
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Malformed JSON or missing correlation."
+					},
+					"422": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Invalid request body."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Unexpected error."
+					}
+				},
+				"summary": "Create a department",
+				"tags": ["Departments"]
+			}
+		},
+		"/health": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"database": { "type": "boolean" },
+										"messaging": {
+											"properties": {
+												"enabled": { "enum": [false], "type": "boolean" },
+												"status": {
+													"enum": ["not_applicable"],
+													"type": "string"
+												}
+											},
+											"required": ["enabled", "status"],
+											"type": "object"
+										},
+										"status": { "enum": ["ok"], "type": "string" },
+										"timestamp": { "format": "date-time", "type": "string" }
+									},
+									"required": ["status", "timestamp", "database", "messaging"],
+									"type": "object"
+								}
+							}
+						},
+						"description": "Operational health status."
+					}
+				},
+				"summary": "Service health"
+			}
+		},
+		"/metrics": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": { "text/plain": { "schema": { "type": "string" } } },
+						"description": "Prometheus exposition format."
+					}
+				},
+				"summary": "Prometheus metrics"
+			}
+		}
+	},
+	"tags": []
+}

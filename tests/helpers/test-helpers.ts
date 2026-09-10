@@ -2,11 +2,9 @@ import { randomUUID } from 'node:crypto';
 
 import createApp from '../../src/app';
 import TestDataSource from '../../src/shared/infrastructure/database/data-source-test';
-import AuditLog from '../../src/shared/entities/audit-log.entity';
 import IdempotencyKey from '../../src/shared/entities/idempotency-key.entity';
-import OutboxEvent from '../../src/shared/entities/outbox-event.entity';
-import ProcessedMessage from '../../src/shared/entities/processed-message.entity';
-import Profile from '../../src/features/profile/entities/profile.entity';
+import Department from '../../src/features/department/entities/department.entity';
+import DepartmentAllowedUser from '../../src/features/department/entities/department-allowed-user.entity';
 
 export function generateTestUuid(): string {
 	return randomUUID();
@@ -29,7 +27,7 @@ export async function destroyTestDataSource(): Promise<void> {
 }
 
 export async function clearDatabase(): Promise<void> {
-	const entities = [ProcessedMessage, AuditLog, OutboxEvent, IdempotencyKey, Profile];
+	const entities = [IdempotencyKey, DepartmentAllowedUser, Department];
 
 	for (const entity of entities) {
 		await TestDataSource.getRepository(entity).clear();

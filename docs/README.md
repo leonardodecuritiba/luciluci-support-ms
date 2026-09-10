@@ -1,57 +1,24 @@
 # docs
 
-Documentação complementar do template-base `standard-ms`.
+Documentação operacional do `support-ms`.
 
-## Papel deste diretório
+- `architecture/`: identidade materializada e desenho S1.
+- `openapi/`: contrato operacional de Support.
+- `asyncapi/`: ausência explícita de mensageria no S1.
+- `runbooks/`: execução local com PostgreSQL.
+- `workflows/support-bootstrap-plan.md`: inventário, evidência e passagem
+  para W1.
+- `workflows/support-development-branch-policy.md`: política de `main` e branches
+  após RF01.
+- `reports/`: avaliações por onda.
 
-Este diretório materializa o workflow AI-first do template em três momentos:
+S1 e RF01 estão `IMPLEMENTED_AND_PROVEN`; veja o
+[report RF01](reports/REPORT-SUPPORT-RF01-20260910-174742.md) e o
+[fechamento S1](reports/REPORT-SUPPORT-S1-CLOSURE-20260910-163634.md).
+O prompt `prompts/support-main-baseline-publication-prompt.md` publica o baseline
+bootstrap + RF01 com guardas Git. Os prompts de correção e RF01 são históricos.
+RF02–RF13 não estão liberadas; o próximo trabalho requer checkpoint contratual
+próprio de RF02 e branch dedicada criada a partir de `main` sincronizada.
 
-1. bootstrap/derivação do microserviço
-2. report/review de completude
-3. drift-fix por ondas
-
-Fluxo canônico herdado do template:
-
-- `bootstrap/build -> report -> drift-fix -> report -> drift-fix -> wave final`
-
-## Regras base de derivação
-
-- O `standard-ms` é o template base; `profile` existe apenas como feature de exemplo.
-- Toda derivação deve partir de `service-identity.json` na raiz como fonte de verdade local da identidade do serviço/template.
-- Toda derivação deve começar auditando resíduos de `profile`, `profiles`, `standard-ms` e `standard_ms`.
-- Trabalhe RF por RF em lotes pequenos.
-- Alinhe no mesmo ciclo: código, testes, contratos, docs, prompts e CI.
-
-## Navegação recomendada
-
-### Bootstrap/derivação do microserviço
-
-1. `.codex/skills/microservice-builder.md`
-2. `prompts/bootstrap-prompt.md`
-3. `prompts/microservice-builder-prompt.md`
-4. `prompts/microservice-builder-short-prompt.md`
-5. `../service-identity.json`
-6. `architecture/service-identity.md`
-7. Atualize `./luciluci-docs/` com `git submodule update --remote --recursive`
-8. `architecture/overview.md`
-9. `runbooks/local-development.md`
-10. `runbooks/infra-access.md`
-
-### Report/review de completude
-
-1. `.codex/skills/report-review.md`
-2. `reports/README.md`
-3. `reports/REPORT-TEMPLATE.md`
-4. `prompts/report-completeness-prompt.md`
-5. `prompts/report-completeness-short-prompt.md`
-
-### Drift-fix por ondas
-
-1. `.codex/skills/drift-fix.md`
-2. `.codex/drifts/<NOME_DO_DRIFT>.md`
-3. `prompts/drift-execution-short-prompt.md`
-
-### Contratos e artefatos auxiliares
-
-1. `asyncapi/README.md`
-2. `openapi/README.md`
+A documentação canônica de negócio fica em `../luciluci-docs/support/`.
+O anexo de revisão não contém esse submódulo; verificar sua revisão real local.

@@ -1,51 +1,18 @@
-# Service Identity
+# Identidade do Serviço — Support
 
-## Objetivo
+`service-identity.json` é a fonte machine-readable da identidade ativa:
 
-`service-identity.json` é a fonte de verdade local machine-readable da identidade do template e do futuro microserviço derivado.
+| Campo                 | Valor S1                                 |
+| --------------------- | ---------------------------------------- |
+| templateSlug          | `standard-ms` (proveniência)             |
+| serviceSlug / package | `support-ms`                             |
+| domainSlug            | `support`                                |
+| banco padrão / teste  | `support_ms` / `support_ms_test`         |
+| OpenAPI               | `docs/openapi/v1/support-api.json`       |
+| coleção HTTP          | `api.http`                               |
+| documentação canônica | `./luciluci-docs/support/`               |
+| mensageria            | `false`; AsyncAPI `null`; exchanges `{}` |
 
-Ele existe para reduzir resíduos de `profile`, `profiles`, `standard-ms` e `standard_ms` durante bootstrap, report e drift-fix.
-
-## Localização
-
-- raiz do repositório: `service-identity.json`
-
-## O que o arquivo governa
-
-- slug do template e do serviço
-- nome de exibição do serviço
-- feature de exemplo singular/plural
-- nome padrão do banco
-- artefatos canônicos de OpenAPI e AsyncAPI
-- coleção HTTP manual
-- exchanges padrão de RabbitMQ
-- lista mínima de resíduos obrigatórios a substituir na derivação
-- padrão de localização de `luciluci-docs`
-
-## Regra de uso no bootstrap
-
-Antes de implementar RFs em um serviço derivado:
-
-1. atualize `service-identity.json`
-2. audite resíduos de `profile`, `profiles`, `standard-ms` e `standard_ms`
-3. renomeie artefatos, banco, exchanges, rotas, exemplos e docs a partir desse arquivo
-4. só então avance RF por RF
-
-## Regra de sincronismo
-
-Toda mudança em `service-identity.json` deve permanecer alinhada, no mesmo ciclo, com os artefatos tocados pela derivação:
-
-- código
-- testes
-- OpenAPI
-- AsyncAPI
-- `api.http`
-- docs
-- prompts
-- CI
-
-## Relação com a documentação canônica
-
-- `service-identity.json` governa a identidade local do template/serviço
-- `./luciluci-docs/<service>/` governa o domínio real quando ele existir
-- se houver conflito de naming entre identidade local e domínio real, a decisão deve ser explicitada antes da implementação
+O inventário de termos do template em `mustBeReplacedWhenDeriving` é
+histórico de auditoria, não configuração ativa. Toda RF futura deve atualizar
+identidade, código, contrato, testes, CI e documentação no mesmo ciclo.

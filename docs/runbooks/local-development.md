@@ -1,83 +1,42 @@
 # Local Development
 
-## Subir ambiente
+## Estado e prova RF01
+
+`DRIFT-SUP-S1-001` foi encerrado: o build de produção emite `dist/main.js` e
+os runners em `dist/shared/...`, verificados por `npm run build:check`. Não
+tratar `npm run dev` ou testes in-process como prova da cadeia compilada.
+
+As provas versionadas são `npm run proof:rf01:postgres` (requer todos os
+`S1_PROOF_DB_*`, `S1_PROOF_ADMIN_DB` e `S1_PROOF_SERVER_PORT` explícitos) e
+`npm run proof:s1:image`. Os compose files normais têm nomes fixos e volume
+persistente; não usá-los como ambiente de prova isolado.
+
+## Desenvolvimento local (destino previamente conferido)
 
 ```bash
-npm install
-cp .env.example .env
+npm ci
+test -e .env || cp .env.example .env
 npm run infra:up
 npm run migration:run
-npm run seed
 npm run dev
 ```
 
-## Superfície operacional local herdada do template
+O compose local inicia somente PostgreSQL. `start:docker` executa migrations,
+portanto use apenas banco Support novo e isolado.
 
-- `GET /health`
-- `GET /metrics`
-- `GET /api-docs`
-- `GET /api-docs-json`
-- `GET /events-docs`
-- `GET /docs/asyncapi/<versão>/<arquivo>.json`
+Não execute `npm run infra:down` como limpeza genérica: ele remove volumes.
+Não execute `npm run seed`; o comando bloqueia antes de conectar ou gravar
+até a massa determinística de W1 ser definida.
 
-Esses endpoints são herdados do `standard-ms` como superfície operacional local:
+Validação local:
 
-- não são RFs do domínio
-- devem aparecer em runbooks e reports como superfície operacional local herdada do template
-- são isentos de `X-Correlation-ID` na entrada
-- permitem que o middleware gere/retorne um correlation id para observabilidade local quando o header não vier na requisição
-
-## Acesso à documentação e à infraestrutura
-
-Consulte `infra-access.md` para URLs, portas, credenciais padrão e regra documental obrigatória para futuros microserviços.
-
-## Formatação ao salvar
-
-- O workspace já configura `editor.formatOnSave` e `Prettier` em `.vscode/settings.json`.
-- No VS Code, mantenha a extensão `esbenp.prettier-vscode` instalada para aplicar formatação automática em TypeScript, JavaScript, JSON, YAML e Markdown.
-- Todo microserviço derivado deste template deve manter essa configuração funcional e documentada no fluxo local de desenvolvimento.
-
-## Formatação em git hooks
-
-- No `pre-commit`, o projeto roda `lint-staged`, aplica `Prettier` nos arquivos staged, executa `lint` e executa `test`.
-- No `pre-push`, o projeto roda `npm run format`; se houver mudanças geradas pelo Prettier, o push é bloqueado para que essas mudanças sejam commitadas antes do envio.
-- Todo microserviço derivado deste template deve documentar explicitamente quais hooks de formatação e validação existem em commit e push.
-
-## Pipeline central
-
-- O CI (`.github/workflows/ci.yml`) não depende dos hooks locais e executa seus próprios gates:
-  - `npm run lint`
-  - `npm run build`
-  - `npm run openapi:export`
-  - validação formal de OpenAPI via `npm run openapi:check`
-  - compatibilidade backward de OpenAPI e AsyncAPI contra o baseline da branch base/commit anterior
-  - `npm run test:coverage`
-  - `npm run coverage:check`
-- O workflow `.github/workflows/cd.yml` publica imagem Docker real no GHCR apenas para tags `v*`.
-- Não existe deploy automático de ambiente neste repositório nesta release; o workflow de publicação entrega apenas o artefato de container.
-
-## Observabilidade mínima
-
-- logs estruturados com correlation id
-- métricas Prometheus
-- payload padronizado de erro
-
-## Limites operacionais desta release
-
-- não há tracing distribuído com OpenTelemetry instrumentado no processo
-- não há rate limiting local; `429` permanece responsabilidade do API Gateway/BFF
-- o RabbitMQ local usa exchange/fila duráveis, outbox e consumer de exemplo, mas o serviço ainda não materializa `DLQ`, `TTL`, `redrive`, `retry exponencial` ou `poison message handling`
-- em falha de consumo, o runtime atual faz `nack(message, false, false)` e depende de topologia externa caso exista DLX; o template não provisiona política herdável de redrive/DLQ por padrão
-- `src/shared/infrastructure/events/event-schema-registry.ts` é um registry local em memória derivado do AsyncAPI versionado do repositório, não um Schema Registry externo
-- o CI central valida OpenAPI/AsyncAPI, compatibilidade backward e cobertura, mas não executa suites dedicadas de carga/performance ou segurança
-
-## Interpretação herdada de NFRs no startup
-
-No processo de microservice-startup, ausência local não deve virar gap automático quando o NFR pertencer a outro boundary.
-
-Regra operacional:
-
-- classifique primeiro o NFR como `implementado localmente`, `upstream/plataforma`, `compartilhado`, `fora do escopo desta release` ou `gap real local`
-- `rate limit` e `Schema Registry externo` não devem aparecer como gaps locais automáticos quando o serviço estiver atrás de gateway/plataforma
-- `OpenTelemetry`, `DLQ`, `TTL`, `redrive`, `retry exponencial` e `poison message handling` exigem decisão explícita do serviço derivado antes de virarem gap local
-- evidência automatizada de `segurança`, `performance/carga` e `CDC/streaming` fica fora do escopo padrão desta release até decisão contrária
+```bash
+npm run lint
+npm run build
+npm run build:check
+npm run openapi:export
+npm run openapi:check
+npm run messaging:check
+npm run test:coverage
+npm run coverage:check
+```

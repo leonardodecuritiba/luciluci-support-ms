@@ -1,31 +1,16 @@
 services:
     db:
         image: postgres:16
-        container_name: standard-ms-db
+        container_name: support-ms-db
         restart: unless-stopped
         environment:
             POSTGRES_USER: ${DB_USER:-postgres}
             POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-            POSTGRES_DB: ${DB_NAME:-standard_ms}
+            POSTGRES_DB: ${DB_NAME:-support_ms}
         ports:
             - '${DB_PORT:-5432}:5432'
         volumes:
             - postgres_data:/var/lib/postgresql/data
 
-    rabbitmq:
-        image: rabbitmq:4-management
-        container_name: standard-ms-rabbitmq
-        restart: unless-stopped
-        environment:
-            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME:-guest}
-            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
-            RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-/}
-        ports:
-            - '${RABBITMQ_PORT:-5672}:5672'
-            - '${RABBITMQ_ADMIN_PORT:-15672}:15672'
-        volumes:
-            - rabbitmq_data:/var/lib/rabbitmq
-
 volumes:
     postgres_data:
-    rabbitmq_data:

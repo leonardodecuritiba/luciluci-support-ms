@@ -1,4 +1,4 @@
-name: cd-template
+name: cd-support
 
 on:
     push:

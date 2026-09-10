@@ -1,17 +1,21 @@
 # docs/openapi
 
-Contratos e assets da documentação OpenAPI.
+HTTP contracts and OpenAPI assets.
 
-Leia primeiro:
+Read first:
 
-1. `v1/profiles-api.json`
+1. `v1/support-api.json`
 
-## Compatibilidade backward
+## Backward compatibility
 
-- O contrato versionado atual é `docs/openapi/v1/profiles-api.json`.
-- O baseline de compatibilidade em CI é o mesmo arquivo presente na branch base do PR ou no commit anterior da branch.
-- Mudança breaking em `v1` deve falhar no gate e exigir novo major de API/contrato.
-- Validações locais:
+- The current versioned contract is `docs/openapi/v1/support-api.json`.
+- The compatibility baseline in CI is the same file on the PR base branch or
+  previous commit.
+- A breaking change in v1 must fail the gate and require a new major version.
+- Local validation:
   - `npm run openapi:export`
   - `npm run openapi:check`
-  - `npm run openapi:compat -- <baseline.json> docs/openapi/v1/profiles-api.json`
+  - `npm run openapi:compat -- <baseline.json> docs/openapi/v1/support-api.json`
+
+During bootstrap S1, the contract describes only `/health`, `/metrics`,
+`/api-docs`, and `/api-docs-json`. RF01–RF13 have no public endpoint yet.

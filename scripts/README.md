@@ -1,48 +1,13 @@
 # scripts
 
-Scripts operacionais do template.
+- `export-openapi.js`: exporta o contrato operacional Support.
+- `check-openapi.js` e `check-openapi-backward-compatibility.js`: validam
+  OpenAPI atual e futuras evoluções.
+- `check-messaging-disabled.js`: prova a ausência configurada de mensageria
+  em S1.
+- `seed.ts`: bloqueia a seed W1 até que a massa determinística seja definida.
+- `prove-rf01-postgres.js`: prova RF01 em PostgreSQL descartável, incluindo
+  migrations, rollback, processo compilado, Swagger e rotas futuras ausentes.
 
-Arquivo principal desta release: `seed.ts`
-
-## Regra obrigatória para seeds
-
-O script `seed.ts` não deve gerar apenas um conjunto mínimo simbólico de registros.
-
-Ele deve produzir uma massa de dados útil para:
-
-- desenvolvimento local
-- validação manual
-- testes de integração locais
-- inspeção de paginação, filtros, ordenação e relacionamentos
-
-## Diretrizes
-
-- Sempre que fizer sentido, usar `faker` para gerar dados realistas.
-- Preferir seed determinística/reprodutível.
-- O volume gerado deve ser significativo para o domínio do microserviço.
-- O seed deve acompanhar a evolução do domínio e não pode ficar congelado em poucos registros estáticos.
-
-## Estratégia materializada no template
-
-O `standard-ms` agora materializa a estratégia com:
-
-- `3` perfis de referência fixos, usados também como apoio para o `api.http`
-- `117` perfis adicionais gerados com `faker`
-- seed fixa `20260324` para manter reprodutibilidade
-- variação de `status`, `entityType`, `country`, `city` e `classification snapshot`
-
-Regra de herança:
-
-- esse volume é apenas o exemplo do template-base
-- o microserviço derivado deve redefinir volumes, entidades e relacionamentos de acordo com o domínio real
-- a expectativa herdável é manter massa útil para paginação, filtros, ordenação, validação manual e testes locais
-
-Scripts principais desta release:
-
-- `seed.ts`
-- `check-asyncapi.js`
-- `check-asyncapi-backward-compatibility.js`
-- `export-openapi.js`
-- `check-openapi.js`
-- `check-openapi-backward-compatibility.js`
-- `check-coverage.js`
+Validadores AsyncAPI permanecem genéricos e exigem paths explícitos quando uma
+capacidade de mensageria vier a ser aprovada.

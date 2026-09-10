@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const SwaggerParser = require('swagger-parser');
 
-async function validateOpenApiDocument(inputPath = 'docs/openapi/v1/products-api.json') {
+async function validateOpenApiDocument(inputPath = 'docs/openapi/v1/support-api.json') {
 	const absolutePath = path.resolve(inputPath);
 	const rawDocument = JSON.parse(fs.readFileSync(absolutePath, 'utf8'));
 	await SwaggerParser.validate(rawDocument);
@@ -23,7 +23,7 @@ async function validateOpenApiDocument(inputPath = 'docs/openapi/v1/products-api
 }
 
 async function main() {
-	const inputPath = process.argv[2] ?? 'docs/openapi/v1/profiles-api.json';
+	const inputPath = process.argv[2] ?? 'docs/openapi/v1/support-api.json';
 	await validateOpenApiDocument(inputPath);
 	console.log('OpenAPI validation OK');
 }

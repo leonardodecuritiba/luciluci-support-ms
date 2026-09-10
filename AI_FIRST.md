@@ -1,119 +1,38 @@
 # AI_FIRST
 
-## Ciclo operacional do template
+## Estado de trabalho
 
-O `standard-ms` possui três momentos operacionais distintos:
+Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
+materializada e RF01 está `IMPLEMENTED_AND_PROVEN`; RF02–RF13 continuam
+`NOT_IMPLEMENTED`. A revisão pós-S1 reabriu o fechamento por
+`DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
 
-1. bootstrap/derivação do microserviço
-2. report/review de completude
-3. drift-fix por ondas
+## Ordem de leitura
 
-Fluxo canônico herdado do template:
+1. `AGENTS.md`, `ACTUAL_STATE.md` e `DRIFT_REPORT.md`.
+2. `README.md` e `docs/workflows/support-bootstrap-plan.md`.
+3. O drift encerrado e o report de fechamento S1.
+4. A identidade e o código reais.
+5. `luciluci-docs/support/notes.md` para decisões por recorte de RF.
+6. `luciluci-docs/support/` na revisão local fixada, sem `--remote`.
+7. Para o próximo lote, o checkpoint contratual específico de RF02.
 
-- `bootstrap/build -> report -> drift-fix -> report -> drift-fix -> wave final`
+## Limites
 
-## Leia nesta ordem
+Não reexecutar o drift ou RF01. Não avançar para RF02 sem novo checkpoint.
+Não reintroduzir Profile ou mensageria.
+Seed de domínio continua fora do escopo salvo decisão explícita do lote.
+Proteger bancos/volumes existentes; qualquer prova futura exige recursos
+descartáveis exclusivos e ownership demonstrado.
 
-1. `AGENTS.md`
-2. `ACTUAL_STATE.md`
-3. `README.md`
-4. `docs/README.md`
-5. `docs/architecture/overview.md`
-6. `src/README.md`
-7. `tests/README.md`
-8. `docs/prompts/README.md`
-9. `.codex/skills/microservice-builder.md` quando a tarefa for bootstrap/derivação ou implementação RF por RF
-10. `docs/prompts/bootstrap-prompt.md` quando a tarefa for bootstrap/derivação
-11. `docs/prompts/microservice-builder-prompt.md` quando a tarefa for bootstrap/derivação ou implementação em ondas
-12. `service-identity.json` quando a tarefa exigir bootstrap/derivação ou auditoria da identidade local do serviço/template
-13. `./luciluci-docs/<servico>/` quando houver domínio real
-14. `.codex/skills/drift-fix.md` quando a tarefa for correção de drift
-15. `.codex/drifts/<arquivo informado>` quando houver um drift específico em execução
-16. `.codex/skills/report-review.md` quando a tarefa for geração/atualização de report de completude
-17. `docs/prompts/report-completeness-prompt.md` quando a tarefa for geração/atualização de report de completude
+Correlação, envelope de erro e contratos operacionais seguem preservados.
+Os prompts de bootstrap e S1 são históricos. O estado das decisões funcionais
+deve ser conferido no submódulo real; não assumir aprovação pelo report ou por
+aplicar este patch.
 
-Precedência documental:
+## Git após RF01
 
-1. regras transversais do template registradas neste repositório
-2. `service-identity.json` para a identidade local do template/serviço, quando a tarefa for bootstrap/derivação
-3. `./luciluci-docs/` quando houver domínio real
-4. implementação viva do serviço atual
-5. referências históricas
-
-Regras operacionais:
-
-- Use `.codex/skills/microservice-builder.md` para bootstrap/derivação e implementação RF por RF.
-- Use `.codex/skills/report-review.md` para geração/review de report.
-- Use `.codex/skills/drift-fix.md` para correção de drift materializado.
-- No bootstrap/derivação, materialize ou valide `service-identity.json` antes de abrir frentes de renomeação.
-- Toda derivação deve começar auditando resíduos de `profile`, `profiles`, `standard-ms` e `standard_ms`.
-- Trabalhe RF por RF ou drift por drift, nunca misturando múltiplos drifts na mesma rodada.
-- Antes de usar `./luciluci-docs/`, execute `git submodule update --remote --recursive`.
-- Atualize `ACTUAL_STATE.md` ao abrir, executar e concluir blocos relevantes.
-- Pare imediatamente se houver DRIFT entre docs e implementação.
-- Não invente contrato, evento ou modelagem em caso de ambiguidade crítica.
-- Em handoff, documente próximos passos, bloqueios e comandos de validação.
-- Todo microserviço deve documentar acesso à documentação e à infraestrutura local relevante.
-- O `standard-ms` é o template base e `profile` é apenas a feature de exemplo do template.
-- Ao derivar um novo microserviço a partir deste template, remova todas as menções à feature de exemplo `profile` e também os resíduos de `standard-ms` / `standard_ms` de código, testes, docs, contratos, exemplos, eventos, rotas e artefatos auxiliares.
-- Nenhum serviço derivado pode ser considerado aderente enquanto ainda existirem referências residuais a `profile`, `profiles`, `standard-ms` ou `standard_ms` fora de documentação histórica explicitamente marcada como template legado.
-- Sempre alinhe código, testes, contratos, docs, prompts e CI no mesmo ciclo de mudança.
-- Todo microserviço HTTP aplicável deve exigir `X-Correlation-ID` como header obrigatório de entrada nas rotas HTTP públicas de negócio.
-- A superfície operacional local herdada do template compreende `/health`, `/metrics`, `/api-docs`, `/api-docs-json`, `/events-docs` e `/docs/asyncapi/*`; ela não é RF do domínio e deve ser documentada como superfície operacional local em runbooks e reports.
-- Não é permitido fallback silencioso por autogeração de `X-Correlation-ID` em requisições HTTP externas de negócio.
-- Na ausência de `X-Correlation-ID` em rota de negócio, a requisição deve ser rejeitada com erro de cliente, usando o envelope padrão de erro.
-- A OpenAPI local deve marcar `X-Correlation-ID` como `required: true` nos endpoints de negócio aplicáveis.
-- Endpoints operacionais locais e requisições `OPTIONS` são isentos dessa exigência de entrada; nesses casos o middleware pode aceitar ausência do header e gerar/retornar um valor para observabilidade local.
-- O valor de `X-Correlation-ID` deve ser propagado para response, logs, auditoria, eventos e chamadas downstream quando aplicável.
-- Components sem boundary HTTP direto (workers, consumers, jobs) podem gerar `correlation_id` apenas quando não houver contexto anterior para propagar.
-- Todo microserviço derivado deve manter um arquivo `api.http` na raiz do repositório para validação manual dos endpoints HTTP expostos pelo serviço.
-- O arquivo `api.http` deve cobrir todos os endpoints ativos e relevantes do microserviço, incluindo health, métricas, documentação e endpoints funcionais do domínio.
-- Sempre que houver criação, remoção ou alteração de rota, método, path, headers obrigatórios, query params, request body ou exemplos de resposta, o `api.http` deve ser atualizado no mesmo trabalho.
-- Não considerar a implementação concluída se o `api.http` estiver desatualizado em relação ao contrato e ao comportamento real do serviço.
-- Todo microserviço derivado deve possuir seed com volume significativo de dados para desenvolvimento, validação manual e testes de integração locais.
-- Seeds muito pequenos não devem ser tratados como suficientes para validar listagens, paginação, filtros, ordenação, cargas operacionais e fluxos em massa.
-- Sempre que fizer sentido, usar `faker` para gerar massa realista, porém com determinismo controlado por seed fixa/reprodutível.
-- A documentação do serviço deve declarar explicitamente a estratégia de seed, os volumes mínimos esperados e exemplos concretos por domínio.
-- Exemplo de referência: no `products-ms`, o seed deve gerar aproximadamente `200 produtos` e `30 categorias`, com dados variados e relacionamentos válidos.
-- Estratégia de bootstrap assistida por IA:
-  - a instrução operacional global fica em `AGENTS.md`
-  - a skill de bootstrap/implementação fica em `.codex/skills/microservice-builder.md`
-  - os prompts operacionais ficam em `docs/prompts/bootstrap-prompt.md` e `docs/prompts/microservice-builder-prompt.md`
-  - a identidade local do serviço/template deve ficar em `service-identity.json`
-  - a execução deve ocorrer RF por RF, em lotes pequenos, com a menor mudança segura possível
-- Estratégia de drift assistida por IA:
-  - a instrução operacional global fica em `AGENTS.md`
-  - a skill de correção de drift fica em `.codex/skills/drift-fix.md`
-  - cada drift deve ser materializado em um arquivo próprio em `.codex/drifts/`
-  - a execução deve ocorrer um drift por vez, com a menor mudança segura possível
-- Estratégia de review de completude assistida por IA:
-  - a instrução operacional global fica em `AGENTS.md`
-  - a skill de review fica em `.codex/skills/report-review.md`
-  - o prompt operacional fica em `docs/prompts/report-completeness-prompt.md`
-  - o esqueleto obrigatório do artefato fica em `docs/reports/REPORT-TEMPLATE.md`
-  - o resultado deve ser salvo em `docs/reports/REPORT-<timestamp>.md`
-- Se a tarefa tocar API HTTP, revisar também OpenAPI, `api.http`, testes relacionados e documentação operacional/endpoints.
-- Se a tarefa tocar eventos/mensageria, revisar também AsyncAPI, publisher/outbox/consumer e testes aplicáveis.
-- Se a tarefa tocar modelo físico, revisar também migrations, entities/schemas, seeds e testes de persistência.
-- Se a tarefa tocar comportamento funcional, revisar também PRD/TDD/TP, documentação do microserviço quando houver drift documental e o CI tocado pela mudança.
-- Sempre manter consistência entre implementação e documentação.
-- Antes de marcar qualquer NFR como gap local, classifique o item em uma destas categorias herdadas do template:
-  - `implementado localmente`
-  - `upstream/plataforma`
-  - `compartilhado`
-  - `fora do escopo desta release`
-  - `gap real local`
-- Presença em `luciluci-docs/` ou em documentação global do ecossistema não implica obrigação local automática em cada microserviço derivado.
-- Classificação padrão herdada do `standard-ms`:
-  - `rate limit` e `Schema Registry externo` = `upstream/plataforma`
-  - `event-schema-registry.ts` = helper `implementado localmente`
-  - `OpenTelemetry`, `DLQ`, `TTL`, `redrive` e `retry exponencial` = `compartilhado`, exigindo decisão explícita por serviço derivado antes de virar gap local
-  - evidência automatizada de `segurança`, `performance/carga` e `CDC/streaming` = `fora do escopo desta release` por padrão; só viram gap local quando o serviço assumir esse escopo explicitamente
-
-Navegação de baixo custo:
-
-- `src/features/` mostra o desenho real das features do serviço atual; qualquer menção remanescente a `profile` deve ser tratada como resíduo de template e removida.
-- `src/shared/` concentra kernel, infra e contratos reutilizáveis.
-- `tests/` reflete o desenho real do template.
-- `docs/runbooks/infra-access.md` concentra URLs, portas e credenciais operacionais.
-- `.codex/` concentra a estratégia operacional de prompts/skills de bootstrap, report e drift para uso no editor.
+A baseline bootstrap + RF01 é o ponto estável de `main`. Após sua publicação, não
+implementar RF02–RF13 diretamente em `main`. Criar branch própria a partir da
+`main` sincronizada, executar somente o slice autorizado e integrar apenas após
+provas e atualização documental. Não usar force-push em `main`.

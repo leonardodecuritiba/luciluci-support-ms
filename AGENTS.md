@@ -2,197 +2,158 @@
 
 ## Missão
 
-Você está trabalhando no `standard-ms` como mantenedor do template-base dos microserviços LuciLuci.
+Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
+Identidade e superfície operacional foram materializadas, Profile foi retirado
+e RF01 está implementada/provada. RF02–RF13 continuam não implementadas. Leia
+`ACTUAL_STATE.md` para o estado real.
 
-Seu objetivo é preservar um template executável, aderente e reutilizável, de forma que os próximos microserviços herdem corretamente:
-
-- processo AI-first
-- bootstrap/derivação assistida por IA
-- implementação RF por RF
-- geração de report de completude por ondas
-- correção de drift guiada por documentação
-- consistência entre código, testes, contratos, docs, prompts e CI
-- regras transversais do template
-
-## Papel do template
-
-- O `standard-ms` é o template base dos microserviços LuciLuci.
-- A feature `profile` existe apenas como exemplo do template e deve ser removida ou substituída em serviços derivados.
-- Toda derivação deve partir de uma identidade local central machine-readable em `service-identity.json` na raiz do repositório.
-- Toda derivação deve começar auditando resíduos de `profile`, `profiles`, `standard-ms` e `standard_ms`.
+O `DRIFT-SUP-S1-001` foi corrigido e provado: estado
+`BOOTSTRAP_IMPLEMENTED_AND_PROVEN`. O próximo lote é o checkpoint documental
+de RF02; não refaz a derivação, não repete S1/RF01 sem nova reprodução e não
+inicia RFs automaticamente.
 
 ## Leitura obrigatória inicial
 
-Antes de alterar qualquer coisa, leia nesta ordem:
-
-1. `AI_FIRST.md`
-2. `ACTUAL_STATE.md`
-3. `README.md`
-4. `docs/`
-5. `src/README.md`
-6. `tests/README.md`
-7. `DRIFT_REPORT.md`
-8. `.codex/skills/microservice-builder.md` quando a tarefa for bootstrap/derivação ou implementação RF por RF
-9. `docs/prompts/bootstrap-prompt.md` quando a tarefa for bootstrap/derivação
-10. `docs/prompts/microservice-builder-prompt.md` quando a tarefa for bootstrap/derivação ou implementação em ondas
-11. `service-identity.json` quando a tarefa exigir bootstrap/derivação ou auditoria da identidade local do serviço/template
-12. `.codex/skills/drift-fix.md` quando a tarefa for correção de drift
-13. `.codex/drifts/<arquivo informado pelo usuário>` quando houver um drift específico
-14. `.codex/skills/report-review.md` quando a tarefa for geração/atualização de report de completude
-15. `docs/prompts/report-completeness-prompt.md` quando a tarefa for geração/atualização de report de completude
-16. `luciluci-docs/` quando a tarefa exigir validação contra documentação canônica de um domínio real
+1. `AI_FIRST.md`.
+2. `ACTUAL_STATE.md`.
+3. `README.md`.
+4. `docs/README.md`.
+5. `./luciluci-docs/support/README.md`, `prd.md`, `notes.md`, `tdd.md`, `tp.md`, `dependencies.md`.
+6. `docs/workflows/support-bootstrap-plan.md`.
+7. `service-identity.json`, `src/README.md` e `tests/README.md` para inventário real da herança.
+8. `DRIFT_REPORT.md`.
+9. O drift encerrado e o report de fechamento, para histórico técnico.
+10. `.codex/skills/report-review.md` e `docs/prompts/report-completeness-prompt.md` para report.
+11. `.codex/skills/drift-fix.md` e o drift informado, quando houver correção delimitada.
 
 ## Fonte de verdade
 
-Precedência documental:
+Para negócio, prevalece o PRD de Suporte transposto em
+`luciluci-docs/support/prd.md`; a fonte original está preservada em
+`luciluci-docs/support/sources/prd-original.md`. `notes.md` explicita propostas
+e lacunas. `luciluci-docs` rege formato e convenções. O template rege estrutura
+técnica inicial e workflow, não comportamento do domínio real.
 
-1. regras transversais do template registradas neste repositório
-2. `service-identity.json` para a identidade local do template/serviço, quando a tarefa for bootstrap/derivação
-3. `luciluci-docs/` quando houver domínio real associado à tarefa
-4. implementação viva do template
-5. referências históricas
+`service-identity.json` é fonte de verdade do naming materializado:
+`serviceSlug: support-ms`, `domainSlug: support`, banco padrão `support_ms`.
+`templateSlug: standard-ms` e termos de inventário são proveniência, não
+configuração ativa a renomear indiscriminadamente.
 
-Se houver conflito entre código e documentação:
-
-- explicite o conflito
-- preserve o template na forma mais segura e reutilizável possível
-- trate `service-identity.json` como fonte de verdade local de naming/identidade no bootstrap
-- trate `luciluci-docs/` como fonte de verdade quando a divergência for de domínio real
-- registre drift relevante em `DRIFT_REPORT.md` quando aplicável
+Em conflito: explicitar fontes, preservar regra funcional recebida, não
+inventar solução silenciosa e registrar decisão/impacto. Documentos BFF são
+composição, não autoridade de Support. Regras globais genéricas de auditoria
+não ampliam as três ações de AuditLog do PRD.
 
 ## Modo de execução
 
-O template possui três momentos operacionais distintos:
+Fluxo herdado: `bootstrap/build -> report -> drift-fix -> report -> drift-fix -> wave final`.
+S1 está encerrado e RF01 foi comprovada a partir do checkpoint documental 0.3.
+A próxima execução só inicia RF02 após seu checkpoint próprio. DEC-SUP-01, 03,
+08, 09 e 10 estão resolvidas apenas no recorte RF01.
 
-1. bootstrap/derivação do microserviço
-2. report/review de completude
-3. drift-fix por ondas
+Trabalhar RF por RF ou um drift por vez; não fazer refactor amplo, antecipar
+ondas ou implementar comportamento com decisão crítica aberta. Um gap esperado
+de inicialização não é bug comprovado do Support. Propostas de arquitetura
+não são decisões de negócio aprovadas.
 
-Fluxo canônico herdado do template:
+O lote de revisão pós-S1 está concluído. RF01–RF13 e aprovações funcionais
+permanecem fora dele. Qualquer prova futura de banco exige destino descartável
+explícito; não usar banco padrão/preexistente.
 
-- `build/bootstrap -> report -> drift-fix -> report -> drift-fix -> wave final`
+## Política de branches e `main`
 
-Regras:
+Bootstrap + RF01 formam `MAIN_BASELINE_RF01`. A publicação inicial dessa baseline
+em `main` é um fechamento explícito. Depois dela, `main` é branch estável de
+integração e não é workspace para RF nova.
 
-- Trabalhe um RF por vez ou um drift por vez.
-- Não resolva múltiplos drifts na mesma rodada.
-- Priorize a menor mudança segura possível.
-- Não faça refactor amplo fora do escopo.
-- Não invente requisito fora da documentação canônica ou das regras do template.
-- Toda derivação deve começar auditando resíduos de `profile`, `profiles`, `standard-ms` e `standard_ms`.
-- Prefira executar em lotes pequenos.
-- Sempre alinhe código, testes, contratos/specs, docs, prompts e CI tocados pela mudança.
-- Atualize `ACTUAL_STATE.md` ao abrir, executar e concluir blocos relevantes, quando aplicável.
-- Em handoff, documente próximos passos, bloqueios e comandos de validação.
+Para RF02–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
+uma branch própria por slice. Convenção recomendada: `feat/support-rfNN-<slug>`;
+correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs independentes
+na mesma branch e não iniciar a RF seguinte antes do fechamento da atual.
 
-## Estratégia operacional de bootstrap/derivação
+Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
+recorte, estado/documentação atualizados e ausência de drift técnico aberto que
+invalide a RF. Nunca usar `push --force` em `main`. Ver
+`docs/workflows/support-development-branch-policy.md`.
 
-Quando a tarefa disser respeito a bootstrap/derivação ou implementação RF por RF:
+## Submódulo e revisão reprodutível
 
-1. leia `.codex/skills/microservice-builder.md`
-2. leia `docs/prompts/bootstrap-prompt.md`
-3. leia `docs/prompts/microservice-builder-prompt.md`
-4. materialize ou valide `service-identity.json`
-5. audite resíduos de `profile`, `profiles`, `standard-ms` e `standard_ms`
-6. monte a matriz de renomeação obrigatória antes de implementar RF
-7. implemente RF por RF, em ondas pequenas
-8. valide com evidência objetiva e pare ao fim do lote quando a execução for guiada/manual
+`luciluci-docs` é um repositório Git independente. Antes de inicializar/atualizar,
+verificar `git status --short` na raiz e no submódulo; preservar mudanças do
+usuário. Inicializar a revisão fixada com `git submodule update --init --recursive`
+apenas quando seguro. **Não executar `--remote` automaticamente**: a atualização
+da baseline é explícita e deve registrar o commit escolhido.
 
-## Estratégia operacional de drifts
+A entrada genérica de bootstrap foi alinhada a essa regra. Referências
+históricas à atualização remota não autorizam avançar a revisão fixada. Não
+misturar alterações do submódulo com arquivos comuns do repositório pai.
 
-Quando a tarefa disser respeito a um drift:
+## Regras do serviço
 
-1. leia `.codex/skills/drift-fix.md`
-2. leia o arquivo de drift informado em `.codex/drifts/`
-3. audite antes de alterar
-4. decida com objetividade se a correção deve ocorrer em:
-   - código
-   - testes
-   - contrato/spec
-   - documentação
-   - ou combinação
-5. implemente apenas o necessário para fechar o drift informado
-6. valide com evidência objetiva
-7. entregue resumo pronto para PR
+- Preservar RF01–RF13 com RF07a/RF07b: 14 operações, cinco listagens.
+- Preservar paths `/api/support/*`, enums e campos do PRD; não copiar `/profiles` ou `/replies` como contrato Support.
+- `Department.type` não governa autorização; `allowedUserIds` é o critério administrativo.
+- Solicitante acessa seu próprio ticket; RF08 é exclusivo do solicitante.
+- RF05 cria ticket + mensagem inicial de forma atômica e somente uma auditoria.
+- RF10 de backoffice/cd gera duas auditorias para a nova mensagem, inclusive se adminStatus já era pendente, conforme baseline literal.
+- Nenhum evento de negócio Support foi especificado. Não renomear eventos Profile para inventar tópicos Support.
+- `DEC-SUP-*` abertas impedem congelamento integral; bloquear apenas o slice dependente, sem ocultar a lacuna.
+- Headers e visibilidade exigem decisão antes de liberar rotas; filtros não substituem autorização.
 
-## Estratégia operacional de reports de completude
+## Estratégia operacional de bootstrap
 
-Quando a tarefa disser respeito a report de completude:
+Auditar resíduos de `profile`, `profiles`, `standard-ms`, `standard_ms` e
+classificação antes de renomear. Usar o plano específico de Support para
+montar matriz de naming/artefatos. O resultado não é uma substituição global:
+Department, Ticket, TicketMessage e AuditLog têm relações diferentes do exemplo.
 
-1. leia `.codex/skills/report-review.md`
-2. leia `docs/prompts/report-completeness-prompt.md`
-3. use `docs/reports/REPORT-TEMPLATE.md` como esqueleto obrigatório
-4. compare template, implementação viva, contratos, testes, runbooks e CI
-5. quando houver domínio real, compare também com `luciluci-docs/`
-6. preencha a matriz RF x implementação e a matriz `RF -> unit / integration / functional` quando aplicável
-7. classifique NFRs antes de registrar gaps locais
-8. registre explicitamente o que foi comprovado, inferido ou bloqueado por ambiente
-9. gere ou atualize `docs/reports/REPORT-<timestamp>.md`
+Materializar identidade, revisar código/testes/contratos/scripts/CI de forma
+coerente e somente depois abrir a primeira RF autorizada. Não usar eventos,
+migrations, banco ou filas de outro serviço como massa descartável.
 
-## Regras do template
+## Regras transversais preservadas
 
-- O `standard-ms` é o template base; a feature `profile` existe apenas como exemplo do template e deve ser removida em serviços derivados.
-- Nenhum serviço derivado é aderente se ainda carregar resíduos de `profile` fora de contexto histórico explicitamente marcado.
-- Nenhum serviço derivado é aderente se ainda carregar resíduos de `standard-ms` ou `standard_ms` fora de contexto histórico explicitamente marcado.
-- Todo bootstrap/derivação deve usar `service-identity.json` como fonte de verdade local para slug, naming de artefatos, banco, exchanges e coleções HTTP.
-- Todo microserviço HTTP derivado deve exigir `X-Correlation-ID` quando aplicável.
-- Todo microserviço derivado deve manter `api.http` atualizado.
-- Todo microserviço derivado deve manter seed com massa significativa e documentação dessa estratégia.
-- Todo serviço derivado deve alinhar código, testes, contratos, docs, prompts e CI no mesmo ciclo de mudança.
-- O template deve carregar instruções e artefatos suficientes para execução assistida por IA no editor, incluindo `AGENTS.md`, `AI_FIRST.md`, `service-identity.json`, `.codex/`, `.codex/skills/microservice-builder.md`, `.codex/skills/report-review.md` e `docs/prompts/report-completeness-prompt.md`.
+Exigir `X-Correlation-ID` nas rotas HTTP de negócio, sem geração silenciosa
+quando faltar. Superfícies operacionais e OPTIONS têm tratamento separado.
+Propagar correlação a responses/logs e, quando aplicável, efeitos técnicos;
+não ampliar o response de auditoria por esse motivo.
+
+Manter `api.http`, contratos e testes alinhados a cada superfície implementada.
+Seed deve ter massa significativa, determinística e sintética, conforme TDD.
+Não afirmar uma RF concluída sem evidência unit/integration/functional exigida.
+
+Classificar NFRs por responsabilidade: local, upstream/plataforma, compartilhado,
+fora do escopo ou gap real local. Testes de autorização funcional do PRD são
+obrigatórios; ausência de suíte ofensiva não os dispensa. OpenTelemetry, DLQ,
+redrive e Schema Registry não são gaps locais automáticos.
 
 ## Regras específicas por superfície
 
-### Se tocar API HTTP
+HTTP: revisar route/controller/DTO, OpenAPI, `api.http`, erros e testes.
+Persistência: migration, schema, repositórios, seed e integração PostgreSQL.
+Mensageria: apenas com requisito explícito; revisar AsyncAPI/wiring/testes/CI.
+Documentação: sincronizar PRD/TDD/TP, estado atual, decisões e runbooks.
 
-Revisar também:
+## Reports, handoff e evidência
 
-- OpenAPI
-- `api.http`
-- testes relacionados
-- docs operacionais/endpoints, se aplicável
+Atualizar `ACTUAL_STATE.md` ao abrir/concluir blocos. Reports usam
+`docs/reports/REPORT-TEMPLATE.md` e matriz RF -> código/contrato/testes/evidência.
+Não confundir caso planejado com teste executado, aprovação ou produção.
+Registrar comandos realmente executados, resultados, falhas e limites de ambiente.
 
-### Se tocar eventos/mensageria
+## Formato da entrega
 
-Revisar também:
+Apresentar contexto e escopo; resumo do ajuste; arquivos alterados;
+implementação realizada (ou nenhuma); validação real; documentação atualizada;
+situação da PR; decisões e riscos residuais. Nunca declarar bootstrap ou RFs
+prontos apenas porque a documentação foi aplicada.
 
-- AsyncAPI
-- outbox/publisher/consumer
-- testes de publicação/consumo, se aplicável
+## Entrada operacional pós-S1
 
-### Se tocar modelo físico
+Os prompts S0/S1/RF01 são históricos. Não executar novamente a derivação ou
+provas já concluídas por seguir prompt antigo.
 
-Revisar também:
-
-- migrations
-- entities/schemas
-- seeds
-- testes de persistência
-
-### Se tocar comportamento funcional
-
-Revisar também:
-
-- documentação canônica relevante
-- docs do template
-- prompts, reports, estado atual e CI, se aplicável
-
-## Formato obrigatório da resposta final
-
-Responder sempre com:
-
-1. RESUMO DO DRIFT
-2. ARQUIVOS ALTERADOS
-3. IMPLEMENTAÇÃO REALIZADA
-4. VALIDAÇÃO
-5. DOCUMENTAÇÃO ATUALIZADA
-6. PR PRONTA
-7. PENDÊNCIAS OU RISCOS
-
-## Estilo
-
-- Seja objetivo e técnico.
-- Faça mudanças concretas.
-- Traga caminhos de arquivos exatos.
-- Traga patches ou conteúdo final pronto para copiar e colar quando útil.
-- Se houver bloqueio real, descreva exatamente o bloqueio e a menor saída segura.
+Preservar a revisão fixa do submódulo. Antes de uma RF futura, confirmar que o
+checkout canônico contém seu contrato congelado. Se não contiver, registrar
+mismatch e não inferir decisões. A ausência do submódulo impede iniciar RFs
+dependentes do contrato canônico.

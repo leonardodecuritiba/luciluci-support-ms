@@ -19,7 +19,7 @@ function sortRecursively(value) {
 		}, {});
 }
 
-async function exportOpenApi(outputPath = 'docs/openapi/v1/profiles-api.json') {
+async function exportOpenApi(outputPath = 'docs/openapi/v1/support-api.json') {
 	// eslint-disable-next-line @typescript-eslint/no-var-requires
 	const swaggerSpec = require('../src/shared/openapi/swagger').default;
 	const absoluteOutputPath = path.resolve(outputPath);
