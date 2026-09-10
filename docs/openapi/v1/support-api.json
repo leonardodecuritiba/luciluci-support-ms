@@ -24,7 +24,7 @@
 			},
 			"Department": {
 				"properties": {
-					"active": { "enum": [true], "type": "boolean" },
+					"active": { "type": "boolean" },
 					"allowedUserIds": { "items": { "type": "string" }, "type": "array" },
 					"createdAt": { "format": "date-time", "type": "string" },
 					"id": { "format": "uuid", "type": "string" },
@@ -52,11 +52,24 @@
 				},
 				"required": ["status_code", "message"],
 				"type": "object"
+			},
+			"UpdateDepartmentRequest": {
+				"additionalProperties": false,
+				"minProperties": 1,
+				"properties": {
+					"allowedUserIds": {
+						"items": { "pattern": ".*\\S.*", "type": "string" },
+						"type": "array"
+					},
+					"name": { "pattern": ".*\\S.*", "type": "string" },
+					"type": { "$ref": "#/components/schemas/DepartmentType" }
+				},
+				"type": "object"
 			}
 		}
 	},
 	"info": {
-		"description": "Support OpenAPI contract. RF01 creates departments; RF02–RF13 remain unavailable until their own contracts are implemented.",
+		"description": "Support OpenAPI contract. RF01 creates and RF02 updates departments; RF03–RF13 remain unavailable until their own contracts are implemented.",
 		"title": "support-ms",
 		"version": "1.0.0"
 	},
@@ -130,6 +143,71 @@
 					}
 				},
 				"summary": "Create a department",
+				"tags": ["Departments"]
+			}
+		},
+		"/api/support/departments/{departmentId}": {
+			"patch": {
+				"parameters": [
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{
+						"in": "path",
+						"name": "departmentId",
+						"required": true,
+						"schema": { "format": "uuid", "type": "string" }
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/UpdateDepartmentRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/Department" }
+							}
+						},
+						"description": "Department updated."
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Malformed JSON or missing correlation."
+					},
+					"404": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Department not found."
+					},
+					"422": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Invalid path or request body."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Unexpected error."
+					}
+				},
+				"summary": "Update a department",
 				"tags": ["Departments"]
 			}
 		},

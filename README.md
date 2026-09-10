@@ -1,7 +1,7 @@
 # support-ms
 
-Microsserviço de Support (Suporte) da LuciLuci. Bootstrap S1 e RF01 compõem o
-primeiro baseline funcional estável do serviço. A fonte de verdade de negócio está em
+Microsserviço de Support (Suporte) da LuciLuci. Bootstrap S1, RF01 e RF02 compõem o
+recorte funcional comprovado desta branch. A fonte de verdade de negócio está em
 `luciluci-docs/support/`.
 
 ## Estado
@@ -11,11 +11,12 @@ entrypoints foi corrigido e provado em PostgreSQL/processo/imagem isolados;
 consulte [ACTUAL_STATE](ACTUAL_STATE.md), [o drift encerrado](.codex/drifts/DRIFT-SUP-S1-001-dist-entrypoints.md) e
 [o report de fechamento](docs/reports/REPORT-SUPPORT-S1-CLOSURE-20260910-163634.md).
 
-RF01 está implementada e comprovada. RF02–RF13 permanecem NOT_IMPLEMENTED.
-A OpenAPI documenta RF01 e os endpoints operacionais; ela não é contrato de
-tickets, mensagens ou histórico.
-O recorte tem evidência consolidada no
-[report RF01](docs/reports/REPORT-SUPPORT-RF01-20260910-174742.md).
+RF01 e RF02 estão implementadas e comprovadas. RF03–RF13 permanecem
+`NOT_IMPLEMENTED`. A OpenAPI executável documenta RF01/RF02 e os endpoints
+operacionais; ela não é contrato de tickets, mensagens ou histórico. As
+evidências estão consolidadas nos reports
+[RF01](docs/reports/REPORT-SUPPORT-RF01-20260910-174742.md) e
+[RF02](docs/reports/REPORT-SUPPORT-RF02-20260910-185500.md).
 
 ## Executar localmente
 
@@ -37,6 +38,7 @@ fase: o comando falha de modo explícito até a massa determinística de W1 ser 
 - `GET /api-docs`
 - `GET /api-docs-json`
 - `POST /api/support/departments`
+- `PATCH /api/support/departments/{departmentId}`
 
 Consulte `api.http`, `docs/runbooks/local-development.md` e
 `docs/runbooks/infra-access.md`.
@@ -55,24 +57,29 @@ npm run coverage:check
 ```
 
 Antes de executar provas de processo, confirme o destino: use
-`npm run proof:rf01:postgres` apenas com todas as variáveis `S1_PROOF_*`
-apontando a banco exclusivo e descarte-o ao final. `npm run proof:s1:image`
+`npm run proof:rf01:postgres` ou `npm run proof:rf02:postgres` apenas com todas
+as variáveis `S1_PROOF_*` apontando a banco exclusivo e descarte-o ao final.
+`npm run proof:s1:image`
 cria e limpa sua própria rede, containers e imagem temporária. `npm run dev`
 continua não sendo prova da cadeia compilada.
 
-RF01 está fechado. RF02–RF13 seguem bloqueadas pelos próprios gates; não iniciar
-RF02 sem seu checkpoint documental explícito.
+RF01 e RF02 estão fechadas nesta branch. RF03–RF13 seguem bloqueadas até seus
+respectivos contratos e slices.
 
-## Fluxo Git após o baseline RF01
+## Fluxo Git por baseline funcional
 
-A publicação de bootstrap + RF01 estabelece `main` como baseline estável. Depois
-desse ponto, não desenvolver novas RFs diretamente em `main`: sincronize a branch,
-abra uma branch específica para o slice e só integre o trabalho comprovado. Exemplo
-para o próximo lote: `feat/support-rf02-update-department`.
+Bootstrap + RF01 estabeleceram `MAIN_BASELINE_RF01`. RF02 foi implementada e
+provada em `feat/support-rf02-update-department`; quando sua PR for integrada, a
+revisão resultante em `main` passa a ser `MAIN_BASELINE_RF02`.
+
+Não desenvolver novas RFs diretamente em `main`: sincronize a branch, conclua o
+checkpoint contratual e abra uma branch específica para o slice. Depois do merge
+de RF02, o próximo lote é apenas o checkpoint da RF03; sua branch funcional
+recomendada é `feat/support-rf03-list-departments`.
 
 A política completa está em
 [`docs/workflows/support-development-branch-policy.md`](docs/workflows/support-development-branch-policy.md).
-O prompt de publicação desta baseline está em
-[`docs/prompts/support-main-baseline-publication-prompt.md`](docs/prompts/support-main-baseline-publication-prompt.md).
+O fechamento/publicação da RF02 está em
+[`docs/prompts/support-rf02-publication-prompt.md`](docs/prompts/support-rf02-publication-prompt.md).
 
 Não execute `npm run infra:down` como limpeza genérica: o script remove volumes.

@@ -1,6 +1,6 @@
 # support-ms bootstrap API requests
 #
-# S1 exposes only operational surfaces. RF01–RF13 are not implemented.
+# S1 + RF01 + RF02 support surface. RF03–RF13 are not implemented.
 
 @baseUrl = http://localhost:3000
 @correlationId = 8a7dd7bb-7b3f-4b3b-8b8e-0b7e2819d001
@@ -19,6 +19,24 @@ X-Correlation-ID: 8021b0b0-5855-4c1c-8086-85bba8f4ec94
   "type": "todos"
 }
 Accept: application/json
+
+### RF02 - Update department (partial)
+PATCH {{baseUrl}}/api/support/departments/550e8400-e29b-41d4-a716-446655440000
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+
+{
+  "name": "Financeiro Corporativo",
+  "allowedUserIds": ["uid-user-1", "uid-user-3"]
+}
+Accept: application/json
+
+### RF02 - Validation error (empty patch)
+PATCH {{baseUrl}}/api/support/departments/550e8400-e29b-41d4-a716-446655440000
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+
+{}
 
 ### Metrics
 GET {{baseUrl}}/metrics

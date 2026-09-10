@@ -1,12 +1,13 @@
 # Local Development
 
-## Estado e prova RF01
+## Estado e provas RF01/RF02
 
 `DRIFT-SUP-S1-001` foi encerrado: o build de produção emite `dist/main.js` e
 os runners em `dist/shared/...`, verificados por `npm run build:check`. Não
 tratar `npm run dev` ou testes in-process como prova da cadeia compilada.
 
-As provas versionadas são `npm run proof:rf01:postgres` (requer todos os
+As provas versionadas são `npm run proof:rf01:postgres` e
+`npm run proof:rf02:postgres` (requerem todos os
 `S1_PROOF_DB_*`, `S1_PROOF_ADMIN_DB` e `S1_PROOF_SERVER_PORT` explícitos) e
 `npm run proof:s1:image`. Os compose files normais têm nomes fixos e volume
 persistente; não usá-los como ambiente de prova isolado.

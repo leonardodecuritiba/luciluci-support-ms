@@ -4,13 +4,13 @@
 
 Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
 Identidade e superfície operacional foram materializadas, Profile foi retirado
-e RF01 está implementada/provada. RF02–RF13 continuam não implementadas. Leia
-`ACTUAL_STATE.md` para o estado real.
+e RF01/RF02 estão implementadas/provadas nesta branch. RF03–RF13 continuam não
+implementadas. Leia `ACTUAL_STATE.md` para o estado real.
 
 O `DRIFT-SUP-S1-001` foi corrigido e provado: estado
-`BOOTSTRAP_IMPLEMENTED_AND_PROVEN`. O próximo lote é o checkpoint documental
-de RF02; não refaz a derivação, não repete S1/RF01 sem nova reprodução e não
-inicia RFs automaticamente.
+`BOOTSTRAP_IMPLEMENTED_AND_PROVEN`. O checkpoint documental RF02 0.4 está
+fechado e seu slice foi implementado nesta branch. Não refaz a derivação, não
+repete S1/RF01 sem nova reprodução e não inicia RF03.
 
 ## Leitura obrigatória inicial
 
@@ -48,8 +48,9 @@ não ampliam as três ações de AuditLog do PRD.
 
 Fluxo herdado: `bootstrap/build -> report -> drift-fix -> report -> drift-fix -> wave final`.
 S1 está encerrado e RF01 foi comprovada a partir do checkpoint documental 0.3.
-A próxima execução só inicia RF02 após seu checkpoint próprio. DEC-SUP-01, 03,
-08, 09 e 10 estão resolvidas apenas no recorte RF01.
+A revisão 0.4 congela RF02 e resolve, somente nesse recorte, DEC-SUP-01, 03, 06,
+08, 09, 10 e 12. A execução RF02 está concluída nesta branch; RF03 continua
+bloqueada.
 
 Trabalhar RF por RF ou um drift por vez; não fazer refactor amplo, antecipar
 ondas ou implementar comportamento com decisão crítica aberta. Um gap esperado
@@ -62,14 +63,17 @@ explícito; não usar banco padrão/preexistente.
 
 ## Política de branches e `main`
 
-Bootstrap + RF01 formam `MAIN_BASELINE_RF01`. A publicação inicial dessa baseline
-em `main` é um fechamento explícito. Depois dela, `main` é branch estável de
+Bootstrap + RF01 formam `MAIN_BASELINE_RF01`. RF02 está implementada e provada
+em branch própria; quando sua revisão for integrada, `main` passa a representar
+`MAIN_BASELINE_RF02`. `main` é branch estável de
 integração e não é workspace para RF nova.
 
-Para RF02–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
+Para RF03–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
 uma branch própria por slice. Convenção recomendada: `feat/support-rfNN-<slug>`;
 correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs independentes
-na mesma branch e não iniciar a RF seguinte antes do fechamento da atual.
+na mesma branch e não iniciar a RF seguinte antes do fechamento da atual. Para
+RF02, o fechamento corrente é commit/push/PR; RF03 começa somente depois da
+integração e de seu checkpoint contratual.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
 recorte, estado/documentação atualizados e ausência de drift técnico aberto que

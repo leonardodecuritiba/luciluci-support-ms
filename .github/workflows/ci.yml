@@ -53,6 +53,16 @@ jobs:
                   S1_PROOF_DB_NAME="support_s1_ci_${GITHUB_RUN_ID}_${GITHUB_RUN_ATTEMPT}" \
                   S1_PROOF_SERVER_PORT=3310 \
                   npm run proof:rf01:postgres
+            - name: Prove RF02 update, locking, atomicity, and compiled process
+              run: |
+                  S1_PROOF_DB_HOST=127.0.0.1 \
+                  S1_PROOF_DB_PORT=5432 \
+                  S1_PROOF_DB_USER=postgres \
+                  S1_PROOF_DB_PASSWORD=postgres \
+                  S1_PROOF_ADMIN_DB=postgres \
+                  S1_PROOF_DB_NAME="support_s1_ci_rf02_${GITHUB_RUN_ID}_${GITHUB_RUN_ATTEMPT}" \
+                  S1_PROOF_SERVER_PORT=3311 \
+                  npm run proof:rf02:postgres
             - name: Smoke the production image and its CMD against isolated PostgreSQL
               run: npm run proof:s1:image
             - run: npm run openapi:export

@@ -1,10 +1,15 @@
 # Support — política de branches após RF01
 
-## 1. Baseline
+## 1. Baselines
 
-Bootstrap S1 e RF01 formam o baseline `MAIN_BASELINE_RF01`. RF01 está
-`IMPLEMENTED_AND_PROVEN`; RF02–RF13 permanecem `NOT_IMPLEMENTED`. A publicação
-desse conjunto em `main` encerra a fase de criação direta do primeiro baseline.
+- `MAIN_BASELINE_RF01`: bootstrap S1 + RF01, primeiro baseline funcional estável.
+- `MAIN_BASELINE_RF02`: revisão de `main` que contenha RF02
+  `IMPLEMENTED_AND_PROVEN`, após integração da branch
+  `feat/support-rf02-update-department`.
+
+Enquanto RF02 ainda estiver apenas na feature branch, `main` permanece em
+`MAIN_BASELINE_RF01`. O nome do baseline descreve conteúdo integrado, não substitui
+SHA/tag e não autoriza inferir publicação remota.
 
 ## 2. Regra de continuidade
 
@@ -69,13 +74,24 @@ O merge/push em `main` deve ser fast-forward ou seguir a política remota do
 repositório; nunca force-push. Se proteção de branch exigir PR, a proteção
 prevalece.
 
-## 6. Primeiro próximo slice
+## 6. Continuidade após RF02
 
-O próximo trabalho funcional é RF02, mas somente depois do seu checkpoint
-contratual. A branch recomendada é:
+RF02 está implementada e provada em branch própria. O fechamento correto é:
+
+1. publicar o commit canônico Support 0.4 de `luciluci-docs`;
+2. registrar no serviço o gitlink para esse commit publicado;
+3. commitar e pushar `feat/support-rf02-update-department`;
+4. abrir PR contra `main` e exigir checks verdes;
+5. integrar sem force-push;
+6. verificar a revisão resultante de `main` e classificá-la como
+   `MAIN_BASELINE_RF02`.
+
+Depois disso, o próximo trabalho é **checkpoint contratual da RF03**, ainda sem
+implementação. Somente após esse checkpoint a branch funcional deve nascer de
+`main` sincronizada:
 
 ```text
-feat/support-rf02-update-department
+feat/support-rf03-list-departments
 ```
 
-A criação da branch não autoriza inferir regras ainda abertas de RF02.
+RF04–RF13 permanecem fora do escopo.

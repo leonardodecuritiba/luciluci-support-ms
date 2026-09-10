@@ -4,21 +4,12 @@ import Department from '../entities/department.entity';
 import DepartmentAllowedUser from '../entities/department-allowed-user.entity';
 import DepartmentType from '../entities/enums/department-type.enum';
 import IDepartmentRepository from './repositories/idepartment.repository';
+import { DepartmentResponse, toDepartmentResponse } from './department-response';
 
 export interface CreateDepartmentInput {
 	name: string;
 	type: DepartmentType;
 	allowedUserIds?: string[];
-}
-
-export interface DepartmentResponse {
-	id: string;
-	name: string;
-	allowedUserIds: string[];
-	type: DepartmentType;
-	active: boolean;
-	createdAt: string;
-	updatedAt: string;
 }
 
 export default class CreateDepartmentUseCase {
@@ -43,16 +34,4 @@ export default class CreateDepartmentUseCase {
 	}
 }
 
-export function toDepartmentResponse(department: Department): DepartmentResponse {
-	return {
-		id: department.id,
-		name: department.name,
-		allowedUserIds: [...department.allowedUsers]
-			.sort((left, right) => left.position - right.position)
-			.map((membership) => membership.userId),
-		type: department.type,
-		active: department.active,
-		createdAt: department.createdAt.toISOString(),
-		updatedAt: department.updatedAt.toISOString(),
-	};
-}
+export { DepartmentResponse, toDepartmentResponse } from './department-response';

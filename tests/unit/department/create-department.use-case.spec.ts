@@ -14,6 +14,18 @@ class FakeDepartmentRepository implements IDepartmentRepository {
 		department.updatedAt = new Date('2026-09-10T18:00:00.000Z');
 		return department;
 	}
+
+	async update(department: Department): Promise<Department> {
+		return department;
+	}
+
+	async findByIdForUpdate(_id: string): Promise<Department | undefined> {
+		return undefined;
+	}
+
+	async replaceAllowedUsers(_departmentId: string, _userIds: string[]): Promise<void> {
+		return undefined;
+	}
 }
 
 describe('CreateDepartmentUseCase', () => {
