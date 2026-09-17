@@ -18,6 +18,6 @@ Read first:
   - `npm run openapi:compat -- <baseline.json> docs/openapi/v1/support-api.json`
 
 The current contract describes `/health`, `/metrics`, `/api-docs`,
-`/api-docs-json`, `POST /api/support/departments` (RF01), and
-`PATCH /api/support/departments/{departmentId}` (RF02). RF03–RF13 have no
-public endpoint yet.
+`/api-docs-json`, `POST /api/support/departments` (RF01),
+`PATCH /api/support/departments/{departmentId}` (RF02), and
+`GET /api/support/departments` (RF03). RF04–RF13 have no public endpoint yet.

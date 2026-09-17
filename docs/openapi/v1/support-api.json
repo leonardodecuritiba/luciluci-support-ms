@@ -43,6 +43,18 @@
 				],
 				"type": "object"
 			},
+			"DepartmentListResponse": {
+				"additionalProperties": false,
+				"properties": {
+					"data": {
+						"items": { "$ref": "#/components/schemas/Department" },
+						"type": "array"
+					},
+					"pagination": { "$ref": "#/components/schemas/Pagination" }
+				},
+				"required": ["data", "pagination"],
+				"type": "object"
+			},
 			"DepartmentType": { "enum": ["todos", "backoffice", "cd"], "type": "string" },
 			"ErrorResponse": {
 				"properties": {
@@ -51,6 +63,17 @@
 					"status_code": { "type": "integer" }
 				},
 				"required": ["status_code", "message"],
+				"type": "object"
+			},
+			"Pagination": {
+				"additionalProperties": false,
+				"properties": {
+					"page": { "minimum": 1, "type": "integer" },
+					"size": { "maximum": 100, "minimum": 1, "type": "integer" },
+					"total": { "minimum": 0, "type": "integer" },
+					"totalPages": { "minimum": 0, "type": "integer" }
+				},
+				"required": ["page", "size", "total", "totalPages"],
 				"type": "object"
 			},
 			"UpdateDepartmentRequest": {
@@ -69,7 +92,7 @@
 		}
 	},
 	"info": {
-		"description": "Support OpenAPI contract. RF01 creates and RF02 updates departments; RF03–RF13 remain unavailable until their own contracts are implemented.",
+		"description": "Support OpenAPI contract. RF01 creates, RF02 updates, and RF03 lists departments; RF04–RF13 remain unavailable until their own contracts are implemented.",
 		"title": "support-ms",
 		"version": "1.0.0"
 	},
@@ -98,6 +121,66 @@
 			}
 		},
 		"/api/support/departments": {
+			"get": {
+				"description": "Returns active departments ordered by name ASC and id ASC. Page and size decisions are specific to RF03.",
+				"parameters": [
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{
+						"in": "query",
+						"name": "type",
+						"required": false,
+						"schema": { "$ref": "#/components/schemas/DepartmentType" }
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": { "default": 1, "minimum": 1, "type": "integer" }
+					},
+					{
+						"in": "query",
+						"name": "size",
+						"required": false,
+						"schema": { "default": 20, "maximum": 100, "minimum": 1, "type": "integer" }
+					}
+				],
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/DepartmentListResponse" }
+							}
+						},
+						"description": "Active departments page."
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Missing or invalid correlation."
+					},
+					"422": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Invalid or unknown query parameter."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Unexpected error."
+					}
+				},
+				"summary": "List active departments",
+				"tags": ["Departments"]
+			},
 			"post": {
 				"parameters": [{ "$ref": "#/components/parameters/CorrelationIdHeader" }],
 				"requestBody": {

@@ -7,7 +7,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			title: 'support-ms',
 			version: '1.0.0',
 			description:
-				'Support OpenAPI contract. RF01 creates and RF02 updates departments; RF03–RF13 remain unavailable until their own contracts are implemented.',
+				'Support OpenAPI contract. RF01 creates, RF02 updates, and RF03 lists departments; RF04–RF13 remain unavailable until their own contracts are implemented.',
 		},
 		components: {
 			parameters: {
@@ -67,6 +67,29 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						updatedAt: { type: 'string', format: 'date-time' },
 					},
 				},
+				Pagination: {
+					type: 'object',
+					additionalProperties: false,
+					required: ['page', 'size', 'total', 'totalPages'],
+					properties: {
+						page: { type: 'integer', minimum: 1 },
+						size: { type: 'integer', minimum: 1, maximum: 100 },
+						total: { type: 'integer', minimum: 0 },
+						totalPages: { type: 'integer', minimum: 0 },
+					},
+				},
+				DepartmentListResponse: {
+					type: 'object',
+					additionalProperties: false,
+					required: ['data', 'pagination'],
+					properties: {
+						data: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/Department' },
+						},
+						pagination: { $ref: '#/components/schemas/Pagination' },
+					},
+				},
 				ErrorResponse: {
 					type: 'object',
 					required: ['status_code', 'message'],
@@ -80,6 +103,67 @@ const swaggerOptions: swaggerJSDoc.Options = {
 		},
 		paths: {
 			'/api/support/departments': {
+				get: {
+					summary: 'List active departments',
+					description:
+						'Returns active departments ordered by name ASC and id ASC. Page and size decisions are specific to RF03.',
+					tags: ['Departments'],
+					parameters: [
+						{ $ref: '#/components/parameters/CorrelationIdHeader' },
+						{
+							in: 'query',
+							name: 'type',
+							required: false,
+							schema: { $ref: '#/components/schemas/DepartmentType' },
+						},
+						{
+							in: 'query',
+							name: 'page',
+							required: false,
+							schema: { type: 'integer', minimum: 1, default: 1 },
+						},
+						{
+							in: 'query',
+							name: 'size',
+							required: false,
+							schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 },
+						},
+					],
+					responses: {
+						'200': {
+							description: 'Active departments page.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/DepartmentListResponse' },
+								},
+							},
+						},
+						'400': {
+							description: 'Missing or invalid correlation.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'422': {
+							description: 'Invalid or unknown query parameter.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'500': {
+							description: 'Unexpected error.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+					},
+				},
 				post: {
 					summary: 'Create a department',
 					tags: ['Departments'],

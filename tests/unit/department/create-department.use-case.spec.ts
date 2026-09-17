@@ -2,6 +2,7 @@ import Department from '../../../src/features/department/entities/department.ent
 import DepartmentType from '../../../src/features/department/entities/enums/department-type.enum';
 import CreateDepartmentUseCase from '../../../src/features/department/use-cases/create-department.use-case';
 import IDepartmentRepository from '../../../src/features/department/use-cases/repositories/idepartment.repository';
+import { FindActiveDepartmentsPageInput } from '../../../src/features/department/use-cases/repositories/idepartment.repository';
 
 const uuidV4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -25,6 +26,10 @@ class FakeDepartmentRepository implements IDepartmentRepository {
 
 	async replaceAllowedUsers(_departmentId: string, _userIds: string[]): Promise<void> {
 		return undefined;
+	}
+
+	async findActivePage(_input: FindActiveDepartmentsPageInput) {
+		return { departments: [], total: 0 };
 	}
 }
 

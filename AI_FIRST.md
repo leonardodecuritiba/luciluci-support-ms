@@ -3,8 +3,10 @@
 ## Estado de trabalho
 
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
-materializada e RF01/RF02 estão `IMPLEMENTED_AND_PROVEN` nesta branch. RF03–RF13 permanecem
-`NOT_IMPLEMENTED`. A revisão pós-S1 reabriu o fechamento por
+materializada; RF01/RF02 estão `IMPLEMENTED_AND_PROVEN` em
+`MAIN_BASELINE_RF02` e RF03 está `IMPLEMENTED_AND_PROVEN` na branch funcional.
+RF04–RF13 permanecem `NOT_IMPLEMENTED`. DEC-SUP-02/08 estão fechadas somente
+para RF03. A revisão pós-S1 reabriu o fechamento por
 `DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
 
 ## Ordem de leitura
@@ -31,9 +33,8 @@ Os prompts de bootstrap e S1 são históricos. O estado das decisões funcionais
 deve ser conferido no submódulo real; não assumir aprovação pelo report ou por
 aplicar este patch.
 
-## Git após RF01
+## Git após RF03
 
-A baseline bootstrap + RF01 é o ponto estável de `main`. Após sua publicação, não
-implementar RF02–RF13 diretamente em `main`. Criar branch própria a partir da
-`main` sincronizada, executar somente o slice autorizado e integrar apenas após
-provas e atualização documental. Não usar force-push em `main`.
+A baseline bootstrap + RF01 + RF02 é o ponto estável de `main`. RF03 foi
+implementada na branch própria após publicar o contrato. Não iniciar RF04–RF13
+diretamente em `main` nem antes de seus checkpoints; não usar force-push.

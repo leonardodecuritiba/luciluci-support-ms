@@ -17,7 +17,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		await destroyTestDataSource();
 	});
 
-	it('documents operational paths, RF01, and RF02', () => {
+	it('documents operational paths and RF01-RF03', () => {
 		const spec = swaggerSpec as OpenAPIV3.Document;
 
 		expect(Object.keys(spec.paths ?? {}).sort()).toEqual([
@@ -29,6 +29,34 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 			'/metrics',
 		]);
 		expect(spec.paths?.['/profiles']).toBeUndefined();
+		const listOperation = spec.paths?.['/api/support/departments']?.get;
+		expect(listOperation?.parameters).toEqual([
+			{ $ref: '#/components/parameters/CorrelationIdHeader' },
+			expect.objectContaining({ in: 'query', name: 'type', required: false }),
+			expect.objectContaining({
+				in: 'query',
+				name: 'page',
+				schema: expect.objectContaining({ type: 'integer', minimum: 1, default: 1 }),
+			}),
+			expect.objectContaining({
+				in: 'query',
+				name: 'size',
+				schema: expect.objectContaining({
+					type: 'integer',
+					minimum: 1,
+					maximum: 100,
+					default: 20,
+				}),
+			}),
+		]);
+		expect(listOperation?.responses).toEqual(
+			expect.objectContaining({
+				'200': expect.any(Object),
+				'400': expect.any(Object),
+				'422': expect.any(Object),
+				'500': expect.any(Object),
+			}),
+		);
 		expect(spec.paths?.['/api/support/departments']?.post?.parameters).toEqual([
 			{ $ref: '#/components/parameters/CorrelationIdHeader' },
 		]);
@@ -64,6 +92,17 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		expect(departmentSchema.properties?.active).toEqual({
 			type: 'boolean',
 		});
+		const paginationSchema = spec.components?.schemas?.Pagination as OpenAPIV3.SchemaObject;
+		expect(paginationSchema.required).toEqual(['page', 'size', 'total', 'totalPages']);
+		expect(paginationSchema.properties?.size).toEqual({
+			type: 'integer',
+			minimum: 1,
+			maximum: 100,
+		});
+		expect(paginationSchema.properties).not.toHaveProperty('limit');
+		const listSchema = spec.components?.schemas
+			?.DepartmentListResponse as OpenAPIV3.SchemaObject;
+		expect(listSchema.required).toEqual(['data', 'pagination']);
 		expect(spec.info.title).toBe('support-ms');
 	});
 

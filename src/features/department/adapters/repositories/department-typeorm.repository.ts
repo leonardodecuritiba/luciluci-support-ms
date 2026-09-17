@@ -2,7 +2,10 @@ import { EntityManager, Repository } from 'typeorm';
 
 import Department from '../../entities/department.entity';
 import DepartmentAllowedUser from '../../entities/department-allowed-user.entity';
-import IDepartmentRepository from '../../use-cases/repositories/idepartment.repository';
+import IDepartmentRepository, {
+	DepartmentPage,
+	FindActiveDepartmentsPageInput,
+} from '../../use-cases/repositories/idepartment.repository';
 
 export default class DepartmentTypeormRepository implements IDepartmentRepository {
 	private readonly repository: Repository<Department>;
@@ -57,5 +60,43 @@ export default class DepartmentTypeormRepository implements IDepartmentRepositor
 		await membershipRepository.insert(
 			userIds.map((userId, position) => ({ departmentId, position, userId })),
 		);
+	}
+
+	async findActivePage(input: FindActiveDepartmentsPageInput): Promise<DepartmentPage> {
+		const query = this.repository
+			.createQueryBuilder('department')
+			.where('department.active = :active', { active: true })
+			.orderBy('department.name', 'ASC')
+			.addOrderBy('department.id', 'ASC')
+			.skip((input.page - 1) * input.size)
+			.take(input.size);
+
+		if (input.type !== undefined) {
+			query.andWhere('department.type = :type', { type: input.type });
+		}
+
+		const [departments, total] = await query.getManyAndCount();
+		if (departments.length === 0) return { departments, total };
+
+		const departmentIds = departments.map((department) => department.id);
+		const memberships = await this.manager
+			.getRepository(DepartmentAllowedUser)
+			.createQueryBuilder('membership')
+			.where('membership.departmentId IN (:...departmentIds)', { departmentIds })
+			.orderBy('membership.departmentId', 'ASC')
+			.addOrderBy('membership.position', 'ASC')
+			.getMany();
+		const membershipsByDepartment = new Map<string, DepartmentAllowedUser[]>();
+
+		for (const membership of memberships) {
+			const current = membershipsByDepartment.get(membership.departmentId) ?? [];
+			current.push(membership);
+			membershipsByDepartment.set(membership.departmentId, current);
+		}
+		for (const department of departments) {
+			department.allowedUsers = membershipsByDepartment.get(department.id) ?? [];
+		}
+
+		return { departments, total };
 	}
 }
