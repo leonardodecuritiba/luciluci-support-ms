@@ -3,6 +3,7 @@ import DepartmentAllowedUser from '../../../src/features/department/entities/dep
 import DepartmentType from '../../../src/features/department/entities/enums/department-type.enum';
 import UpdateDepartmentUseCase from '../../../src/features/department/use-cases/update-department.use-case';
 import IDepartmentRepository from '../../../src/features/department/use-cases/repositories/idepartment.repository';
+import { FindActiveDepartmentsPageInput } from '../../../src/features/department/use-cases/repositories/idepartment.repository';
 
 class FakeDepartmentRepository implements IDepartmentRepository {
 	readonly department: Department;
@@ -48,6 +49,10 @@ class FakeDepartmentRepository implements IDepartmentRepository {
 			membership.userId = userId;
 			return membership;
 		});
+	}
+
+	async findActivePage(_input: FindActiveDepartmentsPageInput) {
+		return { departments: [], total: 0 };
 	}
 }
 

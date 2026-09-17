@@ -7,9 +7,10 @@
   `IMPLEMENTED_AND_PROVEN`, após integração da branch
   `feat/support-rf02-update-department`.
 
-Enquanto RF02 ainda estiver apenas na feature branch, `main` permanece em
-`MAIN_BASELINE_RF01`. O nome do baseline descreve conteúdo integrado, não substitui
-SHA/tag e não autoriza inferir publicação remota.
+RF02 foi integrada em `main` pelo merge
+`e2dba18a7d0c54577805d6bf2f44adc40ecf0295`; essa revisão estabelece
+`MAIN_BASELINE_RF02`. O nome do baseline descreve conteúdo integrado, não
+substitui SHA/tag.
 
 ## 2. Regra de continuidade
 
@@ -74,24 +75,16 @@ O merge/push em `main` deve ser fast-forward ou seguir a política remota do
 repositório; nunca force-push. Se proteção de branch exigir PR, a proteção
 prevalece.
 
-## 6. Continuidade após RF02
+## 6. Continuidade após RF03
 
-RF02 está implementada e provada em branch própria. O fechamento correto é:
-
-1. publicar o commit canônico Support 0.4 de `luciluci-docs`;
-2. registrar no serviço o gitlink para esse commit publicado;
-3. commitar e pushar `feat/support-rf02-update-department`;
-4. abrir PR contra `main` e exigir checks verdes;
-5. integrar sem force-push;
-6. verificar a revisão resultante de `main` e classificá-la como
-   `MAIN_BASELINE_RF02`.
-
-Depois disso, o próximo trabalho é **checkpoint contratual da RF03**, ainda sem
-implementação. Somente após esse checkpoint a branch funcional deve nascer de
-`main` sincronizada:
+RF02 está implementada, provada e integrada. O checkpoint RF03 de 2026-09-17
+resolveu DEC-SUP-02/08 no recorte, publicou o contrato canônico e autorizou a
+branch funcional nascida de `main` sincronizada:
 
 ```text
 feat/support-rf03-list-departments
 ```
 
-RF04–RF13 permanecem fora do escopo.
+RF03 está implementada/provada nessa branch; publicação, PR e CI devem ser
+conferidos no GitHub. RF04–RF13 permanecem fora do escopo e RF04 exige seu
+próprio checkpoint após integração.

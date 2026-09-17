@@ -435,7 +435,6 @@ async function main() {
 			assert.equal((await fetch(`${baseUrl}/api-docs`)).status, 200);
 
 			const pendingRoutes = [
-				['GET', '/api/support/departments'],
 				['DELETE', `/api/support/departments/${randomUUID()}`],
 				['POST', '/api/support/tickets'],
 				['PATCH', `/api/support/tickets/${randomUUID()}`],

@@ -257,7 +257,6 @@ async function main() {
 				200,
 			);
 			const pendingRoutes = [
-				['GET', '/api/support/departments'],
 				['DELETE', `/api/support/departments/${randomUUID()}`],
 				['POST', '/api/support/tickets'],
 				['PATCH', `/api/support/tickets/${randomUUID()}`],

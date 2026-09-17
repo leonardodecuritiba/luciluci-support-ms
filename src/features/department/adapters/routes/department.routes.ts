@@ -7,6 +7,7 @@ export default function buildDepartmentRouter(dataSource: DataSource): Router {
 	const router = Router();
 	const controller = buildDepartmentController(dataSource);
 
+	router.get('/', controller.list);
 	router.post('/', controller.create);
 	router.patch('/:departmentId', controller.update);
 	return router;

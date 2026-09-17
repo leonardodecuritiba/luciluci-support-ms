@@ -9,6 +9,11 @@ bootstrap S1 + RF01 formam `MAIN_BASELINE_RF01` e estão prontos para publicaç�
 Git, sem atribuir push remoto ainda não comprovado. Após a publicação, RF02–RF13
 devem seguir branches próprias.
 
+RF02 foi integrada posteriormente em `main`; o merge comprovado estabelece
+`MAIN_BASELINE_RF02`. O checkpoint inicialmente bloqueado de RF03 está em
+`REPORT-SUPPORT-RF03-CHECKPOINT-20260917-152134.md`; a implementação e as provas
+posteriores estão em `REPORT-SUPPORT-RF03-20260917-155713.md`.
+
 ## Fechamento atual de S1
 
 [Report de fechamento](REPORT-SUPPORT-S1-CLOSURE-20260910-163634.md): estado
@@ -20,8 +25,8 @@ PostgreSQL, processo e imagem executadas. A
 ## RF01
 
 [Report RF01](REPORT-SUPPORT-RF01-20260910-174742.md): endpoint, migration,
-OpenAPI, testes e prova PostgreSQL/processo compilado; RF03–RF13 continuam não
-implementadas.
+OpenAPI, testes e prova PostgreSQL/processo compilado. Sua fotografia de
+RF03–RF13 como não implementadas é histórica.
 
 ## RF02
 
@@ -126,3 +131,11 @@ Regras:
 ## Support — RF02 integration checkpoint
 
 - `REPORT-SUPPORT-RF02-INTEGRATION-CHECKPOINT-20260910.md` — fechamento local de RF02 e gates para commit/push/PR/merge.
+
+## Support — RF03 contract checkpoint
+
+- `REPORT-SUPPORT-RF03-CHECKPOINT-20260917-152134.md` — confirma
+  `MAIN_BASELINE_RF02` e registra o bloqueio contratual então existente; foi
+  superado pelo fechamento 0.5.
+- `REPORT-SUPPORT-RF03-20260917-155713.md` — fechamento final da implementação,
+  testes, PostgreSQL, imagem e fronteira NFR de RF03.

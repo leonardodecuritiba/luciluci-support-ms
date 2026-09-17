@@ -112,6 +112,24 @@ async function main() {
 		const body = await health.json();
 		assert.equal(body.database, true);
 		assert.equal(body.messaging?.status, 'not_applicable');
+		const baseUrl = `http://127.0.0.1:${port}`;
+		const correlationId = randomUUID();
+		const created = await fetch(`${baseUrl}/api/support/departments`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Correlation-ID': correlationId,
+			},
+			body: JSON.stringify({ name: 'Image RF03', type: 'todos' }),
+		});
+		assert.equal(created.status, 201);
+		const listed = await fetch(`${baseUrl}/api/support/departments`, {
+			headers: { 'X-Correlation-ID': randomUUID() },
+		});
+		assert.equal(listed.status, 200);
+		const listBody = await listed.json();
+		assert.equal(listBody.pagination.total, 1);
+		assert.equal(listBody.data[0].name, 'Image RF03');
 		console.log('S1 production image CMD smoke OK');
 	} finally {
 		docker(['rm', '-f', appContainer], true);
