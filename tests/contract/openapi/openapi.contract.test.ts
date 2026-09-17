@@ -17,7 +17,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		await destroyTestDataSource();
 	});
 
-	it('documents operational paths and RF01-RF03', () => {
+	it('documents operational paths and RF01-RF04', () => {
 		const spec = swaggerSpec as OpenAPIV3.Document;
 
 		expect(Object.keys(spec.paths ?? {}).sort()).toEqual([
@@ -76,6 +76,24 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		expect(updatePath?.patch?.responses).toEqual(
 			expect.objectContaining({
 				'200': expect.any(Object),
+				'400': expect.any(Object),
+				'404': expect.any(Object),
+				'422': expect.any(Object),
+				'500': expect.any(Object),
+			}),
+		);
+		expect(updatePath?.delete?.parameters).toEqual([
+			{ $ref: '#/components/parameters/CorrelationIdHeader' },
+			expect.objectContaining({
+				in: 'path',
+				name: 'departmentId',
+				required: true,
+				schema: { type: 'string', format: 'uuid' },
+			}),
+		]);
+		expect(updatePath?.delete?.responses).toEqual(
+			expect.objectContaining({
+				'204': expect.not.objectContaining({ content: expect.anything() }),
 				'400': expect.any(Object),
 				'404': expect.any(Object),
 				'422': expect.any(Object),

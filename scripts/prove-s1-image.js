@@ -120,16 +120,30 @@ async function main() {
 				'Content-Type': 'application/json',
 				'X-Correlation-ID': correlationId,
 			},
-			body: JSON.stringify({ name: 'Image RF03', type: 'todos' }),
+			body: JSON.stringify({ name: 'Image RF04', type: 'todos' }),
 		});
 		assert.equal(created.status, 201);
+		const createdBody = await created.json();
 		const listed = await fetch(`${baseUrl}/api/support/departments`, {
 			headers: { 'X-Correlation-ID': randomUUID() },
 		});
 		assert.equal(listed.status, 200);
 		const listBody = await listed.json();
 		assert.equal(listBody.pagination.total, 1);
-		assert.equal(listBody.data[0].name, 'Image RF03');
+		assert.equal(listBody.data[0].name, 'Image RF04');
+		const deleted = await fetch(`${baseUrl}/api/support/departments/${createdBody.id}`, {
+			method: 'DELETE',
+			headers: { 'X-Correlation-ID': randomUUID() },
+		});
+		assert.equal(deleted.status, 204);
+		assert.equal(await deleted.text(), '');
+		const listedAfterDelete = await fetch(`${baseUrl}/api/support/departments`, {
+			headers: { 'X-Correlation-ID': randomUUID() },
+		});
+		assert.equal(listedAfterDelete.status, 200);
+		const listAfterDeleteBody = await listedAfterDelete.json();
+		assert.equal(listAfterDeleteBody.pagination.total, 0);
+		assert.deepEqual(listAfterDeleteBody.data, []);
 		console.log('S1 production image CMD smoke OK');
 	} finally {
 		docker(['rm', '-f', appContainer], true);

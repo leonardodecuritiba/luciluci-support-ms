@@ -1,6 +1,6 @@
 # support-ms bootstrap API requests
 #
-# S1 + RF01 + RF02 + RF03 support surface. RF04–RF13 are not implemented.
+# S1 + RF01–RF04 support surface. RF05–RF13 are not implemented.
 
 @baseUrl = http://localhost:3000
 @correlationId = 8a7dd7bb-7b3f-4b3b-8b8e-0b7e2819d001
@@ -71,6 +71,34 @@ Accept: application/json
 ### RF03 - Missing correlation
 GET {{baseUrl}}/api/support/departments
 Accept: application/json
+
+### RF04 - Soft delete department
+DELETE {{baseUrl}}/api/support/departments/550e8400-e29b-41d4-a716-446655440000
+X-Correlation-ID: {{correlationId}}
+
+### RF04 - Repeat soft delete (semantic no-op)
+DELETE {{baseUrl}}/api/support/departments/550e8400-e29b-41d4-a716-446655440000
+X-Correlation-ID: {{correlationId}}
+
+### RF04 - Invalid UUID
+DELETE {{baseUrl}}/api/support/departments/not-a-uuid
+X-Correlation-ID: {{correlationId}}
+
+### RF04 - Missing department
+DELETE {{baseUrl}}/api/support/departments/550e8400-e29b-41d4-a716-446655440099
+X-Correlation-ID: {{correlationId}}
+
+### RF04 - Forbidden request body
+DELETE {{baseUrl}}/api/support/departments/550e8400-e29b-41d4-a716-446655440000
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+
+{
+  "unexpected": true
+}
+
+### RF04 - Missing correlation
+DELETE {{baseUrl}}/api/support/departments/550e8400-e29b-41d4-a716-446655440000
 
 ### Metrics
 GET {{baseUrl}}/metrics

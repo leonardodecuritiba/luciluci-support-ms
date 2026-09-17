@@ -6,11 +6,18 @@
 - `MAIN_BASELINE_RF02`: revisão de `main` que contenha RF02
   `IMPLEMENTED_AND_PROVEN`, após integração da branch
   `feat/support-rf02-update-department`.
+- `MAIN_BASELINE_RF03`: revisão de `main` que contenha RF03
+  `IMPLEMENTED_AND_PROVEN`, após integração da branch
+  `feat/support-rf03-list-departments`.
 
 RF02 foi integrada em `main` pelo merge
 `e2dba18a7d0c54577805d6bf2f44adc40ecf0295`; essa revisão estabelece
 `MAIN_BASELINE_RF02`. O nome do baseline descreve conteúdo integrado, não
 substitui SHA/tag.
+
+RF03 foi integrada em `main` pela PR #2 no merge
+`0ca1eab9fcc74a4254b710fd12342d761234e9ff`; essa revisão estabelece
+`MAIN_BASELINE_RF03`.
 
 ## 2. Regra de continuidade
 
@@ -75,16 +82,18 @@ O merge/push em `main` deve ser fast-forward ou seguir a política remota do
 repositório; nunca force-push. Se proteção de branch exigir PR, a proteção
 prevalece.
 
-## 6. Continuidade após RF03
+## 6. Continuidade após o checkpoint RF04
 
-RF02 está implementada, provada e integrada. O checkpoint RF03 de 2026-09-17
-resolveu DEC-SUP-02/08 no recorte, publicou o contrato canônico e autorizou a
-branch funcional nascida de `main` sincronizada:
+RF03 está implementada, provada e integrada em `MAIN_BASELINE_RF03`. O
+checkpoint RF04 de 2026-09-17 resolveu DEC-SUP-01/03/06/08/09/10/12 somente no
+recorte de soft delete e publicou o contrato canônico 0.6. O próximo lote
+funcional, quando explicitamente aberto, deve nascer de `main` sincronizada:
 
 ```text
-feat/support-rf03-list-departments
+feat/support-rf04-delete-department
 ```
 
-RF03 está implementada/provada nessa branch; publicação, PR e CI devem ser
-conferidos no GitHub. RF04–RF13 permanecem fora do escopo e RF04 exige seu
-próprio checkpoint após integração.
+A branch `feat/support-rf04-delete-department` foi criada posteriormente a partir
+de `MAIN_BASELINE_RF03`; RF04 está implementada/provada nela e ainda não foi
+integrada. RF05–RF13 continuam fora do runtime; RF05 exige integração prévia da
+RF04 e checkpoint próprio.

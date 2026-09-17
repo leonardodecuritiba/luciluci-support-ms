@@ -92,7 +92,7 @@
 		}
 	},
 	"info": {
-		"description": "Support OpenAPI contract. RF01 creates, RF02 updates, and RF03 lists departments; RF04–RF13 remain unavailable until their own contracts are implemented.",
+		"description": "Support OpenAPI contract. RF01 creates, RF02 updates, RF03 lists, and RF04 soft deletes departments; RF05–RF13 remain unavailable until their own contracts are implemented.",
 		"title": "support-ms",
 		"version": "1.0.0"
 	},
@@ -230,6 +230,55 @@
 			}
 		},
 		"/api/support/departments/{departmentId}": {
+			"delete": {
+				"description": "Sets active=false while preserving the department and its memberships. Repeating the operation for an inactive department is a successful no-op. RF03 continues to return only active departments. This operation creates no audit log or domain event.",
+				"parameters": [
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{
+						"in": "path",
+						"name": "departmentId",
+						"required": true,
+						"schema": { "format": "uuid", "type": "string" }
+					}
+				],
+				"responses": {
+					"204": { "description": "Department soft deleted or already inactive." },
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Missing or invalid correlation."
+					},
+					"404": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Department not found."
+					},
+					"422": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Invalid path or forbidden request body."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Unexpected error."
+					}
+				},
+				"summary": "Soft delete a department",
+				"tags": ["Departments"]
+			},
 			"patch": {
 				"parameters": [
 					{ "$ref": "#/components/parameters/CorrelationIdHeader" },

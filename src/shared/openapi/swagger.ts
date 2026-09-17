@@ -7,7 +7,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			title: 'support-ms',
 			version: '1.0.0',
 			description:
-				'Support OpenAPI contract. RF01 creates, RF02 updates, and RF03 lists departments; RF04–RF13 remain unavailable until their own contracts are implemented.',
+				'Support OpenAPI contract. RF01 creates, RF02 updates, RF03 lists, and RF04 soft deletes departments; RF05–RF13 remain unavailable until their own contracts are implemented.',
 		},
 		components: {
 			parameters: {
@@ -260,6 +260,58 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						},
 						'422': {
 							description: 'Invalid path or request body.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'500': {
+							description: 'Unexpected error.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+					},
+				},
+				delete: {
+					summary: 'Soft delete a department',
+					description:
+						'Sets active=false while preserving the department and its memberships. Repeating the operation for an inactive department is a successful no-op. RF03 continues to return only active departments. This operation creates no audit log or domain event.',
+					tags: ['Departments'],
+					parameters: [
+						{ $ref: '#/components/parameters/CorrelationIdHeader' },
+						{
+							in: 'path',
+							name: 'departmentId',
+							required: true,
+							schema: { type: 'string', format: 'uuid' },
+						},
+					],
+					responses: {
+						'204': {
+							description: 'Department soft deleted or already inactive.',
+						},
+						'400': {
+							description: 'Missing or invalid correlation.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'404': {
+							description: 'Department not found.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'422': {
+							description: 'Invalid path or forbidden request body.',
 							content: {
 								'application/json': {
 									schema: { $ref: '#/components/schemas/ErrorResponse' },

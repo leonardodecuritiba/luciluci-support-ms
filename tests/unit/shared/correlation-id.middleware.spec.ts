@@ -53,6 +53,35 @@ describe('correlation-id.middleware', () => {
 		expect(next).toHaveBeenCalledWith();
 	});
 
+	it('rejects a non-UUID X-Correlation-ID on business requests', () => {
+		const req = {
+			method: 'GET',
+			path: '/synthetic-business-route',
+			header: jest.fn().mockReturnValue('invalid'),
+		} as unknown as Request;
+		const res = {
+			setHeader: jest.fn(),
+		} as unknown as Response;
+		const next = jest.fn() as NextFunction;
+
+		correlationIdMiddleware(req, res, next);
+
+		expect(next).toHaveBeenCalledWith(
+			expect.objectContaining({
+				statusCode: 400,
+				message: 'bad_request',
+				errors: [
+					{
+						field: 'X-Correlation-ID',
+						code: 'isUuid',
+						message: 'X-Correlation-ID must be a UUID.',
+					},
+				],
+			}),
+		);
+		expect(res.setHeader).not.toHaveBeenCalled();
+	});
+
 	it('keeps operational endpoints accessible without the header', () => {
 		const req = {
 			method: 'GET',
