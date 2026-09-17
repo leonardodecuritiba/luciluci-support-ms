@@ -10,5 +10,6 @@ export default function buildDepartmentRouter(dataSource: DataSource): Router {
 	router.get('/', controller.list);
 	router.post('/', controller.create);
 	router.patch('/:departmentId', controller.update);
+	router.delete('/:departmentId', controller.delete);
 	return router;
 }

@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from 'express';
 import BadRequestError from '../exceptions/bad-request.error';
 
 const EXEMPT_PATH_PREFIXES = ['/api-docs', '/api-docs-json', '/metrics', '/health'];
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 export default function correlationIdMiddleware(
 	req: Request,
@@ -26,6 +27,18 @@ export default function correlationIdMiddleware(
 					field: 'X-Correlation-ID',
 					code: 'required',
 					message: 'X-Correlation-ID header is required.',
+				},
+			]),
+		);
+		return;
+	}
+	if (!UUID_PATTERN.test(correlationId)) {
+		next(
+			new BadRequestError('bad_request', [
+				{
+					field: 'X-Correlation-ID',
+					code: 'isUuid',
+					message: 'X-Correlation-ID must be a UUID.',
 				},
 			]),
 		);
