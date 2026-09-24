@@ -12,8 +12,10 @@
 - `prove-rf03-postgres.js`: prova listagem, paginação, ordenação e read-only.
 - `prove-rf04-postgres.js`: prova soft delete/no-op, memberships, regressão RF03,
   concorrência RF02/RF04 e processo compilado em PostgreSQL descartável.
-- `prove-s1-image.js`: smoke do CMD real, incluindo criar/listar/excluir/listar
-  Department.
+- `prove-rf05-postgres.js`: prova schema/revert, aggregate, rollbacks induzidos,
+  sequence gapful, creates paralelos e concorrência RF04/RF05.
+- `prove-s1-image.js`: smoke do CMD real, incluindo criar Department e Ticket,
+  listar/excluir/listar Department.
 
 Validadores AsyncAPI permanecem genéricos e exigem paths explícitos quando uma
 capacidade de mensageria vier a ser aprovada.

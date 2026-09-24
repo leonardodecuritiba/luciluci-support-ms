@@ -139,7 +139,16 @@ async function main() {
 					'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() ORDER BY table_name',
 				)
 			).rows.map((row) => row.table_name),
-			['department_allowed_users', 'departments', 'idempotency_keys', 'migrations'],
+			[
+				'department_allowed_users',
+				'departments',
+				'idempotency_keys',
+				'migrations',
+				'ticket_audit_logs',
+				'ticket_message_media',
+				'ticket_messages',
+				'tickets',
+			],
 		);
 		assert.equal(
 			(
@@ -436,7 +445,6 @@ async function main() {
 
 			const pendingRoutes = [
 				['DELETE', `/api/support/departments/${randomUUID()}`],
-				['POST', '/api/support/tickets'],
 				['PATCH', `/api/support/tickets/${randomUUID()}`],
 				['GET', '/api/support/tickets/requester/uid-requester'],
 				['GET', '/api/support/tickets/admin/uid-admin'],
@@ -477,12 +485,32 @@ async function main() {
 		assert.equal(
 			(
 				await reverted.query(
+					"SELECT count(*) FROM information_schema.tables WHERE table_name IN ('tickets', 'ticket_messages', 'ticket_message_media', 'ticket_audit_logs')",
+				)
+			).rows[0].count,
+			'0',
+		);
+		assert.equal(
+			(
+				await reverted.query(
+					"SELECT count(*) FROM information_schema.tables WHERE table_name IN ('departments', 'department_allowed_users')",
+				)
+			).rows[0].count,
+			'2',
+		);
+		await reverted.end();
+		run(['run', 'migration:revert:dist'], env);
+		const departmentReverted = new Client(connection);
+		await departmentReverted.connect();
+		assert.equal(
+			(
+				await departmentReverted.query(
 					"SELECT count(*) FROM information_schema.tables WHERE table_name IN ('departments', 'department_allowed_users')",
 				)
 			).rows[0].count,
 			'0',
 		);
-		await reverted.end();
+		await departmentReverted.end();
 		run(['run', 'migration:run:dist'], env);
 		console.log(
 			'RF02 PostgreSQL migration, lock, atomic update, and compiled process proof OK',

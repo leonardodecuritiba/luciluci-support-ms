@@ -3,11 +3,10 @@
 ## Estado de trabalho
 
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
-materializada; RF01–RF03 estão `IMPLEMENTED_AND_PROVEN` em
-`MAIN_BASELINE_RF03`. RF04 está `IMPLEMENTED_AND_PROVEN` na branch
-`feat/support-rf04-delete-department` e RF05–RF13 permanecem `NOT_IMPLEMENTED`.
-DEC-SUP-01/03/06/08/09/10/12 estão fechadas
-somente para RF04. A revisão pós-S1 reabriu o fechamento por
+materializada; RF01–RF04 estão `IMPLEMENTED_AND_PROVEN` em
+`MAIN_BASELINE_RF04`. RF05 está `IMPLEMENTED_AND_PROVEN` na branch funcional,
+contra a revisão canônica 0.7, e RF06–RF13
+permanecem `NOT_IMPLEMENTED`. A revisão pós-S1 reabriu o fechamento por
 `DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
 
 ## Ordem de leitura
@@ -34,11 +33,11 @@ Os prompts de bootstrap e S1 são históricos. O estado das decisões funcionais
 deve ser conferido no submódulo real; não assumir aprovação pelo report ou por
 aplicar este patch.
 
-## Git após a implementação RF04
+## Git após a implementação RF05
 
-A baseline bootstrap + RF01–RF03 é o ponto estável de `main`, no merge
-`0ca1eab9fcc74a4254b710fd12342d761234e9ff`. O contrato RF04 foi publicado no
-commit canônico `864e02a9885852a6c6f6a385c3301e9a757edb60`. RF04 foi implementada
-e provada em `feat/support-rf04-delete-department`, sem integração em `main`.
-Não iniciar RF05 antes da integração e de checkpoint próprio; não usar
-force-push.
+A baseline bootstrap + RF01–RF04 é o ponto estável de `main`, no merge
+`04f4f8eb0f9c741fae7947a370fb50c121d8a624`. O contrato RF04 continua no
+commit canônico `864e02a9885852a6c6f6a385c3301e9a757edb60`. O contrato RF05 0.7 está
+publicado em `cc9a4399d210114e3c8261f3c153f8339c049ffb`. A branch
+`feat/support-rf05-create-ticket` contém a implementação provada, ainda sem
+commit/push/PR/merge. Não iniciar RF06 e não usar force-push.

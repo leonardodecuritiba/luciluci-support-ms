@@ -14,7 +14,12 @@ RF02 foi integrada posteriormente em `main`; seu merge estabeleceu
 `REPORT-SUPPORT-RF03-CHECKPOINT-20260917-152134.md`; a implementação e as provas
 posteriores estão em `REPORT-SUPPORT-RF03-20260917-155713.md`. A PR #2 integrou
 RF03 e estabeleceu `MAIN_BASELINE_RF03`; o checkpoint contratual RF04 está em
-`REPORT-SUPPORT-RF04-CHECKPOINT-20260917-163112.md`.
+`REPORT-SUPPORT-RF04-CHECKPOINT-20260917-163112.md`. A PR #3 integrou RF04 e
+estabeleceu `MAIN_BASELINE_RF04`; o checkpoint RF05 bloqueado está em
+`REPORT-SUPPORT-RF05-CHECKPOINT-20260917-174742.md` e sua resolução 0.7 está em
+`REPORT-SUPPORT-RF05-CONTRACT-20260917-180621.md`. A implementação e as provas
+locais estão em `REPORT-SUPPORT-RF05-20260917-153727.md`; a branch ainda não foi
+publicada nem integrada.
 
 ## Fechamento atual de S1
 
@@ -149,4 +154,17 @@ Regras:
   contrato de soft delete sem criar runtime RF04.
 - `REPORT-SUPPORT-RF04-20260917-164908.md` — fechamento da implementação RF04,
   testes, PostgreSQL descartável, concorrência RF02/RF04, imagem e fronteira
-  NFR; a feature ainda não está integrada em `main`.
+  NFR; a fotografia pré-publicação é histórica e a PR #3 foi integrada depois.
+
+## Support — RF05 contract checkpoint
+
+- `REPORT-SUPPORT-RF05-CHECKPOINT-20260917-174742.md` — comprova o merge da PR
+  #3 e `MAIN_BASELINE_RF04`, registra decisões resolvidas e bloqueia o freeze
+  RF05 por número, visibilidade inicial, response, Department inativo e
+  `mediaIds`.
+- `REPORT-SUPPORT-RF05-CONTRACT-20260917-180621.md` — registra a resolução das
+  cinco decisões, publicação canônica 0.7 e estado
+  `RF05_CONTRACT_CHECKPOINT_READY`, sem implementação.
+- `REPORT-SUPPORT-RF05-20260917-153727.md` — fechamento da implementação RF05,
+  testes, schema/revert, atomicidade, sequence, concorrência RF04×RF05,
+  regressões PostgreSQL e smoke da imagem; branch ainda não publicada.

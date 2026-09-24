@@ -7,7 +7,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			title: 'support-ms',
 			version: '1.0.0',
 			description:
-				'Support OpenAPI contract. RF01 creates, RF02 updates, RF03 lists, and RF04 soft deletes departments; RF05–RF13 remain unavailable until their own contracts are implemented.',
+				'Support OpenAPI contract. RF01–RF04 manage departments and RF05 atomically creates a ticket aggregate; RF06–RF13 remain unavailable until their own contracts are implemented.',
 		},
 		components: {
 			parameters: {
@@ -90,6 +90,75 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						pagination: { $ref: '#/components/schemas/Pagination' },
 					},
 				},
+				TicketPriority: {
+					type: 'string',
+					enum: ['baixa', 'media', 'alta', 'urgente'],
+				},
+				TicketOrigin: { type: 'string', enum: ['backoffice', 'cd'] },
+				CreateInitialTicketMessageRequest: {
+					type: 'object',
+					additionalProperties: false,
+					required: ['message'],
+					properties: {
+						message: { type: 'string', pattern: '.*\\S.*' },
+						mediaIds: {
+							type: 'array',
+							items: { type: 'string', pattern: '.*\\S.*' },
+						},
+					},
+				},
+				CreateTicketRequest: {
+					type: 'object',
+					additionalProperties: false,
+					required: [
+						'subject',
+						'requesterId',
+						'departmentId',
+						'priority',
+						'origin',
+						'message',
+					],
+					properties: {
+						subject: { type: 'string', pattern: '.*\\S.*' },
+						requesterId: { type: 'string', pattern: '.*\\S.*' },
+						departmentId: { type: 'string', format: 'uuid' },
+						priority: { $ref: '#/components/schemas/TicketPriority' },
+						origin: { $ref: '#/components/schemas/TicketOrigin' },
+						message: {
+							$ref: '#/components/schemas/CreateInitialTicketMessageRequest',
+						},
+					},
+				},
+				Ticket: {
+					type: 'object',
+					additionalProperties: false,
+					required: [
+						'id',
+						'number',
+						'subject',
+						'requesterId',
+						'departmentId',
+						'priority',
+						'origin',
+						'adminStatus',
+						'requesterStatus',
+						'createdAt',
+						'updatedAt',
+					],
+					properties: {
+						id: { type: 'string', format: 'uuid' },
+						number: { type: 'integer', minimum: 1 },
+						subject: { type: 'string' },
+						requesterId: { type: 'string' },
+						departmentId: { type: 'string', format: 'uuid' },
+						priority: { $ref: '#/components/schemas/TicketPriority' },
+						origin: { $ref: '#/components/schemas/TicketOrigin' },
+						adminStatus: { type: 'string', enum: ['pendente'] },
+						requesterStatus: { type: 'string', enum: ['nao_resolvido'] },
+						createdAt: { type: 'string', format: 'date-time' },
+						updatedAt: { type: 'string', format: 'date-time' },
+					},
+				},
 				ErrorResponse: {
 					type: 'object',
 					required: ['status_code', 'message'],
@@ -102,6 +171,66 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			},
 		},
 		paths: {
+			'/api/support/tickets': {
+				post: {
+					summary: 'Create a ticket with its initial message',
+					description:
+						'Atomically creates one Ticket, one initial TicketMessage, zero or more ordered media references, and exactly one criacao_ticket audit. The department row is locked during the transaction; inactive departments return department_inactive.',
+					tags: ['Tickets'],
+					parameters: [{ $ref: '#/components/parameters/CorrelationIdHeader' }],
+					requestBody: {
+						required: true,
+						content: {
+							'application/json': {
+								schema: { $ref: '#/components/schemas/CreateTicketRequest' },
+							},
+						},
+					},
+					responses: {
+						'201': {
+							description: 'Ticket aggregate created.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/Ticket' },
+								},
+							},
+						},
+						'400': {
+							description: 'Malformed JSON or missing/invalid correlation.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'404': {
+							description: 'Department not found.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'422': {
+							description:
+								'Invalid request body or inactive department (department_inactive).',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'500': {
+							description: 'Unexpected error; aggregate transaction is rolled back.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+					},
+				},
+			},
 			'/api/support/departments': {
 				get: {
 					summary: 'List active departments',
