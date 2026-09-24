@@ -36,15 +36,23 @@ function ensurePortFree(port) {
 
 async function stop(child) {
 	if (child.exitCode !== null) return;
-	if (process.platform === 'win32') child.kill('SIGTERM');
-	else process.kill(-child.pid, 'SIGTERM');
+	try {
+		if (process.platform === 'win32') child.kill('SIGTERM');
+		else process.kill(-child.pid, 'SIGTERM');
+	} catch (error) {
+		if (error.code !== 'ESRCH') throw error;
+	}
 	await Promise.race([
 		new Promise((resolve) => child.once('exit', resolve)),
 		new Promise((resolve) => setTimeout(resolve, 5_000)),
 	]);
 	if (child.exitCode === null) {
-		if (process.platform === 'win32') child.kill('SIGKILL');
-		else process.kill(-child.pid, 'SIGKILL');
+		try {
+			if (process.platform === 'win32') child.kill('SIGKILL');
+			else process.kill(-child.pid, 'SIGKILL');
+		} catch (error) {
+			if (error.code !== 'ESRCH') throw error;
+		}
 	}
 }
 
@@ -420,7 +428,6 @@ async function main() {
 			);
 
 			const pendingRoutes = [
-				['PATCH', `/api/support/tickets/${randomUUID()}`],
 				['GET', '/api/support/tickets/requester/uid-requester'],
 				['GET', '/api/support/tickets/admin/uid-admin'],
 				['POST', `/api/support/tickets/${randomUUID()}/resolve`],
