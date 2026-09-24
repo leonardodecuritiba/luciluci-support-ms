@@ -5,8 +5,8 @@
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
 materializada; RF01–RF07b estão `IMPLEMENTED_AND_PROVEN` em
 `MAIN_BASELINE_RF07`, contra a revisão canônica Support 0.9 para RF07.
-RF08–RF13 permanecem `NOT_IMPLEMENTED`; o checkpoint RF08 está bloqueado por
-decisões contratuais. A revisão pós-S1 reabriu o fechamento por
+RF08–RF13 permanecem `NOT_IMPLEMENTED`; o contrato RF08 está congelado em
+Support 0.10 (`RF08_CONTRACT_CHECKPOINT_READY`), sem runtime. A revisão pós-S1 reabriu o fechamento por
 `DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
 
 ## Ordem de leitura
@@ -48,5 +48,8 @@ RF07a/RF07b estão implementadas/provadas no código da PR #7.
 
 A PR #7 foi integrada em `main` no merge
 `43a556ab1c70f5de9a63e3e6ab651445fa462173`, estabelecendo
-`MAIN_BASELINE_RF07`. O checkpoint RF08 não congela Support 0.10 e não altera
-o gitlink Support 0.9 até decisão explícita dos pontos abertos.
+`MAIN_BASELINE_RF07`. O checkpoint RF08 bloqueado `a8714a8` é histórico. As
+decisões específicas de RF08 congelaram Support 0.10 no commit canônico
+`93edf66d6ed0002a2af537339da315db1285a779`, publicado com SHA local/remoto
+igual; o gitlink documental aponta a ele. `RF08 NOT_IMPLEMENTED` e a branch
+funcional `feat/support-rf08-resolve-ticket` não foi criada.

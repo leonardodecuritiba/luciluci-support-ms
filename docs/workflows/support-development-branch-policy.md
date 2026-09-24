@@ -125,8 +125,12 @@ branch `feat/support-rf07-list-tickets` foi criada, implementada e provada na PR
 #7. A PR documental #6 foi integrada em `main` no merge `939b991`; RF08–RF13
 permanecem fora do runtime.
 
-## 7. Checkpoint RF08
+## 7. Contrato RF08
 
-O checkpoint contratual de RF08 parte de `MAIN_BASELINE_RF07`. Enquanto payload,
-repetição sobre Ticket resolvido e response não tiverem decisão, Support 0.10
-permanece sem freeze e a branch funcional RF08 não deve ser criada.
+O checkpoint contratual bloqueado de RF08 partiu de `MAIN_BASELINE_RF07` e
+permanece histórico no commit `a8714a8`. As decisões específicas posteriores
+congelaram Support 0.10 no commit canônico
+`93edf66d6ed0002a2af537339da315db1285a779`, publicado na branch
+`docs/support-rf08-resolve-ticket-contract`. RF08 continua sem runtime; o
+próximo lote funcional explícito deve partir de `MAIN_BASELINE_RF07` em branch
+própria `feat/support-rf08-resolve-ticket`.

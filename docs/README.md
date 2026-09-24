@@ -15,9 +15,9 @@ Documentação operacional do `support-ms`.
 S1 e RF01–RF07b estão implementadas/provadas e integradas em `main` no
 `MAIN_BASELINE_RF07` (PR #7, merge `43a556a`). RF07a/RF07b possuem contrato
 Support 0.9 congelado e runtime provado; RF08–RF13 permanecem sem runtime.
-O checkpoint contratual RF08 está bloqueado por decisões e não publica Support 0.10.
-O checkpoint bloqueado histórico e
-o fechamento contratual RF07a/RF07b estão registrados em `reports/`.
+O contrato RF08 está congelado em Support 0.10; o checkpoint bloqueado é histórico.
+O checkpoint e o fechamento contratual RF08, além dos reports RF07a/RF07b,
+estão registrados em `reports/`.
 
 A documentação canônica de negócio fica em `../luciluci-docs/support/`; o
-gitlink desta branch aponta à revisão 0.9 publicada (`1583a58`).
+gitlink desta branch aponta à revisão 0.10 publicada (`93edf66`).

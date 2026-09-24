@@ -5,8 +5,8 @@
 Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
 Identidade e superfície operacional foram materializadas, Profile foi retirado
 e RF01–RF07b estão implementadas/provadas em `MAIN_BASELINE_RF07` (PR #7);
-RF08–RF13 continuam não implementadas. O checkpoint RF08 está bloqueado por
-decisões de contrato, sem Support 0.10 congelado.
+RF08–RF13 continuam não implementadas. Support 0.10 congela o contrato RF08;
+o checkpoint bloqueado anterior permanece histórico.
 Leia `ACTUAL_STATE.md` para o estado real.
 
 O `DRIFT-SUP-S1-001` foi corrigido e provado: estado
@@ -56,6 +56,8 @@ congela RF04 e resolve, somente nesse recorte, DEC-SUP-01, 03, 06, 08, 09, 10 e 
 DEC-SUP-01/03/04/08/09/10/12. A revisão 0.8 congela RF06 e resolve, somente
 nesse recorte, DEC-SUP-01/03/05/06/08/09/10/12. Support 0.9 congela
 RF07a/RF07b e resolve DEC-SUP-01/02/07/08/09 somente nesse recorte.
+Support 0.10 congela RF08 e resolve DEC-SUP-01/06/08/09/10/12 somente nessa
+ação; DEC-SUP-11 não se aplica por não haver evento Support.
 
 Trabalhar RF por RF ou um drift por vez; não fazer refactor amplo, antecipar
 ondas ou implementar comportamento com decisão crítica aberta. Um gap esperado
@@ -75,8 +77,8 @@ estão integradas; `MAIN_BASELINE_RF07` corresponde ao merge da PR #7 `43a556a`.
 Para RF08–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
 uma branch própria por slice. Convenção recomendada: `feat/support-rfNN-<slug>`;
 correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs independentes
-na mesma branch. RF08 exige decisão contratual antes de uma branch funcional;
-o checkpoint atual não autoriza implementação.
+na mesma branch. RF08 tem contrato congelado; a implementação exige lote
+explícito e branch funcional própria.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
 recorte, estado/documentação atualizados e ausência de drift técnico aberto que

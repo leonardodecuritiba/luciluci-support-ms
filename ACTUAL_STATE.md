@@ -1,6 +1,6 @@
 # ACTUAL_STATE
 
-## Estado atual — MAIN_BASELINE_RF07 e checkpoint contratual RF08
+## Estado atual — MAIN_BASELINE_RF07 e contrato RF08 congelado
 
 - serviço `support-ms`; domínio `support`;
 - S1 `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`; drift `DRIFT-SUP-S1-001 / RESOLVED / PROVEN`;
@@ -10,7 +10,7 @@
 - RF07a/RF07b `RF07A_RF07B_CONTRACT_FROZEN` em Support 0.9; implementação e prova PostgreSQL local concluídas;
 - contrato RF06 congelado em Support 0.8, commit canônico `4650ec671c948a4fa8fb04fa33b300d8fd255ae4` de `luciluci-docs`;
 - decisões RF06 DEC-SUP-01/03/05/06/08/09/10/12 resolvidas somente nesse recorte; DEC-SUP-01/02/07/08/09 estão `RESOLVED_FOR_RF07` somente para RF07a/RF07b, conforme `luciluci-docs/support/notes.md`;
-- gitlink canônico Support 0.9 `1583a586793437a7b7c0569581637ee8ddac5ae5`, publicado em `luciluci-docs`; `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`.
+- gitlink canônico Support 0.10 `93edf66d6ed0002a2af537339da315db1285a779`, publicado em `luciluci-docs` na branch `docs/support-rf08-resolve-ticket-contract`; SHA local e remoto conferidos. `RF08_CONTRACT_FROZEN / RF08_CONTRACT_CHECKPOINT_READY`; runtime RF08 ausente. O contrato RF07 0.9 permanece histórico em `1583a586793437a7b7c0569581637ee8ddac5ae5`; `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`.
 
 ## Superfície implementada
 
@@ -40,6 +40,6 @@ O checkpoint bloqueado anterior é histórico. A revisão 0.9 está congelada e 
 
 ## Checkpoint contratual RF08
 
-O merge da PR #7 em `43a556ab1c70f5de9a63e3e6ab651445fa462173` estabelece `MAIN_BASELINE_RF07`; a CI `quality` do head conciliado passou no run `36049802944`. A página da PR mostrou `No reviews`, discrepância processual histórica que não reabre RF07. O gitlink permanece em Support 0.9 `1583a586793437a7b7c0569581637ee8ddac5ae5`.
+O merge da PR #7 em `43a556ab1c70f5de9a63e3e6ab651445fa462173` estabelece `MAIN_BASELINE_RF07`; a CI `quality` do head conciliado passou no run `36049802944`. A página da PR mostrou `No reviews`, discrepância processual histórica que não reabre RF07. O checkpoint documental bloqueado no commit `a8714a86b5b67e9a7e7fafaf194991b0e078e9cb` preserva a fotografia anterior, com gitlink Support 0.9.
 
-O PRD determina `POST /api/support/tickets/{ticketId}/resolve`, exclusivo do solicitante dono, com alteração apenas de `requesterStatus` para `resolvido` e auditoria `alteracao_status` de requester. Não define body, resposta ou repetição quando já resolvido. O checkpoint está `RF08_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`, em especial DEC-SUP-06/08/10 para no-op, payload, response e idempotência. Candidatos de lock, concorrência e matriz de erros constam no report RF08, sem congelamento canônico. Não há Support 0.10, alteração de gitlink, rota, OpenAPI executável, teste ou prova RF08.
+As decisões posteriores fecham o contrato RF08 em Support 0.10: POST sem body; headers `X-Correlation-ID`, `X-Performed-By` e `X-Performed-By-Type=backoffice|cd`; somente dono por `ticket.requesterId`, sem comparar role com origin ou verificar Department. Transição `nao_resolvido -> resolvido` altera apenas requesterStatus/updatedAt e cria exatamente um AuditLog `alteracao_status` de requester na mesma transação. Ticket já resolvido retorna `200` e Ticket completo sem write, timestamp ou auditoria novos. Ticket é bloqueado com `FOR UPDATE`; RF08×RF08 e RF06×RF08 serializam sem perda de update. Não há idempotency key, evento/outbox ou mensageria. Matriz de erros: `400` headers, `403` admin/não dono, `404` Ticket inexistente, `422` UUID/body, `500` inesperado. DEC-SUP-01/06/08/09/10/12 estão `RESOLVED_FOR_RF08` somente neste recorte; DEC-SUP-11 é `NOT_APPLICABLE_RF08`. O commit canônico `93edf66d6ed0002a2af537339da315db1285a779` está publicado, e o gitlink desta branch aponta a ele. `RF08 NOT_IMPLEMENTED`: sem rota, OpenAPI executável, teste ou prova; `feat/support-rf08-resolve-ticket NOT_CREATED`. RF09–RF13 seguem pendentes.
