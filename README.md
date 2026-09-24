@@ -1,8 +1,8 @@
 # support-ms
 
-Microsserviço de Support (Suporte) da LuciLuci. Bootstrap S1 e RF01–RF03 compõem
-`MAIN_BASELINE_RF03` em `main`; RF04 está implementada e provada na branch
-funcional própria. A fonte de verdade de negócio está em
+Microsserviço de Support (Suporte) da LuciLuci. Bootstrap S1 e RF01–RF04 compõem
+`MAIN_BASELINE_RF04` em `main`. RF05 tem contrato 0.7 congelado; RF06 está em
+checkpoint documental bloqueado por decisões. A fonte de verdade de negócio está em
 `luciluci-docs/support/`.
 
 ## Estado
@@ -12,8 +12,9 @@ entrypoints foi corrigido e provado em PostgreSQL/processo/imagem isolados;
 consulte [ACTUAL_STATE](ACTUAL_STATE.md), [o drift encerrado](.codex/drifts/DRIFT-SUP-S1-001-dist-entrypoints.md) e
 [o report de fechamento](docs/reports/REPORT-SUPPORT-S1-CLOSURE-20260910-163634.md).
 
-RF01–RF04 estão implementadas e comprovadas; RF04 ainda não está integrada em
-`main`. RF05–RF13 permanecem `NOT_IMPLEMENTED`. A OpenAPI executável documenta
+RF01–RF04 estão implementadas, comprovadas e integradas em `main`. RF05 tem
+contrato documental publicado, mas runtime não integrado. RF06–RF13 permanecem
+`NOT_IMPLEMENTED`; Support 0.8 não está congelado. A OpenAPI executável documenta
 RF01–RF04 e os endpoints
 operacionais; ela não é contrato de tickets, mensagens ou histórico. As
 evidências estão consolidadas nos reports
@@ -70,24 +71,24 @@ as variáveis `S1_PROOF_*` apontando a banco exclusivo e descarte-o ao final.
 cria e limpa sua própria rede, containers e imagem temporária. `npm run dev`
 continua não sendo prova da cadeia compilada.
 
-RF01–RF03 estão fechadas e integradas. O contrato RF04 0.6 foi publicado e seu
-runtime foi implementado/provado exclusivamente em
-`feat/support-rf04-delete-department`. RF05–RF13 seguem bloqueadas até seus
-respectivos contratos e slices.
+RF01–RF04 estão fechadas e integradas. O contrato RF05 0.7 está publicado no
+submódulo; seu runtime não foi retomado neste checkpoint. RF06 tem decisões
+contratuais abertas e não possui runtime. Ver o report RF06 no diretório
+`docs/reports/`.
 
 ## Fluxo Git por baseline funcional
 
 Bootstrap + RF01 estabeleceram `MAIN_BASELINE_RF01`; a PR #1 estabeleceu
-`MAIN_BASELINE_RF02`. A PR #2 integrou RF03 no merge
-`0ca1eab9fcc74a4254b710fd12342d761234e9ff`; a revisão atual de `main` é
-`MAIN_BASELINE_RF03`.
+`MAIN_BASELINE_RF02`; a PR #2 integrou RF03. A PR #3 integrou RF04 no merge
+`04f4f8eb0f9c741fae7947a370fb50c121d8a624`; a revisão atual de `main` é
+`MAIN_BASELINE_RF04`.
 
 Não desenvolver novas RFs diretamente em `main`: sincronize a branch, conclua o
-checkpoint contratual e abra uma branch específica para o slice. O checkpoint
-RF04 está congelada/publicada e a implementação nasceu de `main` sincronizada em
-`feat/support-rf04-delete-department`. O estado da publicação/PR deve ser
-conferido no GitHub; a branch deve ser revisada antes de qualquer integração e
-RF05 não foi iniciada.
+checkpoint contratual e abra uma branch específica para o slice. O contrato RF05 0.7 foi publicado em `cc9a4399d210114e3c8261f3c153f8339c049ffb`.
+O checkpoint RF06 usa worktree documental própria. O commit canônico local
+`2f3dfec` ainda não foi publicado por falha de autenticação SSH; o gitlink
+desta branch aponta para Support 0.7 já publicado. A implementação depende de
+base Git estável com RF05, preferencialmente `MAIN_BASELINE_RF05`.
 
 A política completa está em
 [`docs/workflows/support-development-branch-policy.md`](docs/workflows/support-development-branch-policy.md).

@@ -17,7 +17,9 @@ substitui SHA/tag.
 
 RF03 foi integrada em `main` pela PR #2 no merge
 `0ca1eab9fcc74a4254b710fd12342d761234e9ff`; essa revisão estabelece
-`MAIN_BASELINE_RF03`.
+`MAIN_BASELINE_RF03`. RF04 foi integrada pela PR #3 no merge
+`04f4f8eb0f9c741fae7947a370fb50c121d8a624`, estabelecendo
+`MAIN_BASELINE_RF04`.
 
 ## 2. Regra de continuidade
 
@@ -82,7 +84,7 @@ O merge/push em `main` deve ser fast-forward ou seguir a política remota do
 repositório; nunca force-push. Se proteção de branch exigir PR, a proteção
 prevalece.
 
-## 6. Continuidade após o checkpoint RF04
+## 6. Continuidade após o checkpoint RF04 (histórico)
 
 RF03 está implementada, provada e integrada em `MAIN_BASELINE_RF03`. O
 checkpoint RF04 de 2026-09-17 resolveu DEC-SUP-01/03/06/08/09/10/12 somente no
@@ -93,7 +95,11 @@ funcional, quando explicitamente aberto, deve nascer de `main` sincronizada:
 feat/support-rf04-delete-department
 ```
 
-A branch `feat/support-rf04-delete-department` foi criada posteriormente a partir
-de `MAIN_BASELINE_RF03`; RF04 está implementada/provada nela e ainda não foi
-integrada. RF05–RF13 continuam fora do runtime; RF05 exige integração prévia da
-RF04 e checkpoint próprio.
+A branch `feat/support-rf04-delete-department` foi criada a partir de
+`MAIN_BASELINE_RF03` e depois integrada pela PR #3. À época deste checkpoint,
+RF05–RF13 estavam fora do runtime; RF05 exigia integração prévia da RF04 e
+checkpoint próprio.
+
+## 7. Checkpoint RF06 durante pausa RF05
+
+O contrato RF05 está congelado em Support 0.7 (`cc9a4399d210114e3c8261f3c153f8339c049ffb`), mas não foi integrado como runtime em `MAIN_BASELINE_RF04`. O checkpoint RF06 é exclusivamente documental e roda em worktree separada. Decisões de papéis, transferência, target inativo e semântica HTTP impedem congelar Support 0.8. Não criar `feat/support-rf06-update-ticket` até existir base Git estável com RF05, preferencialmente `MAIN_BASELINE_RF05`, e contrato RF06 fechado. Não usar worktree RF05 não commitada como base implícita.

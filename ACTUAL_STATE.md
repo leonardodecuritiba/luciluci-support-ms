@@ -1,19 +1,19 @@
 # ACTUAL_STATE
 
-## Estado atual — bootstrap + RF01–RF04
+## Estado atual — MAIN_BASELINE_RF04 e checkpoint RF06
 
 - serviço: `support-ms`; domínio: `support`
 - S1: `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`
 - drift: `DRIFT-SUP-S1-001 / RESOLVED / PROVEN`
-- RF01–RF03: `IMPLEMENTED_AND_PROVEN` e integradas em `main`
-- baseline estável: `MAIN_BASELINE_RF03`, revisão
-  `0ca1eab9fcc74a4254b710fd12342d761234e9ff`
-- RF04: `IMPLEMENTED_AND_PROVEN` na branch
-  `feat/support-rf04-delete-department`, ainda não integrada
-- RF05–RF13, incluindo RF07a/RF07b: `NOT_IMPLEMENTED`
-- contrato RF04: revisão 0.6 publicada na branch canônica
-  `docs/support-rf04-contract`, commit
-  `864e02a9885852a6c6f6a385c3301e9a757edb60`
+- RF01–RF04: `IMPLEMENTED_AND_PROVEN` e integradas em `main`
+- baseline estável: `MAIN_BASELINE_RF04`, revisão
+  `04f4f8eb0f9c741fae7947a370fb50c121d8a624`
+- RF05: contrato Support 0.7 congelado no commit documental
+  `cc9a4399d210114e3c8261f3c153f8339c049ffb`; runtime não integrado
+  a `main` nem retomado nesta execução
+- RF06: `RF06_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`; Support 0.8 não
+  congelado; runtime `NOT_IMPLEMENTED`
+- RF07a/RF07b e RF08–RF13: `NOT_IMPLEMENTED`
 
 ## Superfície materializada
 
@@ -32,7 +32,8 @@ não adiciona migration, write, ACL local, auditoria, evento, outbox ou
 idempotência. RF04 faz soft delete transacional com lock pessimista, retorna
 `204`, preserva memberships e é no-op quando o Department já está inativo.
 Seed de W1 continua bloqueada; Ticket, TicketMessage e AuditLog de negócio não
-foram materializados.
+foram materializados em `MAIN_BASELINE_RF04`. O checkpoint RF06 depende
+documentalmente de RF05 0.7, mas não toma esse contrato como prova de runtime.
 
 ## Evidências
 
@@ -55,15 +56,8 @@ usou outro PostgreSQL 16 descartável e processo compilado, comprovou soft
 delete/no-op, preservação de memberships, exclusão da paginação RF03 e
 serialização concorrente RF02/RF04. RF01–RF03 passaram novamente, RF05–RF13
 permaneceram `404` e o smoke da imagem real incluiu criar/listar/excluir/listar.
-Detalhes estão no report RF04 desta branch.
+Detalhes estão no report RF04 histórico em `docs/reports/`.
 
 ## Git e continuidade
 
-PR #2 foi integrada em `main` pelo merge
-`0ca1eab9fcc74a4254b710fd12342d761234e9ff`; `main` local e `origin/main`
-foram conferidas nesse mesmo SHA. O CI remoto do head RF03
-`95e720176b1a84933467fab6e64b9c9d83c0cd1e` concluiu com sucesso. O gitlink
-local aponta para o contrato RF04 canônico publicado acima. A branch funcional
-`feat/support-rf04-delete-department` nasceu dessa baseline e contém a
-implementação/provas RF04. Commit, push, PR e CI são estado externo de
-publicação e devem ser conferidos no GitHub; RF04 ainda não está integrada.
+`main` e `origin/main` foram conferidas em `04f4f8eb0f9c741fae7947a370fb50c121d8a624`; a PR #3 integrou RF04. O gitlink de `main` permanece em `864e02a9885852a6c6f6a385c3301e9a757edb60` (Support 0.6). A worktree documental RF06, separada de `main`, materializou explicitamente Support 0.7. A análise canônica está no commit local `2f3dfec` da branch `docs/support-rf06-contract`; seu push falhou por autenticação SSH. O gitlink desta branch de serviço aponta só para Support 0.7 publicado. O report local registra as decisões abertas. O estado remoto RF05 não foi usado como prova; `git ls-remote` não encontrou branch `feat/support-rf05-create-ticket` no origin nesta observação. `RF06_IMPLEMENTATION_DEPENDS_ON_RF05_RUNTIME = YES`; nenhuma branch funcional RF06 foi criada.

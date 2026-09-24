@@ -4,9 +4,9 @@
 
 Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
 Identidade e superfície operacional foram materializadas, Profile foi retirado
-e RF01–RF03 estão implementadas/provadas em `MAIN_BASELINE_RF03`. RF04 possui
-contrato 0.6 congelado e está implementada/provada na branch funcional própria;
-RF05–RF13 continuam não implementadas.
+e RF01–RF04 estão implementadas/provadas em `MAIN_BASELINE_RF04`. RF05 tem
+contrato 0.7 congelado, mas runtime não integrado a `main`; RF06 teve checkpoint
+contratual bloqueado por decisões, sem congelar 0.8. RF06–RF13 não foram implementadas.
 Leia `ACTUAL_STATE.md` para o estado real.
 
 O `DRIFT-SUP-S1-001` foi corrigido e provado: estado
@@ -55,7 +55,9 @@ A revisão 0.4 congela RF02 e resolve, somente nesse recorte, DEC-SUP-01, 03, 06
 08, 09, 10 e 12. RF02 está integrada em `main`; o checkpoint 0.5 de RF03 fechou
 DEC-SUP-02/08 e seu runtime foi integrado/provado. A revisão 0.6 congela RF04 e
 resolve, somente nesse recorte, DEC-SUP-01, 03, 06, 08, 09, 10 e 12. O runtime
-RF04 está implementado/provado na branch `feat/support-rf04-delete-department`.
+RF04 foi integrado a `main` no merge `04f4f8eb0f9c741fae7947a370fb50c121d8a624`.
+O checkpoint RF06 usa Support 0.7, mas permanece bloqueado por DEC-SUP-03/05 e
+semântica HTTP do PATCH. Nenhum runtime RF06 foi iniciado.
 
 Trabalhar RF por RF ou um drift por vez; não fazer refactor amplo, antecipar
 ondas ou implementar comportamento com decisão crítica aberta. Um gap esperado
@@ -68,15 +70,16 @@ explícito; não usar banco padrão/preexistente.
 
 ## Política de branches e `main`
 
-Bootstrap + RF01 formam o baseline histórico `MAIN_BASELINE_RF01`. RF02 e RF03
-estão integradas; `main` representa `MAIN_BASELINE_RF03`. `main` é branch estável de
+Bootstrap + RF01 formam o baseline histórico `MAIN_BASELINE_RF01`. RF02–RF04
+estão integradas; `main` representa `MAIN_BASELINE_RF04`. `main` é branch estável de
 integração e não é workspace para RF nova.
 
 Para RF05–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
 uma branch própria por slice. Convenção recomendada: `feat/support-rfNN-<slug>`;
 correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs independentes
-na mesma branch e não iniciar a RF seguinte antes do fechamento da atual. RF04
-deve ser revisada/integrada antes de qualquer checkpoint RF05.
+na mesma branch e não iniciar a RF seguinte antes do fechamento da atual. RF05 deve ter base Git estável antes de implementar RF06. O checkpoint
+contratual RF06 pode ser analisado antes disso, em worktree isolada; as decisões
+RF06 pendentes impedem congelar Support 0.8.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
 recorte, estado/documentação atualizados e ausência de drift técnico aberto que

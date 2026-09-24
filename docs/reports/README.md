@@ -13,7 +13,8 @@ RF02 foi integrada posteriormente em `main`; seu merge estabeleceu
 `MAIN_BASELINE_RF02`. O checkpoint inicialmente bloqueado de RF03 está em
 `REPORT-SUPPORT-RF03-CHECKPOINT-20260917-152134.md`; a implementação e as provas
 posteriores estão em `REPORT-SUPPORT-RF03-20260917-155713.md`. A PR #2 integrou
-RF03 e estabeleceu `MAIN_BASELINE_RF03`; o checkpoint contratual RF04 está em
+RF03 e estabeleceu `MAIN_BASELINE_RF03`; a PR #3 integrou RF04 e estabeleceu
+`MAIN_BASELINE_RF04`. O checkpoint contratual RF04 está em
 `REPORT-SUPPORT-RF04-CHECKPOINT-20260917-163112.md`.
 
 ## Fechamento atual de S1
@@ -141,6 +142,12 @@ Regras:
   superado pelo fechamento 0.5.
 - `REPORT-SUPPORT-RF03-20260917-155713.md` — fechamento final da implementação,
   testes, PostgreSQL, imagem e fronteira NFR de RF03.
+
+## Support — RF06 contract checkpoint
+
+O report `REPORT-SUPPORT-RF06-CHECKPOINT-20260924-153427.md` documenta a análise
+sobre Support 0.7, as decisões RF06 abertas, a dependência de runtime RF05 e
+a ausência de congelamento Support 0.8. Não atribui testes funcionais a RF06.
 
 ## Support — RF04 contract checkpoint
 
