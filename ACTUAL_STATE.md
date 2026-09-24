@@ -23,10 +23,10 @@ O update RF06 bloqueia Ticket antes dos Departments, estes em ordem lexical de U
 - `npm run proof:rf06:postgres` passou em PostgreSQL 16, banco exclusivo `support_s1_proof_rf06_20260924` criado e descartado pelo script. A prova exercitou processo compilado, ACL, no-op, auditoria, rollback induzido na auditoria, espera pelo lock do Ticket e revalidação do target após lock de Department.
 - A suíte completa passou com 21 suítes/177 testes. Cobertura: 98,17% statements, 85,18% branches, 98,31% functions e 98,38% lines. OpenAPI export/check e compatibilidade contra RF05, build/check e `messaging:check` passaram. O teste RF04 historicamente fixado em RF06=404 foi atualizado para verificar apenas RF07–RF13.
 - Replay local das seis provas PostgreSQL RF01–RF06 passou em PostgreSQL 16, cada uma com banco exclusivo criado e descartado. O workflow ganhou step RF06; as provas antigas foram alinhadas à nova rota.
-- PR #5 aberta: https://github.com/leonardodecuritiba/luciluci-support-ms/pull/5. A primeira CI remota (run `36030774833`, head `738517e`) falhou na prova RF01 porque sua lista OpenAPI esperada ainda omitia a rota RF06. A correção foi reproduzida localmente; nova CI remota pendente. RF06 não está integrada em `main`.
+- PR #5 aberta: https://github.com/leonardodecuritiba/luciluci-support-ms/pull/5. A primeira CI remota (run `36030774833`, head `738517e`) falhou na prova RF01 porque sua lista OpenAPI esperada ainda omitia a rota RF06. A correção passou no run `36031674536`, head `8ee4586`, job `quality`, incluindo provas RF01–RF06, smoke da imagem, OpenAPI e cobertura. RF06 não está integrada em `main`.
 
 Reports anteriores registram as provas S1 e RF01–RF05. A prova RF05 anterior cobriu schema, rollback, sequence, concorrência e imagem. Nenhuma prova de RF06 é atribuída retroativamente às outras RFs.
 
 ## Continuidade
 
-Revisar a PR #5 e confirmar CI remota após a correção; integrar somente quando os critérios de `docs/workflows/support-development-branch-policy.md` forem satisfeitos. RF07 permanece fora deste slice.
+Revisar a PR #5 e integrar somente quando os critérios de `docs/workflows/support-development-branch-policy.md` forem satisfeitos. RF07 permanece fora deste slice.
