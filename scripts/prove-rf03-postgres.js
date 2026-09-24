@@ -138,7 +138,16 @@ async function main() {
 					'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() ORDER BY table_name',
 				)
 			).rows.map((row) => row.table_name),
-			['department_allowed_users', 'departments', 'idempotency_keys', 'migrations'],
+			[
+				'department_allowed_users',
+				'departments',
+				'idempotency_keys',
+				'migrations',
+				'ticket_audit_logs',
+				'ticket_message_media',
+				'ticket_messages',
+				'tickets',
+			],
 		);
 
 		const fixtures = [
@@ -277,7 +286,6 @@ async function main() {
 
 			const pendingRoutes = [
 				['DELETE', `/api/support/departments/${randomUUID()}`],
-				['POST', '/api/support/tickets'],
 				['PATCH', `/api/support/tickets/${randomUUID()}`],
 				['GET', '/api/support/tickets/requester/uid-requester'],
 				['GET', '/api/support/tickets/admin/uid-admin'],

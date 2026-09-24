@@ -22,6 +22,38 @@
 				"required": ["name", "type"],
 				"type": "object"
 			},
+			"CreateInitialTicketMessageRequest": {
+				"additionalProperties": false,
+				"properties": {
+					"mediaIds": {
+						"items": { "pattern": ".*\\S.*", "type": "string" },
+						"type": "array"
+					},
+					"message": { "pattern": ".*\\S.*", "type": "string" }
+				},
+				"required": ["message"],
+				"type": "object"
+			},
+			"CreateTicketRequest": {
+				"additionalProperties": false,
+				"properties": {
+					"departmentId": { "format": "uuid", "type": "string" },
+					"message": { "$ref": "#/components/schemas/CreateInitialTicketMessageRequest" },
+					"origin": { "$ref": "#/components/schemas/TicketOrigin" },
+					"priority": { "$ref": "#/components/schemas/TicketPriority" },
+					"requesterId": { "pattern": ".*\\S.*", "type": "string" },
+					"subject": { "pattern": ".*\\S.*", "type": "string" }
+				},
+				"required": [
+					"subject",
+					"requesterId",
+					"departmentId",
+					"priority",
+					"origin",
+					"message"
+				],
+				"type": "object"
+			},
 			"Department": {
 				"properties": {
 					"active": { "type": "boolean" },
@@ -76,6 +108,38 @@
 				"required": ["page", "size", "total", "totalPages"],
 				"type": "object"
 			},
+			"Ticket": {
+				"additionalProperties": false,
+				"properties": {
+					"adminStatus": { "enum": ["pendente"], "type": "string" },
+					"createdAt": { "format": "date-time", "type": "string" },
+					"departmentId": { "format": "uuid", "type": "string" },
+					"id": { "format": "uuid", "type": "string" },
+					"number": { "minimum": 1, "type": "integer" },
+					"origin": { "$ref": "#/components/schemas/TicketOrigin" },
+					"priority": { "$ref": "#/components/schemas/TicketPriority" },
+					"requesterId": { "type": "string" },
+					"requesterStatus": { "enum": ["nao_resolvido"], "type": "string" },
+					"subject": { "type": "string" },
+					"updatedAt": { "format": "date-time", "type": "string" }
+				},
+				"required": [
+					"id",
+					"number",
+					"subject",
+					"requesterId",
+					"departmentId",
+					"priority",
+					"origin",
+					"adminStatus",
+					"requesterStatus",
+					"createdAt",
+					"updatedAt"
+				],
+				"type": "object"
+			},
+			"TicketOrigin": { "enum": ["backoffice", "cd"], "type": "string" },
+			"TicketPriority": { "enum": ["baixa", "media", "alta", "urgente"], "type": "string" },
 			"UpdateDepartmentRequest": {
 				"additionalProperties": false,
 				"minProperties": 1,
@@ -92,7 +156,7 @@
 		}
 	},
 	"info": {
-		"description": "Support OpenAPI contract. RF01 creates, RF02 updates, RF03 lists, and RF04 soft deletes departments; RF05–RF13 remain unavailable until their own contracts are implemented.",
+		"description": "Support OpenAPI contract. RF01–RF04 manage departments and RF05 atomically creates a ticket aggregate; RF06–RF13 remain unavailable until their own contracts are implemented.",
 		"title": "support-ms",
 		"version": "1.0.0"
 	},
@@ -341,6 +405,64 @@
 				},
 				"summary": "Update a department",
 				"tags": ["Departments"]
+			}
+		},
+		"/api/support/tickets": {
+			"post": {
+				"description": "Atomically creates one Ticket, one initial TicketMessage, zero or more ordered media references, and exactly one criacao_ticket audit. The department row is locked during the transaction; inactive departments return department_inactive.",
+				"parameters": [{ "$ref": "#/components/parameters/CorrelationIdHeader" }],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/CreateTicketRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"201": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/Ticket" }
+							}
+						},
+						"description": "Ticket aggregate created."
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Malformed JSON or missing/invalid correlation."
+					},
+					"404": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Department not found."
+					},
+					"422": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Invalid request body or inactive department (department_inactive)."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Unexpected error; aggregate transaction is rolled back."
+					}
+				},
+				"summary": "Create a ticket with its initial message",
+				"tags": ["Tickets"]
 			}
 		},
 		"/health": {

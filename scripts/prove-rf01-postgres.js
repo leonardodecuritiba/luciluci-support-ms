@@ -139,6 +139,10 @@ async function main() {
 			'departments',
 			'idempotency_keys',
 			'migrations',
+			'ticket_audit_logs',
+			'ticket_message_media',
+			'ticket_messages',
+			'tickets',
 		]);
 		const membershipColumns = (
 			await catalog.query(
@@ -162,7 +166,7 @@ async function main() {
 			).rows[0].count,
 			'1',
 		);
-		assert.equal((await catalog.query('SELECT count(*) FROM migrations')).rows[0].count, '2');
+		assert.equal((await catalog.query('SELECT count(*) FROM migrations')).rows[0].count, '3');
 		await catalog.end();
 
 		const child = spawn(npmCommand, ['run', 'start'], {
@@ -249,6 +253,7 @@ async function main() {
 				'/api-docs-json',
 				'/api/support/departments',
 				'/api/support/departments/{departmentId}',
+				'/api/support/tickets',
 				'/health',
 				'/metrics',
 			]);
@@ -258,7 +263,6 @@ async function main() {
 			);
 			const pendingRoutes = [
 				['DELETE', `/api/support/departments/${randomUUID()}`],
-				['POST', '/api/support/tickets'],
 				['PATCH', `/api/support/tickets/${randomUUID()}`],
 				['GET', '/api/support/tickets/requester/uid-requester'],
 				['GET', '/api/support/tickets/admin/uid-admin'],
@@ -295,7 +299,7 @@ async function main() {
 		assert.equal(
 			(
 				await reverted.query(
-					"SELECT count(*) FROM information_schema.tables WHERE table_name IN ('departments', 'department_allowed_users')",
+					"SELECT count(*) FROM information_schema.tables WHERE table_name IN ('tickets', 'ticket_messages', 'ticket_message_media', 'ticket_audit_logs')",
 				)
 			).rows[0].count,
 			'0',
@@ -303,12 +307,32 @@ async function main() {
 		assert.equal(
 			(
 				await reverted.query(
+					"SELECT count(*) FROM information_schema.tables WHERE table_name IN ('departments', 'department_allowed_users')",
+				)
+			).rows[0].count,
+			'2',
+		);
+		await reverted.end();
+		run(['run', 'migration:revert:dist'], env);
+		const departmentReverted = new Client(connection);
+		await departmentReverted.connect();
+		assert.equal(
+			(
+				await departmentReverted.query(
+					"SELECT count(*) FROM information_schema.tables WHERE table_name IN ('departments', 'department_allowed_users')",
+				)
+			).rows[0].count,
+			'0',
+		);
+		assert.equal(
+			(
+				await departmentReverted.query(
 					"SELECT count(*) FROM information_schema.tables WHERE table_name = 'idempotency_keys'",
 				)
 			).rows[0].count,
 			'1',
 		);
-		await reverted.end();
+		await departmentReverted.end();
 		run(['run', 'migration:run:dist'], env);
 		run(['run', 'migration:run'], env);
 		console.log('RF01 PostgreSQL migration, rollback, and compiled process proof OK');

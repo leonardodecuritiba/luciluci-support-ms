@@ -20,6 +20,6 @@ Read first:
 The current contract describes `/health`, `/metrics`, `/api-docs`,
 `/api-docs-json`, `POST /api/support/departments` (RF01),
 `PATCH /api/support/departments/{departmentId}` (RF02), and
-`GET /api/support/departments` (RF03), and
-`DELETE /api/support/departments/{departmentId}` (RF04). RF05–RF13 have no
-public endpoint yet.
+`GET /api/support/departments` (RF03),
+`DELETE /api/support/departments/{departmentId}` (RF04), and
+`POST /api/support/tickets` (RF05). RF06–RF13 have no public endpoint yet.

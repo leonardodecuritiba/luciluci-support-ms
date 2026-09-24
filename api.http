@@ -1,6 +1,6 @@
 # support-ms bootstrap API requests
 #
-# S1 + RF01–RF04 support surface. RF05–RF13 are not implemented.
+# S1 + RF01–RF05 support surface. RF06–RF13 are not implemented.
 
 @baseUrl = http://localhost:3000
 @correlationId = 8a7dd7bb-7b3f-4b3b-8b8e-0b7e2819d001
@@ -99,6 +99,165 @@ X-Correlation-ID: {{correlationId}}
 
 ### RF04 - Missing correlation
 DELETE {{baseUrl}}/api/support/departments/550e8400-e29b-41d4-a716-446655440000
+
+### RF05 - Create ticket with ordered media references
+POST {{baseUrl}}/api/support/tickets
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+
+{
+  "subject": "Falha no acesso",
+  "requesterId": "uid-requester-1",
+  "departmentId": "550e8400-e29b-41d4-a716-446655440000",
+  "priority": "alta",
+  "origin": "backoffice",
+  "message": {
+    "message": "Não consigo acessar o painel.",
+    "mediaIds": ["media-2", "media-1", "media-2"]
+  }
+}
+
+### RF05 - Create ticket without mediaIds
+POST {{baseUrl}}/api/support/tickets
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+
+{
+  "subject": "Separação pendente",
+  "requesterId": "uid-requester-2",
+  "departmentId": "550e8400-e29b-41d4-a716-446655440000",
+  "priority": "media",
+  "origin": "cd",
+  "message": {
+    "message": "O pedido ainda não entrou em separação."
+  }
+}
+
+### RF05 - Inactive department (department_inactive)
+POST {{baseUrl}}/api/support/tickets
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+
+{
+  "subject": "Departamento inativo",
+  "requesterId": "uid-requester-3",
+  "departmentId": "550e8400-e29b-41d4-a716-446655440099",
+  "priority": "baixa",
+  "origin": "backoffice",
+  "message": { "message": "Tentativa bloqueada." }
+}
+
+### RF05 - Missing department
+POST {{baseUrl}}/api/support/tickets
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+
+{
+  "subject": "Departamento inexistente",
+  "requesterId": "uid-requester-3",
+  "departmentId": "550e8400-e29b-41d4-a716-446655440098",
+  "priority": "baixa",
+  "origin": "backoffice",
+  "message": { "message": "Tentativa sem Department." }
+}
+
+### RF05 - Invalid priority
+POST {{baseUrl}}/api/support/tickets
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+
+{
+  "subject": "Prioridade inválida",
+  "requesterId": "uid-requester-1",
+  "departmentId": "550e8400-e29b-41d4-a716-446655440000",
+  "priority": "critica",
+  "origin": "backoffice",
+  "message": { "message": "Payload inválido." }
+}
+
+### RF05 - Invalid origin
+POST {{baseUrl}}/api/support/tickets
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+
+{
+  "subject": "Origem inválida",
+  "requesterId": "uid-requester-1",
+  "departmentId": "550e8400-e29b-41d4-a716-446655440000",
+  "priority": "alta",
+  "origin": "app",
+  "message": { "message": "Payload inválido." }
+}
+
+### RF05 - Whitespace-only subject
+POST {{baseUrl}}/api/support/tickets
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+
+{
+  "subject": "   ",
+  "requesterId": "uid-requester-1",
+  "departmentId": "550e8400-e29b-41d4-a716-446655440000",
+  "priority": "alta",
+  "origin": "backoffice",
+  "message": { "message": "Payload inválido." }
+}
+
+### RF05 - Whitespace-only message
+POST {{baseUrl}}/api/support/tickets
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+
+{
+  "subject": "Mensagem inválida",
+  "requesterId": "uid-requester-1",
+  "departmentId": "550e8400-e29b-41d4-a716-446655440000",
+  "priority": "alta",
+  "origin": "backoffice",
+  "message": { "message": "   " }
+}
+
+### RF05 - Reject extra field
+POST {{baseUrl}}/api/support/tickets
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+
+{
+  "subject": "Campo proibido",
+  "requesterId": "uid-requester-1",
+  "departmentId": "550e8400-e29b-41d4-a716-446655440000",
+  "priority": "urgente",
+  "origin": "backoffice",
+  "message": { "message": "Payload inválido." },
+  "unexpected": true
+}
+
+### RF05 - Missing correlation
+POST {{baseUrl}}/api/support/tickets
+Content-Type: application/json
+
+{
+  "subject": "Sem correlação",
+  "requesterId": "uid-requester-1",
+  "departmentId": "550e8400-e29b-41d4-a716-446655440000",
+  "priority": "alta",
+  "origin": "backoffice",
+  "message": { "message": "Payload bloqueado antes da transação." }
+}
+
+### RF05 - Invalid correlation
+POST {{baseUrl}}/api/support/tickets
+Content-Type: application/json
+X-Correlation-ID: invalid
+
+{
+  "subject": "Correlação inválida",
+  "requesterId": "uid-requester-1",
+  "departmentId": "550e8400-e29b-41d4-a716-446655440000",
+  "priority": "alta",
+  "origin": "backoffice",
+  "message": { "message": "Payload bloqueado antes da transação." }
+}
 
 ### Metrics
 GET {{baseUrl}}/metrics

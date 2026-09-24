@@ -11,6 +11,7 @@ import performedByMiddleware from './shared/kernel/middlewares/performed-by.midd
 import { metricsRegistry } from './shared/infrastructure/metrics/registry';
 import swaggerSpec from './shared/openapi/swagger';
 import buildDepartmentRouter from './features/department/adapters/routes/department.routes';
+import buildTicketRouter from './features/ticket/adapters/routes/ticket.routes';
 
 export default function createApp(dataSource: DataSource): Express {
 	const app = express();
@@ -43,6 +44,7 @@ export default function createApp(dataSource: DataSource): Express {
 		});
 	});
 	app.use('/api/support/departments', buildDepartmentRouter(dataSource));
+	app.use('/api/support/tickets', buildTicketRouter(dataSource));
 
 	app.use(createErrorHandler(dataSource));
 

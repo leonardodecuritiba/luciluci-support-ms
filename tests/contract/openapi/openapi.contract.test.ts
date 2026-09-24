@@ -17,7 +17,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		await destroyTestDataSource();
 	});
 
-	it('documents operational paths and RF01-RF04', () => {
+	it('documents operational paths and RF01-RF05', () => {
 		const spec = swaggerSpec as OpenAPIV3.Document;
 
 		expect(Object.keys(spec.paths ?? {}).sort()).toEqual([
@@ -25,6 +25,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 			'/api-docs-json',
 			'/api/support/departments',
 			'/api/support/departments/{departmentId}',
+			'/api/support/tickets',
 			'/health',
 			'/metrics',
 		]);
@@ -121,6 +122,61 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		const listSchema = spec.components?.schemas
 			?.DepartmentListResponse as OpenAPIV3.SchemaObject;
 		expect(listSchema.required).toEqual(['data', 'pagination']);
+		const createTicket = spec.paths?.['/api/support/tickets']?.post;
+		expect(createTicket?.parameters).toEqual([
+			{ $ref: '#/components/parameters/CorrelationIdHeader' },
+		]);
+		expect(createTicket?.requestBody).toEqual(
+			expect.objectContaining({
+				required: true,
+				content: {
+					'application/json': {
+						schema: { $ref: '#/components/schemas/CreateTicketRequest' },
+					},
+				},
+			}),
+		);
+		expect(createTicket?.responses).toEqual(
+			expect.objectContaining({
+				'201': expect.any(Object),
+				'400': expect.any(Object),
+				'404': expect.any(Object),
+				'422': expect.any(Object),
+				'500': expect.any(Object),
+			}),
+		);
+		const createTicketSchema = spec.components?.schemas
+			?.CreateTicketRequest as OpenAPIV3.SchemaObject;
+		expect(createTicketSchema.additionalProperties).toBe(false);
+		expect(createTicketSchema.required).toEqual([
+			'subject',
+			'requesterId',
+			'departmentId',
+			'priority',
+			'origin',
+			'message',
+		]);
+		expect(createTicketSchema.properties?.priority).toEqual({
+			$ref: '#/components/schemas/TicketPriority',
+		});
+		expect(spec.components?.schemas?.TicketPriority).toEqual({
+			type: 'string',
+			enum: ['baixa', 'media', 'alta', 'urgente'],
+		});
+		expect(spec.components?.schemas?.TicketOrigin).toEqual({
+			type: 'string',
+			enum: ['backoffice', 'cd'],
+		});
+		const initialMessageSchema = spec.components?.schemas
+			?.CreateInitialTicketMessageRequest as OpenAPIV3.SchemaObject;
+		expect(initialMessageSchema.required).toEqual(['message']);
+		expect(initialMessageSchema.properties).toHaveProperty('mediaIds');
+		expect(initialMessageSchema.required).not.toContain('mediaIds');
+		const ticketSchema = spec.components?.schemas?.Ticket as OpenAPIV3.SchemaObject;
+		expect(ticketSchema.additionalProperties).toBe(false);
+		expect(ticketSchema.properties).not.toHaveProperty('message');
+		expect(ticketSchema.properties).not.toHaveProperty('audit');
+		expect(spec.paths?.['/api/support/tickets/{ticketId}']).toBeUndefined();
 		expect(spec.info.title).toBe('support-ms');
 	});
 

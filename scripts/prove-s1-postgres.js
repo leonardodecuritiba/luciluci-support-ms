@@ -118,10 +118,6 @@ async function smokeProcess(script, childEnv, port) {
 
 		const headers = { 'X-Correlation-ID': randomUUID() };
 		assert.equal((await fetch(`http://127.0.0.1:${port}/profiles`, { headers })).status, 404);
-		assert.equal(
-			(await fetch(`http://127.0.0.1:${port}/api/support/tickets`, { headers })).status,
-			404,
-		);
 	} finally {
 		await stopProcess(child, script);
 	}

@@ -9,6 +9,9 @@
 - `MAIN_BASELINE_RF03`: revisão de `main` que contenha RF03
   `IMPLEMENTED_AND_PROVEN`, após integração da branch
   `feat/support-rf03-list-departments`.
+- `MAIN_BASELINE_RF04`: revisão de `main` que contenha RF04
+  `IMPLEMENTED_AND_PROVEN`, após integração da branch
+  `feat/support-rf04-delete-department`.
 
 RF02 foi integrada em `main` pelo merge
 `e2dba18a7d0c54577805d6bf2f44adc40ecf0295`; essa revisão estabelece
@@ -18,6 +21,10 @@ substitui SHA/tag.
 RF03 foi integrada em `main` pela PR #2 no merge
 `0ca1eab9fcc74a4254b710fd12342d761234e9ff`; essa revisão estabelece
 `MAIN_BASELINE_RF03`.
+
+RF04 foi integrada em `main` pela PR #3 no merge
+`04f4f8eb0f9c741fae7947a370fb50c121d8a624`; essa revisão estabelece
+`MAIN_BASELINE_RF04`.
 
 ## 2. Regra de continuidade
 
@@ -82,18 +89,14 @@ O merge/push em `main` deve ser fast-forward ou seguir a política remota do
 repositório; nunca force-push. Se proteção de branch exigir PR, a proteção
 prevalece.
 
-## 6. Continuidade após o checkpoint RF04
+## 6. Continuidade após a implementação RF05
 
-RF03 está implementada, provada e integrada em `MAIN_BASELINE_RF03`. O
-checkpoint RF04 de 2026-09-17 resolveu DEC-SUP-01/03/06/08/09/10/12 somente no
-recorte de soft delete e publicou o contrato canônico 0.6. O próximo lote
-funcional, quando explicitamente aberto, deve nascer de `main` sincronizada:
+RF04 está implementada, provada e integrada em `MAIN_BASELINE_RF04`. O contrato
+RF05 foi congelado na revisão 0.7, publicada em
+`cc9a4399d210114e3c8261f3c153f8339c049ffb`.
 
-```text
-feat/support-rf04-delete-department
-```
-
-A branch `feat/support-rf04-delete-department` foi criada posteriormente a partir
-de `MAIN_BASELINE_RF03`; RF04 está implementada/provada nela e ainda não foi
-integrada. RF05–RF13 continuam fora do runtime; RF05 exige integração prévia da
-RF04 e checkpoint próprio.
+A branch `feat/support-rf05-create-ticket` foi criada a partir de `main`
+sincronizada, preservou o checkpoint documental e implementou/provou RF05. Ela
+ainda não foi publicada nem integrada; `main` permanece `MAIN_BASELINE_RF04`.
+RF06–RF13 permanecem fora do runtime e RF06 não deve iniciar antes da integração
+e de checkpoint próprio.
