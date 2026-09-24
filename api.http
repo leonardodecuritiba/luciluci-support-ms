@@ -1,10 +1,40 @@
 # support-ms bootstrap API requests
 #
-# S1 + RF01–RF06 support surface. RF07–RF13 are not implemented.
+# S1 + RF01–RF07 support surface. RF08–RF13 are not implemented.
 
 @baseUrl = http://localhost:3000
 @correlationId = 8a7dd7bb-7b3f-4b3b-8b8e-0b7e2819d001
 @ticketId = 550e8400-e29b-41d4-a716-446655440002
+@requesterId = uid-requester-1
+@adminId = uid-admin-1
+
+### RF07a - List owned tickets with defaults
+GET {{baseUrl}}/api/support/tickets/requester/{{requesterId}}
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: backoffice
+Accept: application/json
+
+### RF07a - UTC date interval and pagination
+GET {{baseUrl}}/api/support/tickets/requester/{{requesterId}}?startDate=01/09/2026&endDate=04/09/2026&page=2&size=10
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Accept: application/json
+
+### RF07b - List tickets visible through current Department membership
+GET {{baseUrl}}/api/support/tickets/admin/{{adminId}}?requesterId={{requesterId}}&status=pendente
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Accept: application/json
+
+### RF07b - Invalid query alias, returns 422
+GET {{baseUrl}}/api/support/tickets/admin/{{adminId}}?limit=10
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Accept: application/json
 
 ### Health
 GET {{baseUrl}}/health

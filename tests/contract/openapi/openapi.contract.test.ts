@@ -17,7 +17,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		await destroyTestDataSource();
 	});
 
-	it('documents operational paths and RF01-RF06', () => {
+	it('documents operational paths and RF01-RF07', () => {
 		const spec = swaggerSpec as OpenAPIV3.Document;
 
 		expect(Object.keys(spec.paths ?? {}).sort()).toEqual([
@@ -26,6 +26,8 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 			'/api/support/departments',
 			'/api/support/departments/{departmentId}',
 			'/api/support/tickets',
+			'/api/support/tickets/admin/{adminId}',
+			'/api/support/tickets/requester/{requesterId}',
 			'/api/support/tickets/{ticketId}',
 			'/health',
 			'/metrics',
@@ -210,6 +212,77 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		expect(ticketSchema.properties?.adminStatus).toEqual({
 			$ref: '#/components/schemas/TicketAdminStatus',
 		});
+		for (const [path, pathId, includesRequesterFilter] of [
+			['/api/support/tickets/requester/{requesterId}', 'requesterId', false],
+			['/api/support/tickets/admin/{adminId}', 'adminId', true],
+		] as const) {
+			const operation = spec.paths?.[path]?.get;
+			const parameters = operation?.parameters as OpenAPIV3.ParameterObject[];
+			expect(parameters).toEqual(
+				expect.arrayContaining([
+					{ $ref: '#/components/parameters/CorrelationIdHeader' },
+					{ $ref: '#/components/parameters/PerformedByHeader' },
+					{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+					expect.objectContaining({ in: 'path', name: pathId, required: true }),
+				]),
+			);
+			expect(
+				parameters
+					.filter((parameter) => parameter.in === 'query')
+					.map((parameter) => parameter.name)
+					.sort(),
+			).toEqual(
+				[
+					'number',
+					'startDate',
+					'endDate',
+					'status',
+					'origin',
+					'departmentId',
+					'priority',
+					'page',
+					'size',
+					...(includesRequesterFilter ? ['requesterId'] : []),
+				].sort(),
+			);
+			expect(operation?.responses).toEqual(
+				expect.objectContaining({
+					'200': expect.any(Object),
+					'400': expect.any(Object),
+					'403': expect.any(Object),
+					'422': expect.any(Object),
+					'500': expect.any(Object),
+				}),
+			);
+			expect(operation?.responses?.['200']).toEqual(
+				expect.objectContaining({
+					content: {
+						'application/json': {
+							schema: { $ref: '#/components/schemas/TicketListResponse' },
+						},
+					},
+				}),
+			);
+		}
+		const item = spec.components?.schemas?.TicketListItem as OpenAPIV3.SchemaObject;
+		expect(item.additionalProperties).toBe(false);
+		expect(item.required).toEqual([
+			'id',
+			'number',
+			'createdAt',
+			'departmentId',
+			'requesterId',
+			'origin',
+			'priority',
+			'status',
+		]);
+		expect(Object.keys(item.properties ?? {})).toEqual(item.required);
+		expect(spec.components?.schemas?.TicketListResponse).toEqual(
+			expect.objectContaining({
+				additionalProperties: false,
+				required: ['data', 'pagination'],
+			}),
+		);
 		expect(spec.info.title).toBe('support-ms');
 	});
 

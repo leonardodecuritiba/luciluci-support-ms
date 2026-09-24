@@ -5,7 +5,7 @@
 Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
 Identidade e superfície operacional foram materializadas, Profile foi retirado
 e RF01–RF06 estão implementadas/provadas em `MAIN_BASELINE_RF06` (PR #5);
-RF07a/RF07b e RF08–RF13 continuam não implementadas.
+RF07a/RF07b estão implementadas/provadas na PR #7 e RF08–RF13 continuam não implementadas.
 Leia `ACTUAL_STATE.md` para o estado real.
 
 O `DRIFT-SUP-S1-001` foi corrigido e provado: estado
@@ -61,21 +61,21 @@ ondas ou implementar comportamento com decisão crítica aberta. Um gap esperado
 de inicialização não é bug comprovado do Support. Propostas de arquitetura
 não são decisões de negócio aprovadas.
 
-O lote funcional RF06 está integrado. RF07a/RF07b e RF08–RF13 permanecem
-fora do runtime. Qualquer prova futura de banco exige destino descartável
+O lote funcional RF06 está integrado. RF07a/RF07b estão implementadas/provadas;
+RF08–RF13 permanecem fora do runtime. Qualquer prova futura de banco exige destino descartável
 explícito; não usar banco padrão/preexistente.
 
 ## Política de branches e `main`
 
 Bootstrap + RF01 formam o baseline histórico `MAIN_BASELINE_RF01`. RF02–RF06
-estão integradas; `main` representa `MAIN_BASELINE_RF06`. `main` é branch estável de
-integração e não é workspace para RF nova.
+estão integradas; `MAIN_BASELINE_RF06` é a origem da PR #7, que agrega RF07a/RF07b.
+`main` é branch estável de integração e não é workspace para RF nova.
 
-Para RF07–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
+Para RF08–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
 uma branch própria por slice. Convenção recomendada: `feat/support-rfNN-<slug>`;
 correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs independentes
 na mesma branch. `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`; a branch
-funcional RF07 ainda não foi criada e depende de lote explícito de implementação.
+funcional RF07 foi criada, implementada e provada na PR #7.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
 recorte, estado/documentação atualizados e ausência de drift técnico aberto que

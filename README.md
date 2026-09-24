@@ -10,8 +10,9 @@ está em `luciluci-docs/support/`.
 
 S1 e RF01–RF06 estão implementadas, provadas e integradas. RF06 implementa
 `PATCH /api/support/tickets/{ticketId}` com ACL, transferência, no-op e auditoria
-transacional. RF07a/RF07b e RF08–RF13 não têm runtime; o checkpoint RF07a/RF07b
-está pronto contratualmente, sem implementação ou testes RF07.
+transacional. RF07a/RF07b estão implementadas e provadas no código da PR #7,
+com consultas de tickets por ownership e membership atual de Department.
+RF08–RF13 não têm runtime.
 Consulte [ACTUAL_STATE](ACTUAL_STATE.md) e os reports em `docs/reports/`.
 
 ## Executar localmente
@@ -39,6 +40,8 @@ fase: o comando falha de modo explícito até a massa determinística de W1 ser 
 - `DELETE /api/support/departments/{departmentId}`
 - `POST /api/support/tickets`
 - `PATCH /api/support/tickets/{ticketId}`
+- `GET /api/support/tickets/requester/{requesterId}`
+- `GET /api/support/tickets/admin/{adminId}`
 
 Consulte `api.http`, `docs/runbooks/local-development.md` e
 `docs/runbooks/infra-access.md`.
@@ -57,10 +60,11 @@ npm run coverage:check
 ```
 
 Antes de provas PostgreSQL, confirme o destino exclusivo e descartável.
-`npm run proof:rf06:postgres` exige as variáveis `S1_PROOF_*`, cria somente
+`npm run proof:rf07:postgres` exige as variáveis `S1_PROOF_*`, cria somente
 um banco ausente com prefixo permitido, usa processo compilado e descarta o banco.
-A prova local RF06 passou em PostgreSQL 16; CI da PR #5 passou nas provas
-PostgreSQL RF01–RF06 e no smoke da imagem.
+A prova local RF07 passou em PostgreSQL 16; a CI remota da PR #7 passou no
+head de implementação `65029bd` (run `36047611567`).
+CI da PR #5 passou nas provas PostgreSQL RF01–RF06 e no smoke da imagem.
 
 ## Fluxo Git por baseline funcional
 

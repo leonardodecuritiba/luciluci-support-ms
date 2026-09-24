@@ -184,6 +184,42 @@
 				"enum": ["pendente", "cancelado", "em_andamento", "finalizado", "resolvido"],
 				"type": "string"
 			},
+			"TicketListItem": {
+				"additionalProperties": false,
+				"properties": {
+					"createdAt": { "format": "date-time", "type": "string" },
+					"departmentId": { "format": "uuid", "type": "string" },
+					"id": { "format": "uuid", "type": "string" },
+					"number": { "minimum": 1, "type": "integer" },
+					"origin": { "$ref": "#/components/schemas/TicketOrigin" },
+					"priority": { "$ref": "#/components/schemas/TicketPriority" },
+					"requesterId": { "type": "string" },
+					"status": { "$ref": "#/components/schemas/TicketAdminStatus" }
+				},
+				"required": [
+					"id",
+					"number",
+					"createdAt",
+					"departmentId",
+					"requesterId",
+					"origin",
+					"priority",
+					"status"
+				],
+				"type": "object"
+			},
+			"TicketListResponse": {
+				"additionalProperties": false,
+				"properties": {
+					"data": {
+						"items": { "$ref": "#/components/schemas/TicketListItem" },
+						"type": "array"
+					},
+					"pagination": { "$ref": "#/components/schemas/Pagination" }
+				},
+				"required": ["data", "pagination"],
+				"type": "object"
+			},
 			"TicketOrigin": { "enum": ["backoffice", "cd"], "type": "string" },
 			"TicketPriority": { "enum": ["baixa", "media", "alta", "urgente"], "type": "string" },
 			"UpdateDepartmentRequest": {
@@ -212,7 +248,7 @@
 		}
 	},
 	"info": {
-		"description": "Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, and RF06 edits tickets; RF07–RF13 remain unavailable.",
+		"description": "Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, and RF07a/RF07b list tickets; RF08–RF13 remain unavailable.",
 		"title": "support-ms",
 		"version": "1.0.0"
 	},
@@ -594,6 +630,221 @@
 					}
 				},
 				"summary": "Update ticket priority, department, or admin status",
+				"tags": ["Tickets"]
+			}
+		},
+		"/api/support/tickets/admin/{adminId}": {
+			"get": {
+				"description": "RF07b. Admin actor must match adminId. Visibility uses current Department allowedUserIds, including inactive departments with retained membership. Filters combine with visibility. Dates are DD/MM/YYYY UTC days. Results are ordered by createdAt DESC, id DESC. Read only.",
+				"parameters": [
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{ "$ref": "#/components/parameters/PerformedByHeader" },
+					{ "$ref": "#/components/parameters/PerformedByTypeHeader" },
+					{
+						"in": "path",
+						"name": "adminId",
+						"required": true,
+						"schema": { "pattern": ".*\\S.*", "type": "string" }
+					},
+					{
+						"in": "query",
+						"name": "number",
+						"schema": { "minimum": 1, "type": "integer" }
+					},
+					{
+						"in": "query",
+						"name": "startDate",
+						"schema": { "pattern": "^\\d{2}/\\d{2}/\\d{4}$", "type": "string" }
+					},
+					{
+						"in": "query",
+						"name": "endDate",
+						"schema": { "pattern": "^\\d{2}/\\d{2}/\\d{4}$", "type": "string" }
+					},
+					{
+						"in": "query",
+						"name": "status",
+						"schema": { "$ref": "#/components/schemas/TicketAdminStatus" }
+					},
+					{
+						"in": "query",
+						"name": "origin",
+						"schema": { "$ref": "#/components/schemas/TicketOrigin" }
+					},
+					{
+						"in": "query",
+						"name": "departmentId",
+						"schema": { "format": "uuid", "type": "string" }
+					},
+					{
+						"in": "query",
+						"name": "priority",
+						"schema": { "$ref": "#/components/schemas/TicketPriority" }
+					},
+					{
+						"in": "query",
+						"name": "requesterId",
+						"schema": { "pattern": ".*\\S.*", "type": "string" }
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"schema": { "default": 1, "minimum": 1, "type": "integer" }
+					},
+					{
+						"in": "query",
+						"name": "size",
+						"schema": { "default": 20, "maximum": 100, "minimum": 1, "type": "integer" }
+					}
+				],
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/TicketListResponse" }
+							}
+						},
+						"description": "Authorized ticket page, including empty pages."
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Missing or invalid correlation or actor headers."
+					},
+					"403": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Role or actor does not match admin path."
+					},
+					"422": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Invalid, repeated, or unknown query parameter."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Unexpected error."
+					}
+				},
+				"summary": "List tickets visible to the admin",
+				"tags": ["Tickets"]
+			}
+		},
+		"/api/support/tickets/requester/{requesterId}": {
+			"get": {
+				"description": "RF07a. Actor must be backoffice or cd and match requesterId. Filters combine with ownership. Dates are DD/MM/YYYY UTC days. Results are ordered by createdAt DESC, id DESC. Read only.",
+				"parameters": [
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{ "$ref": "#/components/parameters/PerformedByHeader" },
+					{ "$ref": "#/components/parameters/PerformedByTypeHeader" },
+					{
+						"in": "path",
+						"name": "requesterId",
+						"required": true,
+						"schema": { "pattern": ".*\\S.*", "type": "string" }
+					},
+					{
+						"in": "query",
+						"name": "number",
+						"schema": { "minimum": 1, "type": "integer" }
+					},
+					{
+						"in": "query",
+						"name": "startDate",
+						"schema": { "pattern": "^\\d{2}/\\d{2}/\\d{4}$", "type": "string" }
+					},
+					{
+						"in": "query",
+						"name": "endDate",
+						"schema": { "pattern": "^\\d{2}/\\d{2}/\\d{4}$", "type": "string" }
+					},
+					{
+						"in": "query",
+						"name": "status",
+						"schema": { "$ref": "#/components/schemas/TicketAdminStatus" }
+					},
+					{
+						"in": "query",
+						"name": "origin",
+						"schema": { "$ref": "#/components/schemas/TicketOrigin" }
+					},
+					{
+						"in": "query",
+						"name": "departmentId",
+						"schema": { "format": "uuid", "type": "string" }
+					},
+					{
+						"in": "query",
+						"name": "priority",
+						"schema": { "$ref": "#/components/schemas/TicketPriority" }
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"schema": { "default": 1, "minimum": 1, "type": "integer" }
+					},
+					{
+						"in": "query",
+						"name": "size",
+						"schema": { "default": 20, "maximum": 100, "minimum": 1, "type": "integer" }
+					}
+				],
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/TicketListResponse" }
+							}
+						},
+						"description": "Authorized ticket page, including empty pages."
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Missing or invalid correlation or actor headers."
+					},
+					"403": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Role or actor does not match requester path."
+					},
+					"422": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Invalid, repeated, or unknown query parameter."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Unexpected error."
+					}
+				},
+				"summary": "List tickets owned by the requester",
 				"tags": ["Tickets"]
 			}
 		},

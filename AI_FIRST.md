@@ -4,8 +4,8 @@
 
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
 materializada; RF01–RF06 estão `IMPLEMENTED_AND_PROVEN` em
-`MAIN_BASELINE_RF06`, contra a revisão canônica 0.8 do runtime, e RF07a/RF07b
-e RF08–RF13 permanecem `NOT_IMPLEMENTED`. A revisão pós-S1 reabriu o fechamento por
+`MAIN_BASELINE_RF06`, contra a revisão canônica 0.8 do runtime. RF07a/RF07b
+estão implementadas/provadas na PR #7; RF08–RF13 permanecem `NOT_IMPLEMENTED`. A revisão pós-S1 reabriu o fechamento por
 `DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
 
 ## Ordem de leitura
@@ -40,6 +40,7 @@ publicado em `cc9a4399d210114e3c8261f3c153f8339c049ffb`; o contrato RF06
 0.8 está publicado em `4650ec671c948a4fa8fb04fa33b300d8fd255ae4`.
 A PR #5 integrou RF06 com CI aprovada; a página da PR não registra revisão
 formal. Support 0.9 congela RF07a/RF07b no commit canônico
-`1583a586793437a7b7c0569581637ee8ddac5ae5`; o gitlink desta branch
-documental aponta a ele. RF07a/RF07b seguem sem runtime.
+`1583a586793437a7b7c0569581637ee8ddac5ae5`; o gitlink da PR #7
+aponta a ele. A PR documental #6 foi integrada em `main` no merge `939b991`;
+RF07a/RF07b estão implementadas/provadas no código da PR #7.
 `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`. Não usar force-push em `main`.

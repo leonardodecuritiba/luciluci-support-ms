@@ -7,7 +7,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			title: 'support-ms',
 			version: '1.0.0',
 			description:
-				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, and RF06 edits tickets; RF07–RF13 remain unavailable.',
+				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, and RF07a/RF07b list tickets; RF08–RF13 remain unavailable.',
 		},
 		components: {
 			parameters: {
@@ -215,6 +215,42 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						updatedAt: { type: 'string', format: 'date-time' },
 					},
 				},
+				TicketListItem: {
+					type: 'object',
+					additionalProperties: false,
+					required: [
+						'id',
+						'number',
+						'createdAt',
+						'departmentId',
+						'requesterId',
+						'origin',
+						'priority',
+						'status',
+					],
+					properties: {
+						id: { type: 'string', format: 'uuid' },
+						number: { type: 'integer', minimum: 1 },
+						createdAt: { type: 'string', format: 'date-time' },
+						departmentId: { type: 'string', format: 'uuid' },
+						requesterId: { type: 'string' },
+						origin: { $ref: '#/components/schemas/TicketOrigin' },
+						priority: { $ref: '#/components/schemas/TicketPriority' },
+						status: { $ref: '#/components/schemas/TicketAdminStatus' },
+					},
+				},
+				TicketListResponse: {
+					type: 'object',
+					additionalProperties: false,
+					required: ['data', 'pagination'],
+					properties: {
+						data: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/TicketListItem' },
+						},
+						pagination: { $ref: '#/components/schemas/Pagination' },
+					},
+				},
 				ErrorResponse: {
 					type: 'object',
 					required: ['status_code', 'message'],
@@ -357,6 +393,215 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						},
 						'500': {
 							description: 'Unexpected error; transaction rolled back.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+					},
+				},
+			},
+			'/api/support/tickets/requester/{requesterId}': {
+				get: {
+					summary: 'List tickets owned by the requester',
+					description:
+						'RF07a. Actor must be backoffice or cd and match requesterId. Filters combine with ownership. Dates are DD/MM/YYYY UTC days. Results are ordered by createdAt DESC, id DESC. Read only.',
+					tags: ['Tickets'],
+					parameters: [
+						{ $ref: '#/components/parameters/CorrelationIdHeader' },
+						{ $ref: '#/components/parameters/PerformedByHeader' },
+						{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+						{
+							in: 'path',
+							name: 'requesterId',
+							required: true,
+							schema: { type: 'string', pattern: '.*\\S.*' },
+						},
+						{ in: 'query', name: 'number', schema: { type: 'integer', minimum: 1 } },
+						{
+							in: 'query',
+							name: 'startDate',
+							schema: { type: 'string', pattern: '^\\d{2}/\\d{2}/\\d{4}$' },
+						},
+						{
+							in: 'query',
+							name: 'endDate',
+							schema: { type: 'string', pattern: '^\\d{2}/\\d{2}/\\d{4}$' },
+						},
+						{
+							in: 'query',
+							name: 'status',
+							schema: { $ref: '#/components/schemas/TicketAdminStatus' },
+						},
+						{
+							in: 'query',
+							name: 'origin',
+							schema: { $ref: '#/components/schemas/TicketOrigin' },
+						},
+						{
+							in: 'query',
+							name: 'departmentId',
+							schema: { type: 'string', format: 'uuid' },
+						},
+						{
+							in: 'query',
+							name: 'priority',
+							schema: { $ref: '#/components/schemas/TicketPriority' },
+						},
+						{
+							in: 'query',
+							name: 'page',
+							schema: { type: 'integer', minimum: 1, default: 1 },
+						},
+						{
+							in: 'query',
+							name: 'size',
+							schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 },
+						},
+					],
+					responses: {
+						'200': {
+							description: 'Authorized ticket page, including empty pages.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/TicketListResponse' },
+								},
+							},
+						},
+						'400': {
+							description: 'Missing or invalid correlation or actor headers.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'403': {
+							description: 'Role or actor does not match requester path.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'422': {
+							description: 'Invalid, repeated, or unknown query parameter.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'500': {
+							description: 'Unexpected error.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+					},
+				},
+			},
+			'/api/support/tickets/admin/{adminId}': {
+				get: {
+					summary: 'List tickets visible to the admin',
+					description:
+						'RF07b. Admin actor must match adminId. Visibility uses current Department allowedUserIds, including inactive departments with retained membership. Filters combine with visibility. Dates are DD/MM/YYYY UTC days. Results are ordered by createdAt DESC, id DESC. Read only.',
+					tags: ['Tickets'],
+					parameters: [
+						{ $ref: '#/components/parameters/CorrelationIdHeader' },
+						{ $ref: '#/components/parameters/PerformedByHeader' },
+						{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+						{
+							in: 'path',
+							name: 'adminId',
+							required: true,
+							schema: { type: 'string', pattern: '.*\\S.*' },
+						},
+						{ in: 'query', name: 'number', schema: { type: 'integer', minimum: 1 } },
+						{
+							in: 'query',
+							name: 'startDate',
+							schema: { type: 'string', pattern: '^\\d{2}/\\d{2}/\\d{4}$' },
+						},
+						{
+							in: 'query',
+							name: 'endDate',
+							schema: { type: 'string', pattern: '^\\d{2}/\\d{2}/\\d{4}$' },
+						},
+						{
+							in: 'query',
+							name: 'status',
+							schema: { $ref: '#/components/schemas/TicketAdminStatus' },
+						},
+						{
+							in: 'query',
+							name: 'origin',
+							schema: { $ref: '#/components/schemas/TicketOrigin' },
+						},
+						{
+							in: 'query',
+							name: 'departmentId',
+							schema: { type: 'string', format: 'uuid' },
+						},
+						{
+							in: 'query',
+							name: 'priority',
+							schema: { $ref: '#/components/schemas/TicketPriority' },
+						},
+						{
+							in: 'query',
+							name: 'requesterId',
+							schema: { type: 'string', pattern: '.*\\S.*' },
+						},
+						{
+							in: 'query',
+							name: 'page',
+							schema: { type: 'integer', minimum: 1, default: 1 },
+						},
+						{
+							in: 'query',
+							name: 'size',
+							schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 },
+						},
+					],
+					responses: {
+						'200': {
+							description: 'Authorized ticket page, including empty pages.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/TicketListResponse' },
+								},
+							},
+						},
+						'400': {
+							description: 'Missing or invalid correlation or actor headers.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'403': {
+							description: 'Role or actor does not match admin path.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'422': {
+							description: 'Invalid, repeated, or unknown query parameter.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'500': {
+							description: 'Unexpected error.',
 							content: {
 								'application/json': {
 									schema: { $ref: '#/components/schemas/ErrorResponse' },
