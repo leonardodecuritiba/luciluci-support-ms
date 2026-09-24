@@ -53,8 +53,8 @@ A revisão 0.4 congela RF02 e resolve, somente nesse recorte, DEC-SUP-01, 03, 06
 08, 09, 10 e 12. RF02–RF06 estão integradas em `main`. A revisão 0.6
 congela RF04 e resolve, somente nesse recorte, DEC-SUP-01, 03, 06, 08, 09, 10 e 12. A revisão 0.7 congela RF05 e resolve, somente nesse recorte,
 DEC-SUP-01/03/04/08/09/10/12. A revisão 0.8 congela RF06 e resolve, somente
-nesse recorte, DEC-SUP-01/03/05/06/08/09/10/12. O checkpoint RF07a/RF07b
-permanece bloqueado por decisões contratuais.
+nesse recorte, DEC-SUP-01/03/05/06/08/09/10/12. Support 0.9 congela
+RF07a/RF07b e resolve DEC-SUP-01/02/07/08/09 somente nesse recorte.
 
 Trabalhar RF por RF ou um drift por vez; não fazer refactor amplo, antecipar
 ondas ou implementar comportamento com decisão crítica aberta. Um gap esperado
@@ -74,7 +74,8 @@ integração e não é workspace para RF nova.
 Para RF07–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
 uma branch própria por slice. Convenção recomendada: `feat/support-rfNN-<slug>`;
 correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs independentes
-na mesma branch e não iniciar runtime RF07 antes de seu contrato congelado.
+na mesma branch. `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`; a branch
+funcional RF07 ainda não foi criada e depende de lote explícito de implementação.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
 recorte, estado/documentação atualizados e ausência de drift técnico aberto que
