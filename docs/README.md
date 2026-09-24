@@ -12,20 +12,11 @@ Documentação operacional do `support-ms`.
   após RF01.
 - `reports/`: avaliações por onda.
 
-S1 e RF01–RF04 estão `IMPLEMENTED_AND_PROVEN` e compõem
-`MAIN_BASELINE_RF04`; RF05 está implementada/provada na branch funcional contra
-o contrato 0.7. Veja os
-[reports de RF01](reports/REPORT-SUPPORT-RF01-20260910-174742.md),
-[RF02](reports/REPORT-SUPPORT-RF02-20260910-185500.md) e o
-[fechamento RF05](reports/REPORT-SUPPORT-RF05-20260917-153727.md), além do
-[fechamento S1](reports/REPORT-SUPPORT-S1-CLOSURE-20260910-163634.md).
-O prompt `prompts/support-main-baseline-publication-prompt.md` publica o baseline
-bootstrap + RF01 com guardas Git. Os prompts de correção e RF01 são históricos.
-O prompt RF02 foi executado na branch `feat/support-rf02-update-department` e a
-PR #1 foi integrada em `main`. A PR #2 integrou RF03 e a PR #3 integrou RF04,
-ambas com CI remoto aprovado. O merge RF04 estabeleceu `MAIN_BASELINE_RF04`.
-RF05 recebeu revisão canônica 0.7 e runtime provado na branch
-`feat/support-rf05-create-ticket`; RF06–RF13 continuam sem runtime.
+S1 e RF01–RF05 estão implementadas/provadas e integradas em `main` no
+`MAIN_BASELINE_RF05` (PR #4, merge `2cfb637`). RF06 está implementada e provada
+localmente na branch `feat/support-rf06-update-ticket`, com contrato canônico
+Support 0.8. RF07a/RF07b e RF08–RF13 permanecem sem runtime. Os reports
+históricos e o report RF06 desta branch estão em `reports/`.
 
-A documentação canônica de negócio fica em `../luciluci-docs/support/`.
-O anexo de revisão não contém esse submódulo; verificar sua revisão real local.
+A documentação canônica de negócio fica em `../luciluci-docs/support/`; o
+gitlink desta branch aponta à revisão 0.8 publicada.

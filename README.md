@@ -1,27 +1,18 @@
 # support-ms
 
-Microsserviço de Support (Suporte) da LuciLuci. Bootstrap S1 e RF01–RF04 compõem
-`MAIN_BASELINE_RF04` em `main`. RF05 está implementada e provada na branch
-`feat/support-rf05-create-ticket`, contra o contrato 0.7. A fonte de verdade de negócio está em
-`luciluci-docs/support/`.
+Microsserviço de Support (Suporte) da LuciLuci. RF01–RF05 compõem
+`MAIN_BASELINE_RF05` em `main` (merge da PR #4 `2cfb637`). RF06 está
+implementada e provada localmente na branch `feat/support-rf06-update-ticket`,
+contra o contrato canônico Support 0.8 (`4650ec6`). A fonte de verdade de negócio
+está em `luciluci-docs/support/`.
 
 ## Estado
 
-A base técnica S1 está `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`. O drift de
-entrypoints foi corrigido e provado em PostgreSQL/processo/imagem isolados;
-consulte [ACTUAL_STATE](ACTUAL_STATE.md), [o drift encerrado](.codex/drifts/DRIFT-SUP-S1-001-dist-entrypoints.md) e
-[o report de fechamento](docs/reports/REPORT-SUPPORT-S1-CLOSURE-20260910-163634.md).
-
-RF01–RF04 estão implementadas, comprovadas e integradas em `main`. RF05 está
-`IMPLEMENTED_AND_PROVEN` na branch atual, ainda sem integração; RF06–RF13
-permanecem `NOT_IMPLEMENTED`. A OpenAPI executável documenta
-RF01–RF05 e os endpoints operacionais; ela não documenta RF06–RF13. As
-evidências estão consolidadas nos reports
-[RF01](docs/reports/REPORT-SUPPORT-RF01-20260910-174742.md) e
-[RF02](docs/reports/REPORT-SUPPORT-RF02-20260910-185500.md) e
-[RF03](docs/reports/REPORT-SUPPORT-RF03-20260917-155713.md), além do
-[fechamento RF04](docs/reports/REPORT-SUPPORT-RF04-20260917-164908.md) e do
-[fechamento RF05](docs/reports/REPORT-SUPPORT-RF05-20260917-153727.md).
+S1 e RF01–RF05 estão implementadas, provadas e integradas. RF06 implementa
+`PATCH /api/support/tickets/{ticketId}` com ACL, transferência, no-op e auditoria
+transacional; aguarda revisão e integração. RF07a/RF07b e RF08–RF13 não têm runtime.
+Consulte [ACTUAL_STATE](ACTUAL_STATE.md), os reports históricos de RF01–RF05 em
+`docs/reports/` e o report RF06 desta branch.
 
 ## Executar localmente
 
@@ -47,6 +38,7 @@ fase: o comando falha de modo explícito até a massa determinística de W1 ser 
 - `PATCH /api/support/departments/{departmentId}`
 - `DELETE /api/support/departments/{departmentId}`
 - `POST /api/support/tickets`
+- `PATCH /api/support/tickets/{ticketId}`
 
 Consulte `api.http`, `docs/runbooks/local-development.md` e
 `docs/runbooks/infra-access.md`.
@@ -64,39 +56,19 @@ npm run test:coverage
 npm run coverage:check
 ```
 
-Antes de executar provas de processo, confirme o destino: use
-`npm run proof:rf01:postgres`, `npm run proof:rf02:postgres` ou
-`npm run proof:rf03:postgres`, `npm run proof:rf04:postgres` ou
-`npm run proof:rf05:postgres` apenas com todas
-as variáveis `S1_PROOF_*` apontando a banco exclusivo e descarte-o ao final.
-`npm run proof:s1:image`
-cria e limpa sua própria rede, containers e imagem temporária. `npm run dev`
-continua não sendo prova da cadeia compilada.
-
-RF01–RF04 estão fechadas e integradas. O contrato RF04 0.6 foi publicado e seu
-runtime foi integrado pela PR #3. O contrato RF05 0.7 foi publicado em
-`cc9a4399d210114e3c8261f3c153f8339c049ffb`; número, visibilidade inicial,
-response, Department inativo e `mediaIds` estão resolvidos somente nesse
-recorte e foi implementado/provado nesta branch. RF06–RF13 seguem bloqueadas
-até seus respectivos contratos e slices.
+Antes de provas PostgreSQL, confirme o destino exclusivo e descartável.
+`npm run proof:rf06:postgres` exige as variáveis `S1_PROOF_*`, cria somente
+um banco ausente com prefixo permitido, usa processo compilado e descarta o banco.
+A prova local RF06 passou em PostgreSQL 16. O smoke da imagem RF05 é histórico;
+não há prova de imagem RF06 nesta branch.
 
 ## Fluxo Git por baseline funcional
 
-Bootstrap + RF01 estabeleceram `MAIN_BASELINE_RF01`; a PR #1 estabeleceu
-`MAIN_BASELINE_RF02`. A PR #2 integrou RF03 no merge
-`0ca1eab9fcc74a4254b710fd12342d761234e9ff`. A PR #3 integrou RF04 no merge
-`04f4f8eb0f9c741fae7947a370fb50c121d8a624`; a revisão atual de `main` é
-`MAIN_BASELINE_RF04`.
-
-Não desenvolver novas RFs diretamente em `main`: sincronize a branch, conclua o
-checkpoint contratual e abra uma branch específica para o slice. O checkpoint
-RF04 está integrada. O checkpoint RF05 publicou a revisão 0.7 e avançou o
-gitlink para o commit canônico acima. A branch funcional RF05 deriva dessa
-baseline e está pronta para revisão local; ainda não foi publicada nem integrada.
-
-A política completa está em
+RF01–RF04 foram integradas nas PRs anteriores; a PR #4 integrou RF05 e
+estabeleceu `MAIN_BASELINE_RF05`. O contrato RF06 0.8 foi publicado no
+submódulo em `4650ec671c948a4fa8fb04fa33b300d8fd255ae4`; a branch funcional
+RF06 parte do merge RF05. RF06 ainda não está em `main`. Desenvolva as próximas
+RFs em branches próprias depois do checkpoint correspondente. Consulte
 [`docs/workflows/support-development-branch-policy.md`](docs/workflows/support-development-branch-policy.md).
-O fechamento/publicação da RF02 está em
-[`docs/prompts/support-rf02-publication-prompt.md`](docs/prompts/support-rf02-publication-prompt.md).
 
 Não execute `npm run infra:down` como limpeza genérica: o script remove volumes.

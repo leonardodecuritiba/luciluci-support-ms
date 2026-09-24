@@ -17,7 +17,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		await destroyTestDataSource();
 	});
 
-	it('documents operational paths and RF01-RF05', () => {
+	it('documents operational paths and RF01-RF06', () => {
 		const spec = swaggerSpec as OpenAPIV3.Document;
 
 		expect(Object.keys(spec.paths ?? {}).sort()).toEqual([
@@ -26,6 +26,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 			'/api/support/departments',
 			'/api/support/departments/{departmentId}',
 			'/api/support/tickets',
+			'/api/support/tickets/{ticketId}',
 			'/health',
 			'/metrics',
 		]);
@@ -145,6 +146,13 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 				'500': expect.any(Object),
 			}),
 		);
+		expect(createTicket?.responses?.['201']).toEqual(
+			expect.objectContaining({
+				content: {
+					'application/json': { schema: { $ref: '#/components/schemas/CreatedTicket' } },
+				},
+			}),
+		);
 		const createTicketSchema = spec.components?.schemas
 			?.CreateTicketRequest as OpenAPIV3.SchemaObject;
 		expect(createTicketSchema.additionalProperties).toBe(false);
@@ -176,7 +184,32 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		expect(ticketSchema.additionalProperties).toBe(false);
 		expect(ticketSchema.properties).not.toHaveProperty('message');
 		expect(ticketSchema.properties).not.toHaveProperty('audit');
-		expect(spec.paths?.['/api/support/tickets/{ticketId}']).toBeUndefined();
+		const updateTicket = spec.paths?.['/api/support/tickets/{ticketId}']?.patch;
+		expect(updateTicket?.parameters).toEqual([
+			{ $ref: '#/components/parameters/CorrelationIdHeader' },
+			{ $ref: '#/components/parameters/PerformedByHeader' },
+			{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+			expect.objectContaining({ in: 'path', name: 'ticketId', required: true }),
+		]);
+		expect(updateTicket?.responses).toEqual(
+			expect.objectContaining({
+				'200': expect.any(Object),
+				'400': expect.any(Object),
+				'403': expect.any(Object),
+				'404': expect.any(Object),
+				'422': expect.any(Object),
+				'500': expect.any(Object),
+			}),
+		);
+		expect(spec.components?.schemas?.UpdateTicketRequest).toEqual(
+			expect.objectContaining({
+				additionalProperties: false,
+				minProperties: 1,
+			}),
+		);
+		expect(ticketSchema.properties?.adminStatus).toEqual({
+			$ref: '#/components/schemas/TicketAdminStatus',
+		});
 		expect(spec.info.title).toBe('support-ms');
 	});
 

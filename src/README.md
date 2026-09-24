@@ -1,12 +1,9 @@
 # src
 
-Código ativo de Support após S1 e RF01–RF05.
+Código ativo de Support após S1 e RF01–RF06.
 
 - `features/department/` materializa RF01–RF04.
-- `features/ticket/` materializa somente RF05, com aggregate transacional,
-  lock de Department e persistência explícita de mensagem/mídias/auditoria.
-- `app.ts` expõe endpoints operacionais e o CRUD congelado de Department, com
-  soft delete em `DELETE /api/support/departments/{departmentId}`.
-- `main.ts` inicializa PostgreSQL e HTTP; não inicia broker ou worker.
+- `features/ticket/` materializa criação atômica RF05 e edição RF06 com ACL, locks, no-op e auditoria de status.
+- `app.ts` expõe endpoints funcionais e operacionais; `main.ts` inicializa PostgreSQL e HTTP.
 - `shared/` contém o kernel técnico preservado.
-- RF06–RF13 não possuem rota ou implementação.
+- RF07a/RF07b e RF08–RF13 não possuem rota ou implementação.

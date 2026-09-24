@@ -3,10 +3,10 @@
 ## Estado de trabalho
 
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
-materializada; RF01–RF04 estão `IMPLEMENTED_AND_PROVEN` em
-`MAIN_BASELINE_RF04`. RF05 está `IMPLEMENTED_AND_PROVEN` na branch funcional,
-contra a revisão canônica 0.7, e RF06–RF13
-permanecem `NOT_IMPLEMENTED`. A revisão pós-S1 reabriu o fechamento por
+materializada; RF01–RF05 estão `IMPLEMENTED_AND_PROVEN` em
+`MAIN_BASELINE_RF05`. RF06 está `IMPLEMENTED_AND_PROVEN_LOCAL` na branch
+`feat/support-rf06-update-ticket`, contra a revisão canônica 0.8, e RF07a/RF07b
+e RF08–RF13 permanecem `NOT_IMPLEMENTED`. A revisão pós-S1 reabriu o fechamento por
 `DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
 
 ## Ordem de leitura
@@ -33,11 +33,12 @@ Os prompts de bootstrap e S1 são históricos. O estado das decisões funcionais
 deve ser conferido no submódulo real; não assumir aprovação pelo report ou por
 aplicar este patch.
 
-## Git após a implementação RF05
+## Git após a implementação RF06
 
-A baseline bootstrap + RF01–RF04 é o ponto estável de `main`, no merge
-`04f4f8eb0f9c741fae7947a370fb50c121d8a624`. O contrato RF04 continua no
-commit canônico `864e02a9885852a6c6f6a385c3301e9a757edb60`. O contrato RF05 0.7 está
-publicado em `cc9a4399d210114e3c8261f3c153f8339c049ffb`. A branch
-`feat/support-rf05-create-ticket` contém a implementação provada, ainda sem
-commit/push/PR/merge. Não iniciar RF06 e não usar force-push.
+A baseline RF05 é o ponto estável de `main`, no merge da PR #4
+`2cfb637854c5c90abfaf197e6e0822ceb53571f8`. O contrato RF05 0.7 está
+publicado em `cc9a4399d210114e3c8261f3c153f8339c049ffb`; o contrato RF06
+0.8 está publicado em `4650ec671c948a4fa8fb04fa33b300d8fd255ae4`.
+A branch `feat/support-rf06-update-ticket` contém a implementação e prova local
+RF06, ainda sem integração em `main`. Não iniciar RF07 antes do fechamento RF06
+e não usar force-push em `main`.

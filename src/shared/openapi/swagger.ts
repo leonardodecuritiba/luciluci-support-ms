@@ -7,10 +7,22 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			title: 'support-ms',
 			version: '1.0.0',
 			description:
-				'Support OpenAPI contract. RF01–RF04 manage departments and RF05 atomically creates a ticket aggregate; RF06–RF13 remain unavailable until their own contracts are implemented.',
+				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, and RF06 edits tickets; RF07–RF13 remain unavailable.',
 		},
 		components: {
 			parameters: {
+				PerformedByHeader: {
+					in: 'header',
+					name: 'X-Performed-By',
+					required: true,
+					schema: { type: 'string', pattern: '.*\\S.*' },
+				},
+				PerformedByTypeHeader: {
+					in: 'header',
+					name: 'X-Performed-By-Type',
+					required: true,
+					schema: { type: 'string', enum: ['admin', 'backoffice', 'cd'] },
+				},
 				CorrelationIdHeader: {
 					in: 'header',
 					name: 'X-Correlation-ID',
@@ -129,7 +141,21 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						},
 					},
 				},
-				Ticket: {
+				TicketAdminStatus: {
+					type: 'string',
+					enum: ['pendente', 'cancelado', 'em_andamento', 'finalizado', 'resolvido'],
+				},
+				UpdateTicketRequest: {
+					type: 'object',
+					additionalProperties: false,
+					minProperties: 1,
+					properties: {
+						priority: { $ref: '#/components/schemas/TicketPriority' },
+						departmentId: { type: 'string', format: 'uuid' },
+						adminStatus: { $ref: '#/components/schemas/TicketAdminStatus' },
+					},
+				},
+				CreatedTicket: {
 					type: 'object',
 					additionalProperties: false,
 					required: [
@@ -154,6 +180,36 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						priority: { $ref: '#/components/schemas/TicketPriority' },
 						origin: { $ref: '#/components/schemas/TicketOrigin' },
 						adminStatus: { type: 'string', enum: ['pendente'] },
+						requesterStatus: { type: 'string', enum: ['nao_resolvido'] },
+						createdAt: { type: 'string', format: 'date-time' },
+						updatedAt: { type: 'string', format: 'date-time' },
+					},
+				},
+				Ticket: {
+					type: 'object',
+					additionalProperties: false,
+					required: [
+						'id',
+						'number',
+						'subject',
+						'requesterId',
+						'departmentId',
+						'priority',
+						'origin',
+						'adminStatus',
+						'requesterStatus',
+						'createdAt',
+						'updatedAt',
+					],
+					properties: {
+						id: { type: 'string', format: 'uuid' },
+						number: { type: 'integer', minimum: 1 },
+						subject: { type: 'string' },
+						requesterId: { type: 'string' },
+						departmentId: { type: 'string', format: 'uuid' },
+						priority: { $ref: '#/components/schemas/TicketPriority' },
+						origin: { $ref: '#/components/schemas/TicketOrigin' },
+						adminStatus: { $ref: '#/components/schemas/TicketAdminStatus' },
 						requesterStatus: { type: 'string', enum: ['nao_resolvido'] },
 						createdAt: { type: 'string', format: 'date-time' },
 						updatedAt: { type: 'string', format: 'date-time' },
@@ -191,7 +247,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 							description: 'Ticket aggregate created.',
 							content: {
 								'application/json': {
-									schema: { $ref: '#/components/schemas/Ticket' },
+									schema: { $ref: '#/components/schemas/CreatedTicket' },
 								},
 							},
 						},
@@ -222,6 +278,85 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						},
 						'500': {
 							description: 'Unexpected error; aggregate transaction is rolled back.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+					},
+				},
+			},
+			'/api/support/tickets/{ticketId}': {
+				patch: {
+					summary: 'Update ticket priority, department, or admin status',
+					description:
+						'Locks Ticket, then relevant Departments in UUID order. Admin needs current and target membership; requester needs ownership. No-op preserves updatedAt. A changed adminStatus writes one audit in the transaction.',
+					tags: ['Tickets'],
+					parameters: [
+						{ $ref: '#/components/parameters/CorrelationIdHeader' },
+						{ $ref: '#/components/parameters/PerformedByHeader' },
+						{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+						{
+							in: 'path',
+							name: 'ticketId',
+							required: true,
+							schema: { type: 'string', format: 'uuid' },
+						},
+					],
+					requestBody: {
+						required: true,
+						content: {
+							'application/json': {
+								schema: { $ref: '#/components/schemas/UpdateTicketRequest' },
+							},
+						},
+					},
+					responses: {
+						'200': {
+							description: 'Complete Ticket after update or no-op.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/Ticket' },
+								},
+							},
+						},
+						'400': {
+							description:
+								'Missing or invalid correlation/actor headers or malformed JSON.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'403': {
+							description: 'Current Ticket or target Department access denied.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'404': {
+							description: 'Ticket or target Department not found.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'422': {
+							description:
+								'Invalid path/body or inactive target (department_inactive).',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'500': {
+							description: 'Unexpected error; transaction rolled back.',
 							content: {
 								'application/json': {
 									schema: { $ref: '#/components/schemas/ErrorResponse' },
