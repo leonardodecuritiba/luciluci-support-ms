@@ -3,9 +3,10 @@
 ## Estado de trabalho
 
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
-materializada; RF01–RF06 estão `IMPLEMENTED_AND_PROVEN` em
-`MAIN_BASELINE_RF06`, contra a revisão canônica 0.8 do runtime. RF07a/RF07b
-estão implementadas/provadas na PR #7; RF08–RF13 permanecem `NOT_IMPLEMENTED`. A revisão pós-S1 reabriu o fechamento por
+materializada; RF01–RF07b estão `IMPLEMENTED_AND_PROVEN` em
+`MAIN_BASELINE_RF07`, contra a revisão canônica Support 0.9 para RF07.
+RF08 está implementada na branch funcional e RF09–RF13 permanecem `NOT_IMPLEMENTED`;
+o contrato RF08 está congelado em Support 0.10 (`RF08_CONTRACT_CHECKPOINT_READY`). A revisão pós-S1 reabriu o fechamento por
 `DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
 
 ## Ordem de leitura
@@ -32,9 +33,9 @@ Os prompts de bootstrap e S1 são históricos. O estado das decisões funcionais
 deve ser conferido no submódulo real; não assumir aprovação pelo report ou por
 aplicar este patch.
 
-## Git após a integração RF06
+## Git após a integração RF07
 
-A baseline RF06 é o ponto estável de `main`, no merge da PR #5
+A baseline RF06 foi o ponto estável de `main` após o merge da PR #5
 `0387167cfe02416c5d05cf3b8288350dd5ba682b`. O contrato RF05 0.7 está
 publicado em `cc9a4399d210114e3c8261f3c153f8339c049ffb`; o contrato RF06
 0.8 está publicado em `4650ec671c948a4fa8fb04fa33b300d8fd255ae4`.
@@ -44,3 +45,13 @@ formal. Support 0.9 congela RF07a/RF07b no commit canônico
 aponta a ele. A PR documental #6 foi integrada em `main` no merge `939b991`;
 RF07a/RF07b estão implementadas/provadas no código da PR #7.
 `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`. Não usar force-push em `main`.
+
+A PR #7 foi integrada em `main` no merge
+`43a556ab1c70f5de9a63e3e6ab651445fa462173`, estabelecendo
+`MAIN_BASELINE_RF07`. O checkpoint RF08 bloqueado `a8714a8` é histórico. As
+decisões específicas de RF08 congelaram Support 0.10 no commit canônico
+`93edf66d6ed0002a2af537339da315db1285a779`, publicado com SHA local/remoto
+igual; o gitlink documental aponta a ele. RF08 está implementada/provada
+localmente e a branch
+funcional `feat/support-rf08-resolve-ticket` foi criada a partir do head
+documental publicado; ainda não houve commit, push, PR ou merge funcional.

@@ -1,18 +1,20 @@
 # support-ms
 
-Microsserviço de Support (Suporte) da LuciLuci. RF01–RF06 compõem
-`MAIN_BASELINE_RF06` em `main` (merge da PR #5 `0387167`), contra o contrato
-canônico Support 0.8 (`4650ec6`) para RF06. Support 0.9 (`1583a58`) congela
-RF07a/RF07b documentalmente. A fonte de verdade de negócio
+Microsserviço de Support (Suporte) da LuciLuci. RF01–RF07b compõem
+`MAIN_BASELINE_RF07` em `main` (merge da PR #7 `43a556a`). Support 0.10
+(`93edf66`) congela o contrato RF08; Support 0.9 (`1583a58`) congelou RF07a/RF07b. A fonte de verdade de negócio
 está em `luciluci-docs/support/`.
 
 ## Estado
 
-S1 e RF01–RF06 estão implementadas, provadas e integradas. RF06 implementa
+S1 e RF01–RF07b estão implementadas, provadas e integradas. RF06 implementa
 `PATCH /api/support/tickets/{ticketId}` com ACL, transferência, no-op e auditoria
-transacional. RF07a/RF07b estão implementadas e provadas no código da PR #7,
+transacional. RF07a/RF07b foram integradas pela PR #7,
 com consultas de tickets por ownership e membership atual de Department.
-RF08–RF13 não têm runtime.
+RF08 está implementada na branch funcional `feat/support-rf08-resolve-ticket`,
+ainda fora de `main`. RF09–RF13 não têm runtime. O contrato RF08 está
+`RF08_CONTRACT_FROZEN / RF08_CONTRACT_CHECKPOINT_READY` em Support 0.10.
+O checkpoint bloqueado anterior permanece histórico.
 Consulte [ACTUAL_STATE](ACTUAL_STATE.md) e os reports em `docs/reports/`.
 
 ## Executar localmente
@@ -42,6 +44,7 @@ fase: o comando falha de modo explícito até a massa determinística de W1 ser 
 - `PATCH /api/support/tickets/{ticketId}`
 - `GET /api/support/tickets/requester/{requesterId}`
 - `GET /api/support/tickets/admin/{adminId}`
+- `POST /api/support/tickets/{ticketId}/resolve`
 
 Consulte `api.http`, `docs/runbooks/local-development.md` e
 `docs/runbooks/infra-access.md`.
@@ -65,6 +68,10 @@ um banco ausente com prefixo permitido, usa processo compilado e descarta o banc
 A prova local RF07 passou em PostgreSQL 16; a CI remota da PR #7 passou no
 head de implementação `65029bd` (run `36047611567`).
 CI da PR #5 passou nas provas PostgreSQL RF01–RF06 e no smoke da imagem.
+Na branch RF08, `npm run proof:rf08:postgres` passou em banco exclusivo
+descartado, inclusive rollback de AuditLog e concorrência RF08×RF08/RF06×RF08.
+As provas RF01–RF07 e o smoke da imagem foram repetidos localmente. Nenhuma CI
+remota RF08 ou integração em `main` foi atribuída a esta branch.
 
 ## Fluxo Git por baseline funcional
 
@@ -72,6 +79,8 @@ RF01–RF05 foram integradas nas PRs anteriores; a PR #5 integrou RF06 e
 estabeleceu `MAIN_BASELINE_RF06`. O contrato RF06 0.8 foi publicado no
 submódulo em `4650ec671c948a4fa8fb04fa33b300d8fd255ae4`; RF07a/RF07b foram
 congeladas em Support 0.9, `1583a586793437a7b7c0569581637ee8ddac5ae5`.
+RF08 foi congelada documentalmente em Support 0.10,
+`93edf66d6ed0002a2af537339da315db1285a779`.
 Desenvolva as próximas
 RFs em branches próprias depois do checkpoint correspondente. Consulte
 [`docs/workflows/support-development-branch-policy.md`](docs/workflows/support-development-branch-policy.md).

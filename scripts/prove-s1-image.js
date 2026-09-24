@@ -55,20 +55,47 @@ async function main() {
 			`POSTGRES_DB=${database}`,
 			'postgres:16',
 		]);
-		const dbDeadline = Date.now() + 45_000;
+		const dbStartedAt = Date.now();
+		const dbDeadline = dbStartedAt + 45_000;
+		let dbReady = false;
+		let dbAttempts = 0;
 		while (Date.now() < dbDeadline) {
-			if (
-				docker(['exec', databaseContainer, 'pg_isready', '-U', user, '-d', database], true)
-					.status === 0
-			)
+			dbAttempts += 1;
+			// The entrypoint's temporary server accepts Unix socket connections before
+			// initialization completes. TCP plus SQL verifies the final server and DB.
+			const probe = docker(
+				[
+					'exec',
+					databaseContainer,
+					'sh',
+					'-c',
+					'PGPASSWORD="$POSTGRES_PASSWORD" psql -h 127.0.0.1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" -Atqc "SELECT 1"',
+				],
+				true,
+			);
+			if (probe.status === 0 && probe.stdout.trim() === '1') {
+				dbReady = true;
 				break;
+			}
 			await new Promise((resolve) => setTimeout(resolve, 500));
 		}
-		assert.equal(
-			docker(['exec', databaseContainer, 'pg_isready', '-U', user, '-d', database], true)
-				.status,
-			0,
-			'isolated PostgreSQL did not become ready',
+		if (!dbReady) {
+			const state = docker(
+				['inspect', '--format', '{{json .State}}', databaseContainer],
+				true,
+			).stdout.trim();
+			const logs = docker(['logs', databaseContainer], true);
+			throw new Error(
+				`isolated PostgreSQL SQL readiness timed out after ${dbAttempts} attempts in ${Date.now() - dbStartedAt}ms; state=${state}; stdout=${logs.stdout}; stderr=${logs.stderr}`,
+			);
+		}
+		console.log(
+			JSON.stringify({
+				databaseContainer,
+				readiness: 'tcp_sql',
+				dbAttempts,
+				elapsedMs: Date.now() - dbStartedAt,
+			}),
 		);
 		console.log(
 			JSON.stringify({
@@ -144,6 +171,16 @@ async function main() {
 		assert.equal(ticketBody.number, 1);
 		assert.equal(ticketBody.adminStatus, 'pendente');
 		assert.equal(ticketBody.requesterStatus, 'nao_resolvido');
+		const resolved = await fetch(`${baseUrl}/api/support/tickets/${ticketBody.id}/resolve`, {
+			method: 'POST',
+			headers: {
+				'X-Correlation-ID': randomUUID(),
+				'X-Performed-By': 'uid-image-requester',
+				'X-Performed-By-Type': 'cd',
+			},
+		});
+		assert.equal(resolved.status, 200);
+		assert.equal((await resolved.json()).requesterStatus, 'resolvido');
 		const listed = await fetch(`${baseUrl}/api/support/departments`, {
 			headers: { 'X-Correlation-ID': randomUUID() },
 		});
@@ -164,7 +201,7 @@ async function main() {
 		const listAfterDeleteBody = await listedAfterDelete.json();
 		assert.equal(listAfterDeleteBody.pagination.total, 0);
 		assert.deepEqual(listAfterDeleteBody.data, []);
-		console.log('S1 production image CMD smoke with RF05 OK');
+		console.log('S1 production image CMD smoke with RF05/RF08 OK');
 	} finally {
 		docker(['rm', '-f', appContainer], true);
 		docker(['rm', '-f', databaseContainer], true);

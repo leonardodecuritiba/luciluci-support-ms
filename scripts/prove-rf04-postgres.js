@@ -428,7 +428,6 @@ async function main() {
 			);
 
 			const pendingRoutes = [
-				['POST', `/api/support/tickets/${randomUUID()}/resolve`],
 				['GET', `/api/support/tickets/${randomUUID()}`],
 				['POST', `/api/support/tickets/${randomUUID()}/messages`],
 				[

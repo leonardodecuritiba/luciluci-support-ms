@@ -5,6 +5,7 @@ import DepartmentTypeormRepository from '../../../department/adapters/repositori
 import CreateTicketUseCase from '../../use-cases/create-ticket.use-case';
 import UpdateTicketUseCase, { TicketActorRole } from '../../use-cases/update-ticket.use-case';
 import ListTicketsUseCase from '../../use-cases/list-tickets.use-case';
+import ResolveTicketUseCase from '../../use-cases/resolve-ticket.use-case';
 import BadRequestError from '../../../../shared/kernel/exceptions/bad-request.error';
 import ForbiddenError from '../../../../shared/kernel/exceptions/forbidden.error';
 import UnprocessableEntityError from '../../../../shared/kernel/exceptions/unprocessable-entity.error';
@@ -94,6 +95,26 @@ export default function buildTicketController(dataSource: DataSource) {
 					new DepartmentTypeormRepository(manager),
 					new TicketTypeormRepository(manager),
 				).execute(ticketId, payload, { id: callerId, role: callerRole as TicketActorRole }),
+			);
+			res.status(200).json(response);
+		},
+		resolve: async (req: Request, res: Response): Promise<void> => {
+			const callerId = req.performedBy;
+			const callerRole = req.performedByType;
+			if (!callerId?.trim() || !['admin', 'backoffice', 'cd'].includes(callerRole ?? '')) {
+				throw new BadRequestError('bad_request');
+			}
+			const { ticketId } = await validateDto(UpdateTicketPathDTO, req.params);
+			if (req.body !== undefined) {
+				throw new UnprocessableEntityError('validation_error', [
+					{ field: 'body', code: 'forbidden', message: 'Request body is not allowed.' },
+				]);
+			}
+			const response = await dataSource.transaction((manager) =>
+				new ResolveTicketUseCase(new TicketTypeormRepository(manager)).execute(ticketId, {
+					id: callerId,
+					role: callerRole as TicketActorRole,
+				}),
 			);
 			res.status(200).json(response);
 		},

@@ -30,6 +30,14 @@ registra decisões que estavam abertas. O
 congela Support 0.9, sem iniciar runtime.
 O [report de implementação RF07a/RF07b](REPORT-SUPPORT-RF07-20260924-191752.md)
 registra runtime, testes e prova PostgreSQL local na branch funcional.
+O [checkpoint contratual RF08](REPORT-SUPPORT-RF08-CHECKPOINT-20260924-201149.md)
+registra a baseline RF07 e as decisões ainda abertas antes de Support 0.10.
+O [fechamento contratual RF08](REPORT-SUPPORT-RF08-CONTRACT-20260924-203148.md)
+registra as decisões posteriores, o commit canônico publicado e o limite
+documental da revisão 0.10. O checkpoint bloqueado não foi reescrito.
+O [report de implementação RF08](REPORT-SUPPORT-RF08-20260924-213933.md)
+registra runtime, testes, provas PostgreSQL e smoke local na branch funcional,
+sem atribuir CI remota ou integração em `main`.
 
 ## Fechamento atual de S1
 

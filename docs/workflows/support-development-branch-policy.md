@@ -18,6 +18,9 @@
 - `MAIN_BASELINE_RF06`: revisão de `main` que contenha RF06
   `IMPLEMENTED_AND_PROVEN`, após integração da branch
   `feat/support-rf06-update-ticket`.
+- `MAIN_BASELINE_RF07`: revisão de `main` que contenha RF07a/RF07b
+  `IMPLEMENTED_AND_PROVEN`, após integração da branch
+  `feat/support-rf07-list-tickets`.
 
 RF02 foi integrada em `main` pelo merge
 `e2dba18a7d0c54577805d6bf2f44adc40ecf0295`; essa revisão estabelece
@@ -39,6 +42,10 @@ RF05 foi integrada em `main` pela PR #4 no merge
 RF06 foi integrada em `main` pela PR #5 no merge
 `0387167cfe02416c5d05cf3b8288350dd5ba682b`; essa revisão estabelece
 `MAIN_BASELINE_RF06`.
+
+RF07a/RF07b foram integradas em `main` pela PR #7 no merge
+`43a556ab1c70f5de9a63e3e6ab651445fa462173`; essa revisão estabelece
+`MAIN_BASELINE_RF07`.
 
 ## 2. Regra de continuidade
 
@@ -117,3 +124,14 @@ RF07a/RF07b. `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`; a
 branch `feat/support-rf07-list-tickets` foi criada, implementada e provada na PR
 #7. A PR documental #6 foi integrada em `main` no merge `939b991`; RF08–RF13
 permanecem fora do runtime.
+
+## 7. Contrato RF08
+
+O checkpoint contratual bloqueado de RF08 partiu de `MAIN_BASELINE_RF07` e
+permanece histórico no commit `a8714a8`. As decisões específicas posteriores
+congelaram Support 0.10 no commit canônico
+`93edf66d6ed0002a2af537339da315db1285a779`, publicado na branch
+`docs/support-rf08-resolve-ticket-contract`. A branch funcional
+`feat/support-rf08-resolve-ticket` partiu do head documental publicado, com o
+gitlink 0.10; ainda não foi integrada em `main`. RF09 aguarda a integração de
+RF08 e seu checkpoint próprio.

@@ -1,12 +1,82 @@
 # support-ms bootstrap API requests
 #
-# S1 + RF01–RF07 support surface. RF08–RF13 are not implemented.
+# S1 + RF01–RF08 support surface. RF09–RF13 are not implemented.
 
 @baseUrl = http://localhost:3000
 @correlationId = 8a7dd7bb-7b3f-4b3b-8b8e-0b7e2819d001
 @ticketId = 550e8400-e29b-41d4-a716-446655440002
 @requesterId = uid-requester-1
 @adminId = uid-admin-1
+
+### RF08 - Owner backoffice resolves without body
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/resolve
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: backoffice
+
+### RF08 - Owner cd resolves without body (origin may differ)
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/resolve
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+
+### RF08 - Retry already resolved, 200 no-op
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/resolve
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+
+### RF08 - Admin forbidden
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/resolve
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF08 - Non-owner forbidden
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/resolve
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: uid-other
+X-Performed-By-Type: cd
+
+### RF08 - Invalid ticket UUID
+POST {{baseUrl}}/api/support/tickets/invalid/resolve
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+
+### RF08 - Missing Ticket
+POST {{baseUrl}}/api/support/tickets/919cf070-ea36-41df-9382-e44d541f8005/resolve
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+
+### RF08 - Any body present is invalid, including {}
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/resolve
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{}
+
+### RF08 - Body with field is invalid
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/resolve
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{"status":"resolvido"}
+
+### RF08 - Missing actor
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/resolve
+X-Correlation-ID: {{correlationId}}
+
+### RF08 - Invalid role
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/resolve
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: requester
 
 ### RF07a - List owned tickets with defaults
 GET {{baseUrl}}/api/support/tickets/requester/{{requesterId}}

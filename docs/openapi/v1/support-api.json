@@ -248,7 +248,7 @@
 		}
 	},
 	"info": {
-		"description": "Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, and RF07a/RF07b list tickets; RF08–RF13 remain unavailable.",
+		"description": "Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, and RF08 resolves tickets; RF09–RF13 remain unavailable.",
 		"title": "support-ms",
 		"version": "1.0.0"
 	},
@@ -630,6 +630,74 @@
 					}
 				},
 				"summary": "Update ticket priority, department, or admin status",
+				"tags": ["Tickets"]
+			}
+		},
+		"/api/support/tickets/{ticketId}/resolve": {
+			"post": {
+				"description": "RF08. Requester owner only; backoffice or cd role need not match Ticket origin. No request body. Locks Ticket, changes requesterStatus and writes one requester audit atomically. Already resolved is a no-op.",
+				"parameters": [
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{ "$ref": "#/components/parameters/PerformedByHeader" },
+					{ "$ref": "#/components/parameters/PerformedByTypeHeader" },
+					{
+						"in": "path",
+						"name": "ticketId",
+						"required": true,
+						"schema": { "format": "uuid", "type": "string" }
+					}
+				],
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/Ticket" }
+							}
+						},
+						"description": "Complete Ticket after resolution or authorized no-op."
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Missing or invalid correlation/actor headers."
+					},
+					"403": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Admin or non-owner."
+					},
+					"404": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Ticket not found."
+					},
+					"422": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Invalid ticketId or any present request body."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Unexpected error; transaction rolled back."
+					}
+				},
+				"summary": "Resolve a Ticket as its requester",
 				"tags": ["Tickets"]
 			}
 		},
