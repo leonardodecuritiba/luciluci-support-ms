@@ -28,6 +28,8 @@ estabelecendo `MAIN_BASELINE_RF06`. O
 registra decisões que estavam abertas. O
 [fechamento contratual RF07a/RF07b](REPORT-SUPPORT-RF07-CONTRACT-20260924-183425.md)
 congela Support 0.9, sem iniciar runtime.
+O [report de implementação RF07a/RF07b](REPORT-SUPPORT-RF07-20260924-191752.md)
+registra runtime, testes e prova PostgreSQL local na branch funcional.
 
 ## Fechamento atual de S1
 

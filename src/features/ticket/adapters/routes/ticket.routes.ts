@@ -8,6 +8,8 @@ export default function buildTicketRouter(dataSource: DataSource): Router {
 	const controller = buildTicketController(dataSource);
 
 	router.post('/', controller.create);
+	router.get('/requester/:requesterId', controller.listByRequester);
+	router.get('/admin/:adminId', controller.listByAdmin);
 	router.patch('/:ticketId', controller.update);
 	return router;
 }
