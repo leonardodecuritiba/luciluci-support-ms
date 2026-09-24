@@ -2,7 +2,7 @@
 
 Microsserviço de Support (Suporte) da LuciLuci. Bootstrap S1 e RF01–RF04 compõem
 `MAIN_BASELINE_RF04` em `main`. RF05 tem contrato 0.7 congelado; RF06 está em
-checkpoint documental bloqueado por decisões. A fonte de verdade de negócio está em
+contrato Support 0.8 congelado e publicado, sem runtime. A fonte de verdade de negócio está em
 `luciluci-docs/support/`.
 
 ## Estado
@@ -14,7 +14,8 @@ consulte [ACTUAL_STATE](ACTUAL_STATE.md), [o drift encerrado](.codex/drifts/DRIF
 
 RF01–RF04 estão implementadas, comprovadas e integradas em `main`. RF05 tem
 contrato documental publicado, mas runtime não integrado. RF06–RF13 permanecem
-`NOT_IMPLEMENTED`; Support 0.8 não está congelado. A OpenAPI executável documenta
+`NOT_IMPLEMENTED`; o contrato RF06 0.8 está congelado, mas sua implementação
+aguarda base Git estável com RF05. A OpenAPI executável documenta
 RF01–RF04 e os endpoints
 operacionais; ela não é contrato de tickets, mensagens ou histórico. As
 evidências estão consolidadas nos reports
@@ -72,9 +73,8 @@ cria e limpa sua própria rede, containers e imagem temporária. `npm run dev`
 continua não sendo prova da cadeia compilada.
 
 RF01–RF04 estão fechadas e integradas. O contrato RF05 0.7 está publicado no
-submódulo; seu runtime não foi retomado neste checkpoint. RF06 tem decisões
-contratuais abertas e não possui runtime. Ver o report RF06 no diretório
-`docs/reports/`.
+submódulo; seu runtime não foi retomado neste checkpoint. RF06 tem contrato 0.8 publicado e não possui runtime. Ver o novo report
+contratual RF06 em `docs/reports/`; o checkpoint bloqueado anterior é histórico.
 
 ## Fluxo Git por baseline funcional
 
@@ -85,10 +85,10 @@ Bootstrap + RF01 estabeleceram `MAIN_BASELINE_RF01`; a PR #1 estabeleceu
 
 Não desenvolver novas RFs diretamente em `main`: sincronize a branch, conclua o
 checkpoint contratual e abra uma branch específica para o slice. O contrato RF05 0.7 foi publicado em `cc9a4399d210114e3c8261f3c153f8339c049ffb`.
-O checkpoint RF06 usa worktree documental própria. O commit canônico local
-`2f3dfec` ainda não foi publicado por falha de autenticação SSH; o gitlink
-desta branch aponta para Support 0.7 já publicado. A implementação depende de
-base Git estável com RF05, preferencialmente `MAIN_BASELINE_RF05`.
+O checkpoint RF06 usa worktree documental própria. O commit histórico `2f3dfec` foi preservado; o freeze canônico 0.8
+`4650ec671c948a4fa8fb04fa33b300d8fd255ae4` foi publicado e é o gitlink
+desta branch documental. A implementação depende de base Git estável com RF05,
+preferencialmente `MAIN_BASELINE_RF05`.
 
 A política completa está em
 [`docs/workflows/support-development-branch-policy.md`](docs/workflows/support-development-branch-policy.md).

@@ -5,10 +5,9 @@
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
 materializada; RF01–RF04 estão `IMPLEMENTED_AND_PROVEN` em
 `MAIN_BASELINE_RF04`. RF05 tem contrato 0.7 congelado e runtime não integrado
-a `main`. RF06 está em checkpoint documental bloqueado por decisões; não há
-runtime RF06 nem revisão Support 0.8.
-DEC-SUP-01/03/06/08/09/10/12 estão fechadas
-somente para RF04. A revisão pós-S1 reabriu o fechamento por
+a `main`. RF06 possui contrato Support 0.8 congelado/publicado, sem runtime.
+DEC-SUP-01/03/05/06/08/09/10/12 estão fechadas somente para RF06; decisões
+de RFs posteriores permanecem próprias de seus recortes. A revisão pós-S1 reabriu o fechamento por
 `DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
 
 ## Ordem de leitura
@@ -35,11 +34,12 @@ Os prompts de bootstrap e S1 são históricos. O estado das decisões funcionais
 deve ser conferido no submódulo real; não assumir aprovação pelo report ou por
 aplicar este patch.
 
-## Git após a integração RF04 e checkpoint RF06
+## Git após a integração RF04 e contrato RF06 0.8
 
 RF04 integrou `main` no merge `04f4f8eb0f9c741fae7947a370fb50c121d8a624`
 (`MAIN_BASELINE_RF04`). Support 0.7 foi publicado em
 `cc9a4399d210114e3c8261f3c153f8339c049ffb` como contrato RF05. Esta branch
-documental RF06 não altera runtime nem retoma RF05. Resolver as perguntas no report RF06 e no commit documental local `2f3dfec`
-(sem push por falha de autenticação) antes de congelar 0.8. Implementação RF06 exige
-base Git estável com RF05, preferencialmente `MAIN_BASELINE_RF05`.
+documental RF06 não altera runtime nem retoma RF05. O checkpoint histórico
+`2f3dfec` foi preservado; o freeze 0.8 publicado é
+`4650ec671c948a4fa8fb04fa33b300d8fd255ae4`. Implementação RF06 exige base
+Git estável com RF05, preferencialmente `MAIN_BASELINE_RF05`.

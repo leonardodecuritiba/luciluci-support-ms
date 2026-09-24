@@ -1,6 +1,6 @@
 # ACTUAL_STATE
 
-## Estado atual — MAIN_BASELINE_RF04 e checkpoint RF06
+## Estado atual — MAIN_BASELINE_RF04 e contrato RF06 0.8
 
 - serviço: `support-ms`; domínio: `support`
 - S1: `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`
@@ -11,8 +11,9 @@
 - RF05: contrato Support 0.7 congelado no commit documental
   `cc9a4399d210114e3c8261f3c153f8339c049ffb`; runtime não integrado
   a `main` nem retomado nesta execução
-- RF06: `RF06_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`; Support 0.8 não
-  congelado; runtime `NOT_IMPLEMENTED`
+- RF06: `RF06_CONTRACT_FROZEN` em Support 0.8, commit canônico
+  `4650ec671c948a4fa8fb04fa33b300d8fd255ae4`; runtime `NOT_IMPLEMENTED`
+  e `RF06_IMPLEMENTATION_BLOCKED_BY_RF05_BASELINE`
 - RF07a/RF07b e RF08–RF13: `NOT_IMPLEMENTED`
 
 ## Superfície materializada
@@ -32,7 +33,7 @@ não adiciona migration, write, ACL local, auditoria, evento, outbox ou
 idempotência. RF04 faz soft delete transacional com lock pessimista, retorna
 `204`, preserva memberships e é no-op quando o Department já está inativo.
 Seed de W1 continua bloqueada; Ticket, TicketMessage e AuditLog de negócio não
-foram materializados em `MAIN_BASELINE_RF04`. O checkpoint RF06 depende
+foram materializados em `MAIN_BASELINE_RF04`. O contrato RF06 depende
 documentalmente de RF05 0.7, mas não toma esse contrato como prova de runtime.
 
 ## Evidências
@@ -60,4 +61,6 @@ Detalhes estão no report RF04 histórico em `docs/reports/`.
 
 ## Git e continuidade
 
-`main` e `origin/main` foram conferidas em `04f4f8eb0f9c741fae7947a370fb50c121d8a624`; a PR #3 integrou RF04. O gitlink de `main` permanece em `864e02a9885852a6c6f6a385c3301e9a757edb60` (Support 0.6). A worktree documental RF06, separada de `main`, materializou explicitamente Support 0.7. A análise canônica está no commit local `2f3dfec` da branch `docs/support-rf06-contract`; seu push falhou por autenticação SSH. O gitlink desta branch de serviço aponta só para Support 0.7 publicado. O report local registra as decisões abertas. O estado remoto RF05 não foi usado como prova; `git ls-remote` não encontrou branch `feat/support-rf05-create-ticket` no origin nesta observação. `RF06_IMPLEMENTATION_DEPENDS_ON_RF05_RUNTIME = YES`; nenhuma branch funcional RF06 foi criada.
+`main` e `origin/main` permanecem em `04f4f8eb0f9c741fae7947a370fb50c121d8a624` (`MAIN_BASELINE_RF04`); o checkout original não foi alterado. O checkpoint histórico RF06 está em `d68ab86e91f22600e3d4ece7c36c62b503ca7afe` na branch documental separada. O commit local anterior de `luciluci-docs`, `2f3dfec8257907fbc31a0e114316d5d63b62b755`, foi preservado; o novo freeze `4650ec671c948a4fa8fb04fa33b300d8fd255ae4` foi publicado em `docs/support-rf06-contract` e confirmado no remoto. O gitlink desta branch documental do serviço aponta para esse commit publicado; `main` mantém seu gitlink histórico 0.6.
+
+`RF06_IMPLEMENTATION_DEPENDS_ON_RF05_RUNTIME = YES`. RF05 não foi retomada/publicada nesta execução. A implementação RF06 aguarda base Git estável com RF05, preferencialmente `MAIN_BASELINE_RF05`; `feat/support-rf06-update-ticket` não foi criada. Nenhum teste RF06 foi executado.

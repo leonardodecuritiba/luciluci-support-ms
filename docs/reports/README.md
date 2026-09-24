@@ -143,11 +143,18 @@ Regras:
 - `REPORT-SUPPORT-RF03-20260917-155713.md` — fechamento final da implementação,
   testes, PostgreSQL, imagem e fronteira NFR de RF03.
 
-## Support — RF06 contract checkpoint
+## Support — RF06 contract checkpoint (histórico)
 
 O report `REPORT-SUPPORT-RF06-CHECKPOINT-20260924-153427.md` documenta a análise
 sobre Support 0.7, as decisões RF06 abertas, a dependência de runtime RF05 e
 a ausência de congelamento Support 0.8. Não atribui testes funcionais a RF06.
+
+## Support — RF06 contract freeze
+
+`REPORT-SUPPORT-RF06-CONTRACT-20260924-161133.md` registra o freeze 0.8 no
+commit canônico publicado `4650ec671c948a4fa8fb04fa33b300d8fd255ae4`,
+sem runtime RF06 e com dependência da base RF05. O checkpoint bloqueado
+anterior permanece preservado acima.
 
 ## Support — RF04 contract checkpoint
 

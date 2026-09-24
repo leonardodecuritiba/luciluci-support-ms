@@ -22,8 +22,8 @@ bootstrap + RF01 com guardas Git. Os prompts de correção e RF01 são históric
 O prompt RF02 foi executado na branch `feat/support-rf02-update-department` e a
 PR #1 foi integrada em `main`. A PR #2 integrou RF03, com CI remoto aprovado; a PR #3 integrou RF04 e
 estabeleceu `MAIN_BASELINE_RF04`. O contrato RF05 0.7 foi publicado
-separadamente. O checkpoint RF06 registra decisões abertas e não congela 0.8;
-RF06–RF13 não têm runtime na baseline.
+separadamente. O contrato RF06 0.8 foi congelado/publicado; RF06–RF13 não têm runtime
+na baseline. A implementação RF06 aguarda base Git estável com RF05.
 
 A documentação canônica de negócio fica em `../luciluci-docs/support/`.
 O anexo de revisão não contém esse submódulo; verificar sua revisão real local.

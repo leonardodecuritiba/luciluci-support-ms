@@ -100,6 +100,10 @@ A branch `feat/support-rf04-delete-department` foi criada a partir de
 RF05–RF13 estavam fora do runtime; RF05 exigia integração prévia da RF04 e
 checkpoint próprio.
 
-## 7. Checkpoint RF06 durante pausa RF05
+## 7. Checkpoint RF06 durante pausa RF05 (histórico)
 
 O contrato RF05 está congelado em Support 0.7 (`cc9a4399d210114e3c8261f3c153f8339c049ffb`), mas não foi integrado como runtime em `MAIN_BASELINE_RF04`. O checkpoint RF06 é exclusivamente documental e roda em worktree separada. Decisões de papéis, transferência, target inativo e semântica HTTP impedem congelar Support 0.8. Não criar `feat/support-rf06-update-ticket` até existir base Git estável com RF05, preferencialmente `MAIN_BASELINE_RF05`, e contrato RF06 fechado. Não usar worktree RF05 não commitada como base implícita.
+
+## 8. Contrato RF06 0.8 e implementação futura
+
+Support 0.8 foi congelado/publicado na branch canônica `docs/support-rf06-contract`, commit `4650ec671c948a4fa8fb04fa33b300d8fd255ae4`. O checkpoint anterior da seção 7 permanece histórico. `RF06_IMPLEMENTATION_DEPENDS_ON_RF05_RUNTIME = YES`: a branch funcional RF06 só pode nascer de base Git estável com RF05, preferencialmente `MAIN_BASELINE_RF05`, após conferir o contrato fixado. Não empilhar runtime RF06 sobre trabalho RF05 não commitado; não criar a branch funcional durante este lote documental.
