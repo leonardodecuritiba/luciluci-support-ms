@@ -4,15 +4,14 @@
 
 Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
 Identidade e superfície operacional foram materializadas, Profile foi retirado
-e RF01–RF05 estão implementadas/provadas em `MAIN_BASELINE_RF05`. RF06 está
-implementada/provada localmente na branch funcional contra o contrato 0.8;
+e RF01–RF06 estão implementadas/provadas em `MAIN_BASELINE_RF06` (PR #5);
 RF07a/RF07b e RF08–RF13 continuam não implementadas.
 Leia `ACTUAL_STATE.md` para o estado real.
 
 O `DRIFT-SUP-S1-001` foi corrigido e provado: estado
 `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`. O checkpoint documental RF02 0.4 está
 fechado e seu slice foi integrado em `main`. Não refaz a derivação, não repete
-S1/RF01 sem nova reprodução e não inicia RF07 antes do fechamento RF06.
+S1/RF01 sem nova reprodução e não inicia runtime RF07 antes do checkpoint contratual.
 
 ## Leitura obrigatória inicial
 
@@ -51,32 +50,32 @@ não ampliam as três ações de AuditLog do PRD.
 Fluxo herdado: `bootstrap/build -> report -> drift-fix -> report -> drift-fix -> wave final`.
 S1 está encerrado e RF01 foi comprovada a partir do checkpoint documental 0.3.
 A revisão 0.4 congela RF02 e resolve, somente nesse recorte, DEC-SUP-01, 03, 06,
-08, 09, 10 e 12. RF02–RF05 estão integradas em `main`. RF06 está
-concluída localmente na branch `feat/support-rf06-update-ticket`. A revisão 0.6
+08, 09, 10 e 12. RF02–RF06 estão integradas em `main`. A revisão 0.6
 congela RF04 e resolve, somente nesse recorte, DEC-SUP-01, 03, 06, 08, 09, 10 e 12. A revisão 0.7 congela RF05 e resolve, somente nesse recorte,
 DEC-SUP-01/03/04/08/09/10/12. A revisão 0.8 congela RF06 e resolve, somente
-nesse recorte, DEC-SUP-01/03/05/06/08/09/10/12.
+nesse recorte, DEC-SUP-01/03/05/06/08/09/10/12. Support 0.9 congela
+RF07a/RF07b e resolve DEC-SUP-01/02/07/08/09 somente nesse recorte.
 
 Trabalhar RF por RF ou um drift por vez; não fazer refactor amplo, antecipar
 ondas ou implementar comportamento com decisão crítica aberta. Um gap esperado
 de inicialização não é bug comprovado do Support. Propostas de arquitetura
 não são decisões de negócio aprovadas.
 
-O lote funcional RF06 está concluído localmente. RF07a/RF07b e RF08–RF13 e aprovações
-funcionais permanecem fora dele. Qualquer prova futura de banco exige destino descartável
+O lote funcional RF06 está integrado. RF07a/RF07b e RF08–RF13 permanecem
+fora do runtime. Qualquer prova futura de banco exige destino descartável
 explícito; não usar banco padrão/preexistente.
 
 ## Política de branches e `main`
 
-Bootstrap + RF01 formam o baseline histórico `MAIN_BASELINE_RF01`. RF02–RF05
-estão integradas; `main` representa `MAIN_BASELINE_RF05`. `main` é branch estável de
+Bootstrap + RF01 formam o baseline histórico `MAIN_BASELINE_RF01`. RF02–RF06
+estão integradas; `main` representa `MAIN_BASELINE_RF06`. `main` é branch estável de
 integração e não é workspace para RF nova.
 
 Para RF07–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
 uma branch própria por slice. Convenção recomendada: `feat/support-rfNN-<slug>`;
 correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs independentes
-na mesma branch e não iniciar a RF seguinte antes do fechamento da atual. RF06
-deve ser revisada e integrada antes de qualquer implementação funcional RF07.
+na mesma branch. `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`; a branch
+funcional RF07 ainda não foi criada e depende de lote explícito de implementação.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
 recorte, estado/documentação atualizados e ausência de drift técnico aberto que
