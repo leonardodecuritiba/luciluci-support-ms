@@ -15,6 +15,9 @@
 - `MAIN_BASELINE_RF05`: revisão de `main` que contenha RF05
   `IMPLEMENTED_AND_PROVEN`, após integração da branch
   `feat/support-rf05-create-ticket`.
+- `MAIN_BASELINE_RF06`: revisão de `main` que contenha RF06
+  `IMPLEMENTED_AND_PROVEN`, após integração da branch
+  `feat/support-rf06-update-ticket`.
 
 RF02 foi integrada em `main` pelo merge
 `e2dba18a7d0c54577805d6bf2f44adc40ecf0295`; essa revisão estabelece
@@ -32,6 +35,10 @@ RF04 foi integrada em `main` pela PR #3 no merge
 RF05 foi integrada em `main` pela PR #4 no merge
 `2cfb637854c5c90abfaf197e6e0822ceb53571f8`; essa revisão estabelece
 `MAIN_BASELINE_RF05`.
+
+RF06 foi integrada em `main` pela PR #5 no merge
+`0387167cfe02416c5d05cf3b8288350dd5ba682b`; essa revisão estabelece
+`MAIN_BASELINE_RF06`.
 
 ## 2. Regra de continuidade
 
@@ -96,14 +103,14 @@ O merge/push em `main` deve ser fast-forward ou seguir a política remota do
 repositório; nunca force-push. Se proteção de branch exigir PR, a proteção
 prevalece.
 
-## 6. Continuidade após a implementação RF06
+## 6. Continuidade após a integração RF06
 
 RF05 está implementada, provada e integrada em `MAIN_BASELINE_RF05`. O contrato
 RF06 foi congelado na revisão 0.8, publicada em
 `4650ec671c948a4fa8fb04fa33b300d8fd255ae4`.
 
 A branch `feat/support-rf06-update-ticket` foi criada a partir de `main`
-sincronizada, fixou o contrato 0.8 e implementou/provou RF06 localmente. RF06
-ainda não foi integrada; `main` permanece `MAIN_BASELINE_RF05`. RF07a/RF07b e
-RF08–RF13 permanecem fora do runtime e não devem iniciar antes de seus checkpoints
-e da integração da RF06 quando dependentes.
+sincronizada, fixou o contrato 0.8 e implementou/provou RF06. A PR #5 foi
+integrada; `main` é `MAIN_BASELINE_RF06`. RF07a/RF07b e RF08–RF13 permanecem
+fora do runtime. O checkpoint RF07a/RF07b não congela Support 0.9 enquanto
+DEC-SUP-02/07/08 permanecerem abertas no recorte.

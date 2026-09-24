@@ -12,11 +12,10 @@ Documentação operacional do `support-ms`.
   após RF01.
 - `reports/`: avaliações por onda.
 
-S1 e RF01–RF05 estão implementadas/provadas e integradas em `main` no
-`MAIN_BASELINE_RF05` (PR #4, merge `2cfb637`). RF06 está implementada e provada
-localmente na branch `feat/support-rf06-update-ticket`, com contrato canônico
-Support 0.8. RF07a/RF07b e RF08–RF13 permanecem sem runtime. Os reports
-históricos e o report RF06 desta branch estão em `reports/`.
+S1 e RF01–RF06 estão implementadas/provadas e integradas em `main` no
+`MAIN_BASELINE_RF06` (PR #5, merge `0387167`), com contrato canônico Support
+0.8. RF07a/RF07b e RF08–RF13 permanecem sem runtime. O checkpoint contratual
+RF07a/RF07b está registrado em `reports/`.
 
 A documentação canônica de negócio fica em `../luciluci-docs/support/`; o
 gitlink desta branch aponta à revisão 0.8 publicada.
