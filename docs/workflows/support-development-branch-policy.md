@@ -12,6 +12,9 @@
 - `MAIN_BASELINE_RF04`: revisão de `main` que contenha RF04
   `IMPLEMENTED_AND_PROVEN`, após integração da branch
   `feat/support-rf04-delete-department`.
+- `MAIN_BASELINE_RF05`: revisão de `main` que contenha RF05
+  `IMPLEMENTED_AND_PROVEN`, após integração da branch
+  `feat/support-rf05-create-ticket`.
 
 RF02 foi integrada em `main` pelo merge
 `e2dba18a7d0c54577805d6bf2f44adc40ecf0295`; essa revisão estabelece
@@ -25,6 +28,10 @@ RF03 foi integrada em `main` pela PR #2 no merge
 RF04 foi integrada em `main` pela PR #3 no merge
 `04f4f8eb0f9c741fae7947a370fb50c121d8a624`; essa revisão estabelece
 `MAIN_BASELINE_RF04`.
+
+RF05 foi integrada em `main` pela PR #4 no merge
+`2cfb637854c5c90abfaf197e6e0822ceb53571f8`; essa revisão estabelece
+`MAIN_BASELINE_RF05`.
 
 ## 2. Regra de continuidade
 
@@ -89,14 +96,14 @@ O merge/push em `main` deve ser fast-forward ou seguir a política remota do
 repositório; nunca force-push. Se proteção de branch exigir PR, a proteção
 prevalece.
 
-## 6. Continuidade após a implementação RF05
+## 6. Continuidade após a implementação RF06
 
-RF04 está implementada, provada e integrada em `MAIN_BASELINE_RF04`. O contrato
-RF05 foi congelado na revisão 0.7, publicada em
-`cc9a4399d210114e3c8261f3c153f8339c049ffb`.
+RF05 está implementada, provada e integrada em `MAIN_BASELINE_RF05`. O contrato
+RF06 foi congelado na revisão 0.8, publicada em
+`4650ec671c948a4fa8fb04fa33b300d8fd255ae4`.
 
-A branch `feat/support-rf05-create-ticket` foi criada a partir de `main`
-sincronizada, preservou o checkpoint documental e implementou/provou RF05. Ela
-ainda não foi publicada nem integrada; `main` permanece `MAIN_BASELINE_RF04`.
-RF06–RF13 permanecem fora do runtime e RF06 não deve iniciar antes da integração
-e de checkpoint próprio.
+A branch `feat/support-rf06-update-ticket` foi criada a partir de `main`
+sincronizada, fixou o contrato 0.8 e implementou/provou RF06 localmente. RF06
+ainda não foi integrada; `main` permanece `MAIN_BASELINE_RF05`. RF07a/RF07b e
+RF08–RF13 permanecem fora do runtime e não devem iniciar antes de seus checkpoints
+e da integração da RF06 quando dependentes.

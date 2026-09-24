@@ -41,7 +41,8 @@
 		"proof:rf03:postgres": "node scripts/prove-rf03-postgres.js",
 		"proof:rf04:postgres": "node scripts/prove-rf04-postgres.js",
 		"proof:rf05:postgres": "node scripts/prove-rf05-postgres.js",
-		"proof:s1:image": "node scripts/prove-s1-image.js"
+		"proof:s1:image": "node scripts/prove-s1-image.js",
+		"proof:rf06:postgres": "node scripts/prove-rf06-postgres.js"
 	},
 	"lint-staged": {
 		"*.ts": [

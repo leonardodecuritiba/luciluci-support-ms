@@ -7,7 +7,7 @@ export default class TicketAuditLog {
 	ticketId!: string;
 	datetime!: Date;
 	authorId!: string;
-	origin!: TicketOrigin;
+	origin!: TicketOrigin | 'admin' | 'backoffice' | 'cd';
 	action!: TicketAuditAction;
 	statusType!: string | null;
 	newStatus!: string | null;

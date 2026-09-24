@@ -4,15 +4,15 @@
 
 Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
 Identidade e superfície operacional foram materializadas, Profile foi retirado
-e RF01–RF04 estão implementadas/provadas em `MAIN_BASELINE_RF04`. RF05 está
-implementada/provada na branch funcional contra o contrato 0.7; RF06–RF13
-continuam não implementadas.
+e RF01–RF05 estão implementadas/provadas em `MAIN_BASELINE_RF05`. RF06 está
+implementada/provada localmente na branch funcional contra o contrato 0.8;
+RF07a/RF07b e RF08–RF13 continuam não implementadas.
 Leia `ACTUAL_STATE.md` para o estado real.
 
 O `DRIFT-SUP-S1-001` foi corrigido e provado: estado
 `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`. O checkpoint documental RF02 0.4 está
 fechado e seu slice foi integrado em `main`. Não refaz a derivação, não repete
-S1/RF01 sem nova reprodução e não inicia RF06.
+S1/RF01 sem nova reprodução e não inicia RF07 antes do fechamento RF06.
 
 ## Leitura obrigatória inicial
 
@@ -51,31 +51,32 @@ não ampliam as três ações de AuditLog do PRD.
 Fluxo herdado: `bootstrap/build -> report -> drift-fix -> report -> drift-fix -> wave final`.
 S1 está encerrado e RF01 foi comprovada a partir do checkpoint documental 0.3.
 A revisão 0.4 congela RF02 e resolve, somente nesse recorte, DEC-SUP-01, 03, 06,
-08, 09, 10 e 12. RF02/RF03/RF04 estão integradas em `main`. RF05 está
-concluída apenas na branch `feat/support-rf05-create-ticket`. A revisão 0.6
+08, 09, 10 e 12. RF02–RF05 estão integradas em `main`. RF06 está
+concluída localmente na branch `feat/support-rf06-update-ticket`. A revisão 0.6
 congela RF04 e resolve, somente nesse recorte, DEC-SUP-01, 03, 06, 08, 09, 10 e 12. A revisão 0.7 congela RF05 e resolve, somente nesse recorte,
-DEC-SUP-01/03/04/08/09/10/12.
+DEC-SUP-01/03/04/08/09/10/12. A revisão 0.8 congela RF06 e resolve, somente
+nesse recorte, DEC-SUP-01/03/05/06/08/09/10/12.
 
 Trabalhar RF por RF ou um drift por vez; não fazer refactor amplo, antecipar
 ondas ou implementar comportamento com decisão crítica aberta. Um gap esperado
 de inicialização não é bug comprovado do Support. Propostas de arquitetura
 não são decisões de negócio aprovadas.
 
-O lote funcional RF05 está concluído localmente. RF06–RF13 e aprovações
+O lote funcional RF06 está concluído localmente. RF07a/RF07b e RF08–RF13 e aprovações
 funcionais permanecem fora dele. Qualquer prova futura de banco exige destino descartável
 explícito; não usar banco padrão/preexistente.
 
 ## Política de branches e `main`
 
-Bootstrap + RF01 formam o baseline histórico `MAIN_BASELINE_RF01`. RF02–RF04
-estão integradas; `main` representa `MAIN_BASELINE_RF04`. `main` é branch estável de
+Bootstrap + RF01 formam o baseline histórico `MAIN_BASELINE_RF01`. RF02–RF05
+estão integradas; `main` representa `MAIN_BASELINE_RF05`. `main` é branch estável de
 integração e não é workspace para RF nova.
 
-Para RF06–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
+Para RF07–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
 uma branch própria por slice. Convenção recomendada: `feat/support-rfNN-<slug>`;
 correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs independentes
-na mesma branch e não iniciar a RF seguinte antes do fechamento da atual. RF05
-deve ser publicada e integrada antes de qualquer checkpoint funcional RF06.
+na mesma branch e não iniciar a RF seguinte antes do fechamento da atual. RF06
+deve ser revisada e integrada antes de qualquer implementação funcional RF07.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
 recorte, estado/documentação atualizados e ausência de drift técnico aberto que
@@ -101,6 +102,8 @@ misturar alterações do submódulo com arquivos comuns do repositório pai.
 - `Department.type` não governa autorização; `allowedUserIds` é o critério administrativo.
 - Solicitante acessa seu próprio ticket; RF08 é exclusivo do solicitante.
 - RF05 cria ticket + mensagem inicial de forma atômica e somente uma auditoria.
+- RF06 edita priority/departmentId/adminStatus sob ACL, lock Ticket→Departments,
+  no-op sem write e uma auditoria apenas na mudança efetiva de adminStatus.
 - RF10 de backoffice/cd gera duas auditorias para a nova mensagem, inclusive se adminStatus já era pendente, conforme baseline literal.
 - Nenhum evento de negócio Support foi especificado. Não renomear eventos Profile para inventar tópicos Support.
 - `DEC-SUP-*` abertas impedem congelamento integral; bloquear apenas o slice dependente, sem ocultar a lacuna.

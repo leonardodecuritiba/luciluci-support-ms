@@ -6,6 +6,18 @@
 				"name": "X-Correlation-ID",
 				"required": true,
 				"schema": { "format": "uuid", "type": "string" }
+			},
+			"PerformedByHeader": {
+				"in": "header",
+				"name": "X-Performed-By",
+				"required": true,
+				"schema": { "pattern": ".*\\S.*", "type": "string" }
+			},
+			"PerformedByTypeHeader": {
+				"in": "header",
+				"name": "X-Performed-By-Type",
+				"required": true,
+				"schema": { "enum": ["admin", "backoffice", "cd"], "type": "string" }
 			}
 		},
 		"schemas": {
@@ -20,6 +32,36 @@
 					"type": { "$ref": "#/components/schemas/DepartmentType" }
 				},
 				"required": ["name", "type"],
+				"type": "object"
+			},
+			"CreatedTicket": {
+				"additionalProperties": false,
+				"properties": {
+					"adminStatus": { "enum": ["pendente"], "type": "string" },
+					"createdAt": { "format": "date-time", "type": "string" },
+					"departmentId": { "format": "uuid", "type": "string" },
+					"id": { "format": "uuid", "type": "string" },
+					"number": { "minimum": 1, "type": "integer" },
+					"origin": { "$ref": "#/components/schemas/TicketOrigin" },
+					"priority": { "$ref": "#/components/schemas/TicketPriority" },
+					"requesterId": { "type": "string" },
+					"requesterStatus": { "enum": ["nao_resolvido"], "type": "string" },
+					"subject": { "type": "string" },
+					"updatedAt": { "format": "date-time", "type": "string" }
+				},
+				"required": [
+					"id",
+					"number",
+					"subject",
+					"requesterId",
+					"departmentId",
+					"priority",
+					"origin",
+					"adminStatus",
+					"requesterStatus",
+					"createdAt",
+					"updatedAt"
+				],
 				"type": "object"
 			},
 			"CreateInitialTicketMessageRequest": {
@@ -111,7 +153,7 @@
 			"Ticket": {
 				"additionalProperties": false,
 				"properties": {
-					"adminStatus": { "enum": ["pendente"], "type": "string" },
+					"adminStatus": { "$ref": "#/components/schemas/TicketAdminStatus" },
 					"createdAt": { "format": "date-time", "type": "string" },
 					"departmentId": { "format": "uuid", "type": "string" },
 					"id": { "format": "uuid", "type": "string" },
@@ -138,6 +180,10 @@
 				],
 				"type": "object"
 			},
+			"TicketAdminStatus": {
+				"enum": ["pendente", "cancelado", "em_andamento", "finalizado", "resolvido"],
+				"type": "string"
+			},
 			"TicketOrigin": { "enum": ["backoffice", "cd"], "type": "string" },
 			"TicketPriority": { "enum": ["baixa", "media", "alta", "urgente"], "type": "string" },
 			"UpdateDepartmentRequest": {
@@ -152,11 +198,21 @@
 					"type": { "$ref": "#/components/schemas/DepartmentType" }
 				},
 				"type": "object"
+			},
+			"UpdateTicketRequest": {
+				"additionalProperties": false,
+				"minProperties": 1,
+				"properties": {
+					"adminStatus": { "$ref": "#/components/schemas/TicketAdminStatus" },
+					"departmentId": { "format": "uuid", "type": "string" },
+					"priority": { "$ref": "#/components/schemas/TicketPriority" }
+				},
+				"type": "object"
 			}
 		}
 	},
 	"info": {
-		"description": "Support OpenAPI contract. RF01–RF04 manage departments and RF05 atomically creates a ticket aggregate; RF06–RF13 remain unavailable until their own contracts are implemented.",
+		"description": "Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, and RF06 edits tickets; RF07–RF13 remain unavailable.",
 		"title": "support-ms",
 		"version": "1.0.0"
 	},
@@ -423,7 +479,7 @@
 					"201": {
 						"content": {
 							"application/json": {
-								"schema": { "$ref": "#/components/schemas/Ticket" }
+								"schema": { "$ref": "#/components/schemas/CreatedTicket" }
 							}
 						},
 						"description": "Ticket aggregate created."
@@ -462,6 +518,82 @@
 					}
 				},
 				"summary": "Create a ticket with its initial message",
+				"tags": ["Tickets"]
+			}
+		},
+		"/api/support/tickets/{ticketId}": {
+			"patch": {
+				"description": "Locks Ticket, then relevant Departments in UUID order. Admin needs current and target membership; requester needs ownership. No-op preserves updatedAt. A changed adminStatus writes one audit in the transaction.",
+				"parameters": [
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{ "$ref": "#/components/parameters/PerformedByHeader" },
+					{ "$ref": "#/components/parameters/PerformedByTypeHeader" },
+					{
+						"in": "path",
+						"name": "ticketId",
+						"required": true,
+						"schema": { "format": "uuid", "type": "string" }
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/UpdateTicketRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/Ticket" }
+							}
+						},
+						"description": "Complete Ticket after update or no-op."
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Missing or invalid correlation/actor headers or malformed JSON."
+					},
+					"403": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Current Ticket or target Department access denied."
+					},
+					"404": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Ticket or target Department not found."
+					},
+					"422": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Invalid path/body or inactive target (department_inactive)."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Unexpected error; transaction rolled back."
+					}
+				},
+				"summary": "Update ticket priority, department, or admin status",
 				"tags": ["Tickets"]
 			}
 		},

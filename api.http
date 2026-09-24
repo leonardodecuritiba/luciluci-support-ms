@@ -1,9 +1,10 @@
 # support-ms bootstrap API requests
 #
-# S1 + RF01–RF05 support surface. RF06–RF13 are not implemented.
+# S1 + RF01–RF06 support surface. RF07–RF13 are not implemented.
 
 @baseUrl = http://localhost:3000
 @correlationId = 8a7dd7bb-7b3f-4b3b-8b8e-0b7e2819d001
+@ticketId = 550e8400-e29b-41d4-a716-446655440002
 
 ### Health
 GET {{baseUrl}}/health
@@ -257,6 +258,51 @@ X-Correlation-ID: invalid
   "priority": "alta",
   "origin": "backoffice",
   "message": { "message": "Payload bloqueado antes da transação." }
+}
+
+### RF06 - Admin changes priority and status
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: uid-admin-1
+X-Performed-By-Type: admin
+
+{
+  "priority": "urgente",
+  "adminStatus": "em_andamento"
+}
+
+### RF06 - Requester transfers to an active department
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: uid-requester-1
+X-Performed-By-Type: backoffice
+
+{
+  "departmentId": "550e8400-e29b-41d4-a716-446655440001"
+}
+
+### RF06 - No-op status
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: uid-admin-1
+X-Performed-By-Type: admin
+
+{
+  "adminStatus": "em_andamento"
+}
+
+### RF06 - Requester status is reserved for RF08 (422)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: uid-requester-1
+X-Performed-By-Type: cd
+
+{
+  "requesterStatus": "resolvido"
 }
 
 ### Metrics

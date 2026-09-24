@@ -18,8 +18,11 @@ RF03 e estabeleceu `MAIN_BASELINE_RF03`; o checkpoint contratual RF04 está em
 estabeleceu `MAIN_BASELINE_RF04`; o checkpoint RF05 bloqueado está em
 `REPORT-SUPPORT-RF05-CHECKPOINT-20260917-174742.md` e sua resolução 0.7 está em
 `REPORT-SUPPORT-RF05-CONTRACT-20260917-180621.md`. A implementação e as provas
-locais estão em `REPORT-SUPPORT-RF05-20260917-153727.md`; a branch ainda não foi
-publicada nem integrada.
+locais estão em `REPORT-SUPPORT-RF05-20260917-153727.md`. A PR #4 integrou RF05
+e estabeleceu `MAIN_BASELINE_RF05` no merge `2cfb637`. A implementação RF06
+desta branch está em
+[REPORT-SUPPORT-RF06-20260924-164819.md](REPORT-SUPPORT-RF06-20260924-164819.md),
+com evidência local e CI remoto ainda pendente.
 
 ## Fechamento atual de S1
 
