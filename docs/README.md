@@ -12,10 +12,10 @@ Documentação operacional do `support-ms`.
   após RF01.
 - `reports/`: avaliações por onda.
 
-S1 e RF01–RF06 estão implementadas/provadas e integradas em `main` no
-`MAIN_BASELINE_RF06` (PR #5, merge `0387167`), com contrato canônico Support
-0.8 no runtime. RF07a/RF07b possuem contrato Support 0.9 congelado e runtime
-implementado/provado no código da PR #7; RF08–RF13 permanecem sem runtime.
+S1 e RF01–RF07b estão implementadas/provadas e integradas em `main` no
+`MAIN_BASELINE_RF07` (PR #7, merge `43a556a`). RF07a/RF07b possuem contrato
+Support 0.9 congelado e runtime provado; RF08–RF13 permanecem sem runtime.
+O checkpoint contratual RF08 está bloqueado por decisões e não publica Support 0.10.
 O checkpoint bloqueado histórico e
 o fechamento contratual RF07a/RF07b estão registrados em `reports/`.
 

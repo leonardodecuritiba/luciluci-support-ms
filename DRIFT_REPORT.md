@@ -12,11 +12,12 @@ provas históricas estão no
 
 ## Escopo atual
 
-RF01–RF06 estão `IMPLEMENTED_AND_PROVEN` em `main`, na baseline
-`MAIN_BASELINE_RF06` (merge da PR #5 `0387167cfe02416c5d05cf3b8288350dd5ba682b`).
+RF01–RF07b estão `IMPLEMENTED_AND_PROVEN` em `main`, na baseline
+`MAIN_BASELINE_RF07` (merge da PR #7 `43a556ab1c70f5de9a63e3e6ab651445fa462173`).
 As decisões foram fechadas apenas em cada recorte; RF07a/RF07b têm contrato
 Support 0.9 congelado e runtime implementado/provado na PR #7. RF08–RF13
-permanecem fora do runtime.
+permanecem fora do runtime. O checkpoint RF08 registra lacunas contratuais,
+não um drift técnico do runtime existente.
 
 Não há drift técnico aberto conhecido em S1/RF01–RF06. O checkpoint RF03
 inicialmente registrou uma lacuna contratual, não um defeito de runtime; ela foi
@@ -32,3 +33,5 @@ registrou lacunas contratuais históricas, resolvidas para RF07a/RF07b em
 Support 0.9. A PR documental #6 foi integrada no merge `939b991`; o gitlink da
 PR #7 aponta para `1583a586793437a7b7c0569581637ee8ddac5ae5`. A prova
 funcional RF07 passou em PostgreSQL 16 com banco exclusivo descartado pelo script.
+O contrato RF08 permanece bloqueado por decisões de payload, no-op e response;
+Support 0.10 não foi congelado e o gitlink segue em Support 0.9.

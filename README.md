@@ -1,18 +1,18 @@
 # support-ms
 
-Microsserviço de Support (Suporte) da LuciLuci. RF01–RF06 compõem
-`MAIN_BASELINE_RF06` em `main` (merge da PR #5 `0387167`), contra o contrato
-canônico Support 0.8 (`4650ec6`) para RF06. Support 0.9 (`1583a58`) congela
-RF07a/RF07b documentalmente. A fonte de verdade de negócio
+Microsserviço de Support (Suporte) da LuciLuci. RF01–RF07b compõem
+`MAIN_BASELINE_RF07` em `main` (merge da PR #7 `43a556a`). Support 0.9
+(`1583a58`) congela RF07a/RF07b. A fonte de verdade de negócio
 está em `luciluci-docs/support/`.
 
 ## Estado
 
-S1 e RF01–RF06 estão implementadas, provadas e integradas. RF06 implementa
+S1 e RF01–RF07b estão implementadas, provadas e integradas. RF06 implementa
 `PATCH /api/support/tickets/{ticketId}` com ACL, transferência, no-op e auditoria
-transacional. RF07a/RF07b estão implementadas e provadas no código da PR #7,
+transacional. RF07a/RF07b foram integradas pela PR #7,
 com consultas de tickets por ownership e membership atual de Department.
-RF08–RF13 não têm runtime.
+RF08–RF13 não têm runtime. O checkpoint RF08 está bloqueado por decisões de
+payload, repetição e response; Support 0.10 não foi congelado.
 Consulte [ACTUAL_STATE](ACTUAL_STATE.md) e os reports em `docs/reports/`.
 
 ## Executar localmente
