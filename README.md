@@ -10,9 +10,9 @@ está em `luciluci-docs/support/`.
 
 S1 e RF01–RF06 estão implementadas, provadas e integradas. RF06 implementa
 `PATCH /api/support/tickets/{ticketId}` com ACL, transferência, no-op e auditoria
-transacional. RF07a/RF07b estão implementadas e provadas nesta branch funcional,
+transacional. RF07a/RF07b estão implementadas e provadas no código da PR #7,
 com consultas de tickets por ownership e membership atual de Department.
-RF08–RF13 não têm runtime. RF07 ainda não foi integrada em `main`.
+RF08–RF13 não têm runtime.
 Consulte [ACTUAL_STATE](ACTUAL_STATE.md) e os reports em `docs/reports/`.
 
 ## Executar localmente
