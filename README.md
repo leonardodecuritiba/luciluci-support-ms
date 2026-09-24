@@ -62,7 +62,8 @@ npm run coverage:check
 Antes de provas PostgreSQL, confirme o destino exclusivo e descartável.
 `npm run proof:rf07:postgres` exige as variáveis `S1_PROOF_*`, cria somente
 um banco ausente com prefixo permitido, usa processo compilado e descarta o banco.
-A prova local RF07 passou em PostgreSQL 16; a CI remota RF07 ainda não foi executada.
+A prova local RF07 passou em PostgreSQL 16; a CI remota da PR #7 passou no
+head de implementação `65029bd` (run `36047611567`).
 CI da PR #5 passou nas provas PostgreSQL RF01–RF06 e no smoke da imagem.
 
 ## Fluxo Git por baseline funcional
