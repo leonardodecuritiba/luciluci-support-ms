@@ -25,7 +25,9 @@ está em
 com evidência local e CI remoto. A PR #5 integrou RF06 no merge `0387167`,
 estabelecendo `MAIN_BASELINE_RF06`. O
 [checkpoint RF07a/RF07b](REPORT-SUPPORT-RF07-CHECKPOINT-20260924-180059.md)
-registra decisões contratuais abertas, sem congelar Support 0.9 ou iniciar runtime.
+registra decisões que estavam abertas. O
+[fechamento contratual RF07a/RF07b](REPORT-SUPPORT-RF07-CONTRACT-20260924-183425.md)
+congela Support 0.9, sem iniciar runtime.
 
 ## Fechamento atual de S1
 

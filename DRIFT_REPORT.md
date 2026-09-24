@@ -14,8 +14,8 @@ provas históricas estão no
 
 RF01–RF06 estão `IMPLEMENTED_AND_PROVEN` em `main`, na baseline
 `MAIN_BASELINE_RF06` (merge da PR #5 `0387167cfe02416c5d05cf3b8288350dd5ba682b`).
-As decisões foram fechadas apenas em cada recorte; RF07a/RF07b ainda têm
-checkpoint contratual bloqueado e RF08–RF13 permanecem fora do runtime.
+As decisões foram fechadas apenas em cada recorte; RF07a/RF07b têm contrato
+Support 0.9 congelado e permanecem fora do runtime com RF08–RF13.
 
 Não há drift técnico aberto conhecido em S1/RF01–RF06. O checkpoint RF03
 inicialmente registrou uma lacuna contratual, não um defeito de runtime; ela foi
@@ -27,6 +27,7 @@ novamente e RF05–RF13 permaneceram `404`.
 
 O merge `0387167cfe02416c5d05cf3b8288350dd5ba682b` define
 `MAIN_BASELINE_RF06`; a PR #5 e sua CI estão concluídas. O checkpoint RF07a/RF07b
-registra lacunas contratuais, não drift de runtime. O gitlink de entrada aponta
-para Support 0.8 em `4650ec671c948a4fa8fb04fa33b300d8fd255ae4`; nenhuma
-prova funcional RF07 foi executada.
+registrou lacunas contratuais históricas, resolvidas para RF07a/RF07b em
+Support 0.9. O gitlink desta branch documental aponta para
+`1583a586793437a7b7c0569581637ee8ddac5ae5`; nenhuma prova funcional RF07
+foi executada.

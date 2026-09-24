@@ -111,6 +111,8 @@ RF06 foi congelado na revisão 0.8, publicada em
 
 A branch `feat/support-rf06-update-ticket` foi criada a partir de `main`
 sincronizada, fixou o contrato 0.8 e implementou/provou RF06. A PR #5 foi
-integrada; `main` é `MAIN_BASELINE_RF06`. RF07a/RF07b e RF08–RF13 permanecem
-fora do runtime. O checkpoint RF07a/RF07b não congela Support 0.9 enquanto
-DEC-SUP-02/07/08 permanecerem abertas no recorte.
+integrada; `main` é `MAIN_BASELINE_RF06`. Support 0.9 foi publicado no commit
+canônico `1583a586793437a7b7c0569581637ee8ddac5ae5` e congela
+RF07a/RF07b. `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`; a futura
+branch `feat/support-rf07-list-tickets` depende de lote explícito. RF07a/RF07b
+e RF08–RF13 permanecem fora do runtime.
