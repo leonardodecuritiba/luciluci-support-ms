@@ -3,9 +3,8 @@
 ## Estado de trabalho
 
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
-materializada; RF01–RF05 estão `IMPLEMENTED_AND_PROVEN` em
-`MAIN_BASELINE_RF05`. RF06 está `IMPLEMENTED_AND_PROVEN_LOCAL` na branch
-`feat/support-rf06-update-ticket`, contra a revisão canônica 0.8, e RF07a/RF07b
+materializada; RF01–RF06 estão `IMPLEMENTED_AND_PROVEN` em
+`MAIN_BASELINE_RF06`, contra a revisão canônica 0.8, e RF07a/RF07b
 e RF08–RF13 permanecem `NOT_IMPLEMENTED`. A revisão pós-S1 reabriu o fechamento por
 `DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
 
@@ -33,12 +32,13 @@ Os prompts de bootstrap e S1 são históricos. O estado das decisões funcionais
 deve ser conferido no submódulo real; não assumir aprovação pelo report ou por
 aplicar este patch.
 
-## Git após a implementação RF06
+## Git após a integração RF06
 
-A baseline RF05 é o ponto estável de `main`, no merge da PR #4
-`2cfb637854c5c90abfaf197e6e0822ceb53571f8`. O contrato RF05 0.7 está
+A baseline RF06 é o ponto estável de `main`, no merge da PR #5
+`0387167cfe02416c5d05cf3b8288350dd5ba682b`. O contrato RF05 0.7 está
 publicado em `cc9a4399d210114e3c8261f3c153f8339c049ffb`; o contrato RF06
 0.8 está publicado em `4650ec671c948a4fa8fb04fa33b300d8fd255ae4`.
-A branch `feat/support-rf06-update-ticket` contém a implementação e prova local
-RF06, ainda sem integração em `main`. Não iniciar RF07 antes do fechamento RF06
+A PR #5 integrou RF06 com CI aprovada; a página da PR não registra revisão
+formal. RF07a/RF07b seguem sem runtime e com checkpoint contratual bloqueado
+por decisões abertas. Não iniciar implementação antes de congelar o contrato
 e não usar force-push em `main`.
