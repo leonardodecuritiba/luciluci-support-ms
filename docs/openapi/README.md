@@ -22,4 +22,7 @@ The current contract describes `/health`, `/metrics`, `/api-docs`,
 `PATCH /api/support/departments/{departmentId}` (RF02), and
 `GET /api/support/departments` (RF03),
 `DELETE /api/support/departments/{departmentId}` (RF04), and
-`POST /api/support/tickets` (RF05). RF06–RF13 have no public endpoint yet.
+`POST /api/support/tickets` (RF05), `PATCH /api/support/tickets/{ticketId}`
+(RF06), the requester/admin list routes (RF07a/RF07b), and
+`POST /api/support/tickets/{ticketId}/resolve` (RF08). The RF08 action has no
+requestBody. RF09–RF13 have no public endpoint yet.

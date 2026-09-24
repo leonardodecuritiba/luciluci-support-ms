@@ -17,7 +17,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		await destroyTestDataSource();
 	});
 
-	it('documents operational paths and RF01-RF07', () => {
+	it('documents operational paths and RF01-RF08', () => {
 		const spec = swaggerSpec as OpenAPIV3.Document;
 
 		expect(Object.keys(spec.paths ?? {}).sort()).toEqual([
@@ -29,6 +29,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 			'/api/support/tickets/admin/{adminId}',
 			'/api/support/tickets/requester/{requesterId}',
 			'/api/support/tickets/{ticketId}',
+			'/api/support/tickets/{ticketId}/resolve',
 			'/health',
 			'/metrics',
 		]);
@@ -203,6 +204,22 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 				'500': expect.any(Object),
 			}),
 		);
+		const resolveTicket = spec.paths?.['/api/support/tickets/{ticketId}/resolve']?.post;
+		expect(resolveTicket?.requestBody).toBeUndefined();
+		expect(resolveTicket?.parameters).toEqual([
+			{ $ref: '#/components/parameters/CorrelationIdHeader' },
+			{ $ref: '#/components/parameters/PerformedByHeader' },
+			{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+			expect.objectContaining({ in: 'path', name: 'ticketId', required: true }),
+		]);
+		expect(Object.keys(resolveTicket?.responses ?? {}).sort()).toEqual([
+			'200',
+			'400',
+			'403',
+			'404',
+			'422',
+			'500',
+		]);
 		expect(spec.components?.schemas?.UpdateTicketRequest).toEqual(
 			expect.objectContaining({
 				additionalProperties: false,

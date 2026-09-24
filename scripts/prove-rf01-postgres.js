@@ -265,6 +265,7 @@ async function main() {
 				'/api/support/tickets/admin/{adminId}',
 				'/api/support/tickets/requester/{requesterId}',
 				'/api/support/tickets/{ticketId}',
+				'/api/support/tickets/{ticketId}/resolve',
 				'/health',
 				'/metrics',
 			]);
@@ -274,7 +275,6 @@ async function main() {
 			);
 			const pendingRoutes = [
 				['DELETE', `/api/support/departments/${randomUUID()}`],
-				['POST', `/api/support/tickets/${randomUUID()}/resolve`],
 				['GET', `/api/support/tickets/${randomUUID()}`],
 				['POST', `/api/support/tickets/${randomUUID()}/messages`],
 				[

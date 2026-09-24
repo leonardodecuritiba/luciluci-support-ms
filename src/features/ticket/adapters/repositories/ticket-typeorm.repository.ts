@@ -104,6 +104,13 @@ export default class TicketTypeormRepository
 		});
 	}
 
+	async updateRequesterStatus(ticket: Ticket): Promise<void> {
+		await this.ticketRepository.update(ticket.id, {
+			requesterStatus: ticket.requesterStatus,
+			updatedAt: ticket.updatedAt,
+		});
+	}
+
 	async createMessage(message: TicketMessage): Promise<void> {
 		await this.manager.getRepository(TicketMessage).insert(message);
 	}

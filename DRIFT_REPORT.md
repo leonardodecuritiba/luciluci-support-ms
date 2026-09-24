@@ -15,8 +15,9 @@ provas históricas estão no
 RF01–RF07b estão `IMPLEMENTED_AND_PROVEN` em `main`, na baseline
 `MAIN_BASELINE_RF07` (merge da PR #7 `43a556ab1c70f5de9a63e3e6ab651445fa462173`).
 As decisões foram fechadas apenas em cada recorte; RF07a/RF07b têm contrato
-Support 0.9 congelado e runtime implementado/provado na PR #7. RF08–RF13
-permanecem fora do runtime. O checkpoint RF08 bloqueado era uma lacuna
+Support 0.9 congelado e runtime implementado/provado na PR #7. RF08 está
+implementada/provada localmente nesta branch; RF09–RF13 permanecem fora do
+runtime. O checkpoint RF08 bloqueado era uma lacuna
 contratual; decisões posteriores a fecharam em Support 0.10, sem drift técnico
 novo do runtime existente.
 
@@ -37,6 +38,9 @@ funcional RF07 passou em PostgreSQL 16 com banco exclusivo descartado pelo scrip
 O checkpoint RF08 bloqueado no commit `a8714a8` permanece histórico. As decisões
 de body, response, no-op, auditoria, identidade e concorrência foram registradas
 no contrato canônico Support 0.10, publicado em `93edf66d6ed0002a2af537339da315db1285a779`.
-O gitlink desta branch aponta a essa revisão. O estado é
-`RF08_CONTRACT_CHECKPOINT_READY / RF08_CONTRACT_FROZEN / NOT_IMPLEMENTED`;
-nenhum teste ou runtime RF08 foi criado.
+O gitlink desta branch aponta a essa revisão. O checkpoint documental
+`RF08_CONTRACT_CHECKPOINT_READY / RF08_CONTRACT_FROZEN` permanece válido.
+A branch funcional implementa RF08 sem alterar o contrato ou criar migration.
+A prova PostgreSQL 16 descartável passou após alinhamento UTC do cliente de
+prova, incluindo rollback de AuditLog e concorrência RF08×RF08/RF06×RF08.
+Nenhum drift técnico novo foi identificado; RF09–RF13 continuam ausentes.

@@ -1,16 +1,16 @@
 # ACTUAL_STATE
 
-## Estado atual — MAIN_BASELINE_RF07 e contrato RF08 congelado
+## Estado atual — RF08 na branch funcional sobre MAIN_BASELINE_RF07
 
 - serviço `support-ms`; domínio `support`;
 - S1 `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`; drift `DRIFT-SUP-S1-001 / RESOLVED / PROVEN`;
 - RF01–RF07b `IMPLEMENTED_AND_PROVEN` e integradas em `main`;
 - baseline atual `MAIN_BASELINE_RF07`, merge da PR #7 `43a556ab1c70f5de9a63e3e6ab651445fa462173`; baseline de origem RF06 `0387167cfe02416c5d05cf3b8288350dd5ba682b`;
-- RF08–RF13 `NOT_IMPLEMENTED`; `feat/support-rf08-resolve-ticket` não foi criada;
+- RF08 implementada na branch `feat/support-rf08-resolve-ticket`, ainda não integrada em `main`; RF09–RF13 `NOT_IMPLEMENTED`;
 - RF07a/RF07b `RF07A_RF07B_CONTRACT_FROZEN` em Support 0.9; implementação e prova PostgreSQL local concluídas;
 - contrato RF06 congelado em Support 0.8, commit canônico `4650ec671c948a4fa8fb04fa33b300d8fd255ae4` de `luciluci-docs`;
 - decisões RF06 DEC-SUP-01/03/05/06/08/09/10/12 resolvidas somente nesse recorte; DEC-SUP-01/02/07/08/09 estão `RESOLVED_FOR_RF07` somente para RF07a/RF07b, conforme `luciluci-docs/support/notes.md`;
-- gitlink canônico Support 0.10 `93edf66d6ed0002a2af537339da315db1285a779`, publicado em `luciluci-docs` na branch `docs/support-rf08-resolve-ticket-contract`; SHA local e remoto conferidos. `RF08_CONTRACT_FROZEN / RF08_CONTRACT_CHECKPOINT_READY`; runtime RF08 ausente. O contrato RF07 0.9 permanece histórico em `1583a586793437a7b7c0569581637ee8ddac5ae5`; `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`.
+- gitlink canônico Support 0.10 `93edf66d6ed0002a2af537339da315db1285a779`, publicado em `luciluci-docs` na branch `docs/support-rf08-resolve-ticket-contract`; SHA local e remoto conferidos. `RF08_CONTRACT_FROZEN / RF08_CONTRACT_CHECKPOINT_READY`; runtime RF08 implementado/provado localmente nesta branch. O contrato RF07 0.9 permanece histórico em `1583a586793437a7b7c0569581637ee8ddac5ae5`; `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`.
 
 ## Superfície implementada
 
@@ -42,4 +42,24 @@ O checkpoint bloqueado anterior é histórico. A revisão 0.9 está congelada e 
 
 O merge da PR #7 em `43a556ab1c70f5de9a63e3e6ab651445fa462173` estabelece `MAIN_BASELINE_RF07`; a CI `quality` do head conciliado passou no run `36049802944`. A página da PR mostrou `No reviews`, discrepância processual histórica que não reabre RF07. O checkpoint documental bloqueado no commit `a8714a86b5b67e9a7e7fafaf194991b0e078e9cb` preserva a fotografia anterior, com gitlink Support 0.9.
 
-As decisões posteriores fecham o contrato RF08 em Support 0.10: POST sem body; headers `X-Correlation-ID`, `X-Performed-By` e `X-Performed-By-Type=backoffice|cd`; somente dono por `ticket.requesterId`, sem comparar role com origin ou verificar Department. Transição `nao_resolvido -> resolvido` altera apenas requesterStatus/updatedAt e cria exatamente um AuditLog `alteracao_status` de requester na mesma transação. Ticket já resolvido retorna `200` e Ticket completo sem write, timestamp ou auditoria novos. Ticket é bloqueado com `FOR UPDATE`; RF08×RF08 e RF06×RF08 serializam sem perda de update. Não há idempotency key, evento/outbox ou mensageria. Matriz de erros: `400` headers, `403` admin/não dono, `404` Ticket inexistente, `422` UUID/body, `500` inesperado. DEC-SUP-01/06/08/09/10/12 estão `RESOLVED_FOR_RF08` somente neste recorte; DEC-SUP-11 é `NOT_APPLICABLE_RF08`. O commit canônico `93edf66d6ed0002a2af537339da315db1285a779` está publicado, e o gitlink desta branch aponta a ele. `RF08 NOT_IMPLEMENTED`: sem rota, OpenAPI executável, teste ou prova; `feat/support-rf08-resolve-ticket NOT_CREATED`. RF09–RF13 seguem pendentes.
+As decisões posteriores fecham o contrato RF08 em Support 0.10: POST sem body; headers `X-Correlation-ID`, `X-Performed-By` e `X-Performed-By-Type=backoffice|cd`; somente dono por `ticket.requesterId`, sem comparar role com origin ou verificar Department. Transição `nao_resolvido -> resolvido` altera apenas requesterStatus/updatedAt e cria exatamente um AuditLog `alteracao_status` de requester na mesma transação. Ticket já resolvido retorna `200` e Ticket completo sem write, timestamp ou auditoria novos. Ticket é bloqueado com `FOR UPDATE`; RF08×RF08 e RF06×RF08 serializam sem perda de update. Não há idempotency key, evento/outbox ou mensageria. Matriz de erros: `400` headers, `403` admin/não dono, `404` Ticket inexistente, `422` UUID/body, `500` inesperado. DEC-SUP-01/06/08/09/10/12 estão `RESOLVED_FOR_RF08` somente neste recorte; DEC-SUP-11 é `NOT_APPLICABLE_RF08`. O commit canônico `93edf66d6ed0002a2af537339da315db1285a779` está publicado, e o gitlink desta branch aponta a ele. RF09–RF13 seguem pendentes.
+
+## Implementação RF08 na branch funcional
+
+`POST /api/support/tickets/{ticketId}/resolve` está materializado em route/controller,
+`ResolveTicketUseCase` e capacidade específica `updateRequesterStatus` do repositório.
+O controller rejeita qualquer body presente, inclusive `null` e `{}`, valida
+headers/path e executa o caso de uso em transação. O caso de uso bloqueia o Ticket
+antes de ler ownership/status, permite somente requester owner e não consulta
+Department. A transição persiste só `requesterStatus` e `updatedAt`, com um
+AuditLog requester de mesmo timestamp; o no-op retorna Ticket completo sem write.
+RF06 mantém sua atualização restrita própria. Não há migration nova, evento,
+outbox, idempotency key ou branch RF09.
+
+A prova `proof:rf08:postgres` passou em PostgreSQL 16 descartável com processo
+compilado: transição, no-op, Department inativo, ACL, falha induzida de AuditLog
+com rollback, RF08×RF08 e RF06×RF08 sob lock real, sem lost update ou deadlock.
+O primeiro replay falhou por leitura local de `timestamp` sem fuso no cliente da
+prova; o script foi alinhado à interpretação UTC do serviço e o replay passou.
+Provas RF01–RF07, smoke da imagem e gates finais são registrados no report RF08.
+Este resultado local não equivale a CI remota ou integração em `main`.

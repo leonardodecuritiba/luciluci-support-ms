@@ -131,6 +131,7 @@ O checkpoint contratual bloqueado de RF08 partiu de `MAIN_BASELINE_RF07` e
 permanece histórico no commit `a8714a8`. As decisões específicas posteriores
 congelaram Support 0.10 no commit canônico
 `93edf66d6ed0002a2af537339da315db1285a779`, publicado na branch
-`docs/support-rf08-resolve-ticket-contract`. RF08 continua sem runtime; o
-próximo lote funcional explícito deve partir de `MAIN_BASELINE_RF07` em branch
-própria `feat/support-rf08-resolve-ticket`.
+`docs/support-rf08-resolve-ticket-contract`. A branch funcional
+`feat/support-rf08-resolve-ticket` partiu do head documental publicado, com o
+gitlink 0.10; ainda não foi integrada em `main`. RF09 aguarda a integração de
+RF08 e seu checkpoint próprio.

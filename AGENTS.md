@@ -5,7 +5,8 @@
 Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
 Identidade e superfície operacional foram materializadas, Profile foi retirado
 e RF01–RF07b estão implementadas/provadas em `MAIN_BASELINE_RF07` (PR #7);
-RF08–RF13 continuam não implementadas. Support 0.10 congela o contrato RF08;
+RF08 está implementada/provada na branch funcional própria, ainda fora de `main`;
+RF09–RF13 continuam não implementadas. Support 0.10 congela o contrato RF08;
 o checkpoint bloqueado anterior permanece histórico.
 Leia `ACTUAL_STATE.md` para o estado real.
 
@@ -65,7 +66,8 @@ de inicialização não é bug comprovado do Support. Propostas de arquitetura
 não são decisões de negócio aprovadas.
 
 O lote funcional RF07 está integrado. RF07a/RF07b estão implementadas/provadas;
-RF08–RF13 permanecem fora do runtime. Qualquer prova futura de banco exige destino descartável
+RF08 existe somente na branch funcional e RF09–RF13 permanecem fora do runtime.
+Qualquer prova futura de banco exige destino descartável
 explícito; não usar banco padrão/preexistente.
 
 ## Política de branches e `main`
@@ -77,8 +79,8 @@ estão integradas; `MAIN_BASELINE_RF07` corresponde ao merge da PR #7 `43a556a`.
 Para RF08–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
 uma branch própria por slice. Convenção recomendada: `feat/support-rfNN-<slug>`;
 correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs independentes
-na mesma branch. RF08 tem contrato congelado; a implementação exige lote
-explícito e branch funcional própria.
+na mesma branch. RF08 tem contrato congelado e está na branch funcional
+`feat/support-rf08-resolve-ticket`, ainda sem merge em `main`.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
 recorte, estado/documentação atualizados e ausência de drift técnico aberto que

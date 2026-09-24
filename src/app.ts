@@ -12,12 +12,14 @@ import { metricsRegistry } from './shared/infrastructure/metrics/registry';
 import swaggerSpec from './shared/openapi/swagger';
 import buildDepartmentRouter from './features/department/adapters/routes/department.routes';
 import buildTicketRouter from './features/ticket/adapters/routes/ticket.routes';
+import rejectResolveBodyMiddleware from './features/ticket/adapters/routes/reject-resolve-body.middleware';
 
 export default function createApp(dataSource: DataSource): Express {
 	const app = express();
 
 	app.use(cors());
 	app.use(correlationIdMiddleware);
+	app.use('/api/support/tickets/:ticketId/resolve', rejectResolveBodyMiddleware);
 	// Parse valid JSON primitives so business routes can classify non-object bodies as 422.
 	app.use(express.json({ strict: false }));
 	app.use(performedByMiddleware);

@@ -14,8 +14,12 @@
   concorrência RF02/RF04 e processo compilado em PostgreSQL descartável.
 - `prove-rf05-postgres.js`: prova schema/revert, aggregate, rollbacks induzidos,
   sequence gapful, creates paralelos e concorrência RF04/RF05.
+- `prove-rf06-postgres.js`: prova ACL, auditoria, rollback e locks da edição de Ticket.
+- `prove-rf07-postgres.js`: prova ACL, filtros, paginação UTC e leituras sem escrita.
+- `prove-rf08-postgres.js`: prova resolução, no-op, rollback, Department inativo,
+  ACL e concorrência RF08×RF08/RF06×RF08 com lock real; cria e descarta banco próprio.
 - `prove-s1-image.js`: smoke do CMD real, incluindo criar Department e Ticket,
-  listar/excluir/listar Department.
+  resolver Ticket, listar/excluir/listar Department.
 
 Validadores AsyncAPI permanecem genéricos e exigem paths explícitos quando uma
 capacidade de mensageria vier a ser aprovada.

@@ -7,7 +7,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			title: 'support-ms',
 			version: '1.0.0',
 			description:
-				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, and RF07a/RF07b list tickets; RF08–RF13 remain unavailable.',
+				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, and RF08 resolves tickets; RF09–RF13 remain unavailable.',
 		},
 		components: {
 			parameters: {
@@ -385,6 +385,75 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						'422': {
 							description:
 								'Invalid path/body or inactive target (department_inactive).',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'500': {
+							description: 'Unexpected error; transaction rolled back.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+					},
+				},
+			},
+			'/api/support/tickets/{ticketId}/resolve': {
+				post: {
+					summary: 'Resolve a Ticket as its requester',
+					description:
+						'RF08. Requester owner only; backoffice or cd role need not match Ticket origin. No request body. Locks Ticket, changes requesterStatus and writes one requester audit atomically. Already resolved is a no-op.',
+					tags: ['Tickets'],
+					parameters: [
+						{ $ref: '#/components/parameters/CorrelationIdHeader' },
+						{ $ref: '#/components/parameters/PerformedByHeader' },
+						{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+						{
+							in: 'path',
+							name: 'ticketId',
+							required: true,
+							schema: { type: 'string', format: 'uuid' },
+						},
+					],
+					responses: {
+						'200': {
+							description: 'Complete Ticket after resolution or authorized no-op.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/Ticket' },
+								},
+							},
+						},
+						'400': {
+							description: 'Missing or invalid correlation/actor headers.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'403': {
+							description: 'Admin or non-owner.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'404': {
+							description: 'Ticket not found.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'422': {
+							description: 'Invalid ticketId or any present request body.',
 							content: {
 								'application/json': {
 									schema: { $ref: '#/components/schemas/ErrorResponse' },
