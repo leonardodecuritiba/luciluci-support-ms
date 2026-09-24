@@ -21,6 +21,9 @@
 - `MAIN_BASELINE_RF07`: revisão de `main` que contenha RF07a/RF07b
   `IMPLEMENTED_AND_PROVEN`, após integração da branch
   `feat/support-rf07-list-tickets`.
+- `MAIN_BASELINE_RF08`: revisão de `main` que contenha RF08
+  `IMPLEMENTED_AND_PROVEN`, após integração da branch
+  `feat/support-rf08-resolve-ticket`.
 
 RF02 foi integrada em `main` pelo merge
 `e2dba18a7d0c54577805d6bf2f44adc40ecf0295`; essa revisão estabelece
@@ -133,5 +136,13 @@ congelaram Support 0.10 no commit canônico
 `93edf66d6ed0002a2af537339da315db1285a779`, publicado na branch
 `docs/support-rf08-resolve-ticket-contract`. A branch funcional
 `feat/support-rf08-resolve-ticket` partiu do head documental publicado, com o
-gitlink 0.10; ainda não foi integrada em `main`. RF09 aguarda a integração de
-RF08 e seu checkpoint próprio.
+gitlink 0.10. A PR #8 foi integrada no merge
+`45be90318bdb71e67532482364933cb49e6660e9`, estabelecendo
+`MAIN_BASELINE_RF08`; o check `quality` do head passou no run `36065884933`.
+
+## 8. Checkpoint RF09
+
+O checkpoint `docs/reports/REPORT-SUPPORT-RF09-CHECKPOINT-20260924-223334.md`
+partiu de `MAIN_BASELINE_RF08` com gitlink Support 0.10 limpo. DEC-SUP-01/08/09
+continuam abertas especificamente para RF09. Não iniciar runtime ou congelar
+Support 0.11 sem decisão explícita no contrato canônico.

@@ -1,20 +1,20 @@
 # support-ms
 
-Microsserviço de Support (Suporte) da LuciLuci. RF01–RF07b compõem
-`MAIN_BASELINE_RF07` em `main` (merge da PR #7 `43a556a`). Support 0.10
+Microsserviço de Support (Suporte) da LuciLuci. RF01–RF08 compõem
+`MAIN_BASELINE_RF08` em `main` (merge da PR #8 `45be903`). Support 0.10
 (`93edf66`) congela o contrato RF08; Support 0.9 (`1583a58`) congelou RF07a/RF07b. A fonte de verdade de negócio
 está em `luciluci-docs/support/`.
 
 ## Estado
 
-S1 e RF01–RF07b estão implementadas, provadas e integradas. RF06 implementa
+S1 e RF01–RF08 estão implementadas, provadas e integradas. RF06 implementa
 `PATCH /api/support/tickets/{ticketId}` com ACL, transferência, no-op e auditoria
 transacional. RF07a/RF07b foram integradas pela PR #7,
 com consultas de tickets por ownership e membership atual de Department.
-RF08 está implementada na branch funcional `feat/support-rf08-resolve-ticket`,
-ainda fora de `main`. RF09–RF13 não têm runtime. O contrato RF08 está
+RF08 foi integrada pela PR #8. RF09–RF13 não têm runtime. O contrato RF08 está
 `RF08_CONTRACT_FROZEN / RF08_CONTRACT_CHECKPOINT_READY` em Support 0.10.
-O checkpoint bloqueado anterior permanece histórico.
+O checkpoint RF09 permanece bloqueado por DEC-SUP-01/08/09; o checkpoint RF08
+bloqueado anterior permanece histórico.
 Consulte [ACTUAL_STATE](ACTUAL_STATE.md) e os reports em `docs/reports/`.
 
 ## Executar localmente
@@ -70,8 +70,9 @@ head de implementação `65029bd` (run `36047611567`).
 CI da PR #5 passou nas provas PostgreSQL RF01–RF06 e no smoke da imagem.
 Na branch RF08, `npm run proof:rf08:postgres` passou em banco exclusivo
 descartado, inclusive rollback de AuditLog e concorrência RF08×RF08/RF06×RF08.
-As provas RF01–RF07 e o smoke da imagem foram repetidos localmente. Nenhuma CI
-remota RF08 ou integração em `main` foi atribuída a esta branch.
+As provas RF01–RF07 e o smoke da imagem foram repetidos localmente. O check
+remoto `quality` do head RF08 passou no run `36065884933`; a PR #8 foi integrada
+no merge `45be903`. Nenhuma prova RF09 foi executada.
 
 ## Fluxo Git por baseline funcional
 
@@ -81,8 +82,8 @@ submódulo em `4650ec671c948a4fa8fb04fa33b300d8fd255ae4`; RF07a/RF07b foram
 congeladas em Support 0.9, `1583a586793437a7b7c0569581637ee8ddac5ae5`.
 RF08 foi congelada documentalmente em Support 0.10,
 `93edf66d6ed0002a2af537339da315db1285a779`.
-Desenvolva as próximas
-RFs em branches próprias depois do checkpoint correspondente. Consulte
+RF08 foi integrada em `MAIN_BASELINE_RF08`. Resolva o checkpoint RF09 antes de
+abrir seu runtime; desenvolva as próximas RFs em branches próprias. Consulte
 [`docs/workflows/support-development-branch-policy.md`](docs/workflows/support-development-branch-policy.md).
 
 Não execute `npm run infra:down` como limpeza genérica: o script remove volumes.

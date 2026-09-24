@@ -1,9 +1,9 @@
 # src
 
-Código ativo de Support após S1 e RF01–RF08 na branch funcional.
+Código ativo de Support após S1 e RF01–RF08 em `main` (`MAIN_BASELINE_RF08`).
 
 - `features/department/` materializa RF01–RF04.
 - `features/ticket/` materializa criação atômica RF05, edição RF06, listagens RF07a/RF07b e resolução RF08 com ownership, lock do Ticket, no-op e auditoria de requester.
 - `app.ts` expõe endpoints funcionais e operacionais; `main.ts` inicializa PostgreSQL e HTTP.
 - `shared/` contém o kernel técnico preservado.
-- RF09–RF13 não possuem rota ou implementação. RF08 permanece fora de `main`.
+- RF09–RF13 não possuem rota ou implementação.
