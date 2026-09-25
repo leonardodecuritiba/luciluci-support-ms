@@ -143,6 +143,10 @@ gitlink 0.10. A PR #8 foi integrada no merge
 ## 8. Checkpoint RF09
 
 O checkpoint `docs/reports/REPORT-SUPPORT-RF09-CHECKPOINT-20260924-223334.md`
-partiu de `MAIN_BASELINE_RF08` com gitlink Support 0.10 limpo. DEC-SUP-01/08/09
-continuam abertas especificamente para RF09. Não iniciar runtime ou congelar
-Support 0.11 sem decisão explícita no contrato canônico.
+partiu de `MAIN_BASELINE_RF08` com gitlink Support 0.10 limpo e registrou
+DEC-SUP-01/08/09 abertas naquele momento. A aprovação expressa posterior
+congelou Support 0.11 localmente no commit canônico
+`a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`, apontado pelo gitlink desta
+branch. O push para o remoto canônico foi rejeitado pela revisão automática;
+confirmar publicação e SHA remoto antes de publicar a branch do serviço ou
+iniciar runtime RF09.

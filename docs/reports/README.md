@@ -42,6 +42,10 @@ A PR #8 integrou RF08 no merge `45be903`, estabelecendo `MAIN_BASELINE_RF08`;
 seu check `quality` do head passou no run remoto `36065884933`. O
 [checkpoint contratual RF09](REPORT-SUPPORT-RF09-CHECKPOINT-20260924-223334.md)
 registra o contrato ainda bloqueado por DEC-SUP-01/08/09, sem runtime RF09.
+O [fechamento contratual RF09](REPORT-SUPPORT-RF09-CONTRACT-20260925-125528.md)
+registra a aprovação posterior, Support 0.11 local, o gitlink `a198b46` e a
+publicação remota bloqueada pela revisão automática. O checkpoint anterior não
+foi reescrito.
 
 ## Fechamento atual de S1
 

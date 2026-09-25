@@ -6,7 +6,9 @@ Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
 materializada; RF01–RF08 estão `IMPLEMENTED_AND_PROVEN` em
 `MAIN_BASELINE_RF08`. RF09–RF13 permanecem `NOT_IMPLEMENTED`;
 o contrato RF08 está congelado em Support 0.10 (`RF08_CONTRACT_CHECKPOINT_READY`).
-O checkpoint RF09 está bloqueado por DEC-SUP-01/08/09. A revisão pós-S1 reabriu o fechamento por
+O checkpoint RF09 bloqueado é histórico; DEC-SUP-01/08/09 foram aprovadas
+somente para RF09 e congeladas localmente em Support 0.11. A publicação canônica
+aguarda autorização específica. A revisão pós-S1 reabriu o fechamento por
 `DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
 
 ## Ordem de leitura
@@ -55,5 +57,9 @@ igual; o gitlink documental aponta a ele. RF08 foi implementada/provada na
 branch `feat/support-rf08-resolve-ticket` e integrada pela PR #8 no merge
 `45be90318bdb71e67532482364933cb49e6660e9`; o check `quality` do head
 passou no run `36065884933`. `main` é `MAIN_BASELINE_RF08`. O report
-`docs/reports/REPORT-SUPPORT-RF09-CHECKPOINT-20260924-223334.md` registra as
-decisões ainda abertas para RF09. Não iniciar seu runtime antes do freeze.
+`docs/reports/REPORT-SUPPORT-RF09-CHECKPOINT-20260924-223334.md` registra a
+fotografia bloqueada anterior. O fechamento 0.11 local está em
+`docs/reports/REPORT-SUPPORT-RF09-CONTRACT-20260925-125528.md`, com gitlink
+`a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`. A revisão automática
+bloqueou o push para o remoto canônico; não iniciar runtime RF09 antes da
+publicação e conferência remota do contrato.
