@@ -48,7 +48,11 @@ A primeira tentativa de publicação foi bloqueada pela revisão automática e
 concluída após autorização específica. O checkpoint anterior não foi reescrito.
 O [report de implementação RF09](REPORT-SUPPORT-RF09-20260925-140106.md)
 registra a branch funcional, testes, prova PostgreSQL, regressões e smoke local.
-RF09 ainda não foi integrada em `main`.
+A PR #9 integrou RF09 no merge `393af3e`, com `quality` aprovada no run
+`36145983860`, estabelecendo `MAIN_BASELINE_RF09`. O
+[checkpoint RF10](REPORT-SUPPORT-RF10-CHECKPOINT-20260925-143047.md) preserva a
+fonte literal da criação de mensagem e registra decisões materiais abertas;
+Support 0.12 não foi congelado e RF10 permanece sem runtime.
 
 ## Fechamento atual de S1
 

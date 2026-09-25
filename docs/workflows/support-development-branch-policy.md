@@ -24,6 +24,9 @@
 - `MAIN_BASELINE_RF08`: revisão de `main` que contenha RF08
   `IMPLEMENTED_AND_PROVEN`, após integração da branch
   `feat/support-rf08-resolve-ticket`.
+- `MAIN_BASELINE_RF09`: revisão de `main` que contenha RF09
+  `IMPLEMENTED_AND_PROVEN`, após integração da branch
+  `feat/support-rf09-get-ticket`.
 
 RF02 foi integrada em `main` pelo merge
 `e2dba18a7d0c54577805d6bf2f44adc40ecf0295`; essa revisão estabelece
@@ -152,5 +155,16 @@ após autorização específica do usuário, `ls-remote` confirmou o SHA canôni
 e o head `c586fdba037eb463b0841be9b99e9c8dbdcd0953` da branch documental
 do serviço. A branch funcional `feat/support-rf09-get-ticket` partiu do head
 documental publicado `f76c217`, preservou o gitlink 0.11 e implementou/provou
-RF09 localmente. `main` continua em `MAIN_BASELINE_RF08`; publicação, PR e
-integração RF09 ainda não ocorreram.
+RF09. A PR #9 foi integrada no merge
+`393af3ed50c35fb541825c1822cecaa3b8005a29`, após check `quality` aprovado
+no run `36145983860`. `main` é `MAIN_BASELINE_RF09`.
+
+## 9. Checkpoint RF10
+
+O checkpoint documental de `POST /api/support/tickets/{ticketId}/messages`
+partiu de `MAIN_BASELINE_RF09`, com o gitlink Support 0.11 preservado. A fonte
+fixa ACL geral, body exemplificado e cardinalidade especial de auditoria, mas
+autoria/tipo, visibilidade, response, `updatedAt`, idempotência e detalhes de
+concorrência ainda exigem decisão expressa. Estado:
+`RF10_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. Não abrir branch funcional RF10
+nem congelar Support 0.12 por analogia com RF05–RF09.
