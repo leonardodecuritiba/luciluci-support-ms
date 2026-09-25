@@ -1,5 +1,15 @@
 # support-ms
 
+## Baseline RF12 e checkpoint RF13
+
+A [PR #14](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/14)
+integrou RF12 em `main` (`1e243d3`), com CI remota aprovada. RF01–RF12 estão
+implementadas/provadas. RF13 ainda retorna 404: o
+[checkpoint contratual RF13](docs/reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
+registra decisões abertas, sobretudo a exposição de `nova_mensagem` de nota
+interna no histórico do solicitante. Support 0.14 segue fixado no gitlink;
+nenhum runtime RF13 ou deploy foi feito. As seções seguintes são históricas.
+
 ## RF12 nesta branch
 
 `feat/support-rf12-list-messages` implementa e prova a listagem

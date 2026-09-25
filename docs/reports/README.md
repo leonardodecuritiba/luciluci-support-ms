@@ -1,5 +1,10 @@
 # docs/reports
 
+O [checkpoint RF13](REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
+confirma a PR #14 integrada em `MAIN_BASELINE_RF12` e registra
+`RF13_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`, sem alterar Support 0.14 nem
+iniciar runtime RF13. Os reports abaixo preservam etapas anteriores.
+
 Artefatos de avaliação de completude do microserviço e da documentação canônica associada.
 
 O [report de implementação RF12](REPORT-SUPPORT-RF12-20260925.md) registra o

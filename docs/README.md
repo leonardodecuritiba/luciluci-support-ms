@@ -1,5 +1,10 @@
 # docs
 
+O [checkpoint RF13](reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
+parte de `MAIN_BASELINE_RF12` (`1e243d3`), após merge e CI aprovada da PR #14.
+RF13 permanece bloqueada por decisões contratuais e sem runtime. Support 0.14
+continua fixado; o histórico abaixo descreve etapas anteriores.
+
 Documentação operacional do `support-ms`.
 
 Nesta branch funcional, RF12 foi implementada e provada sobre Support 0.14;

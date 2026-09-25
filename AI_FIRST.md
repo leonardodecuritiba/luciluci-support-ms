@@ -1,5 +1,15 @@
 # AI_FIRST
 
+## Continuidade após merge RF12
+
+`MAIN_BASELINE_RF12` é o merge da PR #14 (`1e243d3`), com CI remota aprovada.
+RF13 ainda não está implementada. O
+[checkpoint RF13](docs/reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
+registra decisões abertas, principalmente a visibilidade das auditorias
+`nova_mensagem` de notas internas. Support 0.14 (`820b2a8`) permanece fixado;
+não iniciar runtime RF13 antes do fechamento contratual canônico. Os blocos
+seguintes são fotografias anteriores.
+
 ## Runtime RF12 na branch funcional
 
 `feat/support-rf12-list-messages` implementa e prova RF12 sobre o checkpoint

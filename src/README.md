@@ -1,5 +1,9 @@
 # src
 
+Em `MAIN_BASELINE_RF12` (`1e243d3`), RF01–RF12 estão integradas. RF13 ainda
+usa a reserva 404 em `ticket.routes.ts`; não há handler ou repository de
+histórico. A descrição da branch funcional RF12 abaixo é histórica.
+
 Nesta branch, RF12 acrescenta `GET /tickets/:ticketId/messages` em
 `features/ticket/`: parser próprio, controller, use case e repository de
 leitura. PostgreSQL usa `REPEATABLE READ`; SQLite de teste usa transação sem

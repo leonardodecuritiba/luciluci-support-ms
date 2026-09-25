@@ -1,5 +1,15 @@
 # DRIFT_REPORT
 
+## RF13 — checkpoint contratual, sem drift técnico novo
+
+RF12 foi integrada pela PR #14 em `1e243d3`, com CI aprovada. A ausência da
+rota funcional RF13 é esperada: `/history` está reservado em 404 enquanto
+`DEC-SUP-01/02/04/08/09` permanecem abertas para esta RF. Não há evidência de
+regressão técnica RF12 nem contrato Support 0.15 congelado. O
+[checkpoint RF13](docs/reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
+registra a lacuna de visibilidade de `nova_mensagem` sem classificá-la como
+defeito do runtime existente. Os blocos seguintes são históricos.
+
 ## RF12 — implementação focal sem drift técnico aberto
 
 A ausência esperada da rota GET no checkpoint documental foi fechada somente

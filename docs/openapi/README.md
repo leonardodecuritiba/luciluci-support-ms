@@ -1,5 +1,9 @@
 # docs/openapi
 
+RF12 está integrada em `main` (`MAIN_BASELINE_RF12`); o contrato v1 ainda não
+inclui RF13. O checkpoint contratual RF13 permanece bloqueado por decisões.
+O trecho abaixo descreve a branch funcional RF12 antes do merge.
+
 HTTP contracts and OpenAPI assets.
 
 The v1 contract in this branch includes RF12 GET Ticket messages with strict

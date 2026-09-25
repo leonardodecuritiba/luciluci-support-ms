@@ -1,5 +1,17 @@
 # AGENTS.md
 
+## Estado atual após a PR #14
+
+RF01–RF12 estão implementadas/provadas e integradas em `MAIN_BASELINE_RF12`
+(merge `1e243d3` da PR #14; CI `36181786738` aprovada). RF13 está
+`RF13_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION / NOT_IMPLEMENTED`; o path
+`/tickets/history` ainda retorna 404. O gitlink canônico permanece em Support
+0.14 (`820b2a8`). Leia o
+[checkpoint RF13](docs/reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
+antes de avançar. Não inferir visibilidade das auditorias de mensagens
+internas ou estender decisões RF12 à RF13. Os blocos seguintes preservam o
+estado anterior ao merge RF12.
+
 ## Implementação RF12 nesta branch funcional
 
 `feat/support-rf12-list-messages` parte do checkpoint documental `4a47e01`

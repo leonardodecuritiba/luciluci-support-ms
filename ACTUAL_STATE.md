@@ -1,5 +1,24 @@
 # ACTUAL_STATE
 
+## Checkpoint RF13 após MAIN_BASELINE_RF12
+
+A [PR #14](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/14)
+integrou RF12 em `main` no merge
+`1e243d386dbca3e2d4dbf14fec7d29c8e5d1b366`, com `ci` concluída em
+`success` no run `36181786738` para o head `160aa1e`. `main` local e
+`origin/main` coincidem. RF01–RF12 (incluindo RF07a/RF07b) estão
+`IMPLEMENTED_AND_PROVEN`; RF13 permanece `NOT_IMPLEMENTED`, com `/history`
+reservado em 404. O gitlink limpo continua Support 0.14 (`820b2a8`).
+
+Nesta branch documental `docs/support-rf13-history-checkpoint`, RF13 está
+`RF13_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`: a fonte não define se o
+solicitante vê uma auditoria `nova_mensagem` referente a nota interna, e o
+AuditLog não contém `messageId` ou visibility para separá-las. Headers,
+paginação/ordem, shape/erros e consistência de leitura também exigem decisão
+específica RF13. Ver [report do checkpoint](docs/reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md).
+Support 0.15 não foi congelado; nenhum runtime, prova RF13 ou deploy foi feito
+neste lote. As seções abaixo preservam fotografias históricas.
+
 ## Implementação RF12 — branch funcional
 
 Nesta branch `feat/support-rf12-list-messages`, RF12 está

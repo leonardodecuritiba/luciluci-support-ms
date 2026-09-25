@@ -251,3 +251,14 @@ canônica 0.14 já fixada; nenhum runtime RF12 foi criado neste fechamento.
 RF12 está `IMPLEMENTED_AND_PROVEN` somente nesta branch; `main` ainda integra
 até RF11. RF13 permanece fora do runtime. Publicação/PR/merge exigem lote
 posterior explícito.
+
+## 16. Integração RF12 e checkpoint RF13
+
+A PR #14 integrou RF12 em `main` no merge `1e243d3`, após `ci` aprovada no
+run `36181786738`; essa revisão é `MAIN_BASELINE_RF12`. O gitlink continua
+Support 0.14 (`820b2a8`). O
+[checkpoint RF13](../reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
+foi aberto em branch documental própria sobre a `main` sincronizada.
+`/tickets/history` permanece reservado em 404, sem runtime RF13. DEC-SUP-01,
+02, 04, 08 e 09 exigem fechamento específico antes de congelar Support 0.15
+ou abrir uma branch funcional RF13.
