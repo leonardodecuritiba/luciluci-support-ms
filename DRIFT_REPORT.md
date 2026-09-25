@@ -1,6 +1,15 @@
 # DRIFT_REPORT
 
-## RF12 — checkpoint contratual bloqueado, sem drift técnico novo
+## RF12 — contrato 0.14 congelado, sem drift técnico novo
+
+As lacunas de visibilidade, paginação, resposta e leitura concorrente foram
+fechadas por decisão expressa somente para RF12 em Support 0.14 (`820b2a8`),
+publicado e fixado no gitlink. A ausência da rota GET RF12 no runtime/OpenAPI
+continua esperada no lote documental: `RF12_CONTRACT_FROZEN /
+NOT_IMPLEMENTED`. Não há migration nova nem drift técnico novo identificado.
+[Fechamento RF12](docs/reports/REPORT-SUPPORT-RF12-CONTRACT-20260925-185019.md).
+
+## Fotografia histórica — RF12 bloqueada por decisão
 
 O PRD prevê `GET /api/support/tickets/{ticketId}/messages`, ainda ausente do
 runtime e da OpenAPI por estágio. O bloqueio atual é contratual: a política de

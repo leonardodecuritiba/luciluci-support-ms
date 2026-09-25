@@ -224,6 +224,20 @@ A PR documental #13, head `425cad5`, passou em `ci / quality` no run
 `main` local e remota coincidiram nesse commit, com gitlink Support 0.13
 `4958fd1`. O checkpoint RF12 foi aberto em branch documental própria.
 O [report RF12](../reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md)
-registra `RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`; Support 0.14 não está
-congelado. A implementação RF12 exige decisão expressa no recorte antes de
-criar `feat/support-rf12-list-messages`; RF13 permanece fora do lote.
+registra `RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`; naquela revisão
+Support 0.14 não estava congelado. A implementação RF12 exigia decisão
+expressa no recorte antes de criar `feat/support-rf12-list-messages`; RF13
+permanecia fora do lote.
+
+## 14. Fechamento contratual RF12
+
+O checkpoint bloqueado `98efe16` permanece histórico. Decisões expressas
+específicas de RF12 congelaram Support 0.14 no commit canônico
+`820b2a8b29819fc52aefd078dc51bfe651a51204`, publicado em
+`docs/support-rf12-list-messages-contract` e fixado no gitlink da branch
+documental do serviço. O
+[report de fechamento RF12](../reports/REPORT-SUPPORT-RF12-CONTRACT-20260925-185019.md)
+registra `RF12_CONTRACT_CHECKPOINT_READY / RF12_CONTRACT_FROZEN /
+NOT_IMPLEMENTED`. RF13 não herda o contrato. Um futuro lote funcional RF12
+deve usar branch própria a partir de `main` sincronizada, com a revisão
+canônica 0.14 já fixada; nenhum runtime RF12 foi criado neste fechamento.

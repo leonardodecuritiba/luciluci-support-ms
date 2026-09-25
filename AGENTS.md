@@ -1,16 +1,31 @@
 # AGENTS.md
 
-## Checkpoint atual — RF12
+## Contrato atual — RF12 Support 0.14
+
+Support 0.14 foi congelado somente para RF12 no commit canônico `820b2a8`,
+publicado e fixado no gitlink. Estado
+`RF12_CONTRACT_CHECKPOINT_READY / RF12_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
+O checkpoint bloqueado `98efe16` permanece histórico. A rota GET de mensagens
+exige scope de visibilidade por papel: requester dono nunca recebe ou conta
+mensagens internas; filtro `false` retorna `200` vazio/total zero. Paginação,
+ordem cronológica, item de oito campos, mídia em lote e leitura coerente
+`REPEATABLE READ` estão fechados somente para RF12. Ver
+`docs/reports/REPORT-SUPPORT-RF12-CONTRACT-20260925-185019.md`.
+RF13 continua pendente. RF12/RF13 não possuem runtime; não abrir branch
+funcional RF12 neste lote documental.
+
+## Fotografia histórica — checkpoint RF12 bloqueado
 
 A PR documental #13 foi integrada em `main` no merge `7724382` e encerrou o
-registro de `MAIN_BASELINE_RF11`. O gitlink permanece Support 0.13 (`4958fd1`).
-O checkpoint RF12 está `RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`:
+registro de `MAIN_BASELINE_RF11`. Naquela fotografia, o gitlink permanecia
+Support 0.13 (`4958fd1`). O checkpoint RF12 estava
+`RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`:
 DEC-SUP-04 exige política de visibilidade por papel, filtro omitido/`false` e
 total sem vazamento; DEC-SUP-02/08 e DEC-SUP-01/09 ainda exigem escolhas
 próprias de RF12. Ver
 `docs/reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md`. Support
-0.14 não foi congelado. RF12/RF13 não têm runtime; não criar branch funcional
-RF12 até resolução expressa das lacunas. Os blocos abaixo preservam o estado
+0.14 não estava congelado. RF12/RF13 não tinham runtime; a branch funcional
+RF12 não podia ser criada antes da resolução expressa das lacunas. Os blocos abaixo preservam o estado
 RF11 e fotografias anteriores.
 
 ## Estado funcional atual — MAIN_BASELINE_RF11
@@ -129,7 +144,7 @@ O gitlink integrado após RF10 apontava a Support 0.12
 `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`, publicado antes da atualização
 do serviço. A branch RF10 partiu do checkpoint documental publicado `b72c585`
 e foi integrada pela PR #10 após o check `quality` do run `36156561044`.
-O gitlink integrado agora aponta a Support 0.13 `4958fd1`; a RF11 foi
+O gitlink integrado na baseline RF11 aponta a Support 0.13 `4958fd1`; a RF11 foi
 integrada pela PR #12 após o check `ci / quality` do run `36169743450`.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
