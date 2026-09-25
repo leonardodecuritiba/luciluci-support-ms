@@ -68,7 +68,11 @@ baseline RF10. Estado `RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`;
 naquela fotografia Support 0.13 não estava congelado. O
 [fechamento contratual RF11](REPORT-SUPPORT-RF11-CONTRACT-20260925-165105.md)
 registra a decisão posterior, Support 0.13 publicado em `4958fd1` e gitlink
-atualizado. RF11 continua sem runtime.
+atualizado. Naquela revisão RF11 ainda não tinha runtime.
+O [report de implementação RF11](REPORT-SUPPORT-RF11-20260925.md) registra a
+branch funcional sobre Support 0.13, contrato HTTP, testes, prova PostgreSQL
+com no-op físico/rollback/concorrência e regressões RF01–RF10, sem publicação
+Git nem integração em `main`.
 
 ## Fechamento atual de S1
 

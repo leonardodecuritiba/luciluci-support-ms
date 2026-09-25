@@ -1,12 +1,214 @@
 # support-ms bootstrap API requests
 #
-# S1 + RF01–RF10 support surface. RF11–RF13 are not implemented.
+# S1 + RF01–RF11 support surface. RF12–RF13 are not implemented.
 
 @baseUrl = http://localhost:3000
 @correlationId = 8a7dd7bb-7b3f-4b3b-8b8e-0b7e2819d001
 @ticketId = 550e8400-e29b-41d4-a716-446655440002
 @requesterId = uid-requester-1
 @adminId = uid-admin-1
+
+# RF11 examples: set IDs from RF05/RF10 responses. Admin B must be a current member.
+# For the inactive Department case, mark the Ticket's Department inactive first.
+@messageId = 550e8400-e29b-41d4-a716-446655440003
+@adminBId = uid-admin-2
+@otherTicketMessageId = 550e8400-e29b-41d4-a716-446655440004
+@backofficeMessageId = 550e8400-e29b-41d4-a716-446655440005
+@cdMessageId = 550e8400-e29b-41d4-a716-446655440006
+@initialMessageId = 550e8400-e29b-41d4-a716-446655440007
+
+### RF11 - Admin true to false
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - Admin false to true
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":true}
+
+### RF11 - No-op false to false
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - Admin B edits Admin A message
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminBId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - Inactive Department with current membership
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":true}
+
+### RF11 - Admin without membership (403)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: uid-admin-other
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - Backoffice owner (403)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: backoffice
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - CD owner (403)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - Missing Message (404)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/919cf070-ea36-41df-9382-e44d541f8005/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - Message in another Ticket (404)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{otherTicketMessageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - Backoffice Message (422)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{backofficeMessageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - CD Message (422)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{cdMessageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - Initial requester Message (422)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{initialMessageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - Invalid Ticket UUID (422)
+PATCH {{baseUrl}}/api/support/tickets/invalid/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - Invalid Message UUID (422)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/invalid/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - Missing body (422)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF11 - Empty body (422)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{}
+
+### RF11 - Visibility string (422)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":"false"}
+
+### RF11 - Unknown field (422)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":false,"extra":1}
+
+### RF11 - Query parameter (422)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}?foo=bar/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - Missing actor (400)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
+
+### RF11 - Invalid actor role (400)
+PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: viewer
+Content-Type: application/json
+
+{"isVisibleToRequester":false}
 
 ### RF10 - Admin visible message
 POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages

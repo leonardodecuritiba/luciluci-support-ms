@@ -8,6 +8,15 @@ está em `luciluci-docs/support/`.
 
 ## Estado
 
+Na branch `feat/support-rf11-message-visibility`, RF11 está implementada e
+provada localmente sob Support 0.13. A rota PATCH altera apenas
+`TicketMessage.isVisibleToRequester` de mensagens admin e preserva Ticket,
+mídias e auditorias. RF12/RF13 continuam sem runtime. O trabalho RF11 ainda
+não foi commitado, publicado, submetido a PR ou integrado em `main`.
+[Report de implementação](docs/reports/REPORT-SUPPORT-RF11-20260925.md).
+
+### Fotografia histórica do congelamento contratual
+
 Support 0.13 (`4958fd1`) congela somente o contrato RF11. O checkpoint
 bloqueado anterior é histórico; o estado atual é
 `RF11_CONTRACT_CHECKPOINT_READY / RF11_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
@@ -70,7 +79,8 @@ fase: o comando falha de modo explícito até a massa determinística de W1 ser 
 - `GET /api/support/tickets/admin/{adminId}`
 - `POST /api/support/tickets/{ticketId}/resolve`
 - `GET /api/support/tickets/{ticketId}`
-- `POST /api/support/tickets/{ticketId}/messages` (branch RF10)
+- `POST /api/support/tickets/{ticketId}/messages` (RF10)
+- `PATCH /api/support/tickets/{ticketId}/messages/{messageId}/visibility` (RF11, branch funcional)
 
 Consulte `api.http`, `docs/runbooks/local-development.md` e
 `docs/runbooks/infra-access.md`.

@@ -1,6 +1,18 @@
 # ACTUAL_STATE
 
-## Fechamento contratual RF11 — Support 0.13
+## Implementação RF11 — branch funcional
+
+Em `feat/support-rf11-message-visibility`, a RF11 está implementada sobre
+`MAIN_BASELINE_RF10` mais o checkpoint documental `886bf71`, com gitlink
+Support 0.13 fixo em `4958fd1840042200fd1a87e45d6a7f69d4011dcd`.
+A rota `PATCH /api/support/tickets/{ticketId}/messages/{messageId}/visibility`
+altera somente a visibilidade de mensagens admin, com ACL por membership atual
+e locks Ticket→Department→Message. No-op retorna 200 sem UPDATE.
+RF01–RF10 permanecem integradas em `main`; RF12/RF13 seguem sem runtime.
+RF11 ainda não foi commitada, publicada, revisada por PR ou integrada em
+`main`. Evidência local em [report RF11](docs/reports/REPORT-SUPPORT-RF11-20260925.md).
+
+## Fotografia histórica — fechamento contratual RF11 — Support 0.13
 
 O checkpoint bloqueado `85b3adb` permanece histórico. Decisões expressas
 posteriores congelaram somente RF11 em Support 0.13, commit canônico publicado

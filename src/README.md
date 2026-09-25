@@ -1,5 +1,10 @@
 # src
 
+Na branch funcional RF11, `features/ticket/` inclui a edição focal de
+visibilidade de mensagens admin, com locks Ticket→Department→Message e
+resposta TicketMessage completa. RF12/RF13 não possuem rota. O restante
+desta página descreve a baseline integrada RF10.
+
 Código ativo de Support com RF01–RF10 em `main` (`MAIN_BASELINE_RF10`, PR #10).
 
 - `features/department/` materializa RF01–RF04.

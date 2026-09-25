@@ -1,5 +1,15 @@
 # AGENTS.md
 
+## Estado funcional atual da branch RF11
+
+RF11 está implementada/provada localmente em
+`feat/support-rf11-message-visibility`, derivada do checkpoint documental
+`886bf71` sobre `MAIN_BASELINE_RF10`, com Support 0.13 fixo em `4958fd1`.
+O trabalho permanece sem commit, push, PR, merge ou deploy. RF12/RF13 não têm
+runtime. O report atual é
+`docs/reports/REPORT-SUPPORT-RF11-20260925.md`; os parágrafos seguintes
+descrevem o estado histórico anterior à implementação.
+
 ## Missão
 
 Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.

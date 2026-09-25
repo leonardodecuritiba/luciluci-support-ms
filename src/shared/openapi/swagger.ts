@@ -7,7 +7,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			title: 'support-ms',
 			version: '1.0.0',
 			description:
-				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, RF09 reads tickets by ID, and RF10 creates ticket messages; RF11–RF13 remain unavailable.',
+				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, RF09 reads tickets by ID, RF10 creates ticket messages, and RF11 edits admin message visibility; RF12–RF13 remain unavailable.',
 		},
 		components: {
 			parameters: {
@@ -119,6 +119,12 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						mediaIds: { type: 'array', items: { type: 'string', pattern: '.*\\S.*' } },
 						isVisibleToRequester: { type: 'boolean' },
 					},
+				},
+				UpdateMessageVisibilityRequest: {
+					type: 'object',
+					additionalProperties: false,
+					required: ['isVisibleToRequester'],
+					properties: { isVisibleToRequester: { type: 'boolean' } },
 				},
 				TicketMessage: {
 					type: 'object',
@@ -623,6 +629,56 @@ const swaggerOptions: swaggerJSDoc.Options = {
 								},
 							},
 						},
+					},
+				},
+			},
+			'/api/support/tickets/{ticketId}/messages/{messageId}/visibility': {
+				patch: {
+					summary: 'Update visibility of an admin Ticket message',
+					description:
+						'RF11. Admin with current Department membership only, including inactive Departments. Only admin messages are eligible. Locks Ticket, Department, then scoped Message. Changes only message visibility; no-op writes nothing. Ticket and audits remain unchanged.',
+					tags: ['Tickets'],
+					parameters: [
+						{ $ref: '#/components/parameters/CorrelationIdHeader' },
+						{ $ref: '#/components/parameters/PerformedByHeader' },
+						{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+						{
+							in: 'path',
+							name: 'ticketId',
+							required: true,
+							schema: { type: 'string', format: 'uuid' },
+						},
+						{
+							in: 'path',
+							name: 'messageId',
+							required: true,
+							schema: { type: 'string', format: 'uuid' },
+						},
+					],
+					requestBody: {
+						required: true,
+						content: {
+							'application/json': {
+								schema: {
+									$ref: '#/components/schemas/UpdateMessageVisibilityRequest',
+								},
+							},
+						},
+					},
+					responses: {
+						'200': {
+							description: 'Complete TicketMessage after update or no-op.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/TicketMessage' },
+								},
+							},
+						},
+						'400': { description: 'Missing or invalid headers or malformed JSON.' },
+						'403': { description: 'Requester role or admin membership denied.' },
+						'404': { description: 'Ticket or Message not found in Ticket scope.' },
+						'422': { description: 'Invalid path, body, query, or non-admin Message.' },
+						'500': { description: 'Unexpected error; transaction rolled back.' },
 					},
 				},
 			},

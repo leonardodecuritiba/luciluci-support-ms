@@ -8,6 +8,7 @@ import ListTicketsUseCase from '../../use-cases/list-tickets.use-case';
 import ResolveTicketUseCase from '../../use-cases/resolve-ticket.use-case';
 import GetTicketUseCase from '../../use-cases/get-ticket.use-case';
 import CreateTicketMessageUseCase from '../../use-cases/create-ticket-message.use-case';
+import UpdateMessageVisibilityUseCase from '../../use-cases/update-message-visibility.use-case';
 import BadRequestError from '../../../../shared/kernel/exceptions/bad-request.error';
 import ForbiddenError from '../../../../shared/kernel/exceptions/forbidden.error';
 import UnprocessableEntityError from '../../../../shared/kernel/exceptions/unprocessable-entity.error';
@@ -18,6 +19,8 @@ import { parseListTicketsQuery } from './dtos/list-tickets-query.dto';
 import UpdateTicketPathDTO from './dtos/update-ticket-path.dto';
 import UpdateTicketRequestDTO from './dtos/update-ticket-request.dto';
 import CreateTicketMessageRequestDTO from './dtos/create-ticket-message-request.dto';
+import UpdateMessageVisibilityPathDTO from './dtos/update-message-visibility-path.dto';
+import UpdateMessageVisibilityRequestDTO from './dtos/update-message-visibility-request.dto';
 
 export default function buildTicketController(dataSource: DataSource) {
 	async function list(req: Request, res: Response, kind: 'requester' | 'admin'): Promise<void> {
@@ -189,6 +192,49 @@ export default function buildTicketController(dataSource: DataSource) {
 				).execute(ticketId, payload, { id: callerId, role: callerRole as TicketActorRole }),
 			);
 			res.status(201).json(response);
+		},
+		updateMessageVisibility: async (req: Request, res: Response): Promise<void> => {
+			const callerId = req.performedBy;
+			const callerRole = req.performedByType;
+			if (!callerId?.trim() || !['admin', 'backoffice', 'cd'].includes(callerRole ?? '')) {
+				throw new BadRequestError('bad_request');
+			}
+			const { ticketId, messageId } = await validateDto(
+				UpdateMessageVisibilityPathDTO,
+				req.params,
+			);
+			if (req.originalUrl.includes('?')) {
+				throw new UnprocessableEntityError('validation_error', [
+					{
+						field: 'query',
+						code: 'forbidden',
+						message: 'Query parameters are not allowed.',
+					},
+				]);
+			}
+			if (req.body === null || typeof req.body !== 'object' || Array.isArray(req.body)) {
+				throw new UnprocessableEntityError('validation_error', [
+					{
+						field: 'body',
+						code: 'object',
+						message: 'Request body must be a JSON object.',
+					},
+				]);
+			}
+			const { isVisibleToRequester } = await validateDto(
+				UpdateMessageVisibilityRequestDTO,
+				req.body,
+			);
+			const response = await dataSource.transaction((manager) =>
+				new UpdateMessageVisibilityUseCase(
+					new DepartmentTypeormRepository(manager),
+					new TicketTypeormRepository(manager),
+				).execute(ticketId, messageId, isVisibleToRequester, {
+					id: callerId,
+					role: callerRole as TicketActorRole,
+				}),
+			);
+			res.status(200).json(response);
 		},
 	};
 }

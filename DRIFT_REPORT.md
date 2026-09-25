@@ -1,6 +1,13 @@
 # DRIFT_REPORT
 
-## RF11 — contrato 0.13 congelado, sem runtime
+## RF11 — implementação funcional
+
+A rota RF11, contrato HTTP, testes e prova PostgreSQL foram adicionados na
+branch funcional sobre Support 0.13. A prova física do no-op, rollback e
+concorrência não identificou drift técnico novo no recorte RF11. RF12/RF13
+permanecem ausentes. [Report de implementação](docs/reports/REPORT-SUPPORT-RF11-20260925.md).
+
+## Fotografia histórica — RF11 contrato 0.13 congelado, sem runtime
 
 As lacunas do checkpoint RF11 foram fechadas por decisão expressa específica
 em Support 0.13 (`4958fd1`), publicado no repositório canônico. O gitlink

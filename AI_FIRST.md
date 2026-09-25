@@ -1,5 +1,14 @@
 # AI_FIRST
 
+## Estado atual da branch funcional
+
+RF11 está implementada/provada localmente em
+`feat/support-rf11-message-visibility` sobre Support 0.13 (`4958fd1`).
+RF01–RF10 seguem integradas em `main`; RF12/RF13 não têm runtime.
+Não houve commit, push, PR, merge ou deploy RF11 neste lote.
+Ver `docs/reports/REPORT-SUPPORT-RF11-20260925.md`.
+As seções seguintes preservam fotografias anteriores à implementação.
+
 ## Estado de trabalho
 
 O checkpoint RF11 bloqueado no commit `85b3adb` é histórico. Decisões
