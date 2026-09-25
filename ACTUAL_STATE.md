@@ -9,7 +9,7 @@
 - RF07a/RF07b `RF07A_RF07B_CONTRACT_FROZEN` em Support 0.9; implementação e prova PostgreSQL local concluídas;
 - contrato RF06 congelado em Support 0.8, commit canônico `4650ec671c948a4fa8fb04fa33b300d8fd255ae4` de `luciluci-docs`;
 - decisões RF06 DEC-SUP-01/03/05/06/08/09/10/12 resolvidas somente nesse recorte; DEC-SUP-01/02/07/08/09 estão `RESOLVED_FOR_RF07` somente para RF07a/RF07b, conforme `luciluci-docs/support/notes.md`;
-- gitlink atual Support 0.11 local `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`, ainda sem publicação remota; a revisão anterior 0.10 `93edf66d6ed0002a2af537339da315db1285a779` foi publicada em `luciluci-docs` na branch `docs/support-rf08-resolve-ticket-contract`. O contrato RF07 0.9 permanece histórico em `1583a586793437a7b7c0569581637ee8ddac5ae5`; `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`.
+- gitlink atual Support 0.11 `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`, publicado em `origin/docs/support-rf09-get-ticket-contract` e confirmado por `ls-remote`; a revisão anterior 0.10 `93edf66d6ed0002a2af537339da315db1285a779` foi publicada na branch `docs/support-rf08-resolve-ticket-contract`. O contrato RF07 0.9 permanece histórico em `1583a586793437a7b7c0569581637ee8ddac5ae5`; `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`.
 
 ## Integração RF08 e abertura RF09
 
@@ -17,11 +17,11 @@ A [PR #8](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/8) foi 
 
 O checkpoint RF09 histórico está em `docs/reports/REPORT-SUPPORT-RF09-CHECKPOINT-20260924-223334.md`, estado então `RF09_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. PRD §5.2/RF09 fixava GET por ID, ACL e leitura sem auditoria; TDD/TP deixavam DEC-SUP-01/08/09 pendentes naquele momento. A rota GET por ID ainda não existe; essa ausência é esperada no lote documental.
 
-## Fechamento contratual RF09 — Support 0.11 local
+## Fechamento contratual RF09 — Support 0.11 publicado
 
-Em 2026-09-25, o usuário aprovou expressamente a proposta do checkpoint RF09. O contrato Support 0.11 foi registrado em `luciluci-docs/support/{README,prd,notes,tdd,tp}.md`, commit canônico local `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2` na branch `docs/support-rf09-get-ticket-contract`; o gitlink desta branch do serviço aponta a esse SHA. DEC-SUP-01/08/09 estão `RESOLVED_FOR_RF09` apenas para GET por ID; `RF09_CONTRACT_CHECKPOINT_READY / RF09_CONTRACT_FROZEN_LOCAL / NOT_IMPLEMENTED`. O report de fechamento está em `docs/reports/REPORT-SUPPORT-RF09-CONTRACT-20260925-125528.md`. O checkpoint bloqueado anterior permanece histórico.
+Em 2026-09-25, o usuário aprovou expressamente a proposta do checkpoint RF09. O contrato Support 0.11 foi registrado em `luciluci-docs/support/{README,prd,notes,tdd,tp}.md`, commit canônico `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2` na branch `docs/support-rf09-get-ticket-contract`; o gitlink desta branch do serviço aponta a esse SHA. DEC-SUP-01/08/09 estão `RESOLVED_FOR_RF09` apenas para GET por ID; `RF09_CONTRACT_CHECKPOINT_READY / RF09_CONTRACT_FROZEN / NOT_IMPLEMENTED`. O report de fechamento está em `docs/reports/REPORT-SUPPORT-RF09-CONTRACT-20260925-125528.md`. O checkpoint bloqueado anterior permanece histórico.
 
-O push do commit canônico para `git@github.com:lucilucitecnologia/luciluci-docs.git` foi rejeitado pela revisão automática: a aprovação do contrato não foi considerada autorização explícita para publicar documentos naquele remoto. Portanto, **o SHA 0.11 ainda não foi comprovado remotamente**; não publicar a branch do serviço, abrir PR ou iniciar runtime RF09 até que o commit canônico esteja acessível e o gitlink seja verificável. Nenhum arquivo de runtime, OpenAPI executável, `api.http`, migration, teste ou prova RF09 foi criado.
+O primeiro push do commit canônico para `git@github.com:lucilucitecnologia/luciluci-docs.git` foi rejeitado pela revisão automática: a aprovação do contrato não foi considerada autorização explícita para publicar documentos naquele remoto. Após autorização específica do usuário, a branch canônica foi publicada e `ls-remote` confirmou `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`. A branch do serviço `codex/support-rf09-contract-checkpoint` também foi publicada; `ls-remote` confirmou o head inicial `c586fdba037eb463b0841be9b99e9c8dbdcd0953` com o mesmo gitlink. Nenhuma PR RF09 foi aberta e nenhum arquivo de runtime, OpenAPI executável, `api.http`, migration, teste ou prova RF09 foi criado.
 
 ## Superfície implementada
 

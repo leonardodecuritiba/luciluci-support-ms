@@ -1,12 +1,12 @@
 # REPORT — Fechamento contratual RF09 do support-ms
 
-- **status:** `RF09_CONTRACT_CHECKPOINT_READY / RF09_CONTRACT_FROZEN_LOCAL / PUBLICATION_PENDING`
+- **status:** `RF09_CONTRACT_CHECKPOINT_READY / RF09_CONTRACT_FROZEN / PUBLISHED`
 - **generated_by:** Codex
 - **generated_at:** 2026-09-25T12:55:28Z
 - **review_mode:** final
 - **microservice:** support-ms
 - **repository_ref:** `codex/support-rf09-contract-checkpoint` sobre `MAIN_BASELINE_RF08`/`45be90318bdb71e67532482364933cb49e6660e9`; checkpoint `dd3f65ccf5ba535e97fc8dbbd3ca82f8684d10f6`
-- **documentation_ref:** `luciluci-docs/support/{README,prd,notes,tdd,tp}.md`, Support 0.11 local `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`
+- **documentation_ref:** `luciluci-docs/support/{README,prd,notes,tdd,tp}.md`, Support 0.11 publicado `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`
 - **report_file:** `docs/reports/REPORT-SUPPORT-RF09-CONTRACT-20260925-125528.md`
 - **reviewer:** não informado; aprovação explícita da proposta RF09 pelo usuário em 2026-09-25
 
@@ -15,9 +15,9 @@
 # 1. Resumo executivo
 
 - O PRD contém 14 operações: RF01–RF13 com RF07a/RF07b separadas. RF01–RF08 estão integradas em `MAIN_BASELINE_RF08`; RF09–RF13 não têm runtime.
-- A aprovação explícita da proposta do [checkpoint RF09](REPORT-SUPPORT-RF09-CHECKPOINT-20260924-223334.md) fechou DEC-SUP-01/08/09 somente para `GET /api/support/tickets/{ticketId}`. Support 0.11 foi commitado no repositório canônico local em `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`; o gitlink desta branch aponta a esse SHA. A fonte original não mudou.
-- A revisão automática rejeitou o push para `git@github.com:lucilucitecnologia/luciluci-docs.git`, pois a aprovação do contrato não foi considerada autorização para publicar documentos nesse remoto. O SHA 0.11 **não tem publicação remota comprovada**. Nenhuma branch do serviço foi publicada, nenhuma PR RF09 foi aberta, e nenhum runtime foi iniciado.
-- Veredito: contrato aprovado e congelado localmente, com publicação canônica pendente. O checkpoint bloqueado anterior permanece histórico.
+- A aprovação explícita da proposta do [checkpoint RF09](REPORT-SUPPORT-RF09-CHECKPOINT-20260924-223334.md) fechou DEC-SUP-01/08/09 somente para `GET /api/support/tickets/{ticketId}`. Support 0.11 foi commitado no repositório canônico em `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`; o gitlink desta branch aponta a esse SHA. A fonte original não mudou.
+- A primeira tentativa de push para `git@github.com:lucilucitecnologia/luciluci-docs.git` foi rejeitada pela revisão automática, pois a aprovação do contrato não foi considerada autorização para publicar documentos nesse remoto. Após autorização específica do usuário, a branch canônica foi publicada e `ls-remote` confirmou `a198b46`. A branch do serviço também foi publicada e `ls-remote` confirmou seu head inicial `c586fdb`. Nenhuma PR RF09 foi aberta e nenhum runtime foi iniciado.
+- Veredito: contrato aprovado, congelado e publicado; o checkpoint bloqueado anterior permanece histórico.
 
 # 2. Escopo e fontes analisadas
 
@@ -25,7 +25,7 @@
 - Estado do serviço: `AGENTS.md`, `AI_FIRST.md`, `ACTUAL_STATE.md`, `README.md`, `DRIFT_REPORT.md`, `docs/README.md`, política de branches, `src/README.md`, `tests/README.md` e reports RF08/RF09.
 - Limite executável: `src/features/ticket/adapters/routes/ticket.routes.ts`, `src/shared/openapi/swagger.ts`, `docs/openapi/v1/support-api.json`, `api.http`, `tests/**` e `.github/workflows/ci.yml`. Inspeção estrutural; nenhum arquivo de runtime alterado.
 - Método de report: `docs/reports/REPORT-TEMPLATE.md`, `.codex/skills/report-review.md` e `docs/prompts/report-completeness-prompt.md`.
-- Git canônico: estado limpo antes da branch, `git fetch origin --prune`, SHA local/remoto 0.10 coincidente em `93edf66d6ed0002a2af537339da315db1285a779`, branch `docs/support-rf09-get-ticket-contract` criada sem `--remote`; commit local 0.11 em `a198b46`. Tentativa de `git push -u origin docs/support-rf09-get-ticket-contract` rejeitada pela revisão automática **antes da execução**. Não atribuir push ou CI remota a este lote.
+- Git canônico: estado limpo antes da branch, `git fetch origin --prune`, SHA local/remoto 0.10 coincidente em `93edf66d6ed0002a2af537339da315db1285a779`, branch `docs/support-rf09-get-ticket-contract` criada sem `--remote`; commit 0.11 em `a198b46`. Primeira tentativa de push rejeitada pela revisão automática antes da execução; após autorização, `git push -u origin docs/support-rf09-get-ticket-contract` passou e `ls-remote` retornou o mesmo SHA. No serviço, `git push -u origin codex/support-rf09-contract-checkpoint` passou e `ls-remote` confirmou `c586fdba037eb463b0841be9b99e9c8dbdcd0953` antes desta atualização documental. Nenhuma CI remota RF09 é atribuída a esses comandos.
 
 # 3. Matriz principal RF x implementação
 
@@ -40,7 +40,7 @@
 | RF07a | Support 0.9             | Implementado   | report RF07; GET requester                       |
 | RF07b | Support 0.9             | Implementado   | report RF07; GET admin                           |
 | RF08  | Support 0.10            | Implementado   | report RF08; PR #8 integrada                     |
-| RF09  | Support 0.11 local      | Não encontrado | PRD/TDD/TP atualizados; GET por ID ainda ausente |
+| RF09  | Support 0.11 publicado  | Não encontrado | PRD/TDD/TP atualizados; GET por ID ainda ausente |
 | RF10  | pendente                | Não encontrado | Fora do recorte                                  |
 | RF11  | pendente                | Não encontrado | Fora do recorte                                  |
 | RF12  | pendente                | Não encontrado | Fora do recorte                                  |
@@ -105,13 +105,13 @@
 - Nenhum teste, build, migration, prova PostgreSQL, seed ou HTTP RF09 foi executado. Não há percentual de cobertura RF09 medido.
 - Verificações documentais: `git diff --check` e Prettier `--check` dos cinco arquivos canônicos e dos arquivos alterados no serviço passaram; `git -C luciluci-docs show --check HEAD` passou; SHA-256 da fonte original permaneceu `7d5e2664...`.
 - CI remota: o run `36065884933` da PR #8 comprovou o head RF08 anterior, não Support 0.11 nem RF09. Nenhum run remoto deste lote foi observado.
-- Publicação: push canônico rejeitado pela revisão automática antes da execução. Motivo informado: destino remoto cuja confiança/ownership não foi estabelecida e aprovação do contrato insuficiente para autorizar essa publicação. Não foi tentada via alternativa indireta.
+- Publicação: o push canônico inicial foi rejeitado pela revisão automática antes da execução. Motivo informado: destino remoto cuja confiança/ownership não foi estabelecida e aprovação do contrato insuficiente para autorizar essa publicação. O usuário autorizou explicitamente os pushes canônico e do serviço; ambos passaram, com SHAs confirmados por `ls-remote`. Não foi tentada via alternativa indireta.
 
 # 10. Divergências e decisões RF09
 
 ## 10.1 Documentação prevê, código não comprova
 
-O GET RF09 está documentado e congelado no commit local 0.11, mas ausente de route/controller/OpenAPI/api.http/testes. Esperado até lote de implementação; não é regressão de RF01–RF08.
+O GET RF09 está documentado e congelado no commit publicado 0.11, mas ausente de route/controller/OpenAPI/api.http/testes. Esperado até lote de implementação; não é regressão de RF01–RF08.
 
 ## 10.2 Código existe, documentação não comprova
 
@@ -119,7 +119,7 @@ Nenhuma divergência nova neste recorte. Precedentes RF06–RF08 não substituem
 
 ## 10.3 `ACTUAL_STATE.md` afirma, código não comprova
 
-O estado declara expressamente RF09 `NOT_IMPLEMENTED`; a afirmação é consistente com o inventário. O gitlink aponta a commit local 0.11, cuja publicação remota permanece pendente.
+O estado declara expressamente RF09 `NOT_IMPLEMENTED`; a afirmação é consistente com o inventário. O gitlink aponta ao commit 0.11 publicado e confirmado remotamente.
 
 ## 10.4 PRD / TDD / TP divergem entre si
 
@@ -127,8 +127,8 @@ Nenhuma contradição funcional encontrada após o complemento 0.11. O PRD origi
 
 ## 10.5 Ambiguidades que impedem conclusão segura
 
-DEC-SUP-01/08/09 estão resolvidas para RF09. O bloqueio remanescente é operacional: sem SHA canônico comprovado remotamente, outro checkout não reproduz o gitlink. RF10–RF13 seguem com decisões próprias abertas. Não afirmar runtime, CI ou produção RF09.
+DEC-SUP-01/08/09 estão resolvidas para RF09. O SHA canônico já foi comprovado remotamente; RF10–RF13 seguem com decisões próprias abertas. Não afirmar runtime, CI ou produção RF09.
 
 # 11. Conclusão e próximo passo
 
-`RF09_CONTRACT_CHECKPOINT_READY / RF09_CONTRACT_FROZEN_LOCAL`. A publicação do commit canônico `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2` exige autorização específica após a rejeição automática. Depois de publicar e verificar `ls-remote`, publicar a branch do serviço com o gitlink e revisar o checkpoint; somente então abrir o lote funcional RF09 em branch própria a partir de `MAIN_BASELINE_RF08` com contrato 0.11 acessível.
+`RF09_CONTRACT_CHECKPOINT_READY / RF09_CONTRACT_FROZEN / PUBLISHED`. O commit canônico `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2` e a branch documental do serviço foram publicados e confirmados; `main` continua `MAIN_BASELINE_RF08`. Próximo passo: revisar/integrar o checkpoint documental conforme política de PR e, em lote separado, abrir a implementação RF09 em branch própria com contrato 0.11 acessível.

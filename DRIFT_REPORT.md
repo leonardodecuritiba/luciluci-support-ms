@@ -45,6 +45,7 @@ prova, incluindo rollback de AuditLog e concorrência RF08×RF08/RF06×RF08.
 Nenhum drift técnico novo foi identificado. O checkpoint RF09 em
 `docs/reports/REPORT-SUPPORT-RF09-CHECKPOINT-20260924-223334.md` registra
 DEC-SUP-01/08/09 então abertas; a aprovação posterior as fechou somente para
-RF09 em Support 0.11 local (`a198b46`). A publicação remota do commit canônico
-foi bloqueada pela revisão automática; isso é uma pendência de publicação,
-não um drift técnico do runtime. RF09–RF13 continuam ausentes.
+RF09 em Support 0.11 (`a198b46`). A primeira tentativa de publicação remota
+foi bloqueada pela revisão automática; depois de autorização específica,
+o SHA canônico e a branch do serviço foram publicados e conferidos. Não há
+drift técnico novo do runtime. RF09–RF13 continuam ausentes.

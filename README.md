@@ -14,7 +14,7 @@ com consultas de tickets por ownership e membership atual de Department.
 RF08 foi integrada pela PR #8. RF09–RF13 não têm runtime. O contrato RF08 está
 `RF08_CONTRACT_FROZEN / RF08_CONTRACT_CHECKPOINT_READY` em Support 0.10.
 DEC-SUP-01/08/09 foram resolvidas exclusivamente para RF09 na revisão canônica
-Support 0.11 local (`a198b46`); a publicação remota aguarda autorização.
+Support 0.11 publicada (`a198b46`).
 O checkpoint RF09 bloqueado anterior permanece histórico.
 Consulte [ACTUAL_STATE](ACTUAL_STATE.md) e os reports em `docs/reports/`.
 
@@ -83,9 +83,9 @@ submódulo em `4650ec671c948a4fa8fb04fa33b300d8fd255ae4`; RF07a/RF07b foram
 congeladas em Support 0.9, `1583a586793437a7b7c0569581637ee8ddac5ae5`.
 RF08 foi congelada documentalmente em Support 0.10,
 `93edf66d6ed0002a2af537339da315db1285a779`.
-RF08 foi integrada em `MAIN_BASELINE_RF08`. O contrato RF09 0.11 foi congelado
-localmente e fixado no gitlink, mas ainda depende de publicação remota antes do
-runtime. Desenvolva as próximas RFs em branches próprias. Consulte
+RF08 foi integrada em `MAIN_BASELINE_RF08`. O contrato RF09 0.11 foi congelado,
+publicado e fixado no gitlink; RF09 ainda não tem runtime. Desenvolva as
+próximas RFs em branches próprias. Consulte
 [`docs/workflows/support-development-branch-policy.md`](docs/workflows/support-development-branch-policy.md).
 
 Não execute `npm run infra:down` como limpeza genérica: o script remove volumes.

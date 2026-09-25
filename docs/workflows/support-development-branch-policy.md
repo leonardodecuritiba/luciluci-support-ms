@@ -147,6 +147,7 @@ partiu de `MAIN_BASELINE_RF08` com gitlink Support 0.10 limpo e registrou
 DEC-SUP-01/08/09 abertas naquele momento. A aprovação expressa posterior
 congelou Support 0.11 localmente no commit canônico
 `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`, apontado pelo gitlink desta
-branch. O push para o remoto canônico foi rejeitado pela revisão automática;
-confirmar publicação e SHA remoto antes de publicar a branch do serviço ou
-iniciar runtime RF09.
+branch. A primeira tentativa de push foi rejeitada pela revisão automática;
+após autorização específica do usuário, `ls-remote` confirmou o SHA canônico
+e o head `c586fdba037eb463b0841be9b99e9c8dbdcd0953` da branch documental
+do serviço. RF09 continua sem runtime.
