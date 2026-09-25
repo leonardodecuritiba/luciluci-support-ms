@@ -57,6 +57,10 @@ O [fechamento contratual RF10](REPORT-SUPPORT-RF10-CONTRACT-20260925-145122.md)
 registra as decisões posteriores e Support 0.12 publicado no commit canônico
 `85c7e95`. O checkpoint bloqueado anterior permanece histórico; RF10 ainda
 não tem runtime nem testes próprios.
+O [report de implementação RF10](REPORT-SUPPORT-RF10-20260925-152647.md)
+registra runtime na branch funcional, suíte completa, prova PostgreSQL
+descartável com rollback/concorrência, regressões RF01–RF09 e smoke da imagem.
+Essa evidência é local; RF10 ainda não foi integrada em `main`.
 
 ## Fechamento atual de S1
 

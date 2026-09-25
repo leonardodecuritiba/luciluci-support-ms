@@ -20,8 +20,11 @@
   ACL e concorrência RF08×RF08/RF06×RF08 com lock real; cria e descarta banco próprio.
 - `prove-rf09-postgres.js`: prova leitura por ID, ACL atual e snapshots físicos
   sem escrita em seis tabelas, com processo compilado e banco descartável.
+- `prove-rf10-postgres.js`: prova criação de mensagem, mídias posicionais,
+  auditoria, rollback de quatro escritas e concorrência RF10×RF10/RF06/RF08
+  em PostgreSQL descartável e processo compilado.
 - `prove-s1-image.js`: smoke do CMD real, incluindo criar Department e Ticket,
-  resolver e ler Ticket, listar/excluir/listar Department.
+  criar mensagens RF10, resolver e ler Ticket, listar/excluir/listar Department.
 
 Validadores AsyncAPI permanecem genéricos e exigem paths explícitos quando uma
 capacidade de mensageria vier a ser aprovada.

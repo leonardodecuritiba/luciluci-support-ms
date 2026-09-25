@@ -1,6 +1,30 @@
 # ACTUAL_STATE
 
-## Estado atual — MAIN_BASELINE_RF09 e contrato RF10 Support 0.12
+## Estado atual — implementação RF10 na branch funcional
+
+Na branch `feat/support-rf10-create-message`, RF10 está `IMPLEMENTED_AND_PROVEN`
+localmente sobre `MAIN_BASELINE_RF09` e o checkpoint documental
+`b72c585f0b83679d02bcedf573e38558c17eb4d4`. O gitlink permanece em
+Support 0.12 `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`. RF01–RF09 seguem
+integradas em `main`; RF10 ainda não foi integrada, publicada ou implantada;
+RF11–RF13 continuam `NOT_IMPLEMENTED`.
+
+`POST /api/support/tickets/{ticketId}/messages` valida headers e coerência do
+body, aplica ACL após Ticket lock e, para admin, Department lock. Mensagem,
+mídias posicionais, atualização estreita do Ticket e auditorias são uma
+transação. Admin gera uma auditoria; backoffice/cd geram duas, inclusive se
+`adminStatus` já era `pendente`. Cada POST válido cria mensagem nova e renova
+`updatedAt`; não há idempotency key, evento nem migration nova.
+
+Evidência desta branch: 29 suítes/261 testes, cobertura 98,03% statements,
+87,38% branches, 98,71% functions e 98,44% lines; prova RF10 em PostgreSQL 16
+descartável com quatro rollbacks e RF10×RF10/RF06/RF08; regressões PostgreSQL
+RF01–RF09; smoke da imagem RF10. O report de implementação em `docs/reports/`
+registra comandos, resultados e limites. A primeira execução da cobertura em
+sandbox falhou por `listen EPERM`; a repetição com permissão de bind local passou.
+As linhas históricas abaixo descrevem checkpoints anteriores à implementação.
+
+## Fotografia histórica — MAIN_BASELINE_RF09 e contrato RF10 Support 0.12
 
 - serviço `support-ms`; domínio `support`;
 - S1 `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`; drift `DRIFT-SUP-S1-001 / RESOLVED / PROVEN`;

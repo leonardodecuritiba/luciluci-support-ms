@@ -17,7 +17,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		await destroyTestDataSource();
 	});
 
-	it('documents operational paths and RF01-RF09', () => {
+	it('documents operational paths and RF01-RF10', () => {
 		const spec = swaggerSpec as OpenAPIV3.Document;
 
 		expect(Object.keys(spec.paths ?? {}).sort()).toEqual([
@@ -29,6 +29,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 			'/api/support/tickets/admin/{adminId}',
 			'/api/support/tickets/requester/{requesterId}',
 			'/api/support/tickets/{ticketId}',
+			'/api/support/tickets/{ticketId}/messages',
 			'/api/support/tickets/{ticketId}/resolve',
 			'/health',
 			'/metrics',
@@ -312,6 +313,43 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 			);
 		}
 		const item = spec.components?.schemas?.TicketListItem as OpenAPIV3.SchemaObject;
+		const createMessage = spec.paths?.['/api/support/tickets/{ticketId}/messages']?.post;
+		expect(createMessage?.parameters).toEqual([
+			{ $ref: '#/components/parameters/CorrelationIdHeader' },
+			{ $ref: '#/components/parameters/PerformedByHeader' },
+			{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+			expect.objectContaining({ in: 'path', name: 'ticketId', required: true }),
+		]);
+		expect(createMessage?.requestBody).toEqual(expect.objectContaining({ required: true }));
+		expect(Object.keys(createMessage?.responses ?? {}).sort()).toEqual([
+			'201',
+			'400',
+			'403',
+			'404',
+			'422',
+			'500',
+		]);
+		const messageRequest = spec.components?.schemas
+			?.CreateTicketMessageRequest as OpenAPIV3.SchemaObject;
+		expect(messageRequest.additionalProperties).toBe(false);
+		expect(messageRequest.required).toEqual([
+			'message',
+			'type',
+			'authorId',
+			'isVisibleToRequester',
+		]);
+		expect(Object.keys(messageRequest.properties ?? {})).toEqual([
+			'message',
+			'type',
+			'authorId',
+			'mediaIds',
+			'isVisibleToRequester',
+		]);
+		const messageResponse = spec.components?.schemas?.TicketMessage as OpenAPIV3.SchemaObject;
+		expect(messageResponse.required).toHaveLength(8);
+		expect(
+			spec.paths?.['/api/support/tickets/{ticketId}/messages/{messageId}/visibility'],
+		).toBeUndefined();
 		expect(item.additionalProperties).toBe(false);
 		expect(item.required).toEqual([
 			'id',

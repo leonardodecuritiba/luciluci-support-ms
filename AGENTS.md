@@ -6,9 +6,10 @@ Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
 Identidade e superfície operacional foram materializadas, Profile foi retirado
 e RF01–RF09 estão `IMPLEMENTED_AND_PROVEN` em `MAIN_BASELINE_RF09` (PR #9).
 O contrato RF09 está congelado em Support 0.11. O contrato RF10 está
-`RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN` em Support 0.12;
-RF10–RF13 continuam `NOT_IMPLEMENTED`. Os checkpoints bloqueados anteriores
-permanecem históricos.
+`RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN` em Support 0.12.
+RF10 está `IMPLEMENTED_AND_PROVEN` localmente na branch
+`feat/support-rf10-create-message`, ainda fora de `main`; RF11–RF13 continuam
+`NOT_IMPLEMENTED`. Os checkpoints bloqueados anteriores permanecem históricos.
 Leia `ACTUAL_STATE.md` para o estado real.
 
 O `DRIFT-SUP-S1-001` foi corrigido e provado: estado
@@ -71,8 +72,9 @@ de inicialização não é bug comprovado do Support. Propostas de arquitetura
 não são decisões de negócio aprovadas.
 
 RF09 está integrada em `MAIN_BASELINE_RF09`. O checkpoint RF10 bloqueado é
-histórico; Support 0.12 congela somente o contrato RF10. RF10–RF13 permanecem
-fora do runtime. Qualquer prova futura de banco exige destino descartável
+histórico; Support 0.12 congela somente o contrato RF10. RF10 já possui runtime
+e prova na branch funcional, sem integração em `main`; RF11–RF13 não possuem
+runtime. Qualquer prova futura de banco exige destino descartável
 explícito; não usar banco padrão/preexistente.
 
 ## Política de branches e `main`
@@ -88,9 +90,9 @@ correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs indepe
 na mesma branch. A branch RF09 partiu do checkpoint documental publicado,
 descendente de `MAIN_BASELINE_RF08`, com gitlink Support 0.11
 `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`, e foi integrada pela PR #9.
-O gitlink documental atual aponta a Support 0.12
+O gitlink da branch funcional aponta a Support 0.12
 `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`, publicado antes da atualização
-do serviço; a branch funcional RF10 ainda não foi criada.
+do serviço. A branch RF10 partiu do checkpoint documental publicado `b72c585`.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
 recorte, estado/documentação atualizados e ausência de drift técnico aberto que

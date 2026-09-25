@@ -1,5 +1,21 @@
 # DRIFT_REPORT
 
+## RF10 na branch funcional
+
+RF10 foi implementada e provada localmente em `feat/support-rf10-create-message`
+sobre o contrato Support 0.12. A migration RF05 suporta `type=admin`, mídias
+posicionais e as duas auditorias; não surgiu drift de schema nem foi criada
+migration nova. Os quatro fault injections RF10 reverteram mensagem, mídia,
+Ticket e auditorias; as quatro concorrências terminaram sem lost update ou
+deadlock. O primeiro comando de cobertura encontrou `listen EPERM` no sandbox;
+repetido com bind local permitido, passou. A primeira prova RF10 teve erro de
+cleanup de processo já encerrado, corrigido e repetido com exit 0 e descarte do
+banco. O primeiro replay RF02 usou fuso local e falhou na comparação histórica
+de timestamp; com `TZ=UTC`, RF02–RF09 passaram. Nenhum drift técnico novo fica
+aberto no recorte RF10.
+
+As seções abaixo preservam fotografias dos checkpoints anteriores.
+
 ## Drift encerrado
 
 | ID                                                                     | Estado            | Impacto                                                                 | Próxima ação                             |

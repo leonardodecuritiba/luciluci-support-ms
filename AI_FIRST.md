@@ -4,12 +4,14 @@
 
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
 materializada; RF01–RF09 estão `IMPLEMENTED_AND_PROVEN` em
-`MAIN_BASELINE_RF09`. RF10–RF13 permanecem `NOT_IMPLEMENTED`;
+`MAIN_BASELINE_RF09`. RF10 está `IMPLEMENTED_AND_PROVEN` localmente na branch
+`feat/support-rf10-create-message`, ainda fora de `main`; RF11–RF13 permanecem
+`NOT_IMPLEMENTED`;
 o contrato RF08 está congelado em Support 0.10 (`RF08_CONTRACT_CHECKPOINT_READY`).
 O checkpoint RF09 bloqueado é histórico; DEC-SUP-01/08/09 foram aprovadas
 somente para RF09 e congeladas em Support 0.11, publicado no remoto canônico.
 A criação de mensagem RF10 está congelada em Support 0.12 (`85c7e95`),
-publicada no remoto canônico; RF10 segue sem runtime e o checkpoint bloqueado
+publicada no remoto canônico; o checkpoint bloqueado
 anterior permanece histórico.
 A revisão pós-S1 reabriu o fechamento por
 `DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
@@ -71,4 +73,6 @@ serviço. A implementação RF09 posterior foi integrada pela PR #9 no merge
 O checkpoint RF10 bloqueado na branch documental própria foi preservado no
 commit `8498620`. As decisões posteriores congelaram Support 0.12 em
 `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`, publicado e fixado no gitlink.
-Estado `RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN`; não há runtime RF10.
+Estado contratual `RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN`.
+Posteriormente, a branch funcional implementou RF10 e passou em testes,
+PostgreSQL descartável e smoke da imagem; não houve merge ou deploy.

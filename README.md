@@ -8,6 +8,14 @@ está em `luciluci-docs/support/`.
 
 ## Estado
 
+Na branch funcional `feat/support-rf10-create-message`, RF10 está implementada
+e provada localmente sobre Support 0.12. RF01–RF09 estão integradas em `main`;
+RF10 ainda não foi integrada, publicada ou implantada. RF11–RF13 seguem sem
+runtime. A prova PostgreSQL RF10, regressões RF01–RF09 e smoke da imagem
+passaram em recursos descartáveis. Veja o report RF10 em `docs/reports/`.
+
+O restante desta seção registra a baseline anterior à implementação RF10.
+
 S1 e RF01–RF09 estão implementadas, provadas e integradas. RF06 implementa
 `PATCH /api/support/tickets/{ticketId}` com ACL, transferência, no-op e auditoria
 transacional. RF07a/RF07b foram integradas pela PR #7,
@@ -50,6 +58,7 @@ fase: o comando falha de modo explícito até a massa determinística de W1 ser 
 - `GET /api/support/tickets/admin/{adminId}`
 - `POST /api/support/tickets/{ticketId}/resolve`
 - `GET /api/support/tickets/{ticketId}`
+- `POST /api/support/tickets/{ticketId}/messages` (branch RF10)
 
 Consulte `api.http`, `docs/runbooks/local-development.md` e
 `docs/runbooks/infra-access.md`.

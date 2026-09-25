@@ -12,6 +12,8 @@ import IListTicketsRepository, {
 } from '../../use-cases/repositories/ilist-tickets.repository';
 import IUpdateTicketRepository from '../../use-cases/repositories/iupdate-ticket.repository';
 import IGetTicketRepository from '../../use-cases/repositories/iget-ticket.repository';
+import ICreateTicketMessageRepository from '../../use-cases/repositories/icreate-ticket-message.repository';
+import TicketAdminStatus from '../../entities/enums/ticket-admin-status.enum';
 import DepartmentAllowedUser from '../../../department/entities/department-allowed-user.entity';
 
 export default class TicketTypeormRepository
@@ -19,7 +21,8 @@ export default class TicketTypeormRepository
 		ITicketRepository,
 		IUpdateTicketRepository,
 		IListTicketsRepository,
-		IGetTicketRepository
+		IGetTicketRepository,
+		ICreateTicketMessageRepository
 {
 	private readonly ticketRepository: Repository<Ticket>;
 
@@ -124,6 +127,17 @@ export default class TicketTypeormRepository
 		await this.ticketRepository.update(ticket.id, {
 			requesterStatus: ticket.requesterStatus,
 			updatedAt: ticket.updatedAt,
+		});
+	}
+
+	async touchAfterAdminMessage(ticketId: string, updatedAt: Date): Promise<void> {
+		await this.ticketRepository.update(ticketId, { updatedAt });
+	}
+
+	async updateAfterRequesterMessage(ticketId: string, updatedAt: Date): Promise<void> {
+		await this.ticketRepository.update(ticketId, {
+			adminStatus: TicketAdminStatus.Pendente,
+			updatedAt,
 		});
 	}
 

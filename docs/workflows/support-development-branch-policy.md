@@ -174,3 +174,12 @@ publicada. O estado passou a `RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FRO
 O próximo lote poderá abrir `feat/support-rf10-create-message` a partir de
 `main` sincronizada, com o contrato canônico fixado; não há runtime RF10 neste
 checkpoint documental.
+
+## 10. Implementação RF10 na branch funcional
+
+A branch `feat/support-rf10-create-message` foi criada do checkpoint publicado
+`b72c585f0b83679d02bcedf573e38558c17eb4d4`, descendente de
+`MAIN_BASELINE_RF09`, com gitlink Support 0.12 fixo. A implementação e a prova
+local estão no report `docs/reports/REPORT-SUPPORT-RF10-20260925-152647.md`.
+Essa branch ainda não foi integrada em `main`; a publicação e a PR pertencem ao
+próximo lote. RF11–RF13 permanecem fora do runtime.
