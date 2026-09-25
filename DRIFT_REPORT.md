@@ -1,9 +1,11 @@
 # DRIFT_REPORT
 
-## RF11 — implementação funcional
+## RF11 integrada em MAIN_BASELINE_RF11
 
 A rota RF11, contrato HTTP, testes e prova PostgreSQL foram adicionados na
-branch funcional sobre Support 0.13. A prova física do no-op, rollback e
+branch funcional sobre Support 0.13 e integrados pela PR #12 no merge
+`9387b3d`. O check `ci / quality` passou no run `36169743450`.
+A prova física do no-op, rollback e
 concorrência não identificou drift técnico novo no recorte RF11. RF12/RF13
 permanecem ausentes. [Report de implementação](docs/reports/REPORT-SUPPORT-RF11-20260925.md).
 
@@ -11,15 +13,15 @@ permanecem ausentes. [Report de implementação](docs/reports/REPORT-SUPPORT-RF1
 
 As lacunas do checkpoint RF11 foram fechadas por decisão expressa específica
 em Support 0.13 (`4958fd1`), publicado no repositório canônico. O gitlink
-atual aponta a essa revisão. A ausência da rota permanece esperada:
+daquela revisão apontava a essa versão. A ausência da rota era esperada:
 `RF11_CONTRACT_FROZEN / NOT_IMPLEMENTED`, sem drift técnico novo atribuído ao
 runtime RF01–RF10. O checkpoint bloqueado `85b3adb` e o relatório anterior
 são históricos. [Fechamento RF11](docs/reports/REPORT-SUPPORT-RF11-CONTRACT-20260925-165105.md).
 
-## Checkpoint RF11 — lacuna contratual, sem drift técnico novo
+## Fotografia histórica — checkpoint RF11 com lacuna contratual
 
 O checkpoint RF11 sobre `MAIN_BASELINE_RF10` está
-`RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. O PRD original não resolve a
+`RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION` naquela fotografia. O PRD original não resolve a
 política de alteração de visibilidade por tipo/autoria de mensagem nem os
 efeitos e respostas da operação. A ausência da rota RF11, inclusive o `404`
 esperado nas provas históricas, é coerente com `NOT_IMPLEMENTED`; não é
@@ -57,12 +59,13 @@ provas históricas estão no
 
 ## Escopo atual
 
-RF01–RF10 estão `IMPLEMENTED_AND_PROVEN` em `main`, na baseline
-`MAIN_BASELINE_RF10` (merge da PR #10 `8827c0b2f6d0b7597984f5131d4f1ec7b658084f`).
+RF01–RF11 estão `IMPLEMENTED_AND_PROVEN` em `main`, na baseline
+`MAIN_BASELINE_RF11` (merge da PR #12 `9387b3dc6e636db4b8124785e7b3bc92ec46d054`).
 As decisões foram fechadas apenas em cada recorte; RF07a/RF07b têm contrato
 Support 0.9 congelado e runtime implementado/provado na PR #7. RF08 foi
-integrada pela PR #8; RF09 foi integrada pela PR #9; RF10 pela PR #10. RF11–RF13 permanecem
-fora do runtime. O checkpoint RF10 bloqueado é histórico; decisões posteriores
+integrada pela PR #8; RF09 foi integrada pela PR #9; RF10 pela PR #10 e RF11
+pela PR #12. RF12/RF13 permanecem fora do runtime. O checkpoint RF10 bloqueado
+é histórico; decisões posteriores
 congelaram Support 0.12 em `85c7e95`, sem novo drift técnico identificado. O
 checkpoint RF08 bloqueado era uma lacuna contratual; decisões posteriores a
 fecharam em Support 0.10, sem drift técnico novo do runtime existente.

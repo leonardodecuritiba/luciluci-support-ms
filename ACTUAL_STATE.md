@@ -1,17 +1,19 @@
 # ACTUAL_STATE
 
-## Implementação RF11 — branch funcional
+## Estado atual — MAIN_BASELINE_RF11
 
-Em `feat/support-rf11-message-visibility`, a RF11 está implementada sobre
-`MAIN_BASELINE_RF10` mais o checkpoint documental `886bf71`, com gitlink
-Support 0.13 fixo em `4958fd1840042200fd1a87e45d6a7f69d4011dcd`.
+RF01–RF11 estão `IMPLEMENTED_AND_PROVEN` e integradas em `main`. A
+[PR #12](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/12)
+integrou RF11 em 2026-09-25 no merge
+`9387b3dc6e636db4b8124785e7b3bc92ec46d054`, estabelecendo
+`MAIN_BASELINE_RF11`. O head funcional publicado foi `d15fe7d`; o check
+remoto `ci / quality` passou no run `36169743450`. `main` local e
+`origin/main` coincidem no merge; o gitlink limpo aponta para Support 0.13
+`4958fd1840042200fd1a87e45d6a7f69d4011dcd`.
 A rota `PATCH /api/support/tickets/{ticketId}/messages/{messageId}/visibility`
 altera somente a visibilidade de mensagens admin, com ACL por membership atual
 e locks Ticket→Department→Message. No-op retorna 200 sem UPDATE.
-RF01–RF10 permanecem integradas em `main`; RF12/RF13 seguem sem runtime.
-RF11 foi commitada em `2985ac5`, publicada e submetida à
-[PR #12](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/12)
-contra `main`; ainda não foi integrada nem implantada. Evidência local em
+RF12/RF13 seguem sem runtime; não houve deploy. Evidência local em
 [report RF11](docs/reports/REPORT-SUPPORT-RF11-20260925.md). O report
 registra o fechamento da implementação anterior à publicação.
 

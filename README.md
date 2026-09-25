@@ -1,26 +1,26 @@
 # support-ms
 
-Microsserviço de Support (Suporte) da LuciLuci. RF01–RF10 compõem
-`MAIN_BASELINE_RF10` em `main` (merge da PR #10 `8827c0b`). Support 0.12
-(`85c7e95`) congela o contrato RF10; Support 0.10 (`93edf66`) congela o
-contrato RF08; Support 0.9 (`1583a58`) congelou RF07a/RF07b. A fonte de verdade de negócio
+Microsserviço de Support (Suporte) da LuciLuci. RF01–RF11 compõem
+`MAIN_BASELINE_RF11` em `main` (merge da PR #12 `9387b3d`). Support 0.13
+(`4958fd1`) congela o contrato RF11; Support 0.12 (`85c7e95`) congela o
+contrato RF10; Support 0.10 (`93edf66`) congela o contrato RF08; Support 0.9
+(`1583a58`) congelou RF07a/RF07b. A fonte de verdade de negócio
 está em `luciluci-docs/support/`.
 
 ## Estado
 
-Na branch `feat/support-rf11-message-visibility`, RF11 está implementada e
-provada localmente sob Support 0.13. A rota PATCH altera apenas
-`TicketMessage.isVisibleToRequester` de mensagens admin e preserva Ticket,
-mídias e auditorias. RF12/RF13 continuam sem runtime. O trabalho RF11 ainda
-foi commitado em `2985ac5`, publicado e submetido à
-[PR #12](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/12);
-segue fora de `main` e sem deploy.
+RF11 está implementada, provada e integrada em `main` sob Support 0.13. A rota
+PATCH altera apenas `TicketMessage.isVisibleToRequester` de mensagens admin e preserva Ticket,
+mídias e auditorias. RF12/RF13 continuam sem runtime. A
+[PR #12](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/12)
+foi integrada no merge `9387b3d` após `ci / quality` no run `36169743450`.
+Não houve deploy.
 [Report de implementação local](docs/reports/REPORT-SUPPORT-RF11-20260925.md).
 
 ### Fotografia histórica do congelamento contratual
 
-Support 0.13 (`4958fd1`) congela somente o contrato RF11. O checkpoint
-bloqueado anterior é histórico; o estado atual é
+Support 0.13 (`4958fd1`) congelou somente o contrato RF11. Naquele
+fechamento documental, o estado era
 `RF11_CONTRACT_CHECKPOINT_READY / RF11_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
 O [report contratual RF11](docs/reports/REPORT-SUPPORT-RF11-CONTRACT-20260925-165105.md)
 registra as decisões, a publicação canônica e o limite documental. RF12/RF13
@@ -33,17 +33,18 @@ expressa. Esse bloqueio foi resolvido no contrato 0.13; a fotografia histórica
 permanece no
 [report RF11](docs/reports/REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md).
 
-RF10 está implementada, provada e integrada em `main` pela PR #10. O check
-remoto `ci / quality` passou no run `36156561044`. RF11–RF13 seguem sem
-runtime. A prova PostgreSQL RF10, regressões RF01–RF09 e smoke da imagem
+Na fotografia anterior, RF10 estava implementada, provada e integrada em
+`main` pela PR #10. O check remoto `ci / quality` passou no run `36156561044`.
+A prova PostgreSQL RF10, regressões RF01–RF09 e smoke da imagem
 passaram em recursos descartáveis. Não houve deploy. Veja o report RF10 em
 `docs/reports/`.
 
-S1 e RF01–RF10 estão implementadas, provadas e integradas. RF06 implementa
+S1 e RF01–RF11 estão implementadas, provadas e integradas. RF06 implementa
 `PATCH /api/support/tickets/{ticketId}` com ACL, transferência, no-op e auditoria
 transacional. RF07a/RF07b foram integradas pela PR #7,
 com consultas de tickets por ownership e membership atual de Department.
-RF08 foi integrada pela PR #8, RF09 pela PR #9 e RF10 pela PR #10. RF11–RF13 não têm runtime.
+RF08 foi integrada pela PR #8, RF09 pela PR #9, RF10 pela PR #10 e RF11 pela
+PR #12. RF12/RF13 não têm runtime.
 O contrato RF10 está `RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN`
 em Support 0.12; a implementação RF10 foi integrada. O contrato RF08 está
 `RF08_CONTRACT_FROZEN / RF08_CONTRACT_CHECKPOINT_READY` em Support 0.10.
@@ -82,7 +83,7 @@ fase: o comando falha de modo explícito até a massa determinística de W1 ser 
 - `POST /api/support/tickets/{ticketId}/resolve`
 - `GET /api/support/tickets/{ticketId}`
 - `POST /api/support/tickets/{ticketId}/messages` (RF10)
-- `PATCH /api/support/tickets/{ticketId}/messages/{messageId}/visibility` (RF11, branch funcional)
+- `PATCH /api/support/tickets/{ticketId}/messages/{messageId}/visibility` (RF11)
 
 Consulte `api.http`, `docs/runbooks/local-development.md` e
 `docs/runbooks/infra-access.md`.
@@ -126,8 +127,9 @@ RF08 foi congelada documentalmente em Support 0.10,
 RF08 foi integrada em `MAIN_BASELINE_RF08`. O contrato RF09 0.11 foi congelado,
 publicado e fixado no gitlink; RF09 foi integrada em `MAIN_BASELINE_RF09`.
 O contrato RF10 Support 0.12 foi publicado e fixado no gitlink antes do avanço
-para 0.13; a branch
-funcional foi integrada pela PR #10.
+para 0.13; a branch funcional foi integrada pela PR #10. O contrato RF11
+Support 0.13 foi publicado e fixado no gitlink; a branch funcional foi
+integrada pela PR #12.
 Desenvolva as próximas RFs em branches próprias. Consulte
 [`docs/workflows/support-development-branch-policy.md`](docs/workflows/support-development-branch-policy.md).
 
