@@ -2,6 +2,12 @@
 
 ## Estado de trabalho
 
+O checkpoint documental RF11 iniciado de `MAIN_BASELINE_RF10` está
+`RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. A revisão canônica fixa segue
+Support 0.12 (`85c7e95`); Support 0.13 não foi congelado. RF11–RF13 seguem
+`NOT_IMPLEMENTED`. Resolver as decisões RF11 do report antes de criar branch
+funcional ou avançar o gitlink.
+
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
 materializada; RF01–RF10 estão `IMPLEMENTED_AND_PROVEN` em
 `MAIN_BASELINE_RF10` (PR #10, merge `8827c0b`). RF11–RF13 permanecem

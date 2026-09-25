@@ -26,3 +26,7 @@ e CI remota (`36156561044`) antes do merge da PR #10. RF11–RF13 permanecem sem
 
 A documentação canônica de negócio fica em `../luciluci-docs/support/`; o
 gitlink integrado aponta à revisão 0.12 publicada (`85c7e95`).
+
+O [checkpoint RF11](reports/REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md)
+está bloqueado por decisões sobre visibilidade de mensagem e efeitos da operação.
+Support 0.13 não está congelado; RF11 não tem runtime.

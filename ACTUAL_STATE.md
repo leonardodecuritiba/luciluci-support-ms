@@ -1,5 +1,24 @@
 # ACTUAL_STATE
 
+## Checkpoint contratual RF11 — bloqueado por decisão
+
+Em `docs/support-rf11-message-visibility-checkpoint`, a partir de
+`MAIN_BASELINE_RF10` (`734ba5de74e544b1e8dc2a31c135cb2bb54d20e1`),
+o confronto entre PRD original, PRD transposto, notes, TDD e TP encontrou
+lacunas materiais para `PATCH /api/support/tickets/{ticketId}/messages/{messageId}/visibility`.
+Estado: `RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. A fonte confirma o
+campo booleano `isVisibleToRequester`, ACL geral de Ticket, mudança exclusiva
+desse campo e ausência de AuditLog; não fecha permissão por ação, conjunto de
+mensagens elegíveis, restrição de autor, transições, no-op, response,
+`Ticket.updatedAt`, idempotência e concorrência. O
+[report RF11](docs/reports/REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md)
+registra a matriz de fontes e decisões pendentes.
+
+Support 0.13 **não** foi congelado; `luciluci-docs` e seu gitlink permanecem
+em Support 0.12 (`85c7e958adb0cbb9fa43842de7f990260f2bc0ee`). RF11 é
+`NOT_IMPLEMENTED`; a branch `feat/support-rf11-message-visibility` não foi
+criada. RF12/RF13 também seguem `NOT_IMPLEMENTED`. Nenhum deploy.
+
 ## Estado atual — MAIN_BASELINE_RF10
 
 RF01–RF10 estão `IMPLEMENTED_AND_PROVEN` e integradas em `main`. A

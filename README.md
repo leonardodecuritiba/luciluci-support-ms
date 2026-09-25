@@ -8,6 +8,13 @@ está em `luciluci-docs/support/`.
 
 ## Estado
 
+O checkpoint documental RF11 está
+`RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`: a política de quais mensagens
+podem mudar de visibilidade e outros efeitos da operação exigem decisão
+expressa. Support 0.13 não foi congelado; o gitlink segue em Support 0.12.
+RF11–RF13 continuam sem runtime. Veja o
+[report RF11](docs/reports/REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md).
+
 RF10 está implementada, provada e integrada em `main` pela PR #10. O check
 remoto `ci / quality` passou no run `36156561044`. RF11–RF13 seguem sem
 runtime. A prova PostgreSQL RF10, regressões RF01–RF09 e smoke da imagem

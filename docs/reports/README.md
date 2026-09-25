@@ -62,6 +62,10 @@ registra runtime na branch funcional, suíte completa, prova PostgreSQL
 descartável com rollback/concorrência, regressões RF01–RF09 e smoke da imagem.
 Essa evidência local foi reproduzida pela CI `quality` no run `36156561044`.
 A PR #10 integrou RF10 no merge `8827c0b`, estabelecendo `MAIN_BASELINE_RF10`.
+O [checkpoint contratual RF11](REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md)
+registra as lacunas de visibilidade e os efeitos ainda não decididos sobre a
+baseline RF10. Estado `RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`;
+Support 0.13 não foi congelado e RF11 continua sem runtime.
 
 ## Fechamento atual de S1
 
