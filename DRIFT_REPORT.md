@@ -17,10 +17,10 @@ RF01–RF09 estão `IMPLEMENTED_AND_PROVEN` em `main`, na baseline
 As decisões foram fechadas apenas em cada recorte; RF07a/RF07b têm contrato
 Support 0.9 congelado e runtime implementado/provado na PR #7. RF08 foi
 integrada pela PR #8; RF09 foi integrada pela PR #9. RF10–RF13 permanecem
-fora do runtime. O checkpoint RF10 está bloqueado por decisão contratual, sem
-novo drift técnico identificado. O checkpoint RF08 bloqueado era uma lacuna
-contratual; decisões posteriores a fecharam em Support 0.10, sem drift técnico
-novo do runtime existente.
+fora do runtime. O checkpoint RF10 bloqueado é histórico; decisões posteriores
+congelaram Support 0.12 em `85c7e95`, sem novo drift técnico identificado. O
+checkpoint RF08 bloqueado era uma lacuna contratual; decisões posteriores a
+fecharam em Support 0.10, sem drift técnico novo do runtime existente.
 
 Não há drift técnico aberto conhecido em S1/RF01–RF06. O checkpoint RF03
 inicialmente registrou uma lacuna contratual, não um defeito de runtime; ela foi
@@ -55,10 +55,13 @@ ausentes naquela fotografia anterior à branch funcional.
 
 ## RF09 integrada e RF10 documental
 
-Contrato Support 0.11 e gitlink canônico preservados. A prova PostgreSQL 16 com
-banco próprio descartado, suíte HTTP/SQLite, contrato e smoke da imagem não
+Contrato Support 0.11 preservado historicamente; gitlink avançado para Support
+0.12 `85c7e95` após publicação canônica. A prova PostgreSQL 16 com banco próprio
+descartado, suíte HTTP/SQLite, contrato e smoke da imagem não
 reproduziram drift técnico. A falha inicial da prova histórica RF02 sob fuso
 local foi de interpretação de timestamp pelo cliente de prova; o replay com
 `TZ=UTC` passou. A PR #9 foi integrada em `393af3e` após CI `quality` aprovada
-no run `36145983860`. O checkpoint RF10 apenas documenta decisões abertas;
-ausência de rota RF10 é esperada, não drift técnico da baseline RF09.
+no run `36145983860`. O checkpoint RF10 bloqueado documenta decisões então
+abertas; elas foram resolvidas somente para RF10 em Support 0.12. A ausência de
+rota RF10 é esperada, não drift técnico da baseline RF09. Nenhum teste RF10 foi
+executado no fechamento documental.

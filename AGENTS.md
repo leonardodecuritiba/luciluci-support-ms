@@ -5,9 +5,10 @@
 Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
 Identidade e superfície operacional foram materializadas, Profile foi retirado
 e RF01–RF09 estão `IMPLEMENTED_AND_PROVEN` em `MAIN_BASELINE_RF09` (PR #9).
-O contrato RF09 está congelado em Support 0.11. O checkpoint RF10 está
-`RF10_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`; RF10–RF13 continuam
-`NOT_IMPLEMENTED`. O checkpoint RF09 bloqueado anterior permanece histórico.
+O contrato RF09 está congelado em Support 0.11. O contrato RF10 está
+`RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN` em Support 0.12;
+RF10–RF13 continuam `NOT_IMPLEMENTED`. Os checkpoints bloqueados anteriores
+permanecem históricos.
 Leia `ACTUAL_STATE.md` para o estado real.
 
 O `DRIFT-SUP-S1-001` foi corrigido e provado: estado
@@ -61,15 +62,17 @@ RF07a/RF07b e resolve DEC-SUP-01/02/07/08/09 somente nesse recorte.
 Support 0.10 congela RF08 e resolve DEC-SUP-01/06/08/09/10/12 somente nessa
 ação; DEC-SUP-11 não se aplica por não haver evento Support.
 Support 0.11 congela RF09 e resolve DEC-SUP-01/08/09 somente nesse recorte.
+Support 0.12 congela RF10 e resolve DEC-SUP-01/04/06/08/09/10/12 somente
+nessa operação; DEC-SUP-05/11 não se aplicam a RF10.
 
 Trabalhar RF por RF ou um drift por vez; não fazer refactor amplo, antecipar
 ondas ou implementar comportamento com decisão crítica aberta. Um gap esperado
 de inicialização não é bug comprovado do Support. Propostas de arquitetura
 não são decisões de negócio aprovadas.
 
-RF09 está integrada em `MAIN_BASELINE_RF09`. O checkpoint RF10 registra as
-lacunas materiais sem congelar Support 0.12; RF10–RF13 permanecem fora do
-runtime. Qualquer prova futura de banco exige destino descartável
+RF09 está integrada em `MAIN_BASELINE_RF09`. O checkpoint RF10 bloqueado é
+histórico; Support 0.12 congela somente o contrato RF10. RF10–RF13 permanecem
+fora do runtime. Qualquer prova futura de banco exige destino descartável
 explícito; não usar banco padrão/preexistente.
 
 ## Política de branches e `main`
@@ -85,6 +88,9 @@ correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs indepe
 na mesma branch. A branch RF09 partiu do checkpoint documental publicado,
 descendente de `MAIN_BASELINE_RF08`, com gitlink Support 0.11
 `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`, e foi integrada pela PR #9.
+O gitlink documental atual aponta a Support 0.12
+`85c7e958adb0cbb9fa43842de7f990260f2bc0ee`, publicado antes da atualização
+do serviço; a branch funcional RF10 ainda não foi criada.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
 recorte, estado/documentação atualizados e ausência de drift técnico aberto que

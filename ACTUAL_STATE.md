@@ -1,6 +1,6 @@
 # ACTUAL_STATE
 
-## Estado atual — MAIN_BASELINE_RF09 e checkpoint contratual RF10
+## Estado atual — MAIN_BASELINE_RF09 e contrato RF10 Support 0.12
 
 - serviço `support-ms`; domínio `support`;
 - S1 `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`; drift `DRIFT-SUP-S1-001 / RESOLVED / PROVEN`;
@@ -9,13 +9,17 @@
 - RF07a/RF07b `RF07A_RF07B_CONTRACT_FROZEN` em Support 0.9; implementação e prova PostgreSQL local concluídas;
 - contrato RF06 congelado em Support 0.8, commit canônico `4650ec671c948a4fa8fb04fa33b300d8fd255ae4` de `luciluci-docs`;
 - decisões RF06 DEC-SUP-01/03/05/06/08/09/10/12 resolvidas somente nesse recorte; DEC-SUP-01/02/07/08/09 estão `RESOLVED_FOR_RF07` somente para RF07a/RF07b, conforme `luciluci-docs/support/notes.md`;
-- gitlink atual Support 0.11 `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`, publicado em `origin/docs/support-rf09-get-ticket-contract` e confirmado por `ls-remote`; a revisão anterior 0.10 `93edf66d6ed0002a2af537339da315db1285a779` foi publicada na branch `docs/support-rf08-resolve-ticket-contract`. O contrato RF07 0.9 permanece histórico em `1583a586793437a7b7c0569581637ee8ddac5ae5`; `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`.
+- gitlink atual Support 0.12 `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`, publicado em `origin/docs/support-rf10-create-message-contract` e confirmado por `ls-remote`; a revisão 0.11 `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2` permanece histórica. O contrato RF07 0.9 permanece histórico em `1583a586793437a7b7c0569581637ee8ddac5ae5`; `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`.
+
+## Fechamento contratual RF10 — Support 0.12
+
+O checkpoint bloqueado no commit `8498620803e206f4ef0fa481835af5270db1f721` permanece histórico. As decisões posteriores congelaram somente a criação de mensagem em `POST /api/support/tickets/{ticketId}/messages`: preservar `type` e `authorId` no body e validar coerência com os headers de ator; ACL por membership atual para admin e ownership para backoffice/cd; mensagem de solicitante sempre visível; resposta `201` com TicketMessage; cada POST válido cria uma mensagem distinta, renova `updatedAt` e usa transação/locks Ticket→Department para admin. Admin gera uma auditoria `nova_mensagem`; backoffice/cd geram `nova_mensagem` mais `alteracao_status/admin/pendente` mesmo se já pendente. DEC-SUP-01/04/06/08/09/10/12 estão `RESOLVED_FOR_RF10`; DEC-SUP-05/11 não se aplicam. O contrato 0.12 está no commit canônico `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`. Estado `RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN / NOT_IMPLEMENTED`; nenhum teste ou runtime RF10 foi criado nesta revisão.
 
 ## Merge RF09 e checkpoint RF10
 
 A [PR #9](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/9), head `93fd4832f7275691973b547443144b8246194fa7`, foi integrada em 2026-09-25 no merge `393af3ed50c35fb541825c1822cecaa3b8005a29`. O check `ci / quality` passou no run `36145983860`; não havia reviews ou review threads, e não houve conflito. `main` local e `origin/main` coincidiram no merge; a branch funcional é ancestral de `main`. Nenhum deploy foi executado.
 
-A branch documental `docs/support-rf10-create-message-checkpoint` parte dessa baseline. O [report RF10](docs/reports/REPORT-SUPPORT-RF10-CHECKPOINT-20260925-143047.md) preserva o body literal da fonte, a ACL geral e a cardinalidade especial de auditoria, mas registra lacunas materiais de autoria/tipo, visibilidade, response, `updatedAt`, idempotência, validação e concorrência. Veredito `RF10_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`; Support 0.12 não foi congelado. O gitlink canônico 0.11 permanece intacto. `feat/support-rf10-create-message` não foi criada e RF10 segue sem runtime.
+A branch documental `docs/support-rf10-create-message-checkpoint` parte dessa baseline. O [report RF10 histórico](docs/reports/REPORT-SUPPORT-RF10-CHECKPOINT-20260925-143047.md) registra as lacunas antes da decisão; o fechamento 0.12 acima as resolve sem reescrever esse checkpoint. `feat/support-rf10-create-message` não foi criada e RF10 segue sem runtime.
 
 ## Implementação RF09 — branch funcional
 

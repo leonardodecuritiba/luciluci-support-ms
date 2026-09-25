@@ -166,5 +166,11 @@ partiu de `MAIN_BASELINE_RF09`, com o gitlink Support 0.11 preservado. A fonte
 fixa ACL geral, body exemplificado e cardinalidade especial de auditoria, mas
 autoria/tipo, visibilidade, response, `updatedAt`, idempotência e detalhes de
 concorrência ainda exigem decisão expressa. Estado:
-`RF10_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. Não abrir branch funcional RF10
-nem congelar Support 0.12 por analogia com RF05–RF09.
+`RF10_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. Esse checkpoint no commit
+`8498620` permanece histórico. A decisão posterior congelou Support 0.12 no
+commit canônico `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`, publicado em
+`docs/support-rf10-create-message-contract`; o gitlink atual aponta à revisão
+publicada. O estado passou a `RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN`.
+O próximo lote poderá abrir `feat/support-rf10-create-message` a partir de
+`main` sincronizada, com o contrato canônico fixado; não há runtime RF10 neste
+checkpoint documental.

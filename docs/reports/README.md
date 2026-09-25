@@ -52,7 +52,11 @@ A PR #9 integrou RF09 no merge `393af3e`, com `quality` aprovada no run
 `36145983860`, estabelecendo `MAIN_BASELINE_RF09`. O
 [checkpoint RF10](REPORT-SUPPORT-RF10-CHECKPOINT-20260925-143047.md) preserva a
 fonte literal da criação de mensagem e registra decisões materiais abertas;
-Support 0.12 não foi congelado e RF10 permanece sem runtime.
+Naquele checkpoint, Support 0.12 ainda não estava congelado; RF10 permanece sem runtime.
+O [fechamento contratual RF10](REPORT-SUPPORT-RF10-CONTRACT-20260925-145122.md)
+registra as decisões posteriores e Support 0.12 publicado no commit canônico
+`85c7e95`. O checkpoint bloqueado anterior permanece histórico; RF10 ainda
+não tem runtime nem testes próprios.
 
 ## Fechamento atual de S1
 

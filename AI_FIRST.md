@@ -8,6 +8,9 @@ materializada; RF01–RF09 estão `IMPLEMENTED_AND_PROVEN` em
 o contrato RF08 está congelado em Support 0.10 (`RF08_CONTRACT_CHECKPOINT_READY`).
 O checkpoint RF09 bloqueado é histórico; DEC-SUP-01/08/09 foram aprovadas
 somente para RF09 e congeladas em Support 0.11, publicado no remoto canônico.
+A criação de mensagem RF10 está congelada em Support 0.12 (`85c7e95`),
+publicada no remoto canônico; RF10 segue sem runtime e o checkpoint bloqueado
+anterior permanece histórico.
 A revisão pós-S1 reabriu o fechamento por
 `DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
 
@@ -65,5 +68,7 @@ A primeira tentativa de push foi bloqueada pela revisão automática; a
 autorização específica posterior permitiu publicar as branches canônica e do
 serviço. A implementação RF09 posterior foi integrada pela PR #9 no merge
 `393af3ed50c35fb541825c1822cecaa3b8005a29`, após CI `quality` aprovada.
-O checkpoint RF10 na branch documental própria está bloqueado por decisões
-materiais; Support 0.12 ainda não foi congelado nem há runtime RF10.
+O checkpoint RF10 bloqueado na branch documental própria foi preservado no
+commit `8498620`. As decisões posteriores congelaram Support 0.12 em
+`85c7e958adb0cbb9fa43842de7f990260f2bc0ee`, publicado e fixado no gitlink.
+Estado `RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN`; não há runtime RF10.

@@ -1,8 +1,9 @@
 # support-ms
 
 Microsserviço de Support (Suporte) da LuciLuci. RF01–RF09 compõem
-`MAIN_BASELINE_RF09` em `main` (merge da PR #9 `393af3e`). Support 0.10
-(`93edf66`) congela o contrato RF08; Support 0.9 (`1583a58`) congelou RF07a/RF07b. A fonte de verdade de negócio
+`MAIN_BASELINE_RF09` em `main` (merge da PR #9 `393af3e`). Support 0.12
+(`85c7e95`) congela o contrato RF10; Support 0.10 (`93edf66`) congela o
+contrato RF08; Support 0.9 (`1583a58`) congelou RF07a/RF07b. A fonte de verdade de negócio
 está em `luciluci-docs/support/`.
 
 ## Estado
@@ -12,12 +13,12 @@ S1 e RF01–RF09 estão implementadas, provadas e integradas. RF06 implementa
 transacional. RF07a/RF07b foram integradas pela PR #7,
 com consultas de tickets por ownership e membership atual de Department.
 RF08 foi integrada pela PR #8 e RF09 pela PR #9. RF10–RF13 não têm runtime.
-O checkpoint RF10 está `RF10_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`, sem
-revisão Support 0.12 congelada. O contrato RF08 está
+O contrato RF10 está `RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN`
+em Support 0.12, sem implementação. O contrato RF08 está
 `RF08_CONTRACT_FROZEN / RF08_CONTRACT_CHECKPOINT_READY` em Support 0.10.
 DEC-SUP-01/08/09 foram resolvidas exclusivamente para RF09 na revisão canônica
 Support 0.11 publicada (`a198b46`).
-O checkpoint RF09 bloqueado anterior permanece histórico.
+Os checkpoints bloqueados anteriores de RF09 e RF10 permanecem históricos.
 Consulte [ACTUAL_STATE](ACTUAL_STATE.md) e os reports em `docs/reports/`.
 
 ## Executar localmente
@@ -91,7 +92,8 @@ RF08 foi congelada documentalmente em Support 0.10,
 `93edf66d6ed0002a2af537339da315db1285a779`.
 RF08 foi integrada em `MAIN_BASELINE_RF08`. O contrato RF09 0.11 foi congelado,
 publicado e fixado no gitlink; RF09 foi integrada em `MAIN_BASELINE_RF09`.
-O checkpoint RF10 permanece bloqueado por decisões, sem branch funcional.
+O contrato RF10 Support 0.12 foi publicado e fixado no gitlink; a branch
+funcional ainda não foi criada.
 Desenvolva as próximas RFs em branches próprias. Consulte
 [`docs/workflows/support-development-branch-policy.md`](docs/workflows/support-development-branch-policy.md).
 

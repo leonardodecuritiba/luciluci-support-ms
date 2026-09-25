@@ -17,8 +17,9 @@ S1 e RF01–RF09 estão implementadas/provadas e integradas em `main` no
 Support 0.9; RF08 possui contrato Support 0.10 e runtime integrado.
 RF09 está integrada; RF10–RF13 permanecem sem runtime. O contrato RF09 Support
 0.11 está congelado e publicado, com DEC-SUP-01/08/09 resolvidas somente nesse
-recorte. O checkpoint RF10 está bloqueado por decisões materiais, sem Support
-0.12 congelado. Reports e checkpoints históricos estão em `reports/`.
+recorte. O contrato RF10 Support 0.12 está congelado e publicado em `85c7e95`,
+com runtime ainda ausente. O checkpoint bloqueado anterior é histórico. Reports
+e checkpoints históricos estão em `reports/`.
 
 A documentação canônica de negócio fica em `../luciluci-docs/support/`; o
-gitlink desta branch aponta à revisão 0.11 publicada (`a198b46`).
+gitlink desta branch aponta à revisão 0.12 publicada (`85c7e95`).
