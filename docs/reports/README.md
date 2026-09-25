@@ -52,15 +52,16 @@ A PR #9 integrou RF09 no merge `393af3e`, com `quality` aprovada no run
 `36145983860`, estabelecendo `MAIN_BASELINE_RF09`. O
 [checkpoint RF10](REPORT-SUPPORT-RF10-CHECKPOINT-20260925-143047.md) preserva a
 fonte literal da criação de mensagem e registra decisões materiais abertas;
-Naquele checkpoint, Support 0.12 ainda não estava congelado; RF10 permanece sem runtime.
+Naquele checkpoint, Support 0.12 ainda não estava congelado e RF10 não tinha runtime.
 O [fechamento contratual RF10](REPORT-SUPPORT-RF10-CONTRACT-20260925-145122.md)
 registra as decisões posteriores e Support 0.12 publicado no commit canônico
-`85c7e95`. O checkpoint bloqueado anterior permanece histórico; RF10 ainda
-não tem runtime nem testes próprios.
+`85c7e95`. O checkpoint bloqueado anterior permanece histórico; naquela
+revisão documental, RF10 ainda não tinha runtime nem testes próprios.
 O [report de implementação RF10](REPORT-SUPPORT-RF10-20260925-152647.md)
 registra runtime na branch funcional, suíte completa, prova PostgreSQL
 descartável com rollback/concorrência, regressões RF01–RF09 e smoke da imagem.
-Essa evidência é local; RF10 ainda não foi integrada em `main`.
+Essa evidência local foi reproduzida pela CI `quality` no run `36156561044`.
+A PR #10 integrou RF10 no merge `8827c0b`, estabelecendo `MAIN_BASELINE_RF10`.
 
 ## Fechamento atual de S1
 

@@ -1,13 +1,14 @@
 # ACTUAL_STATE
 
-## Estado atual — implementação RF10 na branch funcional
+## Estado atual — MAIN_BASELINE_RF10
 
-Na branch `feat/support-rf10-create-message`, RF10 está `IMPLEMENTED_AND_PROVEN`
-localmente sobre `MAIN_BASELINE_RF09` e o checkpoint documental
-`b72c585f0b83679d02bcedf573e38558c17eb4d4`. O gitlink permanece em
-Support 0.12 `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`. RF01–RF09 seguem
-integradas em `main`; RF10 ainda não foi integrada, publicada ou implantada;
-RF11–RF13 continuam `NOT_IMPLEMENTED`.
+RF01–RF10 estão `IMPLEMENTED_AND_PROVEN` e integradas em `main`. A
+[PR #10](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/10)
+integrou RF10 no merge `8827c0b2f6d0b7597984f5131d4f1ec7b658084f`,
+estabelecendo `MAIN_BASELINE_RF10`. O head funcional foi `50ffbf6`, e o check
+remoto `ci / quality` passou no run `36156561044`. O gitlink permanece em
+Support 0.12 `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`.
+RF11–RF13 continuam `NOT_IMPLEMENTED`. Não houve deploy.
 
 `POST /api/support/tickets/{ticketId}/messages` valida headers e coerência do
 body, aplica ACL após Ticket lock e, para admin, Department lock. Mensagem,
@@ -16,7 +17,7 @@ transação. Admin gera uma auditoria; backoffice/cd geram duas, inclusive se
 `adminStatus` já era `pendente`. Cada POST válido cria mensagem nova e renova
 `updatedAt`; não há idempotency key, evento nem migration nova.
 
-Evidência desta branch: 29 suítes/262 testes, cobertura 98,03% statements,
+Evidência da RF10: 29 suítes/262 testes, cobertura 98,03% statements,
 87,38% branches, 98,72% functions e 98,44% lines; prova RF10 em PostgreSQL 16
 descartável com quatro rollbacks e RF10×RF10/RF06/RF08; regressões PostgreSQL
 RF01–RF09; smoke da imagem RF10. O report de implementação em `docs/reports/`
@@ -29,7 +30,7 @@ As linhas históricas abaixo descrevem checkpoints anteriores à implementação
 - serviço `support-ms`; domínio `support`;
 - S1 `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`; drift `DRIFT-SUP-S1-001 / RESOLVED / PROVEN`;
 - RF01–RF09 `IMPLEMENTED_AND_PROVEN` e integradas em `main`; RF10–RF13 `NOT_IMPLEMENTED`;
-- baseline atual `MAIN_BASELINE_RF09`, merge da PR #9 `393af3ed50c35fb541825c1822cecaa3b8005a29`; RF08 permanece histórica em `45be90318bdb71e67532482364933cb49e6660e9`;
+- baseline naquele checkpoint `MAIN_BASELINE_RF09`, merge da PR #9 `393af3ed50c35fb541825c1822cecaa3b8005a29`; RF08 permanece histórica em `45be90318bdb71e67532482364933cb49e6660e9`;
 - RF07a/RF07b `RF07A_RF07B_CONTRACT_FROZEN` em Support 0.9; implementação e prova PostgreSQL local concluídas;
 - contrato RF06 congelado em Support 0.8, commit canônico `4650ec671c948a4fa8fb04fa33b300d8fd255ae4` de `luciluci-docs`;
 - decisões RF06 DEC-SUP-01/03/05/06/08/09/10/12 resolvidas somente nesse recorte; DEC-SUP-01/02/07/08/09 estão `RESOLVED_FOR_RF07` somente para RF07a/RF07b, conforme `luciluci-docs/support/notes.md`;
@@ -43,7 +44,7 @@ O checkpoint bloqueado no commit `8498620803e206f4ef0fa481835af5270db1f721` perm
 
 A [PR #9](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/9), head `93fd4832f7275691973b547443144b8246194fa7`, foi integrada em 2026-09-25 no merge `393af3ed50c35fb541825c1822cecaa3b8005a29`. O check `ci / quality` passou no run `36145983860`; não havia reviews ou review threads, e não houve conflito. `main` local e `origin/main` coincidiram no merge; a branch funcional é ancestral de `main`. Nenhum deploy foi executado.
 
-A branch documental `docs/support-rf10-create-message-checkpoint` parte dessa baseline. O [report RF10 histórico](docs/reports/REPORT-SUPPORT-RF10-CHECKPOINT-20260925-143047.md) registra as lacunas antes da decisão; o fechamento 0.12 acima as resolve sem reescrever esse checkpoint. `feat/support-rf10-create-message` não foi criada e RF10 segue sem runtime.
+A branch documental `docs/support-rf10-create-message-checkpoint` parte dessa baseline. O [report RF10 histórico](docs/reports/REPORT-SUPPORT-RF10-CHECKPOINT-20260925-143047.md) registra as lacunas antes da decisão; o fechamento 0.12 acima as resolve sem reescrever esse checkpoint. Naquele momento, `feat/support-rf10-create-message` não tinha sido criada e RF10 seguia sem runtime.
 
 ## Implementação RF09 — branch funcional
 

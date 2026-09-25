@@ -1,7 +1,6 @@
 # src
 
-Código ativo de Support com RF01–RF09 em `main` (`MAIN_BASELINE_RF09`) e
-RF10 implementada/provada localmente na branch funcional, ainda fora de `main`.
+Código ativo de Support com RF01–RF10 em `main` (`MAIN_BASELINE_RF10`, PR #10).
 
 - `features/department/` materializa RF01–RF04.
 - `features/ticket/` materializa criação atômica RF05, edição RF06, listagens RF07a/RF07b e resolução RF08 com ownership, lock do Ticket, no-op e auditoria de requester;
