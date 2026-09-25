@@ -5,8 +5,11 @@
 RF11 está implementada/provada localmente em
 `feat/support-rf11-message-visibility` sobre Support 0.13 (`4958fd1`).
 RF01–RF10 seguem integradas em `main`; RF12/RF13 não têm runtime.
-Não houve commit, push, PR, merge ou deploy RF11 neste lote.
-Ver `docs/reports/REPORT-SUPPORT-RF11-20260925.md`.
+O commit `2985ac5` foi publicado na branch funcional e a
+[PR #12](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/12)
+foi aberta contra `main`; não houve merge nem deploy.
+Ver `docs/reports/REPORT-SUPPORT-RF11-20260925.md` para a prova local
+anterior à publicação.
 As seções seguintes preservam fotografias anteriores à implementação.
 
 ## Estado de trabalho

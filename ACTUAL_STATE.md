@@ -9,8 +9,11 @@ A rota `PATCH /api/support/tickets/{ticketId}/messages/{messageId}/visibility`
 altera somente a visibilidade de mensagens admin, com ACL por membership atual
 e locks Ticket→Department→Message. No-op retorna 200 sem UPDATE.
 RF01–RF10 permanecem integradas em `main`; RF12/RF13 seguem sem runtime.
-RF11 ainda não foi commitada, publicada, revisada por PR ou integrada em
-`main`. Evidência local em [report RF11](docs/reports/REPORT-SUPPORT-RF11-20260925.md).
+RF11 foi commitada em `2985ac5`, publicada e submetida à
+[PR #12](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/12)
+contra `main`; ainda não foi integrada nem implantada. Evidência local em
+[report RF11](docs/reports/REPORT-SUPPORT-RF11-20260925.md). O report
+registra o fechamento da implementação anterior à publicação.
 
 ## Fotografia histórica — fechamento contratual RF11 — Support 0.13
 

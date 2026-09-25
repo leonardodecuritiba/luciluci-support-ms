@@ -14,6 +14,9 @@ Documentação operacional do `support-ms`.
 
 Na branch funcional RF11, a edição de visibilidade está implementada/provada
 localmente com contrato Support 0.13 fixo. RF12/RF13 não possuem runtime.
+O commit `2985ac5` foi publicado na
+[PR #12](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/12),
+ainda fora de `main`.
 O [report RF11](reports/REPORT-SUPPORT-RF11-20260925.md) registra a evidência;
 os parágrafos seguintes preservam o estado histórico de `main` e do
 checkpoint documental anterior.

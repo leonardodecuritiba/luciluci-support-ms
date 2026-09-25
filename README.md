@@ -12,8 +12,10 @@ Na branch `feat/support-rf11-message-visibility`, RF11 está implementada e
 provada localmente sob Support 0.13. A rota PATCH altera apenas
 `TicketMessage.isVisibleToRequester` de mensagens admin e preserva Ticket,
 mídias e auditorias. RF12/RF13 continuam sem runtime. O trabalho RF11 ainda
-não foi commitado, publicado, submetido a PR ou integrado em `main`.
-[Report de implementação](docs/reports/REPORT-SUPPORT-RF11-20260925.md).
+foi commitado em `2985ac5`, publicado e submetido à
+[PR #12](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/12);
+segue fora de `main` e sem deploy.
+[Report de implementação local](docs/reports/REPORT-SUPPORT-RF11-20260925.md).
 
 ### Fotografia histórica do congelamento contratual
 
