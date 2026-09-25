@@ -11,9 +11,15 @@ import IListTicketsRepository, {
 	TicketPage,
 } from '../../use-cases/repositories/ilist-tickets.repository';
 import IUpdateTicketRepository from '../../use-cases/repositories/iupdate-ticket.repository';
+import IGetTicketRepository from '../../use-cases/repositories/iget-ticket.repository';
+import DepartmentAllowedUser from '../../../department/entities/department-allowed-user.entity';
 
 export default class TicketTypeormRepository
-	implements ITicketRepository, IUpdateTicketRepository, IListTicketsRepository
+	implements
+		ITicketRepository,
+		IUpdateTicketRepository,
+		IListTicketsRepository,
+		IGetTicketRepository
 {
 	private readonly ticketRepository: Repository<Ticket>;
 
@@ -44,6 +50,16 @@ export default class TicketTypeormRepository
 			.where('ticket.id = :id', { id });
 		if (this.manager.connection.options.type === 'postgres') query.setLock('pessimistic_write');
 		return (await query.getOne()) ?? undefined;
+	}
+
+	async findById(id: string): Promise<Ticket | undefined> {
+		return (await this.ticketRepository.findOneBy({ id })) ?? undefined;
+	}
+
+	async hasDepartmentMembership(departmentId: string, userId: string): Promise<boolean> {
+		return this.manager.getRepository(DepartmentAllowedUser).exist({
+			where: { departmentId, userId },
+		});
 	}
 
 	async findPage(scope: TicketListScope, filters: ListTicketsFilters): Promise<TicketPage> {

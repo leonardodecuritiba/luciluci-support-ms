@@ -150,4 +150,7 @@ congelou Support 0.11 localmente no commit canônico
 branch. A primeira tentativa de push foi rejeitada pela revisão automática;
 após autorização específica do usuário, `ls-remote` confirmou o SHA canônico
 e o head `c586fdba037eb463b0841be9b99e9c8dbdcd0953` da branch documental
-do serviço. RF09 continua sem runtime.
+do serviço. A branch funcional `feat/support-rf09-get-ticket` partiu do head
+documental publicado `f76c217`, preservou o gitlink 0.11 e implementou/provou
+RF09 localmente. `main` continua em `MAIN_BASELINE_RF08`; publicação, PR e
+integração RF09 ainda não ocorreram.

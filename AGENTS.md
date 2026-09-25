@@ -5,7 +5,8 @@
 Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
 Identidade e superfície operacional foram materializadas, Profile foi retirado
 e RF01–RF08 estão `IMPLEMENTED_AND_PROVEN` em `MAIN_BASELINE_RF08` (PR #8).
-RF09 está `CONTRACT_FROZEN / NOT_IMPLEMENTED` em Support 0.11; RF10–RF13
+RF09 está implementada e provada somente na branch `feat/support-rf09-get-ticket`,
+com contrato `RF09_CONTRACT_FROZEN` em Support 0.11; RF10–RF13
 continuam `NOT_IMPLEMENTED`. O checkpoint RF09 bloqueado anterior permanece
 histórico.
 Leia `ACTUAL_STATE.md` para o estado real.
@@ -68,8 +69,8 @@ de inicialização não é bug comprovado do Support. Propostas de arquitetura
 não são decisões de negócio aprovadas.
 
 RF08 está integrada em `MAIN_BASELINE_RF08`. RF09 possui contrato Support 0.11
-congelado/publicado e ainda não possui runtime. RF10–RF13 permanecem fora do
-runtime. Qualquer prova futura de banco exige destino descartável
+congelado/publicado e runtime provado na branch funcional, ainda fora de `main`.
+RF10–RF13 permanecem fora do runtime. Qualquer prova futura de banco exige destino descartável
 explícito; não usar banco padrão/preexistente.
 
 ## Política de branches e `main`
@@ -82,8 +83,8 @@ estão integradas; `MAIN_BASELINE_RF08` corresponde ao merge da PR #8
 Para RF09–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
 uma branch própria por slice. Convenção recomendada: `feat/support-rfNN-<slug>`;
 correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs independentes
-na mesma branch. A futura implementação RF09 deve partir de
-`MAIN_BASELINE_RF08` com o contrato Support 0.11 publicado no gitlink
+na mesma branch. A branch RF09 partiu do checkpoint documental publicado, descendente de
+`MAIN_BASELINE_RF08`, com gitlink Support 0.11
 `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
@@ -109,6 +110,8 @@ misturar alterações do submódulo com arquivos comuns do repositório pai.
 - Preservar paths `/api/support/*`, enums e campos do PRD; não copiar `/profiles` ou `/replies` como contrato Support.
 - `Department.type` não governa autorização; `allowedUserIds` é o critério administrativo.
 - Solicitante acessa seu próprio ticket; RF08 é exclusivo do solicitante.
+- RF09 lê Ticket por ID sob ownership para backoffice/cd ou membership atual para admin,
+  inclusive em Department inativo; não escreve ou gera auditoria.
 - RF05 cria ticket + mensagem inicial de forma atômica e somente uma auditoria.
 - RF06 edita priority/departmentId/adminStatus sob ACL, lock Ticket→Departments,
   no-op sem write e uma auditoria apenas na mudança efetiva de adminStatus.

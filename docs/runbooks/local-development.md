@@ -1,6 +1,6 @@
 # Local Development
 
-## Estado e provas RF01–RF08
+## Estado e provas RF01–RF09
 
 `DRIFT-SUP-S1-001` foi encerrado: o build de produção emite `dist/main.js` e
 os runners em `dist/shared/...`, verificados por `npm run build:check`. Não
@@ -10,7 +10,7 @@ As provas versionadas são `npm run proof:rf01:postgres`,
 `npm run proof:rf02:postgres`, `npm run proof:rf03:postgres`,
 `npm run proof:rf04:postgres`, `npm run proof:rf05:postgres`,
 `npm run proof:rf06:postgres`, `npm run proof:rf07:postgres` e
-`npm run proof:rf08:postgres` (requerem todos os
+`npm run proof:rf08:postgres` e `npm run proof:rf09:postgres` (requerem todos os
 `S1_PROOF_DB_*`, `S1_PROOF_ADMIN_DB` e `S1_PROOF_SERVER_PORT` explícitos) e
 `npm run proof:s1:image`. Os compose files normais têm nomes fixos e volume
 persistente; não usá-los como ambiente de prova isolado.
@@ -18,6 +18,11 @@ Para RF08, use `S1_PROOF_DB_NAME=support_s1_proof_rf08_<sufixo>` ou
 `support_s1_ci_rf08_<sufixo>`, banco previamente ausente. O script cria e
 descarta somente esse banco, usa processo compilado e prova rollback/no-op e
 locks PostgreSQL. Não aponte as provas para `support_ms` ou outro banco existente.
+
+Para RF09, use `S1_PROOF_DB_NAME=support_s1_proof_rf09_<sufixo>` ou
+`support_s1_ci_rf09_<sufixo>`, banco previamente ausente. O script comprova
+GET por ID, ACL atual, erros, projeção exata e snapshots físicos sem escrita
+de seis tabelas, depois descarta o banco criado.
 
 ## Desenvolvimento local (destino previamente conferido)
 

@@ -7,7 +7,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			title: 'support-ms',
 			version: '1.0.0',
 			description:
-				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, and RF08 resolves tickets; RF09–RF13 remain unavailable.',
+				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, and RF09 reads tickets by ID; RF10–RF13 remain unavailable.',
 		},
 		components: {
 			parameters: {
@@ -215,6 +215,39 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						updatedAt: { type: 'string', format: 'date-time' },
 					},
 				},
+				TicketDetail: {
+					type: 'object',
+					additionalProperties: false,
+					required: [
+						'id',
+						'number',
+						'subject',
+						'requesterId',
+						'departmentId',
+						'priority',
+						'origin',
+						'adminStatus',
+						'requesterStatus',
+						'createdAt',
+						'updatedAt',
+					],
+					properties: {
+						id: { type: 'string', format: 'uuid' },
+						number: { type: 'integer', minimum: 1 },
+						subject: { type: 'string' },
+						requesterId: { type: 'string' },
+						departmentId: { type: 'string', format: 'uuid' },
+						priority: { $ref: '#/components/schemas/TicketPriority' },
+						origin: { $ref: '#/components/schemas/TicketOrigin' },
+						adminStatus: { $ref: '#/components/schemas/TicketAdminStatus' },
+						requesterStatus: {
+							type: 'string',
+							enum: ['nao_resolvido', 'resolvido'],
+						},
+						createdAt: { type: 'string', format: 'date-time' },
+						updatedAt: { type: 'string', format: 'date-time' },
+					},
+				},
 				TicketListItem: {
 					type: 'object',
 					additionalProperties: false,
@@ -324,6 +357,80 @@ const swaggerOptions: swaggerJSDoc.Options = {
 				},
 			},
 			'/api/support/tickets/{ticketId}': {
+				get: {
+					summary: 'Get a Ticket by ID',
+					description:
+						'RF09. Admin requires current Department membership; backoffice and cd require requester ownership. Inactive Departments remain readable. Read-only, without audit or side effects. Query parameters and request body are forbidden.',
+					tags: ['Tickets'],
+					parameters: [
+						{ $ref: '#/components/parameters/CorrelationIdHeader' },
+						{ $ref: '#/components/parameters/PerformedByHeader' },
+						{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+						{
+							in: 'path',
+							name: 'ticketId',
+							required: true,
+							schema: {
+								type: 'string',
+								format: 'uuid',
+								pattern:
+									'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$',
+							},
+						},
+					],
+					responses: {
+						'200': {
+							description: 'Complete Ticket without expanded relations.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/TicketDetail' },
+								},
+							},
+						},
+						'400': {
+							description: 'Missing or invalid correlation/actor headers.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'403': {
+							description:
+								'Current Department membership or requester ownership denied.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'404': {
+							description: 'Ticket not found.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'422': {
+							description:
+								'Invalid ticketId, any query parameter, or any present body.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'500': {
+							description: 'Unexpected error.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+					},
+				},
 				patch: {
 					summary: 'Update ticket priority, department, or admin status',
 					description:

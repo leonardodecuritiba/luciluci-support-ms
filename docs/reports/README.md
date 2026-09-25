@@ -46,6 +46,9 @@ O [fechamento contratual RF09](REPORT-SUPPORT-RF09-CONTRACT-20260925-125528.md)
 registra a aprovação posterior, Support 0.11 publicado e o gitlink `a198b46`.
 A primeira tentativa de publicação foi bloqueada pela revisão automática e
 concluída após autorização específica. O checkpoint anterior não foi reescrito.
+O [report de implementação RF09](REPORT-SUPPORT-RF09-20260925-140106.md)
+registra a branch funcional, testes, prova PostgreSQL, regressões e smoke local.
+RF09 ainda não foi integrada em `main`.
 
 ## Fechamento atual de S1
 

@@ -1,15 +1,23 @@
 # ACTUAL_STATE
 
-## Estado atual — MAIN_BASELINE_RF08 e checkpoint contratual RF09
+## Estado atual — MAIN_BASELINE_RF08 e implementação RF09 na branch
 
 - serviço `support-ms`; domínio `support`;
 - S1 `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`; drift `DRIFT-SUP-S1-001 / RESOLVED / PROVEN`;
-- RF01–RF08 `IMPLEMENTED_AND_PROVEN` e integradas em `main`; RF09–RF13 `NOT_IMPLEMENTED`;
+- RF01–RF08 `IMPLEMENTED_AND_PROVEN` e integradas em `main`; RF09 `IMPLEMENTED_AND_PROVEN` somente na branch `feat/support-rf09-get-ticket`; RF10–RF13 `NOT_IMPLEMENTED`;
 - baseline atual `MAIN_BASELINE_RF08`, merge da PR #8 `45be90318bdb71e67532482364933cb49e6660e9`; a baseline RF07 permanece histórica em `43a556ab1c70f5de9a63e3e6ab651445fa462173`;
 - RF07a/RF07b `RF07A_RF07B_CONTRACT_FROZEN` em Support 0.9; implementação e prova PostgreSQL local concluídas;
 - contrato RF06 congelado em Support 0.8, commit canônico `4650ec671c948a4fa8fb04fa33b300d8fd255ae4` de `luciluci-docs`;
 - decisões RF06 DEC-SUP-01/03/05/06/08/09/10/12 resolvidas somente nesse recorte; DEC-SUP-01/02/07/08/09 estão `RESOLVED_FOR_RF07` somente para RF07a/RF07b, conforme `luciluci-docs/support/notes.md`;
 - gitlink atual Support 0.11 `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`, publicado em `origin/docs/support-rf09-get-ticket-contract` e confirmado por `ls-remote`; a revisão anterior 0.10 `93edf66d6ed0002a2af537339da315db1285a779` foi publicada na branch `docs/support-rf08-resolve-ticket-contract`. O contrato RF07 0.9 permanece histórico em `1583a586793437a7b7c0569581637ee8ddac5ae5`; `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`.
+
+## Implementação RF09 — branch funcional
+
+A branch `feat/support-rf09-get-ticket` partiu de `origin/codex/support-rf09-contract-checkpoint` (`f76c217`), descendente de `MAIN_BASELINE_RF08`, com gitlink canônico Support 0.11 fixo em `a198b46`. `GET /api/support/tickets/{ticketId}` retorna somente os onze campos de Ticket. `backoffice`/`cd` leem por `requesterId`; admin lê por membership atual no Department, inclusive inativo. O caso de uso consulta Ticket antes da ACL para distinguir 404 de 403. Não há lock, transação de escrita, auditoria, evento, outbox, idempotência ou migration RF09. RF10–RF13 permanecem indisponíveis.
+
+Testes unitários, integração HTTP/SQLite e contrato OpenAPI foram acrescentados. A prova `proof:rf09:postgres` passou em PostgreSQL 16 descartável com processo compilado, validando ACL, resposta exata, erros e snapshots físicos de `departments`, `department_allowed_users`, `tickets`, `ticket_messages`, `ticket_message_media` e `ticket_audit_logs` antes/depois dos GETs. A suíte completa passou com 27 suítes e 239 testes; cobertura: 97,93% statements, 87,16% branches, 98,62% functions, 98,28% lines. O smoke da imagem passou com leitura requester/admin. Regressões PostgreSQL RF01–RF08 e demais gates estão no report RF09. Nenhuma CI remota, PR, push ou integração em `main` é atribuída a esta branch.
+
+As referências abaixo que dizem RF09 sem runtime são fotografias históricas dos checkpoints anteriores à implementação, não o estado desta branch.
 
 ## Integração RF08 e abertura RF09
 

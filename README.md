@@ -11,7 +11,8 @@ S1 e RF01–RF08 estão implementadas, provadas e integradas. RF06 implementa
 `PATCH /api/support/tickets/{ticketId}` com ACL, transferência, no-op e auditoria
 transacional. RF07a/RF07b foram integradas pela PR #7,
 com consultas de tickets por ownership e membership atual de Department.
-RF08 foi integrada pela PR #8. RF09–RF13 não têm runtime. O contrato RF08 está
+RF08 foi integrada pela PR #8. RF09 está implementada/provada somente na branch
+`feat/support-rf09-get-ticket`; RF10–RF13 não têm runtime. O contrato RF08 está
 `RF08_CONTRACT_FROZEN / RF08_CONTRACT_CHECKPOINT_READY` em Support 0.10.
 DEC-SUP-01/08/09 foram resolvidas exclusivamente para RF09 na revisão canônica
 Support 0.11 publicada (`a198b46`).
@@ -46,6 +47,7 @@ fase: o comando falha de modo explícito até a massa determinística de W1 ser 
 - `GET /api/support/tickets/requester/{requesterId}`
 - `GET /api/support/tickets/admin/{adminId}`
 - `POST /api/support/tickets/{ticketId}/resolve`
+- `GET /api/support/tickets/{ticketId}`
 
 Consulte `api.http`, `docs/runbooks/local-development.md` e
 `docs/runbooks/infra-access.md`.
@@ -73,7 +75,8 @@ Na branch RF08, `npm run proof:rf08:postgres` passou em banco exclusivo
 descartado, inclusive rollback de AuditLog e concorrência RF08×RF08/RF06×RF08.
 As provas RF01–RF07 e o smoke da imagem foram repetidos localmente. O check
 remoto `quality` do head RF08 passou no run `36065884933`; a PR #8 foi integrada
-no merge `45be903`. Nenhuma prova RF09 foi executada.
+no merge `45be903`. A prova RF09 passou em banco descartável com processo
+compilado e snapshots físicos sem escrita; regressões e gates constam do report RF09.
 
 ## Fluxo Git por baseline funcional
 
@@ -84,7 +87,7 @@ congeladas em Support 0.9, `1583a586793437a7b7c0569581637ee8ddac5ae5`.
 RF08 foi congelada documentalmente em Support 0.10,
 `93edf66d6ed0002a2af537339da315db1285a779`.
 RF08 foi integrada em `MAIN_BASELINE_RF08`. O contrato RF09 0.11 foi congelado,
-publicado e fixado no gitlink; RF09 ainda não tem runtime. Desenvolva as
+publicado e fixado no gitlink; RF09 está na branch funcional, fora de `main`. Desenvolva as
 próximas RFs em branches próprias. Consulte
 [`docs/workflows/support-development-branch-policy.md`](docs/workflows/support-development-branch-policy.md).
 

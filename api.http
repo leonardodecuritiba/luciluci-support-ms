@@ -1,12 +1,84 @@
 # support-ms bootstrap API requests
 #
-# S1 + RF01–RF08 support surface. RF09–RF13 are not implemented.
+# S1 + RF01–RF09 support surface. RF10–RF13 are not implemented.
 
 @baseUrl = http://localhost:3000
 @correlationId = 8a7dd7bb-7b3f-4b3b-8b8e-0b7e2819d001
 @ticketId = 550e8400-e29b-41d4-a716-446655440002
 @requesterId = uid-requester-1
 @adminId = uid-admin-1
+
+### RF09 - Owner backoffice reads complete Ticket
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: backoffice
+
+### RF09 - Owner cd reads regardless of Ticket origin
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+
+### RF09 - Admin with current Department membership reads historical Ticket
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF09 - Admin without membership is forbidden
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: uid-admin-other
+X-Performed-By-Type: admin
+
+### RF09 - Non-owner requester is forbidden
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: uid-requester-other
+X-Performed-By-Type: cd
+
+### RF09 - Missing Ticket returns 404
+GET {{baseUrl}}/api/support/tickets/919cf070-ea36-41df-9382-e44d541f8005
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+
+### RF09 - Invalid Ticket ID returns 422
+GET {{baseUrl}}/api/support/tickets/invalid
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+
+### RF09 - Any query parameter returns 422
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}?unused=1
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+
+### RF09 - Any body present returns 422
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{}
+
+### RF09 - Missing actor returns 400
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}
+X-Correlation-ID: {{correlationId}}
+
+### RF09 - Invalid role returns 400
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: requester
+
+### RF09 - Missing correlation returns 400
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
 
 ### RF08 - Owner backoffice resolves without body
 POST {{baseUrl}}/api/support/tickets/{{ticketId}}/resolve

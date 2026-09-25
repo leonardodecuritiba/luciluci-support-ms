@@ -184,6 +184,36 @@
 				"enum": ["pendente", "cancelado", "em_andamento", "finalizado", "resolvido"],
 				"type": "string"
 			},
+			"TicketDetail": {
+				"additionalProperties": false,
+				"properties": {
+					"adminStatus": { "$ref": "#/components/schemas/TicketAdminStatus" },
+					"createdAt": { "format": "date-time", "type": "string" },
+					"departmentId": { "format": "uuid", "type": "string" },
+					"id": { "format": "uuid", "type": "string" },
+					"number": { "minimum": 1, "type": "integer" },
+					"origin": { "$ref": "#/components/schemas/TicketOrigin" },
+					"priority": { "$ref": "#/components/schemas/TicketPriority" },
+					"requesterId": { "type": "string" },
+					"requesterStatus": { "enum": ["nao_resolvido", "resolvido"], "type": "string" },
+					"subject": { "type": "string" },
+					"updatedAt": { "format": "date-time", "type": "string" }
+				},
+				"required": [
+					"id",
+					"number",
+					"subject",
+					"requesterId",
+					"departmentId",
+					"priority",
+					"origin",
+					"adminStatus",
+					"requesterStatus",
+					"createdAt",
+					"updatedAt"
+				],
+				"type": "object"
+			},
 			"TicketListItem": {
 				"additionalProperties": false,
 				"properties": {
@@ -248,7 +278,7 @@
 		}
 	},
 	"info": {
-		"description": "Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, and RF08 resolves tickets; RF09–RF13 remain unavailable.",
+		"description": "Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, and RF09 reads tickets by ID; RF10–RF13 remain unavailable.",
 		"title": "support-ms",
 		"version": "1.0.0"
 	},
@@ -558,6 +588,76 @@
 			}
 		},
 		"/api/support/tickets/{ticketId}": {
+			"get": {
+				"description": "RF09. Admin requires current Department membership; backoffice and cd require requester ownership. Inactive Departments remain readable. Read-only, without audit or side effects. Query parameters and request body are forbidden.",
+				"parameters": [
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{ "$ref": "#/components/parameters/PerformedByHeader" },
+					{ "$ref": "#/components/parameters/PerformedByTypeHeader" },
+					{
+						"in": "path",
+						"name": "ticketId",
+						"required": true,
+						"schema": {
+							"format": "uuid",
+							"pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/TicketDetail" }
+							}
+						},
+						"description": "Complete Ticket without expanded relations."
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Missing or invalid correlation/actor headers."
+					},
+					"403": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Current Department membership or requester ownership denied."
+					},
+					"404": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Ticket not found."
+					},
+					"422": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Invalid ticketId, any query parameter, or any present body."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Unexpected error."
+					}
+				},
+				"summary": "Get a Ticket by ID",
+				"tags": ["Tickets"]
+			},
 			"patch": {
 				"description": "Locks Ticket, then relevant Departments in UUID order. Admin needs current and target membership; requester needs ownership. No-op preserves updatedAt. A changed adminStatus writes one audit in the transaction.",
 				"parameters": [

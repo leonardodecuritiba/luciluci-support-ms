@@ -147,7 +147,11 @@ async function main() {
 				'Content-Type': 'application/json',
 				'X-Correlation-ID': correlationId,
 			},
-			body: JSON.stringify({ name: 'Image RF05', type: 'todos' }),
+			body: JSON.stringify({
+				name: 'Image RF05',
+				type: 'todos',
+				allowedUserIds: ['uid-image-admin'],
+			}),
 		});
 		assert.equal(created.status, 201);
 		const createdBody = await created.json();
@@ -181,6 +185,38 @@ async function main() {
 		});
 		assert.equal(resolved.status, 200);
 		assert.equal((await resolved.json()).requesterStatus, 'resolvido');
+		for (const [actor, role] of [
+			['uid-image-requester', 'backoffice'],
+			['uid-image-admin', 'admin'],
+		]) {
+			const detail = await fetch(`${baseUrl}/api/support/tickets/${ticketBody.id}`, {
+				headers: {
+					'X-Correlation-ID': randomUUID(),
+					'X-Performed-By': actor,
+					'X-Performed-By-Type': role,
+				},
+			});
+			assert.equal(detail.status, 200);
+			const body = await detail.json();
+			assert.equal(body.id, ticketBody.id);
+			assert.equal(body.requesterStatus, 'resolvido');
+			assert.deepEqual(
+				Object.keys(body).sort(),
+				[
+					'id',
+					'number',
+					'subject',
+					'requesterId',
+					'departmentId',
+					'priority',
+					'origin',
+					'adminStatus',
+					'requesterStatus',
+					'createdAt',
+					'updatedAt',
+				].sort(),
+			);
+		}
 		const listed = await fetch(`${baseUrl}/api/support/departments`, {
 			headers: { 'X-Correlation-ID': randomUUID() },
 		});
@@ -201,7 +237,7 @@ async function main() {
 		const listAfterDeleteBody = await listedAfterDelete.json();
 		assert.equal(listAfterDeleteBody.pagination.total, 0);
 		assert.deepEqual(listAfterDeleteBody.data, []);
-		console.log('S1 production image CMD smoke with RF05/RF08 OK');
+		console.log('S1 production image CMD smoke with RF05/RF08/RF09 OK');
 	} finally {
 		docker(['rm', '-f', appContainer], true);
 		docker(['rm', '-f', databaseContainer], true);

@@ -4,7 +4,8 @@
 
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
 materializada; RF01–RF08 estão `IMPLEMENTED_AND_PROVEN` em
-`MAIN_BASELINE_RF08`. RF09–RF13 permanecem `NOT_IMPLEMENTED`;
+`MAIN_BASELINE_RF08`. RF09 está implementada/provada na branch funcional,
+ainda fora de `main`; RF10–RF13 permanecem `NOT_IMPLEMENTED`;
 o contrato RF08 está congelado em Support 0.10 (`RF08_CONTRACT_CHECKPOINT_READY`).
 O checkpoint RF09 bloqueado é histórico; DEC-SUP-01/08/09 foram aprovadas
 somente para RF09 e congeladas em Support 0.11, publicado no remoto canônico.
@@ -63,4 +64,5 @@ fotografia bloqueada anterior. O fechamento 0.11 publicado está em
 `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`, confirmado por `ls-remote`.
 A primeira tentativa de push foi bloqueada pela revisão automática; a
 autorização específica posterior permitiu publicar as branches canônica e do
-serviço. RF09 ainda não possui runtime.
+serviço. A implementação RF09 posterior está na branch
+`feat/support-rf09-get-ticket`, com prova local e sem integração em `main`.

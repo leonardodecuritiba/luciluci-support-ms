@@ -16,7 +16,8 @@ RF01–RF08 estão `IMPLEMENTED_AND_PROVEN` em `main`, na baseline
 `MAIN_BASELINE_RF08` (merge da PR #8 `45be90318bdb71e67532482364933cb49e6660e9`).
 As decisões foram fechadas apenas em cada recorte; RF07a/RF07b têm contrato
 Support 0.9 congelado e runtime implementado/provado na PR #7. RF08 foi
-integrada pela PR #8; RF09–RF13 permanecem fora do runtime. O checkpoint RF08 bloqueado era uma lacuna
+integrada pela PR #8; RF09 está implementada/provada somente na branch
+`feat/support-rf09-get-ticket`; RF10–RF13 permanecem fora do runtime. O checkpoint RF08 bloqueado era uma lacuna
 contratual; decisões posteriores a fecharam em Support 0.10, sem drift técnico
 novo do runtime existente.
 
@@ -48,4 +49,13 @@ DEC-SUP-01/08/09 então abertas; a aprovação posterior as fechou somente para
 RF09 em Support 0.11 (`a198b46`). A primeira tentativa de publicação remota
 foi bloqueada pela revisão automática; depois de autorização específica,
 o SHA canônico e a branch do serviço foram publicados e conferidos. Não há
-drift técnico novo do runtime. RF09–RF13 continuam ausentes.
+drift técnico novo do runtime naquele checkpoint; RF09–RF13 ainda estavam
+ausentes naquela fotografia anterior à branch funcional.
+
+## RF09 na branch funcional
+
+Contrato Support 0.11 e gitlink canônico preservados. A prova PostgreSQL 16 com
+banco próprio descartado, suíte HTTP/SQLite, contrato e smoke da imagem não
+reproduziram drift técnico. A falha inicial da prova histórica RF02 sob fuso
+local foi de interpretação de timestamp pelo cliente de prova; o replay com
+`TZ=UTC` passou. RF09 permanece fora de `main`; CI remota e PR não executadas.
