@@ -1,5 +1,59 @@
 # ACTUAL_STATE
 
+## Implementação RF12 — branch funcional
+
+Nesta branch `feat/support-rf12-list-messages`, RF12 está
+`IMPLEMENTED_AND_PROVEN` sobre Support 0.14 (`820b2a8`). A rota
+`GET /api/support/tickets/{ticketId}/messages` usa ACL de Ticket, escopo de
+visibilidade aplicado no SQL, paginação estrita, ordem `createdAt ASC,id ASC`,
+mídia posicional em uma consulta por página e transação PostgreSQL
+`REPEATABLE READ` sem lock ou write. Provas locais estão no
+[report RF12](docs/reports/REPORT-SUPPORT-RF12-20260925.md).
+RF01–RF11 permanecem integradas/provadas em `main` (`7724382`); RF12 ainda não
+foi integrada ou implantada. RF13 segue `NOT_IMPLEMENTED`.
+As seções seguintes são fotografias históricas.
+
+## Fechamento contratual RF12 — Support 0.14
+
+O checkpoint bloqueado `98efe16` permanece histórico. Decisões expressas
+congelaram somente RF12 em Support 0.14, publicado no commit canônico
+`820b2a8b29819fc52aefd078dc51bfe651a51204` e fixado no gitlink desta
+branch. Estado `RF12_CONTRACT_CHECKPOINT_READY / RF12_CONTRACT_FROZEN /
+NOT_IMPLEMENTED`. RF01–RF11 permanecem `IMPLEMENTED_AND_PROVEN` em
+`MAIN_BASELINE_RF11` (PR #13 documental no merge `7724382`); RF13 segue
+`NOT_IMPLEMENTED`. Nenhum runtime, teste funcional RF12 ou deploy foi criado.
+O [report de fechamento RF12](docs/reports/REPORT-SUPPORT-RF12-CONTRACT-20260925-185019.md)
+registra as decisões, publicação e limites.
+
+`GET /api/support/tickets/{ticketId}/messages` exige headers de correlação e
+ator, ACL do Ticket e paginação. Admin com membership atual pode ver todas as
+mensagens; requester dono vê apenas `isVisibleToRequester=true`. Para
+requester, filtro `false` é válido e retorna página vazia/total zero sem
+consultar notas internas. Ordem `createdAt ASC,id ASC`, item completo de oito
+campos, mídia posicional em lote e fotografia PostgreSQL `REPEATABLE READ`
+sem lock pessimista ou write. RF12 não gera AuditLog, evento ou migration.
+As seções seguintes preservam fotografias anteriores.
+
+## Fotografia histórica — checkpoint RF12 bloqueado por decisão
+
+A PR documental [#13](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/13)
+foi integrada em `main` no merge `7724382245545c5918262ebb66aff0d696b0a2b2`,
+após `ci / quality` aprovado no run `36171699704`. `main` local e remota
+coincidiram nesse commit; `MAIN_BASELINE_RF11` mantém RF01–RF11
+`IMPLEMENTED_AND_PROVEN`. Naquele checkpoint, o gitlink continuava Support
+0.13 `4958fd1`.
+
+O checkpoint documental de RF12, `GET /api/support/tickets/{ticketId}/messages`,
+tem estado `RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. A fonte fixa rota,
+filtro opcional `isVisibleToRequester`, paginação, ACL geral do Ticket e
+auditoria zero, mas não fecha a projeção segura de mensagens internas para
+solicitantes, incluindo filtro omitido/`false` e `total`. Também faltam decisões
+específicas de paginação/ordem, resposta, validações e consistência de leitura.
+Ver [report RF12](docs/reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md).
+Naquela fotografia, Support 0.14 não estava congelado; RF12/RF13 seguiam
+`NOT_IMPLEMENTED`, sem branch
+funcional RF12 ou deploy. As seções seguintes preservam fotografias anteriores.
+
 ## Estado atual — MAIN_BASELINE_RF11
 
 RF01–RF11 estão `IMPLEMENTED_AND_PROVEN` e integradas em `main`. A

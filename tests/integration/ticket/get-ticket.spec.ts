@@ -185,16 +185,10 @@ describe('Integration: RF09 get ticket by ID', () => {
 		).toBe(400);
 	});
 
-	it('leaves RF12-RF13 paths unavailable', async () => {
-		const base = `/api/support/tickets/${ticketId}`;
-		for (const [method, path] of [
-			['get', `${base}/messages`],
-			['get', '/api/support/tickets/history'],
-		] as const) {
-			const response = await request(buildTestApp())
-				[method](path)
-				.set('X-Correlation-ID', correlationId);
-			expect(response.status).toBe(404);
-		}
+	it('leaves RF13 history unavailable', async () => {
+		const response = await request(buildTestApp())
+			.get('/api/support/tickets/history')
+			.set('X-Correlation-ID', correlationId);
+		expect(response.status).toBe(404);
 	});
 });

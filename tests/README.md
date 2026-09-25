@@ -1,9 +1,16 @@
 # tests
 
+RF12 acrescenta unitários de ACL/escopo/parser, integração HTTP/SQLite e
+contrato OpenAPI. O script PostgreSQL descartável prova o processo compilado,
+snapshot físico de seis tabelas, uma consulta de mídia para oito mensagens e
+concorrência RF12×RF10/RF11. SQLite não prova isolamento PostgreSQL; a prova
+real está em `scripts/prove-rf12-postgres.js`. RF13 segue ausente. As linhas
+seguintes preservam o inventário histórico.
+
 RF11 acrescenta testes unitários, integração HTTP/SQLite, contrato OpenAPI e
 prova PostgreSQL física em `scripts/prove-rf11-postgres.js`. A prova cobre
 no-op com `xmin` e contagem de UPDATE, rollback e concorrências RF11×RF11,
-RF10, RF06 e RF08. RF12/RF13 permanecem ausentes. As referências abaixo
+RF10, RF06 e RF08. Naquela fotografia, RF12/RF13 permaneciam ausentes. As referências abaixo
 descrevem a baseline RF10 antes deste lote.
 
 As suítes cobrem S1 e RF01–RF10: identidade, ausência de Profile, kernel HTTP, Department, Ticket RF05–RF10, OpenAPI, seed bloqueada e mensageria inativa.

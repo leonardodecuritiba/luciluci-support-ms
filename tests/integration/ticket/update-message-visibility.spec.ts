@@ -212,7 +212,7 @@ describe('Integration: RF11 admin Message visibility', () => {
 		expect(await snapshot()).toEqual(before);
 	});
 
-	it('validates IDs, query and headers and leaves RF12/RF13 unavailable', async () => {
+	it('validates IDs, query and headers and leaves RF13 unavailable', async () => {
 		const before = await snapshot();
 		expect(
 			(await patch('admin-b', 'admin', { isVisibleToRequester: false }, 'bad')).status,
@@ -250,10 +250,7 @@ describe('Integration: RF11 admin Message visibility', () => {
 					.send({ isVisibleToRequester: false })
 			).status,
 		).toBe(400);
-		for (const path of [
-			`/api/support/tickets/${ticketId}/messages`,
-			'/api/support/tickets/history',
-		]) {
+		for (const path of ['/api/support/tickets/history']) {
 			expect(
 				(await request(buildTestApp()).get(path).set('X-Correlation-ID', correlation))
 					.status,

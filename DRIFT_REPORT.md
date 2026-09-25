@@ -1,5 +1,34 @@
 # DRIFT_REPORT
 
+## RF12 — implementação focal sem drift técnico aberto
+
+A ausência esperada da rota GET no checkpoint documental foi fechada somente
+nesta branch funcional. Runtime, OpenAPI, `api.http`, testes, prova PostgreSQL,
+CI e documentação local foram alinhados ao contrato Support 0.14; nenhum drift
+novo foi identificado no recorte. `main` continua em RF11 e RF13 não foi
+implementada. [Prova RF12](docs/reports/REPORT-SUPPORT-RF12-20260925.md).
+As seções seguintes preservam o estado documental anterior.
+
+## RF12 — contrato 0.14 congelado, sem drift técnico novo
+
+As lacunas de visibilidade, paginação, resposta e leitura concorrente foram
+fechadas por decisão expressa somente para RF12 em Support 0.14 (`820b2a8`),
+publicado e fixado no gitlink. A ausência da rota GET RF12 no runtime/OpenAPI
+continua esperada no lote documental: `RF12_CONTRACT_FROZEN /
+NOT_IMPLEMENTED`. Não há migration nova nem drift técnico novo identificado.
+[Fechamento RF12](docs/reports/REPORT-SUPPORT-RF12-CONTRACT-20260925-185019.md).
+
+## Fotografia histórica — RF12 bloqueada por decisão
+
+O PRD prevê `GET /api/support/tickets/{ticketId}/messages`, ainda ausente do
+runtime e da OpenAPI por estágio. O bloqueio atual é contratual: a política de
+`isVisibleToRequester` por papel, inclusive filtro omitido/`false` e `total`,
+permanece sem decisão RF12. Paginação detalhada, ordem, shape e erros também
+não estão congelados. Não classificar ausência esperada da rota como regressão
+de `MAIN_BASELINE_RF11`. Support 0.13 e seu gitlink foram preservados; nenhum
+drift técnico novo foi identificado no recorte documental.
+[Report RF12](docs/reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md).
+
 ## RF11 integrada em MAIN_BASELINE_RF11
 
 A rota RF11, contrato HTTP, testes e prova PostgreSQL foram adicionados na

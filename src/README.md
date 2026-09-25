@@ -1,5 +1,12 @@
 # src
 
+Nesta branch, RF12 acrescenta `GET /tickets/:ticketId/messages` em
+`features/ticket/`: parser próprio, controller, use case e repository de
+leitura. PostgreSQL usa `REPEATABLE READ`; SQLite de teste usa transação sem
+nível explícito. O escopo do solicitante filtra visibilidade no SQL e sua
+consulta explícita `false` retorna vazio após ACL. Mídias são buscadas em lote.
+RF13 permanece sem rota. As linhas abaixo descrevem a baseline anterior.
+
 Em `MAIN_BASELINE_RF11`, `features/ticket/` inclui a edição focal de
 visibilidade de mensagens admin, com locks Ticket→Department→Message e
 resposta TicketMessage completa. RF12/RF13 não possuem rota.

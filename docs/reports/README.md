@@ -2,6 +2,27 @@
 
 Artefatos de avaliação de completude do microserviço e da documentação canônica associada.
 
+O [report de implementação RF12](REPORT-SUPPORT-RF12-20260925.md) registra o
+runtime e as provas locais na branch funcional, ainda sem integração em `main`.
+O fechamento contratual abaixo permanece histórico.
+
+## Fechamento contratual RF12 — Support 0.14
+
+O [report de fechamento RF12](REPORT-SUPPORT-RF12-CONTRACT-20260925-185019.md)
+registra decisões posteriores específicas da RF12, Support 0.14 publicado em
+`820b2a8` e gitlink avançado. Estado `RF12_CONTRACT_CHECKPOINT_READY /
+RF12_CONTRACT_FROZEN / NOT_IMPLEMENTED`. RF13 continua sem contrato congelado
+ou runtime; RF12 também não recebeu runtime neste lote.
+
+## Fotografia histórica — checkpoint RF12 bloqueado
+
+O [report do checkpoint RF12](REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md)
+confirma a integração da PR documental #13 (`7724382`) e registra
+`RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`: filtro opcional na fonte sem
+política fechada de visibilidade interna para requester, total e demais
+detalhes da listagem. Naquela revisão Support 0.14 não estava congelado; RF12/RF13 não tinham
+runtime nem testes executados neste lote.
+
 ## Baseline para `main`
 
 [Report de fechamento da baseline](REPORT-SUPPORT-MAIN-BASELINE-20260910-145800.md):

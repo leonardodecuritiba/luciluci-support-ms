@@ -7,7 +7,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			title: 'support-ms',
 			version: '1.0.0',
 			description:
-				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, RF09 reads tickets by ID, RF10 creates ticket messages, and RF11 edits admin message visibility; RF12–RF13 remain unavailable.',
+				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, RF09 reads tickets by ID, RF10 creates ticket messages, RF11 edits admin message visibility, and RF12 lists ticket messages; RF13 remains unavailable.',
 		},
 		components: {
 			parameters: {
@@ -148,6 +148,18 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						mediaIds: { type: 'array', items: { type: 'string' } },
 						isVisibleToRequester: { type: 'boolean' },
 						createdAt: { type: 'string', format: 'date-time' },
+					},
+				},
+				TicketMessageListResponse: {
+					type: 'object',
+					additionalProperties: false,
+					required: ['data', 'pagination'],
+					properties: {
+						data: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/TicketMessage' },
+						},
+						pagination: { $ref: '#/components/schemas/Pagination' },
 					},
 				},
 				CreateInitialTicketMessageRequest: {
@@ -553,6 +565,93 @@ const swaggerOptions: swaggerJSDoc.Options = {
 				},
 			},
 			'/api/support/tickets/{ticketId}/messages': {
+				get: {
+					summary: 'List Ticket messages',
+					description:
+						'RF12. Admin with current Department membership sees all messages unless filtered. Requester owner sees visible messages only; filter false returns an empty scoped page. Results use createdAt ASC, id ASC and one consistent read snapshot. No audit or write.',
+					tags: ['Tickets'],
+					parameters: [
+						{ $ref: '#/components/parameters/CorrelationIdHeader' },
+						{ $ref: '#/components/parameters/PerformedByHeader' },
+						{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+						{
+							in: 'path',
+							name: 'ticketId',
+							required: true,
+							schema: { type: 'string', format: 'uuid' },
+						},
+						{
+							in: 'query',
+							name: 'page',
+							required: false,
+							schema: { type: 'integer', minimum: 1, default: 1 },
+						},
+						{
+							in: 'query',
+							name: 'size',
+							required: false,
+							schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 },
+						},
+						{
+							in: 'query',
+							name: 'isVisibleToRequester',
+							required: false,
+							schema: { type: 'string', enum: ['true', 'false'] },
+						},
+					],
+					responses: {
+						'200': {
+							description: 'Paginated Ticket messages.',
+							content: {
+								'application/json': {
+									schema: {
+										$ref: '#/components/schemas/TicketMessageListResponse',
+									},
+								},
+							},
+						},
+						'400': {
+							description: 'Missing or invalid actor or correlation headers.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'403': {
+							description: 'Ticket access denied.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'404': {
+							description: 'Ticket not found.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'422': {
+							description: 'Invalid ticketId, query, or present body.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'500': {
+							description: 'Unexpected error.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+					},
+				},
 				post: {
 					summary: 'Create a Ticket message',
 					description:

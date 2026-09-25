@@ -545,11 +545,6 @@ async function main() {
 			spec.paths['/api/support/tickets/{ticketId}/messages/{messageId}/visibility']?.patch,
 		);
 		assert.equal(spec.paths['/api/support/tickets/history']?.get, undefined);
-		assert.equal(
-			(await send('GET', `/api/support/tickets/${ticket.id}/messages`, 'admin-2', 'admin'))
-				.status,
-			404,
-		);
 		console.log(
 			'RF11 PostgreSQL compiled process, no-op, rollback, ACL and concurrency proof OK',
 		);

@@ -206,6 +206,26 @@ async function main() {
 			if (role === 'admin') adminMessageId = createdMessage.id;
 		}
 		assert.ok(adminMessageId);
+		const imageList = async (actor, role) => {
+			const response = await fetch(
+				`${baseUrl}/api/support/tickets/${ticketBody.id}/messages`,
+				{
+					headers: {
+						'X-Correlation-ID': randomUUID(),
+						'X-Performed-By': actor,
+						'X-Performed-By-Type': role,
+					},
+				},
+			);
+			assert.equal(response.status, 200);
+			return response.json();
+		};
+		const adminList = await imageList('uid-image-admin', 'admin');
+		const requesterList = await imageList('uid-image-requester', 'cd');
+		assert.equal(adminList.pagination.total, 3);
+		assert.equal(requesterList.pagination.total, 2);
+		assert.ok(adminList.data.some((message) => message.id === adminMessageId));
+		assert.ok(!requesterList.data.some((message) => message.id === adminMessageId));
 		const visibility = await fetch(
 			`${baseUrl}/api/support/tickets/${ticketBody.id}/messages/${adminMessageId}/visibility`,
 			{
@@ -292,7 +312,7 @@ async function main() {
 		const listAfterDeleteBody = await listedAfterDelete.json();
 		assert.equal(listAfterDeleteBody.pagination.total, 0);
 		assert.deepEqual(listAfterDeleteBody.data, []);
-		console.log('S1 production image CMD smoke with RF05/RF08/RF09/RF10/RF11 OK');
+		console.log('S1 production image CMD smoke with RF05/RF08/RF09/RF10/RF11/RF12 OK');
 	} finally {
 		docker(['rm', '-f', appContainer], true);
 		docker(['rm', '-f', databaseContainer], true);

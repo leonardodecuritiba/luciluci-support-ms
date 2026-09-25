@@ -17,7 +17,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		await destroyTestDataSource();
 	});
 
-	it('documents operational paths and RF01-RF11', () => {
+	it('documents operational paths and RF01-RF12', () => {
 		const spec = swaggerSpec as OpenAPIV3.Document;
 
 		expect(Object.keys(spec.paths ?? {}).sort()).toEqual([
@@ -348,6 +348,44 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		]);
 		const messageResponse = spec.components?.schemas?.TicketMessage as OpenAPIV3.SchemaObject;
 		expect(messageResponse.required).toHaveLength(8);
+		const listMessages = spec.paths?.['/api/support/tickets/{ticketId}/messages']?.get;
+		expect(listMessages?.requestBody).toBeUndefined();
+		expect(listMessages?.parameters).toEqual([
+			{ $ref: '#/components/parameters/CorrelationIdHeader' },
+			{ $ref: '#/components/parameters/PerformedByHeader' },
+			{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+			expect.objectContaining({ in: 'path', name: 'ticketId', required: true }),
+			expect.objectContaining({ in: 'query', name: 'page', required: false }),
+			expect.objectContaining({ in: 'query', name: 'size', required: false }),
+			expect.objectContaining({ in: 'query', name: 'isVisibleToRequester', required: false }),
+		]);
+		expect(
+			(listMessages?.parameters as OpenAPIV3.ParameterObject[])
+				.filter((parameter) => parameter.in === 'query')
+				.map((parameter) => parameter.name),
+		).toEqual(['page', 'size', 'isVisibleToRequester']);
+		expect(Object.keys(listMessages?.responses ?? {}).sort()).toEqual([
+			'200',
+			'400',
+			'403',
+			'404',
+			'422',
+			'500',
+		]);
+		expect(listMessages?.responses?.['200']).toEqual(
+			expect.objectContaining({
+				content: {
+					'application/json': {
+						schema: { $ref: '#/components/schemas/TicketMessageListResponse' },
+					},
+				},
+			}),
+		);
+		const listMessageResponse = spec.components?.schemas
+			?.TicketMessageListResponse as OpenAPIV3.SchemaObject;
+		expect(listMessageResponse.required).toEqual(['data', 'pagination']);
+		expect(listMessageResponse.additionalProperties).toBe(false);
+		expect(spec.paths).not.toHaveProperty('/api/support/tickets/history');
 		const visibility =
 			spec.paths?.['/api/support/tickets/{ticketId}/messages/{messageId}/visibility']?.patch;
 		expect(visibility?.parameters).toEqual([

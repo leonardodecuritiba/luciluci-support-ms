@@ -1,6 +1,6 @@
 # support-ms bootstrap API requests
 #
-# S1 + RF01–RF11 support surface. RF12–RF13 are not implemented.
+# S1 + RF01–RF12 support surface. RF13 is not implemented.
 
 @baseUrl = http://localhost:3000
 @correlationId = 8a7dd7bb-7b3f-4b3b-8b8e-0b7e2819d001
@@ -16,6 +16,118 @@
 @backofficeMessageId = 550e8400-e29b-41d4-a716-446655440005
 @cdMessageId = 550e8400-e29b-41d4-a716-446655440006
 @initialMessageId = 550e8400-e29b-41d4-a716-446655440007
+
+# RF12: use a Ticket from RF05 and messages from RF10. Inactive Department
+# remains readable for current admin members and the requester owner.
+
+### RF12 - Admin all (also works when Department is inactive)
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF12 - Admin visible only
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages?isVisibleToRequester=true
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF12 - Admin hidden only
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages?isVisibleToRequester=false
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF12 - Admin page and size
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages?page=2&size=2
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF12 - Requester default visible scope
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: backoffice
+
+### RF12 - Requester explicit true
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages?isVisibleToRequester=true
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+
+### RF12 - Requester false returns an empty page
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages?isVisibleToRequester=false&page=2&size=5
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+
+### RF12 - Non-owner forbidden
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: uid-other
+X-Performed-By-Type: cd
+
+### RF12 - Invalid UUID
+GET {{baseUrl}}/api/support/tickets/invalid/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF12 - Missing Ticket
+GET {{baseUrl}}/api/support/tickets/919cf070-ea36-41df-9382-e44d541f8005/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF12 - Invalid page
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages?page=0
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF12 - Invalid size
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages?size=101
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF12 - Invalid visibility
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages?isVisibleToRequester=TRUE
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF12 - Repeated parameter
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages?page=1&page=2
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF12 - Unknown parameter
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages?include=media
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF12 - Body forbidden
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{}
+
+### RF12 - Missing actor
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+
+### RF12 - Invalid role
+GET {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: guest
 
 ### RF11 - Admin true to false
 PATCH {{baseUrl}}/api/support/tickets/{{ticketId}}/messages/{{messageId}}/visibility

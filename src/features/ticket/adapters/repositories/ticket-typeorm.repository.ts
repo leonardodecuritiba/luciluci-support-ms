@@ -1,4 +1,4 @@
-import { EntityManager, Repository } from 'typeorm';
+import { EntityManager, In, Repository } from 'typeorm';
 
 import Ticket from '../../entities/ticket.entity';
 import TicketAuditLog from '../../entities/ticket-audit-log.entity';
@@ -14,6 +14,10 @@ import IUpdateTicketRepository from '../../use-cases/repositories/iupdate-ticket
 import IGetTicketRepository from '../../use-cases/repositories/iget-ticket.repository';
 import ICreateTicketMessageRepository from '../../use-cases/repositories/icreate-ticket-message.repository';
 import IUpdateMessageVisibilityRepository from '../../use-cases/repositories/iupdate-message-visibility.repository';
+import IListTicketMessagesRepository, {
+	ListTicketMessagesFilters,
+	MessagePage,
+} from '../../use-cases/repositories/ilist-ticket-messages.repository';
 import TicketAdminStatus from '../../entities/enums/ticket-admin-status.enum';
 import DepartmentAllowedUser from '../../../department/entities/department-allowed-user.entity';
 
@@ -24,7 +28,8 @@ export default class TicketTypeormRepository
 		IListTicketsRepository,
 		IGetTicketRepository,
 		ICreateTicketMessageRepository,
-		IUpdateMessageVisibilityRepository
+		IUpdateMessageVisibilityRepository,
+		IListTicketMessagesRepository
 {
 	private readonly ticketRepository: Repository<Ticket>;
 
@@ -168,6 +173,45 @@ export default class TicketTypeormRepository
 			order: { position: 'ASC' },
 		});
 		return media.map((item) => item.mediaId);
+	}
+
+	async findMessagePage(
+		ticketId: string,
+		visibility: boolean | undefined,
+		filters: ListTicketMessagesFilters,
+	): Promise<MessagePage> {
+		const query = this.manager
+			.getRepository(TicketMessage)
+			.createQueryBuilder('message')
+			.where('message.ticketId = :ticketId', { ticketId });
+		if (visibility !== undefined) {
+			query.andWhere('message.isVisibleToRequester = :visibility', { visibility });
+		}
+		const total = await query.getCount();
+		const offset = (filters.page - 1) * filters.size;
+		if (!Number.isSafeInteger(offset) || offset >= total) return { messages: [], total };
+		const messages = await query
+			.orderBy('message.createdAt', 'ASC')
+			.addOrderBy('message.id', 'ASC')
+			.skip(offset)
+			.take(filters.size)
+			.getMany();
+		return { messages, total };
+	}
+
+	async findMediaByMessageIds(messageIds: string[]): Promise<Map<string, string[]>> {
+		const grouped = new Map<string, string[]>();
+		if (messageIds.length === 0) return grouped;
+		const media = await this.manager.getRepository(TicketMessageMedia).find({
+			where: { ticketMessageId: In(messageIds) },
+			order: { ticketMessageId: 'ASC', position: 'ASC' },
+		});
+		for (const item of media) {
+			const ids = grouped.get(item.ticketMessageId) ?? [];
+			ids.push(item.mediaId);
+			grouped.set(item.ticketMessageId, ids);
+		}
+		return grouped;
 	}
 
 	async updateMessageVisibility(messageId: string, isVisibleToRequester: boolean): Promise<void> {

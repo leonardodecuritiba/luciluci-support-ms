@@ -14,6 +14,7 @@ import buildDepartmentRouter from './features/department/adapters/routes/departm
 import buildTicketRouter from './features/ticket/adapters/routes/ticket.routes';
 import rejectResolveBodyMiddleware from './features/ticket/adapters/routes/reject-resolve-body.middleware';
 import rejectGetTicketBodyMiddleware from './features/ticket/adapters/routes/reject-get-ticket-body.middleware';
+import rejectListTicketMessagesBodyMiddleware from './features/ticket/adapters/routes/reject-list-ticket-messages-body.middleware';
 
 export default function createApp(dataSource: DataSource): Express {
 	const app = express();
@@ -22,6 +23,7 @@ export default function createApp(dataSource: DataSource): Express {
 	app.use(correlationIdMiddleware);
 	app.use('/api/support/tickets/:ticketId/resolve', rejectResolveBodyMiddleware);
 	app.use(rejectGetTicketBodyMiddleware);
+	app.use(rejectListTicketMessagesBodyMiddleware);
 	// Parse valid JSON primitives so business routes can classify non-object bodies as 422.
 	app.use(express.json({ strict: false }));
 	app.use(performedByMiddleware);

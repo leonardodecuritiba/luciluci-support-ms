@@ -272,10 +272,7 @@ async function main() {
 			);
 			for (const path of ['/api/support/tickets/history'])
 				assert.equal(spec.paths[path], undefined);
-			for (const [method, path] of [
-				['GET', `/api/support/tickets/${ticket.id}/messages`],
-				['GET', '/api/support/tickets/history'],
-			])
+			for (const [method, path] of [['GET', '/api/support/tickets/history']])
 				assert.equal(
 					(await fetch(`${url}${path}`, { method, headers: headers() })).status,
 					404,

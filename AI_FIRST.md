@@ -1,5 +1,39 @@
 # AI_FIRST
 
+## Runtime RF12 na branch funcional
+
+`feat/support-rf12-list-messages` implementa e prova RF12 sobre o checkpoint
+documental `4a47e01` e contrato Support 0.14 (`820b2a8`). `main` continua em
+`MAIN_BASELINE_RF11`; RF13 segue `NOT_IMPLEMENTED`. A prova local inclui
+PostgreSQL descartável, concorrência RF12×RF10/RF11, mídia em uma query,
+snapshots físicos de seis tabelas e smoke da imagem. Ver
+`docs/reports/REPORT-SUPPORT-RF12-20260925.md`. As seções seguintes preservam
+fotografias históricas anteriores à implementação.
+
+## Contrato RF12 — Support 0.14
+
+RF12 está `RF12_CONTRACT_CHECKPOINT_READY / RF12_CONTRACT_FROZEN /
+NOT_IMPLEMENTED` em Support 0.14 (`820b2a8`), publicado e fixado no gitlink.
+O checkpoint bloqueado `98efe16` permanece histórico. Admin autorizado vê
+mensagens visíveis/internas; requester dono vê só as visíveis, com total
+restrito. Filtro requester `false` retorna `200` vazio/total zero. Ordem
+cronológica, shape de oito campos, mídia posicional em lote e fotografia
+`REPEATABLE READ` estão no
+`docs/reports/REPORT-SUPPORT-RF12-CONTRACT-20260925-185019.md`.
+RF12/RF13 não têm runtime; RF13 não herda essas decisões.
+
+## Fotografia histórica — checkpoint RF12 bloqueado
+
+A PR #13 documental foi integrada no merge `7724382`, consolidando
+`MAIN_BASELINE_RF11`. Naquele checkpoint, o gitlink permanecia Support 0.13
+(`4958fd1`). RF12 `GET /api/support/tickets/{ticketId}/messages` estava
+`RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`: a fonte deixa aberta a
+visibilidade de mensagens internas para requester, filtro omitido/`false` e
+total, além de detalhes de paginação, resposta e validação. Naquela revisão,
+Support 0.14 não estava congelado; RF12/RF13 não tinham runtime. Ver
+`docs/reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md` antes de
+qualquer lote funcional RF12.
+
 ## Estado atual — MAIN_BASELINE_RF11
 
 RF01–RF11 estão implementadas/provadas e integradas em `main` sobre

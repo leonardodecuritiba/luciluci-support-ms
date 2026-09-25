@@ -2,6 +2,11 @@
 
 HTTP contracts and OpenAPI assets.
 
+The v1 contract in this branch includes RF12 GET Ticket messages with strict
+query parameters and the eight-field TicketMessage list response. RF13 history
+remains absent. The exported JSON is checked against `main` for backward
+compatibility.
+
 Read first:
 
 1. `v1/support-api.json`

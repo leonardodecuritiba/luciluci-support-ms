@@ -1,13 +1,42 @@
 # support-ms
 
+## RF12 nesta branch
+
+`feat/support-rf12-list-messages` implementa e prova a listagem
+`GET /api/support/tickets/{ticketId}/messages` conforme Support 0.14
+(`820b2a8`). `main` permanece `MAIN_BASELINE_RF11`; RF12 ainda não foi
+integrada e RF13 segue indisponível. O
+[report RF12](docs/reports/REPORT-SUPPORT-RF12-20260925.md) registra testes,
+PostgreSQL descartável, concorrência e smoke da imagem. O restante desta página
+preserva a fotografia documental anterior.
+
 Microsserviço de Support (Suporte) da LuciLuci. RF01–RF11 compõem
-`MAIN_BASELINE_RF11` em `main` (merge da PR #12 `9387b3d`). Support 0.13
+`MAIN_BASELINE_RF11` em `main` (merge da PR #12 `9387b3d`). Support 0.14
+(`820b2a8`) congela o contrato RF12; Support 0.13
 (`4958fd1`) congela o contrato RF11; Support 0.12 (`85c7e95`) congela o
 contrato RF10; Support 0.10 (`93edf66`) congela o contrato RF08; Support 0.9
 (`1583a58`) congelou RF07a/RF07b. A fonte de verdade de negócio
 está em `luciluci-docs/support/`.
 
 ## Estado
+
+RF12 está `RF12_CONTRACT_CHECKPOINT_READY / RF12_CONTRACT_FROZEN /
+NOT_IMPLEMENTED` em Support 0.14. A listagem GET de mensagens tem escopo de
+visibilidade por papel, paginação, ordem cronológica e leitura coerente
+congelados documentalmente. O
+[fechamento RF12](docs/reports/REPORT-SUPPORT-RF12-CONTRACT-20260925-185019.md)
+registra decisões e publicação canônica; RF13 continua pendente. Não há
+runtime RF12/RF13 nem deploy.
+
+### Fotografia histórica — checkpoint RF12 bloqueado
+
+Naquele checkpoint, RF12 estava em estado
+`RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`: falta decidir a visibilidade
+segura de mensagens internas por papel, filtro e total, além dos detalhes da
+listagem. Support 0.14 ainda não estava congelado e não havia runtime RF12/RF13. O
+[report do checkpoint RF12](docs/reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md)
+registra fontes e decisões pendentes. A PR documental #13 foi integrada no
+merge `7724382`; o gitlink então continuava Support 0.13 (`4958fd1`).
 
 RF11 está implementada, provada e integrada em `main` sob Support 0.13. A rota
 PATCH altera apenas `TicketMessage.isVisibleToRequester` de mensagens admin e preserva Ticket,
