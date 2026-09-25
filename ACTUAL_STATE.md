@@ -1,5 +1,18 @@
 # ACTUAL_STATE
 
+## Implementação RF12 — branch funcional
+
+Nesta branch `feat/support-rf12-list-messages`, RF12 está
+`IMPLEMENTED_AND_PROVEN` sobre Support 0.14 (`820b2a8`). A rota
+`GET /api/support/tickets/{ticketId}/messages` usa ACL de Ticket, escopo de
+visibilidade aplicado no SQL, paginação estrita, ordem `createdAt ASC,id ASC`,
+mídia posicional em uma consulta por página e transação PostgreSQL
+`REPEATABLE READ` sem lock ou write. Provas locais estão no
+[report RF12](docs/reports/REPORT-SUPPORT-RF12-20260925.md).
+RF01–RF11 permanecem integradas/provadas em `main` (`7724382`); RF12 ainda não
+foi integrada ou implantada. RF13 segue `NOT_IMPLEMENTED`.
+As seções seguintes são fotografias históricas.
+
 ## Fechamento contratual RF12 — Support 0.14
 
 O checkpoint bloqueado `98efe16` permanece histórico. Decisões expressas

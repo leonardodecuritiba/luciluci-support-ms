@@ -1,5 +1,16 @@
 # AGENTS.md
 
+## Implementação RF12 nesta branch funcional
+
+`feat/support-rf12-list-messages` parte do checkpoint documental `4a47e01`
+com Support 0.14 (`820b2a8`) fixado. RF12 está implementada e provada nesta
+branch: GET de mensagens com ACL atual, escopo de visibilidade, paginação,
+ordem crescente, mídia em lote e fotografia PostgreSQL `REPEATABLE READ`.
+`main` permanece `MAIN_BASELINE_RF11`; RF13 continua sem runtime. Evidência no
+`docs/reports/REPORT-SUPPORT-RF12-20260925.md`. Nenhum merge ou deploy neste lote.
+
+As seções seguintes descrevem checkpoints históricos.
+
 ## Contrato atual — RF12 Support 0.14
 
 Support 0.14 foi congelado somente para RF12 no commit canônico `820b2a8`,

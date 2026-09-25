@@ -1,5 +1,12 @@
 # scripts
 
+`prove-rf12-postgres.js` cria e remove banco PostgreSQL exclusivo, executa o
+processo compilado e prova ACL, filtros, paginação, read-only físico e
+concorrência RF12×RF10/RF11. `proof-rf12-query-gate.js` é preload usado somente
+pela prova para pausar a leitura após count e medir queries de mídia. O smoke
+`prove-s1-image.js` também cobre listagem admin/requester e exclusão de nota
+interna. Os itens abaixo mantêm o inventário anterior.
+
 - `export-openapi.js`: exporta o contrato operacional Support.
 - `check-openapi.js` e `check-openapi-backward-compatibility.js`: validam
   OpenAPI atual e futuras evoluções.

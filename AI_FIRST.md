@@ -1,5 +1,15 @@
 # AI_FIRST
 
+## Runtime RF12 na branch funcional
+
+`feat/support-rf12-list-messages` implementa e prova RF12 sobre o checkpoint
+documental `4a47e01` e contrato Support 0.14 (`820b2a8`). `main` continua em
+`MAIN_BASELINE_RF11`; RF13 segue `NOT_IMPLEMENTED`. A prova local inclui
+PostgreSQL descartável, concorrência RF12×RF10/RF11, mídia em uma query,
+snapshots físicos de seis tabelas e smoke da imagem. Ver
+`docs/reports/REPORT-SUPPORT-RF12-20260925.md`. As seções seguintes preservam
+fotografias históricas anteriores à implementação.
+
 ## Contrato RF12 — Support 0.14
 
 RF12 está `RF12_CONTRACT_CHECKPOINT_READY / RF12_CONTRACT_FROZEN /

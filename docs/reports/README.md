@@ -2,6 +2,10 @@
 
 Artefatos de avaliação de completude do microserviço e da documentação canônica associada.
 
+O [report de implementação RF12](REPORT-SUPPORT-RF12-20260925.md) registra o
+runtime e as provas locais na branch funcional, ainda sem integração em `main`.
+O fechamento contratual abaixo permanece histórico.
+
 ## Fechamento contratual RF12 — Support 0.14
 
 O [report de fechamento RF12](REPORT-SUPPORT-RF12-CONTRACT-20260925-185019.md)

@@ -1,5 +1,15 @@
 # support-ms
 
+## RF12 nesta branch
+
+`feat/support-rf12-list-messages` implementa e prova a listagem
+`GET /api/support/tickets/{ticketId}/messages` conforme Support 0.14
+(`820b2a8`). `main` permanece `MAIN_BASELINE_RF11`; RF12 ainda não foi
+integrada e RF13 segue indisponível. O
+[report RF12](docs/reports/REPORT-SUPPORT-RF12-20260925.md) registra testes,
+PostgreSQL descartável, concorrência e smoke da imagem. O restante desta página
+preserva a fotografia documental anterior.
+
 Microsserviço de Support (Suporte) da LuciLuci. RF01–RF11 compõem
 `MAIN_BASELINE_RF11` em `main` (merge da PR #12 `9387b3d`). Support 0.14
 (`820b2a8`) congela o contrato RF12; Support 0.13

@@ -2,6 +2,10 @@
 
 Documentação operacional do `support-ms`.
 
+Nesta branch funcional, RF12 foi implementada e provada sobre Support 0.14;
+ver [report RF12](reports/REPORT-SUPPORT-RF12-20260925.md). O estado contratual
+abaixo descreve o checkpoint documental anterior à implementação.
+
 - `architecture/`: identidade materializada e desenho S1.
 - `openapi/`: contrato operacional de Support.
 - `asyncapi/`: ausência explícita de mensageria no S1.

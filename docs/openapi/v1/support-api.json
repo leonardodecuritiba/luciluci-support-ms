@@ -289,6 +289,18 @@
 				],
 				"type": "object"
 			},
+			"TicketMessageListResponse": {
+				"additionalProperties": false,
+				"properties": {
+					"data": {
+						"items": { "$ref": "#/components/schemas/TicketMessage" },
+						"type": "array"
+					},
+					"pagination": { "$ref": "#/components/schemas/Pagination" }
+				},
+				"required": ["data", "pagination"],
+				"type": "object"
+			},
 			"TicketMessageType": { "enum": ["admin", "backoffice", "cd"], "type": "string" },
 			"TicketOrigin": { "enum": ["backoffice", "cd"], "type": "string" },
 			"TicketPriority": { "enum": ["baixa", "media", "alta", "urgente"], "type": "string" },
@@ -324,7 +336,7 @@
 		}
 	},
 	"info": {
-		"description": "Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, RF09 reads tickets by ID, RF10 creates ticket messages, and RF11 edits admin message visibility; RF12–RF13 remain unavailable.",
+		"description": "Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, RF09 reads tickets by ID, RF10 creates ticket messages, RF11 edits admin message visibility, and RF12 lists ticket messages; RF13 remains unavailable.",
 		"title": "support-ms",
 		"version": "1.0.0"
 	},
@@ -780,6 +792,92 @@
 			}
 		},
 		"/api/support/tickets/{ticketId}/messages": {
+			"get": {
+				"description": "RF12. Admin with current Department membership sees all messages unless filtered. Requester owner sees visible messages only; filter false returns an empty scoped page. Results use createdAt ASC, id ASC and one consistent read snapshot. No audit or write.",
+				"parameters": [
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{ "$ref": "#/components/parameters/PerformedByHeader" },
+					{ "$ref": "#/components/parameters/PerformedByTypeHeader" },
+					{
+						"in": "path",
+						"name": "ticketId",
+						"required": true,
+						"schema": { "format": "uuid", "type": "string" }
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": { "default": 1, "minimum": 1, "type": "integer" }
+					},
+					{
+						"in": "query",
+						"name": "size",
+						"required": false,
+						"schema": { "default": 20, "maximum": 100, "minimum": 1, "type": "integer" }
+					},
+					{
+						"in": "query",
+						"name": "isVisibleToRequester",
+						"required": false,
+						"schema": { "enum": ["true", "false"], "type": "string" }
+					}
+				],
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TicketMessageListResponse"
+								}
+							}
+						},
+						"description": "Paginated Ticket messages."
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Missing or invalid actor or correlation headers."
+					},
+					"403": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Ticket access denied."
+					},
+					"404": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Ticket not found."
+					},
+					"422": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Invalid ticketId, query, or present body."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Unexpected error."
+					}
+				},
+				"summary": "List Ticket messages",
+				"tags": ["Tickets"]
+			},
 			"post": {
 				"description": "RF10. Body authorId/type must match actor headers. Admin needs current Department membership and may create an internal message. Requester owner must send a visible message. Every POST creates a new message; requester messages assign adminStatus=pendente and write two audits even if already pending. Ticket is locked before Department; all writes are atomic.",
 				"parameters": [

@@ -9,6 +9,7 @@ import ResolveTicketUseCase from '../../use-cases/resolve-ticket.use-case';
 import GetTicketUseCase from '../../use-cases/get-ticket.use-case';
 import CreateTicketMessageUseCase from '../../use-cases/create-ticket-message.use-case';
 import UpdateMessageVisibilityUseCase from '../../use-cases/update-message-visibility.use-case';
+import ListTicketMessagesUseCase from '../../use-cases/list-ticket-messages.use-case';
 import BadRequestError from '../../../../shared/kernel/exceptions/bad-request.error';
 import ForbiddenError from '../../../../shared/kernel/exceptions/forbidden.error';
 import UnprocessableEntityError from '../../../../shared/kernel/exceptions/unprocessable-entity.error';
@@ -21,6 +22,7 @@ import UpdateTicketRequestDTO from './dtos/update-ticket-request.dto';
 import CreateTicketMessageRequestDTO from './dtos/create-ticket-message-request.dto';
 import UpdateMessageVisibilityPathDTO from './dtos/update-message-visibility-path.dto';
 import UpdateMessageVisibilityRequestDTO from './dtos/update-message-visibility-request.dto';
+import { parseListTicketMessagesQuery } from './dtos/list-ticket-messages-query.dto';
 
 export default function buildTicketController(dataSource: DataSource) {
 	async function list(req: Request, res: Response, kind: 'requester' | 'admin'): Promise<void> {
@@ -52,6 +54,32 @@ export default function buildTicketController(dataSource: DataSource) {
 	}
 
 	return {
+		listMessages: async (req: Request, res: Response): Promise<void> => {
+			const actorId = req.performedBy;
+			const role = req.performedByType;
+			if (!actorId?.trim() || !['admin', 'backoffice', 'cd'].includes(role ?? '')) {
+				throw new BadRequestError('bad_request');
+			}
+			const { ticketId } = await validateDto(UpdateTicketPathDTO, req.params);
+			if (req.body !== undefined) {
+				throw new UnprocessableEntityError('validation_error', [
+					{ field: 'body', code: 'forbidden', message: 'Request body is not allowed.' },
+				]);
+			}
+			const filters = parseListTicketMessagesQuery(req.originalUrl);
+			const read = (manager: typeof dataSource.manager) =>
+				new ListTicketMessagesUseCase(new TicketTypeormRepository(manager)).execute(
+					ticketId,
+					{ id: actorId, role: role as TicketActorRole },
+					filters,
+				);
+			// SQLite test driver has no explicit REPEATABLE READ level; PostgreSQL does.
+			const response =
+				dataSource.options.type === 'postgres'
+					? await dataSource.transaction('REPEATABLE READ', read)
+					: await dataSource.transaction(read);
+			res.status(200).json(response);
+		},
 		getById: async (req: Request, res: Response): Promise<void> => {
 			const callerId = req.performedBy;
 			const callerRole = req.performedByType;

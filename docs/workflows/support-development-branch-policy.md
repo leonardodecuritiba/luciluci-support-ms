@@ -241,3 +241,13 @@ registra `RF12_CONTRACT_CHECKPOINT_READY / RF12_CONTRACT_FROZEN /
 NOT_IMPLEMENTED`. RF13 não herda o contrato. Um futuro lote funcional RF12
 deve usar branch própria a partir de `main` sincronizada, com a revisão
 canônica 0.14 já fixada; nenhum runtime RF12 foi criado neste fechamento.
+
+## 15. Implementação RF12 na branch funcional
+
+`feat/support-rf12-list-messages` foi criada do checkpoint documental
+`4a47e01`, descendente de `MAIN_BASELINE_RF11`, com gitlink Support 0.14
+`820b2a8`. Implementação, testes e provas locais constam em
+[REPORT-SUPPORT-RF12-20260925.md](../reports/REPORT-SUPPORT-RF12-20260925.md).
+RF12 está `IMPLEMENTED_AND_PROVEN` somente nesta branch; `main` ainda integra
+até RF11. RF13 permanece fora do runtime. Publicação/PR/merge exigem lote
+posterior explícito.

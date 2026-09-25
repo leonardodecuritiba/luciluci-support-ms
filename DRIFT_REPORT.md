@@ -1,5 +1,14 @@
 # DRIFT_REPORT
 
+## RF12 — implementação focal sem drift técnico aberto
+
+A ausência esperada da rota GET no checkpoint documental foi fechada somente
+nesta branch funcional. Runtime, OpenAPI, `api.http`, testes, prova PostgreSQL,
+CI e documentação local foram alinhados ao contrato Support 0.14; nenhum drift
+novo foi identificado no recorte. `main` continua em RF11 e RF13 não foi
+implementada. [Prova RF12](docs/reports/REPORT-SUPPORT-RF12-20260925.md).
+As seções seguintes preservam o estado documental anterior.
+
 ## RF12 — contrato 0.14 congelado, sem drift técnico novo
 
 As lacunas de visibilidade, paginação, resposta e leitura concorrente foram

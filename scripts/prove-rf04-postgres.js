@@ -427,10 +427,7 @@ async function main() {
 				'0',
 			);
 
-			const pendingRoutes = [
-				['GET', `/api/support/tickets/${randomUUID()}/messages`],
-				['GET', '/api/support/tickets/history'],
-			];
+			const pendingRoutes = [['GET', '/api/support/tickets/history']];
 			for (const [method, path] of pendingRoutes) {
 				assert.equal(
 					(
