@@ -1,9 +1,10 @@
 # DRIFT_REPORT
 
-## RF10 na branch funcional
+## RF10 integrada em MAIN_BASELINE_RF10
 
-RF10 foi implementada e provada localmente em `feat/support-rf10-create-message`
-sobre o contrato Support 0.12. A migration RF05 suporta `type=admin`, mídias
+RF10 foi implementada e provada em `feat/support-rf10-create-message` sobre o
+contrato Support 0.12, e integrada pela PR #10 no merge `8827c0b`. O check
+remoto `ci / quality` passou no run `36156561044`. A migration RF05 suporta `type=admin`, mídias
 posicionais e as duas auditorias; não surgiu drift de schema nem foi criada
 migration nova. Os quatro fault injections RF10 reverteram mensagem, mídia,
 Ticket e auditorias; as quatro concorrências terminaram sem lost update ou
@@ -28,11 +29,11 @@ provas históricas estão no
 
 ## Escopo atual
 
-RF01–RF09 estão `IMPLEMENTED_AND_PROVEN` em `main`, na baseline
-`MAIN_BASELINE_RF09` (merge da PR #9 `393af3ed50c35fb541825c1822cecaa3b8005a29`).
+RF01–RF10 estão `IMPLEMENTED_AND_PROVEN` em `main`, na baseline
+`MAIN_BASELINE_RF10` (merge da PR #10 `8827c0b2f6d0b7597984f5131d4f1ec7b658084f`).
 As decisões foram fechadas apenas em cada recorte; RF07a/RF07b têm contrato
 Support 0.9 congelado e runtime implementado/provado na PR #7. RF08 foi
-integrada pela PR #8; RF09 foi integrada pela PR #9. RF10–RF13 permanecem
+integrada pela PR #8; RF09 foi integrada pela PR #9; RF10 pela PR #10. RF11–RF13 permanecem
 fora do runtime. O checkpoint RF10 bloqueado é histórico; decisões posteriores
 congelaram Support 0.12 em `85c7e95`, sem novo drift técnico identificado. O
 checkpoint RF08 bloqueado era uma lacuna contratual; decisões posteriores a

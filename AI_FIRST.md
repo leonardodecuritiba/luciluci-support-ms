@@ -3,9 +3,8 @@
 ## Estado de trabalho
 
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
-materializada; RF01–RF09 estão `IMPLEMENTED_AND_PROVEN` em
-`MAIN_BASELINE_RF09`. RF10 está `IMPLEMENTED_AND_PROVEN` localmente na branch
-`feat/support-rf10-create-message`, ainda fora de `main`; RF11–RF13 permanecem
+materializada; RF01–RF10 estão `IMPLEMENTED_AND_PROVEN` em
+`MAIN_BASELINE_RF10` (PR #10, merge `8827c0b`). RF11–RF13 permanecem
 `NOT_IMPLEMENTED`;
 o contrato RF08 está congelado em Support 0.10 (`RF08_CONTRACT_CHECKPOINT_READY`).
 O checkpoint RF09 bloqueado é histórico; DEC-SUP-01/08/09 foram aprovadas
@@ -75,4 +74,5 @@ commit `8498620`. As decisões posteriores congelaram Support 0.12 em
 `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`, publicado e fixado no gitlink.
 Estado contratual `RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN`.
 Posteriormente, a branch funcional implementou RF10 e passou em testes,
-PostgreSQL descartável e smoke da imagem; não houve merge ou deploy.
+PostgreSQL descartável e smoke da imagem. A PR #10 integrou RF10 em `main`
+após o check `quality` aprovado no run `36156561044`; não houve deploy.

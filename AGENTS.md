@@ -4,19 +4,18 @@
 
 Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
 Identidade e superfície operacional foram materializadas, Profile foi retirado
-e RF01–RF09 estão `IMPLEMENTED_AND_PROVEN` em `MAIN_BASELINE_RF09` (PR #9).
+e RF01–RF10 estão `IMPLEMENTED_AND_PROVEN` em `MAIN_BASELINE_RF10` (PR #10).
 O contrato RF09 está congelado em Support 0.11. O contrato RF10 está
 `RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN` em Support 0.12.
-RF10 está `IMPLEMENTED_AND_PROVEN` localmente na branch
-`feat/support-rf10-create-message`, ainda fora de `main`; RF11–RF13 continuam
+RF10 está integrada em `main` no merge `8827c0b`; RF11–RF13 continuam
 `NOT_IMPLEMENTED`. Os checkpoints bloqueados anteriores permanecem históricos.
 Leia `ACTUAL_STATE.md` para o estado real.
 
 O `DRIFT-SUP-S1-001` foi corrigido e provado: estado
 `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`. O checkpoint documental RF02 0.4 está
 fechado e seu slice foi integrado em `main`. Não refaz a derivação, não repete
-S1/RF01 sem nova reprodução e não inicia runtime RF10 antes de fechar seu
-contrato canônico.
+S1/RF01 sem nova reprodução e não inicia runtime RF11 antes do checkpoint
+contratual próprio.
 
 ## Leitura obrigatória inicial
 
@@ -55,7 +54,7 @@ não ampliam as três ações de AuditLog do PRD.
 Fluxo herdado: `bootstrap/build -> report -> drift-fix -> report -> drift-fix -> wave final`.
 S1 está encerrado e RF01 foi comprovada a partir do checkpoint documental 0.3.
 A revisão 0.4 congela RF02 e resolve, somente nesse recorte, DEC-SUP-01, 03, 06,
-08, 09, 10 e 12. RF02–RF09 estão integradas em `main`. A revisão 0.6
+08, 09, 10 e 12. RF02–RF10 estão integradas em `main`. A revisão 0.6
 congela RF04 e resolve, somente nesse recorte, DEC-SUP-01, 03, 06, 08, 09, 10 e 12. A revisão 0.7 congela RF05 e resolve, somente nesse recorte,
 DEC-SUP-01/03/04/08/09/10/12. A revisão 0.8 congela RF06 e resolve, somente
 nesse recorte, DEC-SUP-01/03/05/06/08/09/10/12. Support 0.9 congela
@@ -71,28 +70,28 @@ ondas ou implementar comportamento com decisão crítica aberta. Um gap esperado
 de inicialização não é bug comprovado do Support. Propostas de arquitetura
 não são decisões de negócio aprovadas.
 
-RF09 está integrada em `MAIN_BASELINE_RF09`. O checkpoint RF10 bloqueado é
-histórico; Support 0.12 congela somente o contrato RF10. RF10 já possui runtime
-e prova na branch funcional, sem integração em `main`; RF11–RF13 não possuem
+RF10 está integrada em `MAIN_BASELINE_RF10`. O checkpoint RF10 bloqueado é
+histórico; Support 0.12 congela somente o contrato RF10. RF11–RF13 não possuem
 runtime. Qualquer prova futura de banco exige destino descartável
 explícito; não usar banco padrão/preexistente.
 
 ## Política de branches e `main`
 
-Bootstrap + RF01 formam o baseline histórico `MAIN_BASELINE_RF01`. RF02–RF09
-estão integradas; `MAIN_BASELINE_RF09` corresponde ao merge da PR #9
-`393af3ed50c35fb541825c1822cecaa3b8005a29`.
+Bootstrap + RF01 formam o baseline histórico `MAIN_BASELINE_RF01`. RF02–RF10
+estão integradas; `MAIN_BASELINE_RF10` corresponde ao merge da PR #10
+`8827c0b2f6d0b7597984f5131d4f1ec7b658084f`.
 `main` é branch estável de integração e não é workspace para RF nova.
 
-Para RF10–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
+Para RF11–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
 uma branch própria por slice. Convenção recomendada: `feat/support-rfNN-<slug>`;
 correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs independentes
 na mesma branch. A branch RF09 partiu do checkpoint documental publicado,
 descendente de `MAIN_BASELINE_RF08`, com gitlink Support 0.11
 `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`, e foi integrada pela PR #9.
-O gitlink da branch funcional aponta a Support 0.12
+O gitlink integrado aponta a Support 0.12
 `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`, publicado antes da atualização
-do serviço. A branch RF10 partiu do checkpoint documental publicado `b72c585`.
+do serviço. A branch RF10 partiu do checkpoint documental publicado `b72c585`
+e foi integrada pela PR #10 após o check `quality` do run `36156561044`.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
 recorte, estado/documentação atualizados e ausência de drift técnico aberto que
