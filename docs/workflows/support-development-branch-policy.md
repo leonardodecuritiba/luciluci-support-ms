@@ -216,3 +216,14 @@ Support 0.13 fixo. O report
 provas locais. A PR #12 integrou RF11 no merge `9387b3d` após o check remoto
 `ci / quality` aprovado no run `36169743450`. `main` é
 `MAIN_BASELINE_RF11`; RF12/RF13 permanecem fora do runtime.
+
+## 13. Fechamento documental RF11 e checkpoint RF12
+
+A PR documental #13, head `425cad5`, passou em `ci / quality` no run
+`36171699704` e foi integrada no merge `7724382245545c5918262ebb66aff0d696b0a2b2`.
+`main` local e remota coincidiram nesse commit, com gitlink Support 0.13
+`4958fd1`. O checkpoint RF12 foi aberto em branch documental própria.
+O [report RF12](../reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md)
+registra `RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`; Support 0.14 não está
+congelado. A implementação RF12 exige decisão expressa no recorte antes de
+criar `feat/support-rf12-list-messages`; RF13 permanece fora do lote.

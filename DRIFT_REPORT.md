@@ -1,5 +1,16 @@
 # DRIFT_REPORT
 
+## RF12 — checkpoint contratual bloqueado, sem drift técnico novo
+
+O PRD prevê `GET /api/support/tickets/{ticketId}/messages`, ainda ausente do
+runtime e da OpenAPI por estágio. O bloqueio atual é contratual: a política de
+`isVisibleToRequester` por papel, inclusive filtro omitido/`false` e `total`,
+permanece sem decisão RF12. Paginação detalhada, ordem, shape e erros também
+não estão congelados. Não classificar ausência esperada da rota como regressão
+de `MAIN_BASELINE_RF11`. Support 0.13 e seu gitlink foram preservados; nenhum
+drift técnico novo foi identificado no recorte documental.
+[Report RF12](docs/reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md).
+
 ## RF11 integrada em MAIN_BASELINE_RF11
 
 A rota RF11, contrato HTTP, testes e prova PostgreSQL foram adicionados na

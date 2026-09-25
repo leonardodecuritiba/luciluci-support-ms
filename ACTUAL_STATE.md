@@ -1,5 +1,23 @@
 # ACTUAL_STATE
 
+## Checkpoint contratual RF12 — bloqueado por decisão
+
+A PR documental [#13](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/13)
+foi integrada em `main` no merge `7724382245545c5918262ebb66aff0d696b0a2b2`,
+após `ci / quality` aprovado no run `36171699704`. `main` local e remota
+coincidiram nesse commit; `MAIN_BASELINE_RF11` mantém RF01–RF11
+`IMPLEMENTED_AND_PROVEN`. O gitlink continua Support 0.13 `4958fd1`.
+
+O checkpoint documental de RF12, `GET /api/support/tickets/{ticketId}/messages`,
+tem estado `RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. A fonte fixa rota,
+filtro opcional `isVisibleToRequester`, paginação, ACL geral do Ticket e
+auditoria zero, mas não fecha a projeção segura de mensagens internas para
+solicitantes, incluindo filtro omitido/`false` e `total`. Também faltam decisões
+específicas de paginação/ordem, resposta, validações e consistência de leitura.
+Ver [report RF12](docs/reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md).
+Support 0.14 não foi congelado; RF12/RF13 seguem `NOT_IMPLEMENTED`, sem branch
+funcional RF12 ou deploy. As seções seguintes preservam fotografias anteriores.
+
 ## Estado atual — MAIN_BASELINE_RF11
 
 RF01–RF11 estão `IMPLEMENTED_AND_PROVEN` e integradas em `main`. A

@@ -1,5 +1,18 @@
 # AGENTS.md
 
+## Checkpoint atual — RF12
+
+A PR documental #13 foi integrada em `main` no merge `7724382` e encerrou o
+registro de `MAIN_BASELINE_RF11`. O gitlink permanece Support 0.13 (`4958fd1`).
+O checkpoint RF12 está `RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`:
+DEC-SUP-04 exige política de visibilidade por papel, filtro omitido/`false` e
+total sem vazamento; DEC-SUP-02/08 e DEC-SUP-01/09 ainda exigem escolhas
+próprias de RF12. Ver
+`docs/reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md`. Support
+0.14 não foi congelado. RF12/RF13 não têm runtime; não criar branch funcional
+RF12 até resolução expressa das lacunas. Os blocos abaixo preservam o estado
+RF11 e fotografias anteriores.
+
 ## Estado funcional atual — MAIN_BASELINE_RF11
 
 RF01–RF11 estão implementadas/provadas e integradas em `main`. A

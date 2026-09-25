@@ -2,6 +2,15 @@
 
 Artefatos de avaliação de completude do microserviço e da documentação canônica associada.
 
+## Checkpoint atual — RF12
+
+O [report do checkpoint RF12](REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md)
+confirma a integração da PR documental #13 (`7724382`) e registra
+`RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`: filtro opcional na fonte sem
+política fechada de visibilidade interna para requester, total e demais
+detalhes da listagem. Support 0.14 não foi congelado; RF12/RF13 não têm
+runtime nem testes executados neste lote.
+
 ## Baseline para `main`
 
 [Report de fechamento da baseline](REPORT-SUPPORT-MAIN-BASELINE-20260910-145800.md):

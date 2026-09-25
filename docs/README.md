@@ -12,6 +12,13 @@ Documentação operacional do `support-ms`.
   após RF01.
 - `reports/`: avaliações por onda.
 
+O [checkpoint RF12](reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md)
+registra `RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. A fonte fixa rota GET,
+filtro opcional, paginação e ACL geral; a projeção segura de mensagens internas
+e o total para solicitante ainda exigem decisão. Support 0.14 não está
+congelado, o gitlink continua Support 0.13 (`4958fd1`) e RF12/RF13 não têm
+runtime. A PR documental #13 foi integrada no merge `7724382`.
+
 RF11 está implementada/provada e integrada em `main` com contrato Support 0.13
 fixo. RF12/RF13 não possuem runtime. A
 [PR #12](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/12)

@@ -1,5 +1,17 @@
 # AI_FIRST
 
+## Checkpoint RF12
+
+A PR #13 documental foi integrada no merge `7724382`, consolidando
+`MAIN_BASELINE_RF11`. O gitlink permanece Support 0.13 (`4958fd1`). RF12
+`GET /api/support/tickets/{ticketId}/messages` está
+`RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`: a fonte deixa aberta a
+visibilidade de mensagens internas para requester, filtro omitido/`false` e
+total, além de detalhes de paginação, resposta e validação. Support 0.14 não
+foi congelado; RF12/RF13 não têm runtime. Ver
+`docs/reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md` antes de
+qualquer lote funcional RF12.
+
 ## Estado atual — MAIN_BASELINE_RF11
 
 RF01–RF11 estão implementadas/provadas e integradas em `main` sobre

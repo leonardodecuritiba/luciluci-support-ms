@@ -9,6 +9,14 @@ está em `luciluci-docs/support/`.
 
 ## Estado
 
+RF12 está em checkpoint contratual
+`RF12_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`: falta decidir a visibilidade
+segura de mensagens internas por papel, filtro e total, além dos detalhes da
+listagem. Support 0.14 não foi congelado e não há runtime RF12/RF13. O
+[report do checkpoint RF12](docs/reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md)
+registra fontes e decisões pendentes. A PR documental #13 foi integrada no
+merge `7724382`; o gitlink continua Support 0.13 (`4958fd1`).
+
 RF11 está implementada, provada e integrada em `main` sob Support 0.13. A rota
 PATCH altera apenas `TicketMessage.isVisibleToRequester` de mensagens admin e preserva Ticket,
 mídias e auditorias. RF12/RF13 continuam sem runtime. A
