@@ -16,8 +16,8 @@ transação. Admin gera uma auditoria; backoffice/cd geram duas, inclusive se
 `adminStatus` já era `pendente`. Cada POST válido cria mensagem nova e renova
 `updatedAt`; não há idempotency key, evento nem migration nova.
 
-Evidência desta branch: 29 suítes/261 testes, cobertura 98,03% statements,
-87,38% branches, 98,71% functions e 98,44% lines; prova RF10 em PostgreSQL 16
+Evidência desta branch: 29 suítes/262 testes, cobertura 98,03% statements,
+87,38% branches, 98,72% functions e 98,44% lines; prova RF10 em PostgreSQL 16
 descartável com quatro rollbacks e RF10×RF10/RF06/RF08; regressões PostgreSQL
 RF01–RF09; smoke da imagem RF10. O report de implementação em `docs/reports/`
 registra comandos, resultados e limites. A primeira execução da cobertura em

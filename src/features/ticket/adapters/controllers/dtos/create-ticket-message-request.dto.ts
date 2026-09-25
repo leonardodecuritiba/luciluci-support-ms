@@ -3,9 +3,9 @@ import {
 	IsBoolean,
 	IsDefined,
 	IsIn,
-	IsOptional,
 	IsString,
 	Matches,
+	ValidateIf,
 } from 'class-validator';
 
 export default class CreateTicketMessageRequestDTO {
@@ -20,7 +20,7 @@ export default class CreateTicketMessageRequestDTO {
 	@Matches(/\S/, { message: 'authorId must contain a non-whitespace character' })
 	authorId!: string;
 
-	@IsOptional()
+	@ValidateIf((_object, value) => value !== undefined)
 	@IsArray()
 	@IsString({ each: true })
 	@Matches(/\S/, { each: true, message: 'each mediaIds item must be non-blank' })

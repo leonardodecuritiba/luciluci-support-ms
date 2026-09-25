@@ -208,6 +208,7 @@ describe('Integration: RF10 create TicketMessage', () => {
 		[{ ...body('cd', owner), message: '   ' }, 422],
 		[{ ...body('cd', owner), authorId: 'other' }, 422],
 		[{ ...body('cd', owner), type: 'admin' }, 422],
+		[{ ...body('cd', owner), mediaIds: null }, 422],
 		[{ ...body('cd', owner), mediaIds: ['x', '   '] }, 422],
 		[{ ...body('cd', owner), extra: true }, 422],
 		[{ ...body('cd', owner), isVisibleToRequester: 'true' }, 422],
