@@ -1,5 +1,14 @@
 # support-ms
 
+## Decisão parcial RF13
+
+A [decisão de visibilidade RF13](docs/reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md)
+oculta do requester toda auditoria `nova_mensagem` de admin e preserva apenas
+as suas próprias auditorias `nova_mensagem` de backoffice/cd. Admin autorizado
+vê todas as auditorias no escopo. Outros detalhes contratuais ainda estão
+abertos; RF13 continua 404 e Support 0.14 permanece fixo. Não há Support 0.15
+nem runtime RF13 nesta revisão. O restante da página é histórico.
+
 ## Baseline RF12 e checkpoint RF13
 
 A [PR #14](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/14)

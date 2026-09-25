@@ -1,5 +1,22 @@
 # ACTUAL_STATE
 
+## Decisão de visibilidade RF13 — contrato ainda bloqueado
+
+A decisão expressa de 2026-09-25 fecha somente a exposição de
+`AuditLog.nova_mensagem`: admin autorizado vê todo AuditLog do escopo; requester
+dono vê apenas `nova_mensagem` com `origin=backoffice|cd` e
+`authorId=ticket.requesterId`, nunca `origin=admin`. Filtrar antes do count e
+da página, sem correlação heurística entre AuditLog e Message. `criacao_ticket`
+e `alteracao_status` conservam a ACL geral do Ticket. Ver o
+[report de visibilidade](docs/reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md).
+
+DEC-SUP-01/09, DEC-SUP-02, DEC-SUP-08 e a fotografia de leitura concorrente
+continuam blockers independentes no checkpoint anterior. Estado global:
+`RF13_VISIBILITY_RESOLVED / RF13_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION /
+NOT_IMPLEMENTED`. Support 0.15 não foi congelado; gitlink Support 0.14
+`820b2a8` e reserva 404 inalterados. Esta seção é posterior ao checkpoint
+histórico abaixo.
+
 ## Checkpoint RF13 após MAIN_BASELINE_RF12
 
 A [PR #14](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/14)

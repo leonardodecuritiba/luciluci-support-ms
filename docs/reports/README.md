@@ -1,5 +1,10 @@
 # docs/reports
 
+O [report da decisão parcial RF13](REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md)
+fecha a visibilidade de `nova_mensagem` para admin/requester e mantém RF13
+bloqueada por decisões independentes de HTTP, paginação e consistência. O
+checkpoint `58fcea6` abaixo é histórico.
+
 O [checkpoint RF13](REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
 confirma a PR #14 integrada em `MAIN_BASELINE_RF12` e registra
 `RF13_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`, sem alterar Support 0.14 nem

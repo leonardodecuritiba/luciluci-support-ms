@@ -1,5 +1,13 @@
 # AI_FIRST
 
+## RF13: visibilidade resolvida, contrato ainda aberto
+
+O [report da decisão](docs/reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md)
+fecha apenas a política de `nova_mensagem` no histórico. DEC-SUP-01/09,
+DEC-SUP-02, DEC-SUP-08 e consistência de leitura ainda impedem Support 0.15.
+RF13 segue 404, sem implementação; o gitlink permanece Support 0.14. As
+seções seguintes são fotografias anteriores.
+
 ## Continuidade após merge RF12
 
 `MAIN_BASELINE_RF12` é o merge da PR #14 (`1e243d3`), com CI remota aprovada.

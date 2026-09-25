@@ -1,5 +1,17 @@
 # AGENTS.md
 
+## Decisão RF13 parcial após o checkpoint histórico
+
+A decisão de visibilidade de `AuditLog.nova_mensagem` foi recebida e registrada
+no [report RF13](docs/reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md).
+Admin autorizado vê todas as auditorias do escopo; requester dono vê
+`nova_mensagem` somente de `origin=backoffice|cd` com
+`authorId=ticket.requesterId`. Audit de admin fica oculto do requester;
+nenhuma correlação heurística com Message é permitida. Filtrar antes de total
+e paginação. Outros detalhes contratuais independentes seguem abertos,
+portanto RF13 continua bloqueada e sem runtime; Support 0.14 permanece fixo.
+O checkpoint `58fcea6` abaixo é fotografia histórica.
+
 ## Estado atual após a PR #14
 
 RF01–RF12 estão implementadas/provadas e integradas em `MAIN_BASELINE_RF12`

@@ -1,5 +1,13 @@
 # DRIFT_REPORT
 
+## RF13 — decisão de visibilidade sem drift técnico novo
+
+A política de `nova_mensagem` para admin/requester foi decidida e registrada
+no [report RF13](docs/reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md).
+Não há alteração de schema nem runtime. Os demais blockers contratuais seguem
+abertos; a reserva 404 é esperada e não é drift da baseline RF12. Support 0.14
+continua fixo. O checkpoint anterior permanece histórico abaixo.
+
 ## RF13 — checkpoint contratual, sem drift técnico novo
 
 RF12 foi integrada pela PR #14 em `1e243d3`, com CI aprovada. A ausência da

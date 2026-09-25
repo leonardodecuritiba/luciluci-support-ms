@@ -1,5 +1,10 @@
 # docs
 
+O [report de visibilidade RF13](reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md)
+registra a decisão expressa sobre `nova_mensagem` e os blockers contratuais
+independentes ainda abertos. Support 0.14 e a reserva 404 permanecem. O
+checkpoint abaixo é histórico.
+
 O [checkpoint RF13](reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
 parte de `MAIN_BASELINE_RF12` (`1e243d3`), após merge e CI aprovada da PR #14.
 RF13 permanece bloqueada por decisões contratuais e sem runtime. Support 0.14

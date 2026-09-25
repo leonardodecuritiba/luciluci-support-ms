@@ -262,3 +262,13 @@ foi aberto em branch documental própria sobre a `main` sincronizada.
 `/tickets/history` permanece reservado em 404, sem runtime RF13. DEC-SUP-01,
 02, 04, 08 e 09 exigem fechamento específico antes de congelar Support 0.15
 ou abrir uma branch funcional RF13.
+
+## 17. Decisão parcial de visibilidade RF13
+
+A decisão expressa sobre AuditLog `nova_mensagem` está no
+[report RF13](../reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md).
+Admin autorizado vê todas as auditorias do escopo; requester dono recebe
+apenas `nova_mensagem` de backoffice/cd cuja autoria coincide com
+`ticket.requesterId`; audits `nova_mensagem` de admin são sempre ocultos do
+requester. Outros blockers independentes impedem Support 0.15. Nenhuma branch
+funcional RF13, migration ou avanço de gitlink decorre desta decisão parcial.
