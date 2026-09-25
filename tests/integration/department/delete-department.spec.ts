@@ -153,7 +153,7 @@ describe('Integration: RF04 delete department', () => {
 		update.mockRestore();
 	});
 
-	it('does not materialize side-effect tables and keeps RF09-RF13 unavailable', async () => {
+	it('does not materialize side-effect tables and keeps RF10-RF13 unavailable', async () => {
 		await insertDepartment();
 		expect((await remove()).status).toBe(204);
 		const tables = (
@@ -164,7 +164,6 @@ describe('Integration: RF04 delete department', () => {
 		expect(tables).not.toEqual(expect.arrayContaining(['audit_logs', 'outbox_events']));
 
 		const futureRoutes: Array<['get' | 'post' | 'patch', string]> = [
-			['get', '/api/support/tickets/00000000-0000-4000-8000-000000000010'],
 			['post', '/api/support/tickets/00000000-0000-4000-8000-000000000010/messages'],
 			[
 				'patch',

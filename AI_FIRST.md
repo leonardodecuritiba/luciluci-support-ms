@@ -3,10 +3,13 @@
 ## Estado de trabalho
 
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
-materializada; RF01–RF07b estão `IMPLEMENTED_AND_PROVEN` em
-`MAIN_BASELINE_RF07`, contra a revisão canônica Support 0.9 para RF07.
-RF08 está implementada na branch funcional e RF09–RF13 permanecem `NOT_IMPLEMENTED`;
-o contrato RF08 está congelado em Support 0.10 (`RF08_CONTRACT_CHECKPOINT_READY`). A revisão pós-S1 reabriu o fechamento por
+materializada; RF01–RF08 estão `IMPLEMENTED_AND_PROVEN` em
+`MAIN_BASELINE_RF08`. RF09 está implementada/provada na branch funcional,
+ainda fora de `main`; RF10–RF13 permanecem `NOT_IMPLEMENTED`;
+o contrato RF08 está congelado em Support 0.10 (`RF08_CONTRACT_CHECKPOINT_READY`).
+O checkpoint RF09 bloqueado é histórico; DEC-SUP-01/08/09 foram aprovadas
+somente para RF09 e congeladas em Support 0.11, publicado no remoto canônico.
+A revisão pós-S1 reabriu o fechamento por
 `DRIFT-SUP-S1-001`, agora `RESOLVED / PROVEN`.
 
 ## Ordem de leitura
@@ -51,7 +54,15 @@ A PR #7 foi integrada em `main` no merge
 `MAIN_BASELINE_RF07`. O checkpoint RF08 bloqueado `a8714a8` é histórico. As
 decisões específicas de RF08 congelaram Support 0.10 no commit canônico
 `93edf66d6ed0002a2af537339da315db1285a779`, publicado com SHA local/remoto
-igual; o gitlink documental aponta a ele. RF08 está implementada/provada
-localmente e a branch
-funcional `feat/support-rf08-resolve-ticket` foi criada a partir do head
-documental publicado; ainda não houve commit, push, PR ou merge funcional.
+igual; o gitlink documental aponta a ele. RF08 foi implementada/provada na
+branch `feat/support-rf08-resolve-ticket` e integrada pela PR #8 no merge
+`45be90318bdb71e67532482364933cb49e6660e9`; o check `quality` do head
+passou no run `36065884933`. `main` é `MAIN_BASELINE_RF08`. O report
+`docs/reports/REPORT-SUPPORT-RF09-CHECKPOINT-20260924-223334.md` registra a
+fotografia bloqueada anterior. O fechamento 0.11 publicado está em
+`docs/reports/REPORT-SUPPORT-RF09-CONTRACT-20260925-125528.md`, com gitlink
+`a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`, confirmado por `ls-remote`.
+A primeira tentativa de push foi bloqueada pela revisão automática; a
+autorização específica posterior permitiu publicar as branches canônica e do
+serviço. A implementação RF09 posterior está na branch
+`feat/support-rf09-get-ticket`, com prova local e sem integração em `main`.

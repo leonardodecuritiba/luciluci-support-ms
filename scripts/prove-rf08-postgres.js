@@ -399,7 +399,7 @@ async function main() {
 				spec.paths['/api/support/tickets/{ticketId}/resolve'].post.requestBody,
 				undefined,
 			);
-			assert.equal(spec.paths['/api/support/tickets/{ticketId}'].get, undefined);
+			assert.ok(spec.paths['/api/support/tickets/{ticketId}'].get);
 			for (const path of [
 				'/api/support/tickets/{ticketId}/messages',
 				'/api/support/tickets/{ticketId}/messages/{messageId}/visibility',
@@ -408,7 +408,6 @@ async function main() {
 				assert.equal(spec.paths[path], undefined);
 			}
 			for (const [method, path] of [
-				['GET', `/api/support/tickets/${mixed.id}`],
 				['POST', `/api/support/tickets/${mixed.id}/messages`],
 				['PATCH', `/api/support/tickets/${mixed.id}/messages/${randomUUID()}/visibility`],
 				['GET', `/api/support/tickets/${mixed.id}/messages`],

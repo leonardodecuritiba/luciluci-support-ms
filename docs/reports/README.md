@@ -38,6 +38,17 @@ documental da revisão 0.10. O checkpoint bloqueado não foi reescrito.
 O [report de implementação RF08](REPORT-SUPPORT-RF08-20260924-213933.md)
 registra runtime, testes, provas PostgreSQL e smoke local na branch funcional,
 sem atribuir CI remota ou integração em `main`.
+A PR #8 integrou RF08 no merge `45be903`, estabelecendo `MAIN_BASELINE_RF08`;
+seu check `quality` do head passou no run remoto `36065884933`. O
+[checkpoint contratual RF09](REPORT-SUPPORT-RF09-CHECKPOINT-20260924-223334.md)
+registra o contrato ainda bloqueado por DEC-SUP-01/08/09, sem runtime RF09.
+O [fechamento contratual RF09](REPORT-SUPPORT-RF09-CONTRACT-20260925-125528.md)
+registra a aprovação posterior, Support 0.11 publicado e o gitlink `a198b46`.
+A primeira tentativa de publicação foi bloqueada pela revisão automática e
+concluída após autorização específica. O checkpoint anterior não foi reescrito.
+O [report de implementação RF09](REPORT-SUPPORT-RF09-20260925-140106.md)
+registra a branch funcional, testes, prova PostgreSQL, regressões e smoke local.
+RF09 ainda não foi integrada em `main`.
 
 ## Fechamento atual de S1
 

@@ -1,16 +1,35 @@
 # ACTUAL_STATE
 
-## Estado atual — RF08 na branch funcional sobre MAIN_BASELINE_RF07
+## Estado atual — MAIN_BASELINE_RF08 e implementação RF09 na branch
 
 - serviço `support-ms`; domínio `support`;
 - S1 `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`; drift `DRIFT-SUP-S1-001 / RESOLVED / PROVEN`;
-- RF01–RF07b `IMPLEMENTED_AND_PROVEN` e integradas em `main`;
-- baseline atual `MAIN_BASELINE_RF07`, merge da PR #7 `43a556ab1c70f5de9a63e3e6ab651445fa462173`; baseline de origem RF06 `0387167cfe02416c5d05cf3b8288350dd5ba682b`;
-- RF08 implementada na branch `feat/support-rf08-resolve-ticket`, ainda não integrada em `main`; RF09–RF13 `NOT_IMPLEMENTED`;
+- RF01–RF08 `IMPLEMENTED_AND_PROVEN` e integradas em `main`; RF09 `IMPLEMENTED_AND_PROVEN` somente na branch `feat/support-rf09-get-ticket`; RF10–RF13 `NOT_IMPLEMENTED`;
+- baseline atual `MAIN_BASELINE_RF08`, merge da PR #8 `45be90318bdb71e67532482364933cb49e6660e9`; a baseline RF07 permanece histórica em `43a556ab1c70f5de9a63e3e6ab651445fa462173`;
 - RF07a/RF07b `RF07A_RF07B_CONTRACT_FROZEN` em Support 0.9; implementação e prova PostgreSQL local concluídas;
 - contrato RF06 congelado em Support 0.8, commit canônico `4650ec671c948a4fa8fb04fa33b300d8fd255ae4` de `luciluci-docs`;
 - decisões RF06 DEC-SUP-01/03/05/06/08/09/10/12 resolvidas somente nesse recorte; DEC-SUP-01/02/07/08/09 estão `RESOLVED_FOR_RF07` somente para RF07a/RF07b, conforme `luciluci-docs/support/notes.md`;
-- gitlink canônico Support 0.10 `93edf66d6ed0002a2af537339da315db1285a779`, publicado em `luciluci-docs` na branch `docs/support-rf08-resolve-ticket-contract`; SHA local e remoto conferidos. `RF08_CONTRACT_FROZEN / RF08_CONTRACT_CHECKPOINT_READY`; runtime RF08 implementado/provado localmente nesta branch. O contrato RF07 0.9 permanece histórico em `1583a586793437a7b7c0569581637ee8ddac5ae5`; `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`.
+- gitlink atual Support 0.11 `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`, publicado em `origin/docs/support-rf09-get-ticket-contract` e confirmado por `ls-remote`; a revisão anterior 0.10 `93edf66d6ed0002a2af537339da315db1285a779` foi publicada na branch `docs/support-rf08-resolve-ticket-contract`. O contrato RF07 0.9 permanece histórico em `1583a586793437a7b7c0569581637ee8ddac5ae5`; `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`.
+
+## Implementação RF09 — branch funcional
+
+A branch `feat/support-rf09-get-ticket` partiu de `origin/codex/support-rf09-contract-checkpoint` (`f76c217`), descendente de `MAIN_BASELINE_RF08`, com gitlink canônico Support 0.11 fixo em `a198b46`. `GET /api/support/tickets/{ticketId}` retorna somente os onze campos de Ticket. `backoffice`/`cd` leem por `requesterId`; admin lê por membership atual no Department, inclusive inativo. O caso de uso consulta Ticket antes da ACL para distinguir 404 de 403. Não há lock, transação de escrita, auditoria, evento, outbox, idempotência ou migration RF09. RF10–RF13 permanecem indisponíveis.
+
+Testes unitários, integração HTTP/SQLite e contrato OpenAPI foram acrescentados. A prova `proof:rf09:postgres` passou em PostgreSQL 16 descartável com processo compilado, validando ACL, resposta exata, erros e snapshots físicos de `departments`, `department_allowed_users`, `tickets`, `ticket_messages`, `ticket_message_media` e `ticket_audit_logs` antes/depois dos GETs. A suíte completa passou com 27 suítes e 239 testes; cobertura: 97,93% statements, 87,16% branches, 98,62% functions, 98,28% lines. O smoke da imagem passou com leitura requester/admin. Regressões PostgreSQL RF01–RF08 e demais gates estão no report RF09. A implementação foi publicada no commit `a925f53bea438b456b4ea50ac290f81cbc10a881` e a [PR #9](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/9) está aberta contra `main`, sem integração ou deploy. O check remoto `ci / quality` foi iniciado para a PR; seu resultado deve ser consultado na própria PR.
+
+As referências abaixo que dizem RF09 sem runtime são fotografias históricas dos checkpoints anteriores à implementação, não o estado desta branch.
+
+## Integração RF08 e abertura RF09
+
+A [PR #8](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/8) foi integrada no merge `45be90318bdb71e67532482364933cb49e6660e9`; `main` local e `origin/main` coincidiram após fast-forward. O check `quality` do head `ab43d4e53e0d4fde70a66c42a8f38fc9e66806ad` passou no run remoto `36065884933`. A documentação canônica Support 0.10 é a fotografia anterior ao runtime RF08: seu `NOT_IMPLEMENTED` histórico não descreve o estado atual do serviço. O submódulo está limpo no gitlink fixado.
+
+O checkpoint RF09 histórico está em `docs/reports/REPORT-SUPPORT-RF09-CHECKPOINT-20260924-223334.md`, estado então `RF09_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. PRD §5.2/RF09 fixava GET por ID, ACL e leitura sem auditoria; TDD/TP deixavam DEC-SUP-01/08/09 pendentes naquele momento. A rota GET por ID ainda não existe; essa ausência é esperada no lote documental.
+
+## Fechamento contratual RF09 — Support 0.11 publicado
+
+Em 2026-09-25, o usuário aprovou expressamente a proposta do checkpoint RF09. O contrato Support 0.11 foi registrado em `luciluci-docs/support/{README,prd,notes,tdd,tp}.md`, commit canônico `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2` na branch `docs/support-rf09-get-ticket-contract`; o gitlink desta branch do serviço aponta a esse SHA. DEC-SUP-01/08/09 estão `RESOLVED_FOR_RF09` apenas para GET por ID; `RF09_CONTRACT_CHECKPOINT_READY / RF09_CONTRACT_FROZEN / NOT_IMPLEMENTED`. O report de fechamento está em `docs/reports/REPORT-SUPPORT-RF09-CONTRACT-20260925-125528.md`. O checkpoint bloqueado anterior permanece histórico.
+
+O primeiro push do commit canônico para `git@github.com:lucilucitecnologia/luciluci-docs.git` foi rejeitado pela revisão automática: a aprovação do contrato não foi considerada autorização explícita para publicar documentos naquele remoto. Após autorização específica do usuário, a branch canônica foi publicada e `ls-remote` confirmou `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`. A branch do serviço `codex/support-rf09-contract-checkpoint` também foi publicada; `ls-remote` confirmou o head inicial `c586fdba037eb463b0841be9b99e9c8dbdcd0953` com o mesmo gitlink. Nenhuma PR RF09 foi aberta e nenhum arquivo de runtime, OpenAPI executável, `api.http`, migration, teste ou prova RF09 foi criado.
 
 ## Superfície implementada
 
@@ -44,7 +63,7 @@ O merge da PR #7 em `43a556ab1c70f5de9a63e3e6ab651445fa462173` estabelece `MAIN_
 
 As decisões posteriores fecham o contrato RF08 em Support 0.10: POST sem body; headers `X-Correlation-ID`, `X-Performed-By` e `X-Performed-By-Type=backoffice|cd`; somente dono por `ticket.requesterId`, sem comparar role com origin ou verificar Department. Transição `nao_resolvido -> resolvido` altera apenas requesterStatus/updatedAt e cria exatamente um AuditLog `alteracao_status` de requester na mesma transação. Ticket já resolvido retorna `200` e Ticket completo sem write, timestamp ou auditoria novos. Ticket é bloqueado com `FOR UPDATE`; RF08×RF08 e RF06×RF08 serializam sem perda de update. Não há idempotency key, evento/outbox ou mensageria. Matriz de erros: `400` headers, `403` admin/não dono, `404` Ticket inexistente, `422` UUID/body, `500` inesperado. DEC-SUP-01/06/08/09/10/12 estão `RESOLVED_FOR_RF08` somente neste recorte; DEC-SUP-11 é `NOT_APPLICABLE_RF08`. O commit canônico `93edf66d6ed0002a2af537339da315db1285a779` está publicado, e o gitlink desta branch aponta a ele. RF09–RF13 seguem pendentes.
 
-## Implementação RF08 na branch funcional
+## Implementação RF08 — evidência histórica da branch funcional
 
 `POST /api/support/tickets/{ticketId}/resolve` está materializado em route/controller,
 `ResolveTicketUseCase` e capacidade específica `updateRequesterStatus` do repositório.

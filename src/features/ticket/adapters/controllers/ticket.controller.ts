@@ -6,6 +6,7 @@ import CreateTicketUseCase from '../../use-cases/create-ticket.use-case';
 import UpdateTicketUseCase, { TicketActorRole } from '../../use-cases/update-ticket.use-case';
 import ListTicketsUseCase from '../../use-cases/list-tickets.use-case';
 import ResolveTicketUseCase from '../../use-cases/resolve-ticket.use-case';
+import GetTicketUseCase from '../../use-cases/get-ticket.use-case';
 import BadRequestError from '../../../../shared/kernel/exceptions/bad-request.error';
 import ForbiddenError from '../../../../shared/kernel/exceptions/forbidden.error';
 import UnprocessableEntityError from '../../../../shared/kernel/exceptions/unprocessable-entity.error';
@@ -46,6 +47,32 @@ export default function buildTicketController(dataSource: DataSource) {
 	}
 
 	return {
+		getById: async (req: Request, res: Response): Promise<void> => {
+			const callerId = req.performedBy;
+			const callerRole = req.performedByType;
+			if (!callerId?.trim() || !['admin', 'backoffice', 'cd'].includes(callerRole ?? '')) {
+				throw new BadRequestError('bad_request');
+			}
+			const { ticketId } = await validateDto(UpdateTicketPathDTO, req.params);
+			if (req.originalUrl.includes('?')) {
+				throw new UnprocessableEntityError('validation_error', [
+					{
+						field: 'query',
+						code: 'forbidden',
+						message: 'Query parameters are not allowed.',
+					},
+				]);
+			}
+			if (req.body !== undefined) {
+				throw new UnprocessableEntityError('validation_error', [
+					{ field: 'body', code: 'forbidden', message: 'Request body is not allowed.' },
+				]);
+			}
+			const response = await new GetTicketUseCase(
+				new TicketTypeormRepository(dataSource.manager),
+			).execute(ticketId, { id: callerId, role: callerRole as TicketActorRole });
+			res.status(200).json(response);
+		},
 		listByRequester: (req: Request, res: Response): Promise<void> =>
 			list(req, res, 'requester'),
 		listByAdmin: (req: Request, res: Response): Promise<void> => list(req, res, 'admin'),

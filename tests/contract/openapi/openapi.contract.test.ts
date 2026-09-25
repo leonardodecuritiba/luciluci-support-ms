@@ -17,7 +17,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		await destroyTestDataSource();
 	});
 
-	it('documents operational paths and RF01-RF08', () => {
+	it('documents operational paths and RF01-RF09', () => {
 		const spec = swaggerSpec as OpenAPIV3.Document;
 
 		expect(Object.keys(spec.paths ?? {}).sort()).toEqual([
@@ -188,6 +188,29 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		expect(ticketSchema.properties).not.toHaveProperty('message');
 		expect(ticketSchema.properties).not.toHaveProperty('audit');
 		const updateTicket = spec.paths?.['/api/support/tickets/{ticketId}']?.patch;
+		const getTicket = spec.paths?.['/api/support/tickets/{ticketId}']?.get;
+		expect(getTicket?.requestBody).toBeUndefined();
+		expect(getTicket?.parameters).toEqual([
+			{ $ref: '#/components/parameters/CorrelationIdHeader' },
+			{ $ref: '#/components/parameters/PerformedByHeader' },
+			{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+			expect.objectContaining({ in: 'path', name: 'ticketId', required: true }),
+		]);
+		expect(Object.keys(getTicket?.responses ?? {}).sort()).toEqual([
+			'200',
+			'400',
+			'403',
+			'404',
+			'422',
+			'500',
+		]);
+		expect(getTicket?.responses?.['200']).toEqual(
+			expect.objectContaining({
+				content: {
+					'application/json': { schema: { $ref: '#/components/schemas/TicketDetail' } },
+				},
+			}),
+		);
 		expect(updateTicket?.parameters).toEqual([
 			{ $ref: '#/components/parameters/CorrelationIdHeader' },
 			{ $ref: '#/components/parameters/PerformedByHeader' },
@@ -228,6 +251,13 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		);
 		expect(ticketSchema.properties?.adminStatus).toEqual({
 			$ref: '#/components/schemas/TicketAdminStatus',
+		});
+		const ticketDetailSchema = spec.components?.schemas?.TicketDetail as OpenAPIV3.SchemaObject;
+		expect(ticketDetailSchema.additionalProperties).toBe(false);
+		expect(ticketDetailSchema.required).toHaveLength(11);
+		expect(ticketDetailSchema.properties?.requesterStatus).toEqual({
+			type: 'string',
+			enum: ['nao_resolvido', 'resolvido'],
 		});
 		for (const [path, pathId, includesRequesterFilter] of [
 			['/api/support/tickets/requester/{requesterId}', 'requesterId', false],

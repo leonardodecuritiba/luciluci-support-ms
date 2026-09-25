@@ -4,16 +4,18 @@
 
 Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
 Identidade e superfície operacional foram materializadas, Profile foi retirado
-e RF01–RF07b estão implementadas/provadas em `MAIN_BASELINE_RF07` (PR #7);
-RF08 está implementada/provada na branch funcional própria, ainda fora de `main`;
-RF09–RF13 continuam não implementadas. Support 0.10 congela o contrato RF08;
-o checkpoint bloqueado anterior permanece histórico.
+e RF01–RF08 estão `IMPLEMENTED_AND_PROVEN` em `MAIN_BASELINE_RF08` (PR #8).
+RF09 está implementada e provada somente na branch `feat/support-rf09-get-ticket`,
+com contrato `RF09_CONTRACT_FROZEN` em Support 0.11; RF10–RF13
+continuam `NOT_IMPLEMENTED`. O checkpoint RF09 bloqueado anterior permanece
+histórico.
 Leia `ACTUAL_STATE.md` para o estado real.
 
 O `DRIFT-SUP-S1-001` foi corrigido e provado: estado
 `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`. O checkpoint documental RF02 0.4 está
 fechado e seu slice foi integrado em `main`. Não refaz a derivação, não repete
-S1/RF01 sem nova reprodução e não inicia runtime RF07 antes do checkpoint contratual.
+S1/RF01 sem nova reprodução e não inicia runtime RF09 antes de conferir seu
+contrato canônico congelado.
 
 ## Leitura obrigatória inicial
 
@@ -52,35 +54,38 @@ não ampliam as três ações de AuditLog do PRD.
 Fluxo herdado: `bootstrap/build -> report -> drift-fix -> report -> drift-fix -> wave final`.
 S1 está encerrado e RF01 foi comprovada a partir do checkpoint documental 0.3.
 A revisão 0.4 congela RF02 e resolve, somente nesse recorte, DEC-SUP-01, 03, 06,
-08, 09, 10 e 12. RF02–RF06 estão integradas em `main`. A revisão 0.6
+08, 09, 10 e 12. RF02–RF08 estão integradas em `main`. A revisão 0.6
 congela RF04 e resolve, somente nesse recorte, DEC-SUP-01, 03, 06, 08, 09, 10 e 12. A revisão 0.7 congela RF05 e resolve, somente nesse recorte,
 DEC-SUP-01/03/04/08/09/10/12. A revisão 0.8 congela RF06 e resolve, somente
 nesse recorte, DEC-SUP-01/03/05/06/08/09/10/12. Support 0.9 congela
 RF07a/RF07b e resolve DEC-SUP-01/02/07/08/09 somente nesse recorte.
 Support 0.10 congela RF08 e resolve DEC-SUP-01/06/08/09/10/12 somente nessa
 ação; DEC-SUP-11 não se aplica por não haver evento Support.
+Support 0.11 congela RF09 e resolve DEC-SUP-01/08/09 somente nesse recorte.
 
 Trabalhar RF por RF ou um drift por vez; não fazer refactor amplo, antecipar
 ondas ou implementar comportamento com decisão crítica aberta. Um gap esperado
 de inicialização não é bug comprovado do Support. Propostas de arquitetura
 não são decisões de negócio aprovadas.
 
-O lote funcional RF07 está integrado. RF07a/RF07b estão implementadas/provadas;
-RF08 existe somente na branch funcional e RF09–RF13 permanecem fora do runtime.
-Qualquer prova futura de banco exige destino descartável
+RF08 está integrada em `MAIN_BASELINE_RF08`. RF09 possui contrato Support 0.11
+congelado/publicado e runtime provado na branch funcional, ainda fora de `main`.
+RF10–RF13 permanecem fora do runtime. Qualquer prova futura de banco exige destino descartável
 explícito; não usar banco padrão/preexistente.
 
 ## Política de branches e `main`
 
-Bootstrap + RF01 formam o baseline histórico `MAIN_BASELINE_RF01`. RF02–RF07b
-estão integradas; `MAIN_BASELINE_RF07` corresponde ao merge da PR #7 `43a556a`.
+Bootstrap + RF01 formam o baseline histórico `MAIN_BASELINE_RF01`. RF02–RF08
+estão integradas; `MAIN_BASELINE_RF08` corresponde ao merge da PR #8
+`45be90318bdb71e67532482364933cb49e6660e9`.
 `main` é branch estável de integração e não é workspace para RF nova.
 
-Para RF08–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
+Para RF09–RF13: atualizar referências remotas, partir de `main` sincronizada e criar
 uma branch própria por slice. Convenção recomendada: `feat/support-rfNN-<slug>`;
 correções delimitadas: `fix/support-<drift-ou-slug>`. Não misturar RFs independentes
-na mesma branch. RF08 tem contrato congelado e está na branch funcional
-`feat/support-rf08-resolve-ticket`, ainda sem merge em `main`.
+na mesma branch. A branch RF09 partiu do checkpoint documental publicado, descendente de
+`MAIN_BASELINE_RF08`, com gitlink Support 0.11
+`a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2`.
 
 Antes de integrar em `main`, exigir contrato aplicável congelado, testes/provas do
 recorte, estado/documentação atualizados e ausência de drift técnico aberto que
@@ -105,6 +110,8 @@ misturar alterações do submódulo com arquivos comuns do repositório pai.
 - Preservar paths `/api/support/*`, enums e campos do PRD; não copiar `/profiles` ou `/replies` como contrato Support.
 - `Department.type` não governa autorização; `allowedUserIds` é o critério administrativo.
 - Solicitante acessa seu próprio ticket; RF08 é exclusivo do solicitante.
+- RF09 lê Ticket por ID sob ownership para backoffice/cd ou membership atual para admin,
+  inclusive em Department inativo; não escreve ou gera auditoria.
 - RF05 cria ticket + mensagem inicial de forma atômica e somente uma auditoria.
 - RF06 edita priority/departmentId/adminStatus sob ACL, lock Ticket→Departments,
   no-op sem write e uma auditoria apenas na mudança efetiva de adminStatus.
