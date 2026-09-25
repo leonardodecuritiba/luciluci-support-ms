@@ -172,7 +172,7 @@ concorrência ainda exigem decisão expressa. Estado:
 `RF10_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. Esse checkpoint no commit
 `8498620` permanece histórico. A decisão posterior congelou Support 0.12 no
 commit canônico `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`, publicado em
-`docs/support-rf10-create-message-contract`; o gitlink atual aponta à revisão
+`docs/support-rf10-create-message-contract`; o gitlink daquela fotografia apontava à revisão
 publicada. O estado passou a `RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN`.
 O próximo lote poderá abrir `feat/support-rf10-create-message` a partir de
 `main` sincronizada, com o contrato canônico fixado; não há runtime RF10 neste
@@ -188,3 +188,15 @@ Essa branch foi publicada e integrada pela PR #10 no merge
 `8827c0b2f6d0b7597984f5131d4f1ec7b658084f`, após o check remoto
 `ci / quality` aprovado no run `36156561044`. `main` é `MAIN_BASELINE_RF10`;
 RF11–RF13 permanecem fora do runtime.
+
+## 11. Contrato RF11
+
+O checkpoint bloqueado RF11 `85b3adb` permanece histórico na branch
+`docs/support-rf11-message-visibility-checkpoint`. Decisões posteriores
+congelaram Support 0.13 no commit canônico `4958fd1840042200fd1a87e45d6a7f69d4011dcd`,
+publicado em `docs/support-rf11-message-visibility-contract` e fixado no
+gitlink da branch documental do serviço. Estado
+`RF11_CONTRACT_CHECKPOINT_READY / RF11_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
+O próximo lote de implementação, quando aberto explicitamente, deve usar
+branch funcional própria a partir da baseline RF10 com esse gitlink. RF12/RF13
+não herdam as decisões de RF11.

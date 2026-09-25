@@ -1,5 +1,14 @@
 # DRIFT_REPORT
 
+## RF11 — contrato 0.13 congelado, sem runtime
+
+As lacunas do checkpoint RF11 foram fechadas por decisão expressa específica
+em Support 0.13 (`4958fd1`), publicado no repositório canônico. O gitlink
+atual aponta a essa revisão. A ausência da rota permanece esperada:
+`RF11_CONTRACT_FROZEN / NOT_IMPLEMENTED`, sem drift técnico novo atribuído ao
+runtime RF01–RF10. O checkpoint bloqueado `85b3adb` e o relatório anterior
+são históricos. [Fechamento RF11](docs/reports/REPORT-SUPPORT-RF11-CONTRACT-20260925-165105.md).
+
 ## Checkpoint RF11 — lacuna contratual, sem drift técnico novo
 
 O checkpoint RF11 sobre `MAIN_BASELINE_RF10` está
@@ -7,7 +16,8 @@ O checkpoint RF11 sobre `MAIN_BASELINE_RF10` está
 política de alteração de visibilidade por tipo/autoria de mensagem nem os
 efeitos e respostas da operação. A ausência da rota RF11, inclusive o `404`
 esperado nas provas históricas, é coerente com `NOT_IMPLEMENTED`; não é
-regressão da RF10. Support 0.12 e o gitlink `85c7e95` permanecem fixados.
+regressão da RF10. Naquela fotografia, Support 0.12 e o gitlink `85c7e95`
+permaneciam fixados.
 Detalhes em
 [REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md](docs/reports/REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md).
 

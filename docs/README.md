@@ -25,8 +25,11 @@ RF10 foi provada em PostgreSQL descartável, suíte HTTP/SQLite, smoke da imagem
 e CI remota (`36156561044`) antes do merge da PR #10. RF11–RF13 permanecem sem runtime.
 
 A documentação canônica de negócio fica em `../luciluci-docs/support/`; o
-gitlink integrado aponta à revisão 0.12 publicada (`85c7e95`).
+gitlink desta branch aponta à revisão 0.13 publicada (`4958fd1`).
 
-O [checkpoint RF11](reports/REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md)
-está bloqueado por decisões sobre visibilidade de mensagem e efeitos da operação.
-Support 0.13 não está congelado; RF11 não tem runtime.
+O [fechamento RF11](reports/REPORT-SUPPORT-RF11-CONTRACT-20260925-165105.md)
+congela somente a edição de visibilidade. RF11 continua sem runtime; RF12/RF13
+permanecem pendentes.
+
+O [checkpoint RF11 anterior](reports/REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md)
+registrou decisões abertas antes de Support 0.13; é uma fotografia histórica.

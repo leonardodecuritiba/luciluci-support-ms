@@ -65,7 +65,10 @@ A PR #10 integrou RF10 no merge `8827c0b`, estabelecendo `MAIN_BASELINE_RF10`.
 O [checkpoint contratual RF11](REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md)
 registra as lacunas de visibilidade e os efeitos ainda não decididos sobre a
 baseline RF10. Estado `RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`;
-Support 0.13 não foi congelado e RF11 continua sem runtime.
+naquela fotografia Support 0.13 não estava congelado. O
+[fechamento contratual RF11](REPORT-SUPPORT-RF11-CONTRACT-20260925-165105.md)
+registra a decisão posterior, Support 0.13 publicado em `4958fd1` e gitlink
+atualizado. RF11 continua sem runtime.
 
 ## Fechamento atual de S1
 

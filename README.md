@@ -8,11 +8,18 @@ está em `luciluci-docs/support/`.
 
 ## Estado
 
-O checkpoint documental RF11 está
+Support 0.13 (`4958fd1`) congela somente o contrato RF11. O checkpoint
+bloqueado anterior é histórico; o estado atual é
+`RF11_CONTRACT_CHECKPOINT_READY / RF11_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
+O [report contratual RF11](docs/reports/REPORT-SUPPORT-RF11-CONTRACT-20260925-165105.md)
+registra as decisões, a publicação canônica e o limite documental. RF12/RF13
+continuam sem runtime; nenhum deploy foi realizado neste lote.
+
+O checkpoint documental RF11 anterior estava
 `RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`: a política de quais mensagens
 podem mudar de visibilidade e outros efeitos da operação exigem decisão
-expressa. Support 0.13 não foi congelado; o gitlink segue em Support 0.12.
-RF11–RF13 continuam sem runtime. Veja o
+expressa. Esse bloqueio foi resolvido no contrato 0.13; a fotografia histórica
+permanece no
 [report RF11](docs/reports/REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md).
 
 RF10 está implementada, provada e integrada em `main` pela PR #10. O check
@@ -106,7 +113,8 @@ RF08 foi congelada documentalmente em Support 0.10,
 `93edf66d6ed0002a2af537339da315db1285a779`.
 RF08 foi integrada em `MAIN_BASELINE_RF08`. O contrato RF09 0.11 foi congelado,
 publicado e fixado no gitlink; RF09 foi integrada em `MAIN_BASELINE_RF09`.
-O contrato RF10 Support 0.12 foi publicado e fixado no gitlink; a branch
+O contrato RF10 Support 0.12 foi publicado e fixado no gitlink antes do avanço
+para 0.13; a branch
 funcional foi integrada pela PR #10.
 Desenvolva as próximas RFs em branches próprias. Consulte
 [`docs/workflows/support-development-branch-policy.md`](docs/workflows/support-development-branch-policy.md).

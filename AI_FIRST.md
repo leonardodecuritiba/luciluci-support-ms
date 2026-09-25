@@ -2,11 +2,18 @@
 
 ## Estado de trabalho
 
-O checkpoint documental RF11 iniciado de `MAIN_BASELINE_RF10` está
+O checkpoint RF11 bloqueado no commit `85b3adb` é histórico. Decisões
+posteriores congelaram Support 0.13 em `4958fd1`, publicado no remoto
+canônico e fixado no gitlink: `RF11_CONTRACT_CHECKPOINT_READY /
+RF11_CONTRACT_FROZEN / NOT_IMPLEMENTED`. RF01–RF10 estão integradas em
+`MAIN_BASELINE_RF10`; RF12/RF13 permanecem `NOT_IMPLEMENTED`. Não criar
+runtime RF11 sem lote explícito de implementação. Ver o report RF11 contratual.
+
+O checkpoint documental RF11 inicial, criado de `MAIN_BASELINE_RF10`, estava
 `RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. A revisão canônica fixa segue
-Support 0.12 (`85c7e95`); Support 0.13 não foi congelado. RF11–RF13 seguem
-`NOT_IMPLEMENTED`. Resolver as decisões RF11 do report antes de criar branch
-funcional ou avançar o gitlink.
+naquela fotografia em Support 0.12 (`85c7e95`). As decisões do report foram
+resolvidas depois, apenas para RF11, em Support 0.13. RF11–RF13 seguem
+`NOT_IMPLEMENTED`.
 
 Este checkout é `support-ms`. Profile foi retirado, a base operacional foi
 materializada; RF01–RF10 estão `IMPLEMENTED_AND_PROVEN` em

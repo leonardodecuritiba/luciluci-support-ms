@@ -11,11 +11,18 @@ RF10 está integrada em `main` no merge `8827c0b`; RF11–RF13 continuam
 `NOT_IMPLEMENTED`. Os checkpoints bloqueados anteriores permanecem históricos.
 Leia `ACTUAL_STATE.md` para o estado real.
 
-O checkpoint documental RF11 está
+O contrato RF11 foi congelado em Support 0.13 (`4958fd1`), publicado no
+repositório canônico e fixado no gitlink. Estado
+`RF11_CONTRACT_CHECKPOINT_READY / RF11_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
+O checkpoint bloqueado `85b3adb` permanece histórico. Ver
+`docs/reports/REPORT-SUPPORT-RF11-CONTRACT-20260925-165105.md`; abrir runtime
+RF11 somente em lote funcional separado.
+
+O checkpoint documental RF11 anterior estava
 `RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`: Support 0.13 não foi congelado.
-O gitlink continua na revisão canônica Support 0.12. Consulte
+Naquela fotografia, o gitlink continuava em Support 0.12. Consulte
 `docs/reports/REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md` antes de
-qualquer trabalho RF11; não criar branch funcional até a decisão contratual.
+qualquer trabalho RF11; as decisões posteriores estão no report de contrato.
 
 O `DRIFT-SUP-S1-001` foi corrigido e provado: estado
 `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`. O checkpoint documental RF02 0.4 está
