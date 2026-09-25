@@ -270,13 +270,9 @@ async function main() {
 				Object.keys(spec.paths['/api/support/tickets/{ticketId}'].get.responses).sort(),
 				['200', '400', '403', '404', '422', '500'],
 			);
-			for (const path of [
-				'/api/support/tickets/{ticketId}/messages/{messageId}/visibility',
-				'/api/support/tickets/history',
-			])
+			for (const path of ['/api/support/tickets/history'])
 				assert.equal(spec.paths[path], undefined);
 			for (const [method, path] of [
-				['PATCH', `/api/support/tickets/${ticket.id}/messages/${randomUUID()}/visibility`],
 				['GET', `/api/support/tickets/${ticket.id}/messages`],
 				['GET', '/api/support/tickets/history'],
 			])

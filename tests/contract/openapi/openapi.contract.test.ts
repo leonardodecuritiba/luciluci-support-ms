@@ -17,7 +17,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		await destroyTestDataSource();
 	});
 
-	it('documents operational paths and RF01-RF10', () => {
+	it('documents operational paths and RF01-RF11', () => {
 		const spec = swaggerSpec as OpenAPIV3.Document;
 
 		expect(Object.keys(spec.paths ?? {}).sort()).toEqual([
@@ -30,6 +30,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 			'/api/support/tickets/requester/{requesterId}',
 			'/api/support/tickets/{ticketId}',
 			'/api/support/tickets/{ticketId}/messages',
+			'/api/support/tickets/{ticketId}/messages/{messageId}/visibility',
 			'/api/support/tickets/{ticketId}/resolve',
 			'/health',
 			'/metrics',
@@ -347,9 +348,36 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		]);
 		const messageResponse = spec.components?.schemas?.TicketMessage as OpenAPIV3.SchemaObject;
 		expect(messageResponse.required).toHaveLength(8);
-		expect(
-			spec.paths?.['/api/support/tickets/{ticketId}/messages/{messageId}/visibility'],
-		).toBeUndefined();
+		const visibility =
+			spec.paths?.['/api/support/tickets/{ticketId}/messages/{messageId}/visibility']?.patch;
+		expect(visibility?.parameters).toEqual([
+			{ $ref: '#/components/parameters/CorrelationIdHeader' },
+			{ $ref: '#/components/parameters/PerformedByHeader' },
+			{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+			expect.objectContaining({ in: 'path', name: 'ticketId', required: true }),
+			expect.objectContaining({ in: 'path', name: 'messageId', required: true }),
+		]);
+		expect(visibility?.requestBody).toEqual(expect.objectContaining({ required: true }));
+		expect(Object.keys(visibility?.responses ?? {}).sort()).toEqual([
+			'200',
+			'400',
+			'403',
+			'404',
+			'422',
+			'500',
+		]);
+		const visibilityRequest = spec.components?.schemas
+			?.UpdateMessageVisibilityRequest as OpenAPIV3.SchemaObject;
+		expect(visibilityRequest.additionalProperties).toBe(false);
+		expect(visibilityRequest.required).toEqual(['isVisibleToRequester']);
+		expect(visibilityRequest.properties).toEqual({ isVisibleToRequester: { type: 'boolean' } });
+		expect(visibility?.responses?.['200']).toEqual(
+			expect.objectContaining({
+				content: {
+					'application/json': { schema: { $ref: '#/components/schemas/TicketMessage' } },
+				},
+			}),
+		);
 		expect(item.additionalProperties).toBe(false);
 		expect(item.required).toEqual([
 			'id',

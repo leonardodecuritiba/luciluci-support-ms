@@ -400,14 +400,10 @@ async function main() {
 				undefined,
 			);
 			assert.ok(spec.paths['/api/support/tickets/{ticketId}'].get);
-			for (const path of [
-				'/api/support/tickets/{ticketId}/messages/{messageId}/visibility',
-				'/api/support/tickets/history',
-			]) {
+			for (const path of ['/api/support/tickets/history']) {
 				assert.equal(spec.paths[path], undefined);
 			}
 			for (const [method, path] of [
-				['PATCH', `/api/support/tickets/${mixed.id}/messages/${randomUUID()}/visibility`],
 				['GET', `/api/support/tickets/${mixed.id}/messages`],
 				['GET', '/api/support/tickets/history'],
 			]) {

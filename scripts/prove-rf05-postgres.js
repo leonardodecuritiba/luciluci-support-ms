@@ -565,10 +565,6 @@ async function main() {
 			assert.ok(spec.paths['/api/support/tickets'].post.responses['201']);
 			assert.equal((await fetch(`${baseUrl}/api-docs`)).status, 200);
 			const pendingRoutes = [
-				[
-					'PATCH',
-					`/api/support/tickets/${randomUUID()}/messages/${randomUUID()}/visibility`,
-				],
 				['GET', `/api/support/tickets/${randomUUID()}/messages`],
 				['GET', '/api/support/tickets/history'],
 			];

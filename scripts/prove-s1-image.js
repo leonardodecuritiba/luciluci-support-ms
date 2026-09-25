@@ -175,6 +175,7 @@ async function main() {
 		assert.equal(ticketBody.number, 1);
 		assert.equal(ticketBody.adminStatus, 'pendente');
 		assert.equal(ticketBody.requesterStatus, 'nao_resolvido');
+		let adminMessageId;
 		for (const [actor, role, visible] of [
 			['uid-image-requester', 'cd', true],
 			['uid-image-admin', 'admin', false],
@@ -202,7 +203,33 @@ async function main() {
 			assert.equal(createdMessage.ticketId, ticketBody.id);
 			assert.equal(createdMessage.isVisibleToRequester, visible);
 			assert.deepEqual(createdMessage.mediaIds, []);
+			if (role === 'admin') adminMessageId = createdMessage.id;
 		}
+		assert.ok(adminMessageId);
+		const visibility = await fetch(
+			`${baseUrl}/api/support/tickets/${ticketBody.id}/messages/${adminMessageId}/visibility`,
+			{
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Correlation-ID': randomUUID(),
+					'X-Performed-By': 'uid-image-admin',
+					'X-Performed-By-Type': 'admin',
+				},
+				body: JSON.stringify({ isVisibleToRequester: true }),
+			},
+		);
+		assert.equal(visibility.status, 200);
+		assert.equal((await visibility.json()).isVisibleToRequester, true);
+		const storedVisibility = docker([
+			'exec',
+			databaseContainer,
+			'sh',
+			'-c',
+			`PGPASSWORD="$POSTGRES_PASSWORD" psql -h 127.0.0.1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" -Atqc "SELECT is_visible_to_requester FROM ticket_messages WHERE id='${adminMessageId}' AND ticket_id='${ticketBody.id}'"`,
+		]).stdout.trim();
+		assert.equal(storedVisibility, 't');
+		assert.equal((await ready(`${baseUrl}/health`)).status, 200);
 		const resolved = await fetch(`${baseUrl}/api/support/tickets/${ticketBody.id}/resolve`, {
 			method: 'POST',
 			headers: {
@@ -265,7 +292,7 @@ async function main() {
 		const listAfterDeleteBody = await listedAfterDelete.json();
 		assert.equal(listAfterDeleteBody.pagination.total, 0);
 		assert.deepEqual(listAfterDeleteBody.data, []);
-		console.log('S1 production image CMD smoke with RF05/RF08/RF09/RF10 OK');
+		console.log('S1 production image CMD smoke with RF05/RF08/RF09/RF10/RF11 OK');
 	} finally {
 		docker(['rm', '-f', appContainer], true);
 		docker(['rm', '-f', databaseContainer], true);

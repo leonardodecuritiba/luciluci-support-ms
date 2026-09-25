@@ -368,13 +368,9 @@ async function main() {
 					'createdAt',
 				].sort(),
 			);
-			for (const path of [
-				'/api/support/tickets/{ticketId}/messages/{messageId}/visibility',
-				'/api/support/tickets/history',
-			])
+			for (const path of ['/api/support/tickets/history'])
 				assert.equal(spec.paths[path], undefined);
 			for (const [method, endpoint] of [
-				['PATCH', `/api/support/tickets/${ticket.id}/messages/${randomUUID()}/visibility`],
 				['GET', `/api/support/tickets/${ticket.id}/messages`],
 				['GET', '/api/support/tickets/history'],
 			])

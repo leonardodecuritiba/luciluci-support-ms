@@ -1,12 +1,70 @@
 # ACTUAL_STATE
 
-## Estado atual — MAIN_BASELINE_RF10
+## Implementação RF11 — branch funcional
+
+Em `feat/support-rf11-message-visibility`, a RF11 está implementada sobre
+`MAIN_BASELINE_RF10` mais o checkpoint documental `886bf71`, com gitlink
+Support 0.13 fixo em `4958fd1840042200fd1a87e45d6a7f69d4011dcd`.
+A rota `PATCH /api/support/tickets/{ticketId}/messages/{messageId}/visibility`
+altera somente a visibilidade de mensagens admin, com ACL por membership atual
+e locks Ticket→Department→Message. No-op retorna 200 sem UPDATE.
+RF01–RF10 permanecem integradas em `main`; RF12/RF13 seguem sem runtime.
+RF11 foi commitada em `2985ac5`, publicada e submetida à
+[PR #12](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/12)
+contra `main`; ainda não foi integrada nem implantada. Evidência local em
+[report RF11](docs/reports/REPORT-SUPPORT-RF11-20260925.md). O report
+registra o fechamento da implementação anterior à publicação.
+
+## Fotografia histórica — fechamento contratual RF11 — Support 0.13
+
+O checkpoint bloqueado `85b3adb` permanece histórico. Decisões expressas
+posteriores congelaram somente RF11 em Support 0.13, commit canônico publicado
+`4958fd1840042200fd1a87e45d6a7f69d4011dcd` (SHA local/remoto igual).
+O gitlink foi avançado para essa revisão somente após sua publicação.
+Estado `RF11_CONTRACT_CHECKPOINT_READY / RF11_CONTRACT_FROZEN /
+NOT_IMPLEMENTED`. [Report de fechamento](docs/reports/REPORT-SUPPORT-RF11-CONTRACT-20260925-165105.md).
+
+`PATCH /api/support/tickets/{ticketId}/messages/{messageId}/visibility` é
+contrato `admin-only`: membership atual no Department do Ticket, inclusive
+inativo; só Message `type=admin` é editável, independentemente do admin autor.
+Body estrito `isVisibleToRequester` boolean, `200` com TicketMessage completa;
+mesmo valor é no-op sem write. Mutação efetiva atualiza somente a coluna de
+visibilidade da Message; Ticket/`updatedAt`, mídia, status e AuditLog não mudam.
+Transação e locks seguem Ticket→Department→Message. Sem idempotency key,
+evento ou migration nova. DEC-SUP-01/03/04/06/08/09/10/12 estão resolvidas
+somente para RF11; DEC-SUP-11 não se aplica.
+
+RF01–RF10 continuam `IMPLEMENTED_AND_PROVEN` em `MAIN_BASELINE_RF10`.
+RF11–RF13 são `NOT_IMPLEMENTED`; a branch
+`feat/support-rf11-message-visibility` não foi criada. Nenhum teste funcional
+RF11 ou deploy ocorreu neste fechamento documental.
+
+## Fotografia histórica — checkpoint RF11 bloqueado por decisão
+
+Em `docs/support-rf11-message-visibility-checkpoint`, a partir de
+`MAIN_BASELINE_RF10` (`734ba5de74e544b1e8dc2a31c135cb2bb54d20e1`),
+o confronto entre PRD original, PRD transposto, notes, TDD e TP encontrou
+lacunas materiais para `PATCH /api/support/tickets/{ticketId}/messages/{messageId}/visibility`.
+Estado: `RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. A fonte confirma o
+campo booleano `isVisibleToRequester`, ACL geral de Ticket, mudança exclusiva
+desse campo e ausência de AuditLog; não fecha permissão por ação, conjunto de
+mensagens elegíveis, restrição de autor, transições, no-op, response,
+`Ticket.updatedAt`, idempotência e concorrência. O
+[report RF11](docs/reports/REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md)
+registra a matriz de fontes e decisões pendentes.
+
+Naquele checkpoint, Support 0.13 **não** estava congelado; `luciluci-docs` e seu gitlink permaneciam
+em Support 0.12 (`85c7e958adb0cbb9fa43842de7f990260f2bc0ee`). RF11 é
+`NOT_IMPLEMENTED`; a branch `feat/support-rf11-message-visibility` não foi
+criada. RF12/RF13 também seguem `NOT_IMPLEMENTED`. Nenhum deploy.
+
+## Fotografia histórica — MAIN_BASELINE_RF10 antes do fechamento RF11
 
 RF01–RF10 estão `IMPLEMENTED_AND_PROVEN` e integradas em `main`. A
 [PR #10](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/10)
 integrou RF10 no merge `8827c0b2f6d0b7597984f5131d4f1ec7b658084f`,
 estabelecendo `MAIN_BASELINE_RF10`. O head funcional foi `50ffbf6`, e o check
-remoto `ci / quality` passou no run `36156561044`. O gitlink permanece em
+remoto `ci / quality` passou no run `36156561044`. Naquela fotografia, o gitlink permanecia em
 Support 0.12 `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`.
 RF11–RF13 continuam `NOT_IMPLEMENTED`. Não houve deploy.
 
@@ -34,7 +92,7 @@ As linhas históricas abaixo descrevem checkpoints anteriores à implementação
 - RF07a/RF07b `RF07A_RF07B_CONTRACT_FROZEN` em Support 0.9; implementação e prova PostgreSQL local concluídas;
 - contrato RF06 congelado em Support 0.8, commit canônico `4650ec671c948a4fa8fb04fa33b300d8fd255ae4` de `luciluci-docs`;
 - decisões RF06 DEC-SUP-01/03/05/06/08/09/10/12 resolvidas somente nesse recorte; DEC-SUP-01/02/07/08/09 estão `RESOLVED_FOR_RF07` somente para RF07a/RF07b, conforme `luciluci-docs/support/notes.md`;
-- gitlink atual Support 0.12 `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`, publicado em `origin/docs/support-rf10-create-message-contract` e confirmado por `ls-remote`; a revisão 0.11 `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2` permanece histórica. O contrato RF07 0.9 permanece histórico em `1583a586793437a7b7c0569581637ee8ddac5ae5`; `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`.
+- gitlink naquela fotografia Support 0.12 `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`, publicado em `origin/docs/support-rf10-create-message-contract` e confirmado por `ls-remote`; a revisão 0.11 `a198b46c62d4b5cd1a4aa0ced8eb171b2e6ef3b2` permanece histórica. O contrato RF07 0.9 permanece histórico em `1583a586793437a7b7c0569581637ee8ddac5ae5`; `RF07_IMPLEMENTATION_BASELINE = MAIN_BASELINE_RF06`.
 
 ## Fechamento contratual RF10 — Support 0.12
 

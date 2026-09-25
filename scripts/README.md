@@ -23,8 +23,12 @@
 - `prove-rf10-postgres.js`: prova criação de mensagem, mídias posicionais,
   auditoria, rollback de quatro escritas e concorrência RF10×RF10/RF06/RF08
   em PostgreSQL descartável e processo compilado.
+- `prove-rf11-postgres.js`: prova visibilidade admin, escopo e ACL, no-op físico
+  por `xmin` e contagem de UPDATE, rollback, e concorrências RF11×RF11,
+  RF11×RF10/RF06/RF08 em banco exclusivo descartável e processo compilado.
 - `prove-s1-image.js`: smoke do CMD real, incluindo criar Department e Ticket,
-  criar mensagens RF10, resolver e ler Ticket, listar/excluir/listar Department.
+  criar mensagens RF10, alterar visibilidade RF11, resolver e ler Ticket,
+  listar/excluir/listar Department.
 
 Validadores AsyncAPI permanecem genéricos e exigem paths explícitos quando uma
 capacidade de mensageria vier a ser aprovada.

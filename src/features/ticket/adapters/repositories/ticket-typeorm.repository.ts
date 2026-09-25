@@ -13,6 +13,7 @@ import IListTicketsRepository, {
 import IUpdateTicketRepository from '../../use-cases/repositories/iupdate-ticket.repository';
 import IGetTicketRepository from '../../use-cases/repositories/iget-ticket.repository';
 import ICreateTicketMessageRepository from '../../use-cases/repositories/icreate-ticket-message.repository';
+import IUpdateMessageVisibilityRepository from '../../use-cases/repositories/iupdate-message-visibility.repository';
 import TicketAdminStatus from '../../entities/enums/ticket-admin-status.enum';
 import DepartmentAllowedUser from '../../../department/entities/department-allowed-user.entity';
 
@@ -22,7 +23,8 @@ export default class TicketTypeormRepository
 		IUpdateTicketRepository,
 		IListTicketsRepository,
 		IGetTicketRepository,
-		ICreateTicketMessageRepository
+		ICreateTicketMessageRepository,
+		IUpdateMessageVisibilityRepository
 {
 	private readonly ticketRepository: Repository<Ticket>;
 
@@ -143,6 +145,33 @@ export default class TicketTypeormRepository
 
 	async createMessage(message: TicketMessage): Promise<void> {
 		await this.manager.getRepository(TicketMessage).insert(message);
+	}
+
+	async findMessageByIdForUpdate(
+		ticketId: string,
+		messageId: string,
+	): Promise<TicketMessage | undefined> {
+		const query = this.manager
+			.getRepository(TicketMessage)
+			.createQueryBuilder('message')
+			.where('message.id = :messageId AND message.ticketId = :ticketId', {
+				messageId,
+				ticketId,
+			});
+		if (this.manager.connection.options.type === 'postgres') query.setLock('pessimistic_write');
+		return (await query.getOne()) ?? undefined;
+	}
+
+	async findMediaIds(messageId: string): Promise<string[]> {
+		const media = await this.manager.getRepository(TicketMessageMedia).find({
+			where: { ticketMessageId: messageId },
+			order: { position: 'ASC' },
+		});
+		return media.map((item) => item.mediaId);
+	}
+
+	async updateMessageVisibility(messageId: string, isVisibleToRequester: boolean): Promise<void> {
+		await this.manager.getRepository(TicketMessage).update(messageId, { isVisibleToRequester });
 	}
 
 	async createMedia(media: TicketMessageMedia[]): Promise<void> {

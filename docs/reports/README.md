@@ -62,6 +62,17 @@ registra runtime na branch funcional, suíte completa, prova PostgreSQL
 descartável com rollback/concorrência, regressões RF01–RF09 e smoke da imagem.
 Essa evidência local foi reproduzida pela CI `quality` no run `36156561044`.
 A PR #10 integrou RF10 no merge `8827c0b`, estabelecendo `MAIN_BASELINE_RF10`.
+O [checkpoint contratual RF11](REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md)
+registra as lacunas de visibilidade e os efeitos ainda não decididos sobre a
+baseline RF10. Estado `RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`;
+naquela fotografia Support 0.13 não estava congelado. O
+[fechamento contratual RF11](REPORT-SUPPORT-RF11-CONTRACT-20260925-165105.md)
+registra a decisão posterior, Support 0.13 publicado em `4958fd1` e gitlink
+atualizado. Naquela revisão RF11 ainda não tinha runtime.
+O [report de implementação RF11](REPORT-SUPPORT-RF11-20260925.md) registra a
+branch funcional sobre Support 0.13, contrato HTTP, testes, prova PostgreSQL
+com no-op físico/rollback/concorrência e regressões RF01–RF10, sem publicação
+Git nem integração em `main`.
 
 ## Fechamento atual de S1
 

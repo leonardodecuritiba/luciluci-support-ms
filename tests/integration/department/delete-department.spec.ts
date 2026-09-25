@@ -164,10 +164,6 @@ describe('Integration: RF04 delete department', () => {
 		expect(tables).not.toEqual(expect.arrayContaining(['audit_logs', 'outbox_events']));
 
 		const futureRoutes: Array<['get' | 'post' | 'patch', string]> = [
-			[
-				'patch',
-				'/api/support/tickets/00000000-0000-4000-8000-000000000010/messages/00000000-0000-4000-8000-000000000011/visibility',
-			],
 			['get', '/api/support/tickets/00000000-0000-4000-8000-000000000010/messages'],
 			['get', '/api/support/tickets/history'],
 		];

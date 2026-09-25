@@ -1,5 +1,17 @@
 # AGENTS.md
 
+## Estado funcional atual da branch RF11
+
+RF11 está implementada/provada localmente em
+`feat/support-rf11-message-visibility`, derivada do checkpoint documental
+`886bf71` sobre `MAIN_BASELINE_RF10`, com Support 0.13 fixo em `4958fd1`.
+O commit funcional `2985ac5` foi publicado e a
+[PR #12](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/12)
+está aberta contra `main`, sem merge ou deploy. RF12/RF13 não têm runtime.
+O report da implementação local é
+`docs/reports/REPORT-SUPPORT-RF11-20260925.md`; os parágrafos seguintes
+descrevem o estado histórico anterior à implementação.
+
 ## Missão
 
 Este checkout é `support-ms` (Suporte), derivado do `standard-ms`.
@@ -10,6 +22,19 @@ O contrato RF09 está congelado em Support 0.11. O contrato RF10 está
 RF10 está integrada em `main` no merge `8827c0b`; RF11–RF13 continuam
 `NOT_IMPLEMENTED`. Os checkpoints bloqueados anteriores permanecem históricos.
 Leia `ACTUAL_STATE.md` para o estado real.
+
+O contrato RF11 foi congelado em Support 0.13 (`4958fd1`), publicado no
+repositório canônico e fixado no gitlink. Estado
+`RF11_CONTRACT_CHECKPOINT_READY / RF11_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
+O checkpoint bloqueado `85b3adb` permanece histórico. Ver
+`docs/reports/REPORT-SUPPORT-RF11-CONTRACT-20260925-165105.md`; abrir runtime
+RF11 somente em lote funcional separado.
+
+O checkpoint documental RF11 anterior estava
+`RF11_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`: Support 0.13 não foi congelado.
+Naquela fotografia, o gitlink continuava em Support 0.12. Consulte
+`docs/reports/REPORT-SUPPORT-RF11-CHECKPOINT-20260925-161025.md` antes de
+qualquer trabalho RF11; as decisões posteriores estão no report de contrato.
 
 O `DRIFT-SUP-S1-001` foi corrigido e provado: estado
 `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`. O checkpoint documental RF02 0.4 está

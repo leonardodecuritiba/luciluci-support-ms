@@ -294,10 +294,6 @@ async function main() {
 
 			const pendingRoutes = [
 				['DELETE', `/api/support/departments/${randomUUID()}`],
-				[
-					'PATCH',
-					`/api/support/tickets/${randomUUID()}/messages/${randomUUID()}/visibility`,
-				],
 				['GET', `/api/support/tickets/${randomUUID()}/messages`],
 				['GET', '/api/support/tickets/history'],
 			];
