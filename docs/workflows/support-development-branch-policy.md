@@ -30,6 +30,9 @@
 - `MAIN_BASELINE_RF10`: revisão de `main` que contenha RF10
   `IMPLEMENTED_AND_PROVEN`, após integração da branch
   `feat/support-rf10-create-message`.
+- `MAIN_BASELINE_RF11`: revisão de `main` que contenha RF11
+  `IMPLEMENTED_AND_PROVEN`, após integração da branch
+  `feat/support-rf11-message-visibility`.
 
 RF02 foi integrada em `main` pelo merge
 `e2dba18a7d0c54577805d6bf2f44adc40ecf0295`; essa revisão estabelece
@@ -55,6 +58,10 @@ RF06 foi integrada em `main` pela PR #5 no merge
 RF07a/RF07b foram integradas em `main` pela PR #7 no merge
 `43a556ab1c70f5de9a63e3e6ab651445fa462173`; essa revisão estabelece
 `MAIN_BASELINE_RF07`.
+
+RF11 foi integrada em `main` pela PR #12 no merge
+`9387b3dc6e636db4b8124785e7b3bc92ec46d054`; essa revisão estabelece
+`MAIN_BASELINE_RF11`.
 
 ## 2. Regra de continuidade
 
@@ -186,8 +193,8 @@ A branch `feat/support-rf10-create-message` foi criada do checkpoint publicado
 local estão no report `docs/reports/REPORT-SUPPORT-RF10-20260925-152647.md`.
 Essa branch foi publicada e integrada pela PR #10 no merge
 `8827c0b2f6d0b7597984f5131d4f1ec7b658084f`, após o check remoto
-`ci / quality` aprovado no run `36156561044`. `main` é `MAIN_BASELINE_RF10`;
-RF11–RF13 permanecem fora do runtime.
+`ci / quality` aprovado no run `36156561044`. Naquela integração, `main` era
+`MAIN_BASELINE_RF10`; RF11–RF13 permaneciam fora do runtime.
 
 ## 11. Contrato RF11
 
@@ -197,6 +204,15 @@ congelaram Support 0.13 no commit canônico `4958fd1840042200fd1a87e45d6a7f69d40
 publicado em `docs/support-rf11-message-visibility-contract` e fixado no
 gitlink da branch documental do serviço. Estado
 `RF11_CONTRACT_CHECKPOINT_READY / RF11_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
-O próximo lote de implementação, quando aberto explicitamente, deve usar
-branch funcional própria a partir da baseline RF10 com esse gitlink. RF12/RF13
-não herdam as decisões de RF11.
+O lote de implementação posterior usou branch funcional própria, a partir
+da baseline RF10 com esse gitlink. RF12/RF13 não herdam as decisões de RF11.
+
+## 12. Implementação e integração RF11
+
+A branch `feat/support-rf11-message-visibility` partiu do checkpoint
+documental `886bf71`, descendente de `MAIN_BASELINE_RF10`, com gitlink
+Support 0.13 fixo. O report
+`docs/reports/REPORT-SUPPORT-RF11-20260925.md` registra a implementação e as
+provas locais. A PR #12 integrou RF11 no merge `9387b3d` após o check remoto
+`ci / quality` aprovado no run `36169743450`. `main` é
+`MAIN_BASELINE_RF11`; RF12/RF13 permanecem fora do runtime.
