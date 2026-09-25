@@ -185,10 +185,9 @@ describe('Integration: RF09 get ticket by ID', () => {
 		).toBe(400);
 	});
 
-	it('leaves RF10-RF13 paths unavailable', async () => {
+	it('leaves RF11-RF13 paths unavailable', async () => {
 		const base = `/api/support/tickets/${ticketId}`;
 		for (const [method, path] of [
-			['post', `${base}/messages`],
 			['patch', `${base}/messages/${absentId}/visibility`],
 			['get', `${base}/messages`],
 			['get', '/api/support/tickets/history'],

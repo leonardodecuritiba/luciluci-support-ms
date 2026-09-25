@@ -1,22 +1,32 @@
 # support-ms
 
-Microsserviço de Support (Suporte) da LuciLuci. RF01–RF08 compõem
-`MAIN_BASELINE_RF08` em `main` (merge da PR #8 `45be903`). Support 0.10
-(`93edf66`) congela o contrato RF08; Support 0.9 (`1583a58`) congelou RF07a/RF07b. A fonte de verdade de negócio
+Microsserviço de Support (Suporte) da LuciLuci. RF01–RF09 compõem
+`MAIN_BASELINE_RF09` em `main` (merge da PR #9 `393af3e`). Support 0.12
+(`85c7e95`) congela o contrato RF10; Support 0.10 (`93edf66`) congela o
+contrato RF08; Support 0.9 (`1583a58`) congelou RF07a/RF07b. A fonte de verdade de negócio
 está em `luciluci-docs/support/`.
 
 ## Estado
 
-S1 e RF01–RF08 estão implementadas, provadas e integradas. RF06 implementa
+Na branch funcional `feat/support-rf10-create-message`, RF10 está implementada
+e provada localmente sobre Support 0.12. RF01–RF09 estão integradas em `main`;
+RF10 ainda não foi integrada, publicada ou implantada. RF11–RF13 seguem sem
+runtime. A prova PostgreSQL RF10, regressões RF01–RF09 e smoke da imagem
+passaram em recursos descartáveis. Veja o report RF10 em `docs/reports/`.
+
+O restante desta seção registra a baseline anterior à implementação RF10.
+
+S1 e RF01–RF09 estão implementadas, provadas e integradas. RF06 implementa
 `PATCH /api/support/tickets/{ticketId}` com ACL, transferência, no-op e auditoria
 transacional. RF07a/RF07b foram integradas pela PR #7,
 com consultas de tickets por ownership e membership atual de Department.
-RF08 foi integrada pela PR #8. RF09 está implementada/provada somente na branch
-`feat/support-rf09-get-ticket`; RF10–RF13 não têm runtime. O contrato RF08 está
+RF08 foi integrada pela PR #8 e RF09 pela PR #9. RF10–RF13 não têm runtime.
+O contrato RF10 está `RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN`
+em Support 0.12, sem implementação. O contrato RF08 está
 `RF08_CONTRACT_FROZEN / RF08_CONTRACT_CHECKPOINT_READY` em Support 0.10.
 DEC-SUP-01/08/09 foram resolvidas exclusivamente para RF09 na revisão canônica
 Support 0.11 publicada (`a198b46`).
-O checkpoint RF09 bloqueado anterior permanece histórico.
+Os checkpoints bloqueados anteriores de RF09 e RF10 permanecem históricos.
 Consulte [ACTUAL_STATE](ACTUAL_STATE.md) e os reports em `docs/reports/`.
 
 ## Executar localmente
@@ -48,6 +58,7 @@ fase: o comando falha de modo explícito até a massa determinística de W1 ser 
 - `GET /api/support/tickets/admin/{adminId}`
 - `POST /api/support/tickets/{ticketId}/resolve`
 - `GET /api/support/tickets/{ticketId}`
+- `POST /api/support/tickets/{ticketId}/messages` (branch RF10)
 
 Consulte `api.http`, `docs/runbooks/local-development.md` e
 `docs/runbooks/infra-access.md`.
@@ -77,6 +88,8 @@ As provas RF01–RF07 e o smoke da imagem foram repetidos localmente. O check
 remoto `quality` do head RF08 passou no run `36065884933`; a PR #8 foi integrada
 no merge `45be903`. A prova RF09 passou em banco descartável com processo
 compilado e snapshots físicos sem escrita; regressões e gates constam do report RF09.
+O check `quality` da PR #9 passou no run `36145983860`, head `93fd483`, antes
+do merge `393af3e`.
 
 ## Fluxo Git por baseline funcional
 
@@ -87,8 +100,10 @@ congeladas em Support 0.9, `1583a586793437a7b7c0569581637ee8ddac5ae5`.
 RF08 foi congelada documentalmente em Support 0.10,
 `93edf66d6ed0002a2af537339da315db1285a779`.
 RF08 foi integrada em `MAIN_BASELINE_RF08`. O contrato RF09 0.11 foi congelado,
-publicado e fixado no gitlink; RF09 está na branch funcional, fora de `main`. Desenvolva as
-próximas RFs em branches próprias. Consulte
+publicado e fixado no gitlink; RF09 foi integrada em `MAIN_BASELINE_RF09`.
+O contrato RF10 Support 0.12 foi publicado e fixado no gitlink; a branch
+funcional ainda não foi criada.
+Desenvolva as próximas RFs em branches próprias. Consulte
 [`docs/workflows/support-development-branch-policy.md`](docs/workflows/support-development-branch-policy.md).
 
 Não execute `npm run infra:down` como limpeza genérica: o script remove volumes.

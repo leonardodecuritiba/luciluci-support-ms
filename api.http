@@ -1,12 +1,169 @@
 # support-ms bootstrap API requests
 #
-# S1 + RF01–RF09 support surface. RF10–RF13 are not implemented.
+# S1 + RF01–RF10 support surface. RF11–RF13 are not implemented.
 
 @baseUrl = http://localhost:3000
 @correlationId = 8a7dd7bb-7b3f-4b3b-8b8e-0b7e2819d001
 @ticketId = 550e8400-e29b-41d4-a716-446655440002
 @requesterId = uid-requester-1
 @adminId = uid-admin-1
+
+### RF10 - Admin visible message
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"message":"Public reply","type":"admin","authorId":"{{adminId}}","isVisibleToRequester":true}
+
+### RF10 - Admin internal message
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"message":"Internal note","type":"admin","authorId":"{{adminId}}","isVisibleToRequester":false}
+
+### RF10 - Backoffice owner with duplicate media IDs
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: backoffice
+Content-Type: application/json
+
+{"message":"Additional details","type":"backoffice","authorId":"{{requesterId}}","mediaIds":["media-a","media-b","media-a"],"isVisibleToRequester":true}
+
+### RF10 - CD owner even when Ticket origin differs
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{"message":"CD reply","type":"cd","authorId":"{{requesterId}}","isVisibleToRequester":true}
+
+### RF10 - Requester cannot hide own message (422)
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{"message":"Hidden","type":"cd","authorId":"{{requesterId}}","isVisibleToRequester":false}
+
+### RF10 - Author mismatch (422)
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{"message":"Mismatch","type":"cd","authorId":"uid-other","isVisibleToRequester":true}
+
+### RF10 - Type mismatch (422)
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{"message":"Mismatch","type":"admin","authorId":"{{requesterId}}","isVisibleToRequester":true}
+
+### RF10 - Admin without membership (403)
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: uid-admin-other
+X-Performed-By-Type: admin
+Content-Type: application/json
+
+{"message":"Denied","type":"admin","authorId":"uid-admin-other","isVisibleToRequester":true}
+
+### RF10 - Non-owner requester (403)
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: uid-requester-other
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{"message":"Denied","type":"cd","authorId":"uid-requester-other","isVisibleToRequester":true}
+
+### RF10 - Invalid UUID (422)
+POST {{baseUrl}}/api/support/tickets/invalid/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{"message":"Invalid path","type":"cd","authorId":"{{requesterId}}","isVisibleToRequester":true}
+
+### RF10 - Missing Ticket (404)
+POST {{baseUrl}}/api/support/tickets/919cf070-ea36-41df-9382-e44d541f8005/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{"message":"Missing","type":"cd","authorId":"{{requesterId}}","isVisibleToRequester":true}
+
+### RF10 - Body missing (422)
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+
+### RF10 - Whitespace message (422)
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{"message":"   ","type":"cd","authorId":"{{requesterId}}","isVisibleToRequester":true}
+
+### RF10 - Invalid mediaIds (422)
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{"message":"Media","type":"cd","authorId":"{{requesterId}}","mediaIds":["ok"," "],"isVisibleToRequester":true}
+
+### RF10 - Unknown field (422)
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{"message":"Extra","type":"cd","authorId":"{{requesterId}}","isVisibleToRequester":true,"ticketId":"override"}
+
+### RF10 - Query parameter (422)
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages?notify=true
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+Content-Type: application/json
+
+{"message":"Query","type":"cd","authorId":"{{requesterId}}","isVisibleToRequester":true}
+
+### RF10 - Missing actor (400)
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+Content-Type: application/json
+
+{"message":"No actor","type":"cd","authorId":"{{requesterId}}","isVisibleToRequester":true}
+
+### RF10 - Invalid actor role (400)
+POST {{baseUrl}}/api/support/tickets/{{ticketId}}/messages
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: requester
+Content-Type: application/json
+
+{"message":"Invalid role","type":"cd","authorId":"{{requesterId}}","isVisibleToRequester":true}
 
 ### RF09 - Owner backoffice reads complete Ticket
 GET {{baseUrl}}/api/support/tickets/{{ticketId}}

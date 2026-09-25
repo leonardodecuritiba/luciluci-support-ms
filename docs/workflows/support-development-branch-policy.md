@@ -24,6 +24,9 @@
 - `MAIN_BASELINE_RF08`: revisão de `main` que contenha RF08
   `IMPLEMENTED_AND_PROVEN`, após integração da branch
   `feat/support-rf08-resolve-ticket`.
+- `MAIN_BASELINE_RF09`: revisão de `main` que contenha RF09
+  `IMPLEMENTED_AND_PROVEN`, após integração da branch
+  `feat/support-rf09-get-ticket`.
 
 RF02 foi integrada em `main` pelo merge
 `e2dba18a7d0c54577805d6bf2f44adc40ecf0295`; essa revisão estabelece
@@ -152,5 +155,31 @@ após autorização específica do usuário, `ls-remote` confirmou o SHA canôni
 e o head `c586fdba037eb463b0841be9b99e9c8dbdcd0953` da branch documental
 do serviço. A branch funcional `feat/support-rf09-get-ticket` partiu do head
 documental publicado `f76c217`, preservou o gitlink 0.11 e implementou/provou
-RF09 localmente. `main` continua em `MAIN_BASELINE_RF08`; publicação, PR e
-integração RF09 ainda não ocorreram.
+RF09. A PR #9 foi integrada no merge
+`393af3ed50c35fb541825c1822cecaa3b8005a29`, após check `quality` aprovado
+no run `36145983860`. `main` é `MAIN_BASELINE_RF09`.
+
+## 9. Checkpoint RF10
+
+O checkpoint documental de `POST /api/support/tickets/{ticketId}/messages`
+partiu de `MAIN_BASELINE_RF09`, com o gitlink Support 0.11 preservado. A fonte
+fixa ACL geral, body exemplificado e cardinalidade especial de auditoria, mas
+autoria/tipo, visibilidade, response, `updatedAt`, idempotência e detalhes de
+concorrência ainda exigem decisão expressa. Estado:
+`RF10_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`. Esse checkpoint no commit
+`8498620` permanece histórico. A decisão posterior congelou Support 0.12 no
+commit canônico `85c7e958adb0cbb9fa43842de7f990260f2bc0ee`, publicado em
+`docs/support-rf10-create-message-contract`; o gitlink atual aponta à revisão
+publicada. O estado passou a `RF10_CONTRACT_CHECKPOINT_READY / RF10_CONTRACT_FROZEN`.
+O próximo lote poderá abrir `feat/support-rf10-create-message` a partir de
+`main` sincronizada, com o contrato canônico fixado; não há runtime RF10 neste
+checkpoint documental.
+
+## 10. Implementação RF10 na branch funcional
+
+A branch `feat/support-rf10-create-message` foi criada do checkpoint publicado
+`b72c585f0b83679d02bcedf573e38558c17eb4d4`, descendente de
+`MAIN_BASELINE_RF09`, com gitlink Support 0.12 fixo. A implementação e a prova
+local estão no report `docs/reports/REPORT-SUPPORT-RF10-20260925-152647.md`.
+Essa branch ainda não foi integrada em `main`; a publicação e a PR pertencem ao
+próximo lote. RF11–RF13 permanecem fora do runtime.

@@ -7,7 +7,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			title: 'support-ms',
 			version: '1.0.0',
 			description:
-				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, and RF09 reads tickets by ID; RF10–RF13 remain unavailable.',
+				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, RF09 reads tickets by ID, and RF10 creates ticket messages; RF11–RF13 remain unavailable.',
 		},
 		components: {
 			parameters: {
@@ -107,6 +107,43 @@ const swaggerOptions: swaggerJSDoc.Options = {
 					enum: ['baixa', 'media', 'alta', 'urgente'],
 				},
 				TicketOrigin: { type: 'string', enum: ['backoffice', 'cd'] },
+				TicketMessageType: { type: 'string', enum: ['admin', 'backoffice', 'cd'] },
+				CreateTicketMessageRequest: {
+					type: 'object',
+					additionalProperties: false,
+					required: ['message', 'type', 'authorId', 'isVisibleToRequester'],
+					properties: {
+						message: { type: 'string', pattern: '.*\\S.*' },
+						type: { $ref: '#/components/schemas/TicketMessageType' },
+						authorId: { type: 'string', pattern: '.*\\S.*' },
+						mediaIds: { type: 'array', items: { type: 'string', pattern: '.*\\S.*' } },
+						isVisibleToRequester: { type: 'boolean' },
+					},
+				},
+				TicketMessage: {
+					type: 'object',
+					additionalProperties: false,
+					required: [
+						'id',
+						'ticketId',
+						'message',
+						'type',
+						'authorId',
+						'mediaIds',
+						'isVisibleToRequester',
+						'createdAt',
+					],
+					properties: {
+						id: { type: 'string', format: 'uuid' },
+						ticketId: { type: 'string', format: 'uuid' },
+						message: { type: 'string' },
+						type: { $ref: '#/components/schemas/TicketMessageType' },
+						authorId: { type: 'string' },
+						mediaIds: { type: 'array', items: { type: 'string' } },
+						isVisibleToRequester: { type: 'boolean' },
+						createdAt: { type: 'string', format: 'date-time' },
+					},
+				},
 				CreateInitialTicketMessageRequest: {
 					type: 'object',
 					additionalProperties: false,
@@ -492,6 +529,86 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						'422': {
 							description:
 								'Invalid path/body or inactive target (department_inactive).',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'500': {
+							description: 'Unexpected error; transaction rolled back.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+					},
+				},
+			},
+			'/api/support/tickets/{ticketId}/messages': {
+				post: {
+					summary: 'Create a Ticket message',
+					description:
+						'RF10. Body authorId/type must match actor headers. Admin needs current Department membership and may create an internal message. Requester owner must send a visible message. Every POST creates a new message; requester messages assign adminStatus=pendente and write two audits even if already pending. Ticket is locked before Department; all writes are atomic.',
+					tags: ['Tickets'],
+					parameters: [
+						{ $ref: '#/components/parameters/CorrelationIdHeader' },
+						{ $ref: '#/components/parameters/PerformedByHeader' },
+						{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+						{
+							in: 'path',
+							name: 'ticketId',
+							required: true,
+							schema: { type: 'string', format: 'uuid' },
+						},
+					],
+					requestBody: {
+						required: true,
+						content: {
+							'application/json': {
+								schema: { $ref: '#/components/schemas/CreateTicketMessageRequest' },
+							},
+						},
+					},
+					responses: {
+						'201': {
+							description: 'Created TicketMessage.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/TicketMessage' },
+								},
+							},
+						},
+						'400': {
+							description:
+								'Missing or invalid correlation/actor headers or malformed JSON.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'403': {
+							description:
+								'Current Department membership or requester ownership denied.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'404': {
+							description: 'Ticket not found.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'422': {
+							description:
+								'Invalid ticketId, body, actor consistency, visibility, or query.',
 							content: {
 								'application/json': {
 									schema: { $ref: '#/components/schemas/ErrorResponse' },

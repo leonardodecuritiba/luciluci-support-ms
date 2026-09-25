@@ -428,7 +428,6 @@ async function main() {
 			);
 
 			const pendingRoutes = [
-				['POST', `/api/support/tickets/${randomUUID()}/messages`],
 				[
 					'PATCH',
 					`/api/support/tickets/${randomUUID()}/messages/${randomUUID()}/visibility`,

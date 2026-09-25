@@ -76,6 +76,21 @@
 				"required": ["message"],
 				"type": "object"
 			},
+			"CreateTicketMessageRequest": {
+				"additionalProperties": false,
+				"properties": {
+					"authorId": { "pattern": ".*\\S.*", "type": "string" },
+					"isVisibleToRequester": { "type": "boolean" },
+					"mediaIds": {
+						"items": { "pattern": ".*\\S.*", "type": "string" },
+						"type": "array"
+					},
+					"message": { "pattern": ".*\\S.*", "type": "string" },
+					"type": { "$ref": "#/components/schemas/TicketMessageType" }
+				},
+				"required": ["message", "type", "authorId", "isVisibleToRequester"],
+				"type": "object"
+			},
 			"CreateTicketRequest": {
 				"additionalProperties": false,
 				"properties": {
@@ -250,6 +265,31 @@
 				"required": ["data", "pagination"],
 				"type": "object"
 			},
+			"TicketMessage": {
+				"additionalProperties": false,
+				"properties": {
+					"authorId": { "type": "string" },
+					"createdAt": { "format": "date-time", "type": "string" },
+					"id": { "format": "uuid", "type": "string" },
+					"isVisibleToRequester": { "type": "boolean" },
+					"mediaIds": { "items": { "type": "string" }, "type": "array" },
+					"message": { "type": "string" },
+					"ticketId": { "format": "uuid", "type": "string" },
+					"type": { "$ref": "#/components/schemas/TicketMessageType" }
+				},
+				"required": [
+					"id",
+					"ticketId",
+					"message",
+					"type",
+					"authorId",
+					"mediaIds",
+					"isVisibleToRequester",
+					"createdAt"
+				],
+				"type": "object"
+			},
+			"TicketMessageType": { "enum": ["admin", "backoffice", "cd"], "type": "string" },
 			"TicketOrigin": { "enum": ["backoffice", "cd"], "type": "string" },
 			"TicketPriority": { "enum": ["baixa", "media", "alta", "urgente"], "type": "string" },
 			"UpdateDepartmentRequest": {
@@ -278,7 +318,7 @@
 		}
 	},
 	"info": {
-		"description": "Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, and RF09 reads tickets by ID; RF10–RF13 remain unavailable.",
+		"description": "Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, RF09 reads tickets by ID, and RF10 creates ticket messages; RF11–RF13 remain unavailable.",
 		"title": "support-ms",
 		"version": "1.0.0"
 	},
@@ -730,6 +770,82 @@
 					}
 				},
 				"summary": "Update ticket priority, department, or admin status",
+				"tags": ["Tickets"]
+			}
+		},
+		"/api/support/tickets/{ticketId}/messages": {
+			"post": {
+				"description": "RF10. Body authorId/type must match actor headers. Admin needs current Department membership and may create an internal message. Requester owner must send a visible message. Every POST creates a new message; requester messages assign adminStatus=pendente and write two audits even if already pending. Ticket is locked before Department; all writes are atomic.",
+				"parameters": [
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{ "$ref": "#/components/parameters/PerformedByHeader" },
+					{ "$ref": "#/components/parameters/PerformedByTypeHeader" },
+					{
+						"in": "path",
+						"name": "ticketId",
+						"required": true,
+						"schema": { "format": "uuid", "type": "string" }
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/CreateTicketMessageRequest" }
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"201": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/TicketMessage" }
+							}
+						},
+						"description": "Created TicketMessage."
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Missing or invalid correlation/actor headers or malformed JSON."
+					},
+					"403": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Current Department membership or requester ownership denied."
+					},
+					"404": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Ticket not found."
+					},
+					"422": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Invalid ticketId, body, actor consistency, visibility, or query."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Unexpected error; transaction rolled back."
+					}
+				},
+				"summary": "Create a Ticket message",
 				"tags": ["Tickets"]
 			}
 		},

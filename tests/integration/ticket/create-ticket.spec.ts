@@ -216,7 +216,6 @@ describe('Integration: RF05 create ticket', () => {
 
 	it.each([
 		['GET', '/api/support/tickets'],
-		['POST', '/api/support/tickets/113f6164-9f15-493c-8386-ac81670986e1/messages'],
 		['PATCH', '/api/support/tickets/113f6164-9f15-493c-8386-ac81670986e1/admin-status'],
 		['PATCH', '/api/support/tickets/113f6164-9f15-493c-8386-ac81670986e1/requester-status'],
 	])('keeps pending operation %s %s unavailable', async (method, path) => {

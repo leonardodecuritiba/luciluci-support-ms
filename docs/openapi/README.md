@@ -25,5 +25,7 @@ The current contract describes `/health`, `/metrics`, `/api-docs`,
 `POST /api/support/tickets` (RF05), `PATCH /api/support/tickets/{ticketId}`
 (RF06), the requester/admin list routes (RF07a/RF07b), and
 `POST /api/support/tickets/{ticketId}/resolve` (RF08), and
-`GET /api/support/tickets/{ticketId}` (RF09). RF08 and RF09 have no
-requestBody. RF10–RF13 have no public endpoint yet.
+`GET /api/support/tickets/{ticketId}` (RF09), and
+`POST /api/support/tickets/{ticketId}/messages` (RF10). RF08 and RF09 have no
+requestBody; RF10 has a strict message body and returns the created TicketMessage.
+RF11–RF13 have no public endpoint yet.

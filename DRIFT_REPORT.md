@@ -1,5 +1,21 @@
 # DRIFT_REPORT
 
+## RF10 na branch funcional
+
+RF10 foi implementada e provada localmente em `feat/support-rf10-create-message`
+sobre o contrato Support 0.12. A migration RF05 suporta `type=admin`, mídias
+posicionais e as duas auditorias; não surgiu drift de schema nem foi criada
+migration nova. Os quatro fault injections RF10 reverteram mensagem, mídia,
+Ticket e auditorias; as quatro concorrências terminaram sem lost update ou
+deadlock. O primeiro comando de cobertura encontrou `listen EPERM` no sandbox;
+repetido com bind local permitido, passou. A primeira prova RF10 teve erro de
+cleanup de processo já encerrado, corrigido e repetido com exit 0 e descarte do
+banco. O primeiro replay RF02 usou fuso local e falhou na comparação histórica
+de timestamp; com `TZ=UTC`, RF02–RF09 passaram. Nenhum drift técnico novo fica
+aberto no recorte RF10.
+
+As seções abaixo preservam fotografias dos checkpoints anteriores.
+
 ## Drift encerrado
 
 | ID                                                                     | Estado            | Impacto                                                                 | Próxima ação                             |
@@ -12,14 +28,15 @@ provas históricas estão no
 
 ## Escopo atual
 
-RF01–RF08 estão `IMPLEMENTED_AND_PROVEN` em `main`, na baseline
-`MAIN_BASELINE_RF08` (merge da PR #8 `45be90318bdb71e67532482364933cb49e6660e9`).
+RF01–RF09 estão `IMPLEMENTED_AND_PROVEN` em `main`, na baseline
+`MAIN_BASELINE_RF09` (merge da PR #9 `393af3ed50c35fb541825c1822cecaa3b8005a29`).
 As decisões foram fechadas apenas em cada recorte; RF07a/RF07b têm contrato
 Support 0.9 congelado e runtime implementado/provado na PR #7. RF08 foi
-integrada pela PR #8; RF09 está implementada/provada somente na branch
-`feat/support-rf09-get-ticket`; RF10–RF13 permanecem fora do runtime. O checkpoint RF08 bloqueado era uma lacuna
-contratual; decisões posteriores a fecharam em Support 0.10, sem drift técnico
-novo do runtime existente.
+integrada pela PR #8; RF09 foi integrada pela PR #9. RF10–RF13 permanecem
+fora do runtime. O checkpoint RF10 bloqueado é histórico; decisões posteriores
+congelaram Support 0.12 em `85c7e95`, sem novo drift técnico identificado. O
+checkpoint RF08 bloqueado era uma lacuna contratual; decisões posteriores a
+fecharam em Support 0.10, sem drift técnico novo do runtime existente.
 
 Não há drift técnico aberto conhecido em S1/RF01–RF06. O checkpoint RF03
 inicialmente registrou uma lacuna contratual, não um defeito de runtime; ela foi
@@ -52,10 +69,15 @@ o SHA canônico e a branch do serviço foram publicados e conferidos. Não há
 drift técnico novo do runtime naquele checkpoint; RF09–RF13 ainda estavam
 ausentes naquela fotografia anterior à branch funcional.
 
-## RF09 na branch funcional
+## RF09 integrada e RF10 documental
 
-Contrato Support 0.11 e gitlink canônico preservados. A prova PostgreSQL 16 com
-banco próprio descartado, suíte HTTP/SQLite, contrato e smoke da imagem não
+Contrato Support 0.11 preservado historicamente; gitlink avançado para Support
+0.12 `85c7e95` após publicação canônica. A prova PostgreSQL 16 com banco próprio
+descartado, suíte HTTP/SQLite, contrato e smoke da imagem não
 reproduziram drift técnico. A falha inicial da prova histórica RF02 sob fuso
 local foi de interpretação de timestamp pelo cliente de prova; o replay com
-`TZ=UTC` passou. RF09 permanece fora de `main`; CI remota e PR não executadas.
+`TZ=UTC` passou. A PR #9 foi integrada em `393af3e` após CI `quality` aprovada
+no run `36145983860`. O checkpoint RF10 bloqueado documenta decisões então
+abertas; elas foram resolvidas somente para RF10 em Support 0.12. A ausência de
+rota RF10 é esperada, não drift técnico da baseline RF09. Nenhum teste RF10 foi
+executado no fechamento documental.

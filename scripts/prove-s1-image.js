@@ -175,6 +175,34 @@ async function main() {
 		assert.equal(ticketBody.number, 1);
 		assert.equal(ticketBody.adminStatus, 'pendente');
 		assert.equal(ticketBody.requesterStatus, 'nao_resolvido');
+		for (const [actor, role, visible] of [
+			['uid-image-requester', 'cd', true],
+			['uid-image-admin', 'admin', false],
+		]) {
+			const message = await fetch(
+				`${baseUrl}/api/support/tickets/${ticketBody.id}/messages`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-Correlation-ID': randomUUID(),
+						'X-Performed-By': actor,
+						'X-Performed-By-Type': role,
+					},
+					body: JSON.stringify({
+						message: 'Image RF10 message',
+						type: role,
+						authorId: actor,
+						isVisibleToRequester: visible,
+					}),
+				},
+			);
+			assert.equal(message.status, 201);
+			const createdMessage = await message.json();
+			assert.equal(createdMessage.ticketId, ticketBody.id);
+			assert.equal(createdMessage.isVisibleToRequester, visible);
+			assert.deepEqual(createdMessage.mediaIds, []);
+		}
 		const resolved = await fetch(`${baseUrl}/api/support/tickets/${ticketBody.id}/resolve`, {
 			method: 'POST',
 			headers: {
@@ -237,7 +265,7 @@ async function main() {
 		const listAfterDeleteBody = await listedAfterDelete.json();
 		assert.equal(listAfterDeleteBody.pagination.total, 0);
 		assert.deepEqual(listAfterDeleteBody.data, []);
-		console.log('S1 production image CMD smoke with RF05/RF08/RF09 OK');
+		console.log('S1 production image CMD smoke with RF05/RF08/RF09/RF10 OK');
 	} finally {
 		docker(['rm', '-f', appContainer], true);
 		docker(['rm', '-f', databaseContainer], true);

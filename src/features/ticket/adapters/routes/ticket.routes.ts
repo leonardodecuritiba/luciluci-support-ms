@@ -15,5 +15,6 @@ export default function buildTicketRouter(dataSource: DataSource): Router {
 	router.get('/:ticketId', controller.getById);
 	router.patch('/:ticketId', controller.update);
 	router.post('/:ticketId/resolve', controller.resolve);
+	router.post('/:ticketId/messages', controller.createMessage);
 	return router;
 }
