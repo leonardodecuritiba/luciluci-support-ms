@@ -1,5 +1,15 @@
 # AGENTS.md
 
+## Definição W1 aprovada; seed ainda sem runtime
+
+O [report W1](docs/reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md)
+congela a opção B: fixture determinística do domínio completo, volumes
+6 Departments / 16 Tickets / 44 Messages / 80 AuditLogs, além das sete
+memberships, oito identidades sintéticas e oito referências de mídia.
+`SEED_W1_DEFINITION_READY / SEED_W1_NOT_IMPLEMENTED`; `scripts/seed.ts`
+continua bloqueado. Implementação e prova exigem lote próprio, destino
+descartável e gates do report. O checkpoint `fdf713f` é histórico.
+
 ## Estado corrente — MAIN_BASELINE_RF13
 
 RF01–RF13 estão `IMPLEMENTED_AND_PROVEN / INTEGRATED_IN_MAIN` após a
@@ -9,7 +19,8 @@ RF07a/RF07b são operações separadas: 14/14 operações Support materializadas
 Support 0.15 permanece fixo no gitlink
 `14efcdfdc70d774c4343e2ec47662b7b5c8b691b`; a CI `ci / quality` do
 head RF13 passou no run `36456698983`. Nenhuma RF do PRD atual ficou pendente
-e não houve deploy. A seed de domínio ainda requer massa determinística W1;
+e não houve deploy. Naquela fotografia, a seed de domínio ainda requeria
+definição da massa determinística W1;
 não inferir prontidão de produção. Consulte [ACTUAL_STATE.md](ACTUAL_STATE.md)
 e o [report final](docs/reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md).
 Os blocos de estado abaixo são fotografias históricas do ciclo de

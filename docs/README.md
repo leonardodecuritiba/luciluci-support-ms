@@ -1,5 +1,11 @@
 # docs
 
+O [fechamento da definição W1](reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md)
+aprova a seed canônica do domínio completo (6/16/44/80) e seus gates.
+`SEED_W1_DEFINITION_READY / SEED_W1_NOT_IMPLEMENTED`: a implementação e
+prova ainda pertencem a um lote futuro. O checkpoint bloqueado abaixo é
+fotografia anterior.
+
 O [checkpoint da seed W1](reports/REPORT-SUPPORT-SEED-W1-CHECKPOINT-20260928-182459.md)
 registra a decisão de escopo ainda aberta e uma proposta de massa, safety e
 provas futuras. É documentação apenas; a seed segue indisponível.
@@ -10,7 +16,8 @@ O [fechamento final](reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md)
 registra `MAIN_BASELINE_RF13` no merge `2aacc5554c9c2c4f25415dd8b170f5ff73b6d189`:
 RF01–RF13 implementadas, provadas e integradas, 14 operações HTTP, contrato
 Support 0.15 fixo em `14efcdfdc70d774c4343e2ec47662b7b5c8b691b` e CI
-remota RF13 verde. Não houve deploy; a seed W1 segue sem massa definida.
+remota RF13 verde. Não houve deploy; naquela fotografia a seed W1 seguia sem
+massa definida.
 Os parágrafos abaixo preservam fotografias de lotes anteriores, não o estado
 corrente do serviço.
 

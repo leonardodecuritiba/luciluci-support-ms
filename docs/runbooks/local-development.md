@@ -38,8 +38,10 @@ O compose local inicia somente PostgreSQL. `start:docker` executa migrations,
 portanto use apenas banco Support novo e isolado.
 
 Não execute `npm run infra:down` como limpeza genérica: ele remove volumes.
-Não execute `npm run seed`; o comando bloqueia antes de conectar ou gravar
-até a massa determinística de W1 ser definida.
+Não execute `npm run seed` neste estado; o comando ainda bloqueia antes de
+conectar ou gravar. A [definição W1](../reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md)
+foi aprovada, mas a implementação e a prova em banco descartável ainda são
+pendentes.
 
 Validação local:
 

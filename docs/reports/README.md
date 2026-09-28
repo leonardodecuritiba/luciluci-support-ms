@@ -1,5 +1,10 @@
 # docs/reports
 
+O [report de definição W1](REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md)
+congela opção B, massa 6/16/44/80 e execução somente descartável.
+`SEED_W1_DEFINITION_READY / SEED_W1_NOT_IMPLEMENTED`. O checkpoint abaixo
+permanece histórico.
+
 O [checkpoint da seed W1](REPORT-SUPPORT-SEED-W1-CHECKPOINT-20260928-182459.md)
 registra `SEED_W1_DEFINITION_BLOCKED_BY_DECISION`, proposta operacional
 sem runtime e Support 0.15 preservado.

@@ -1,6 +1,19 @@
 # ACTUAL_STATE
 
-## Checkpoint seed W1 — definição bloqueada
+## Definição seed W1 aprovada; implementação pendente
+
+O [fechamento W1](docs/reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md)
+resolveu W1-01 por decisão expressa: opção B, fixture determinística do domínio
+completo. Estados `SEED_W1_DEFINITION_READY`,
+`SEED_W1_SCOPE=FULL_DOMAIN`, `SEED_W1_VOLUME=6/16/44/80` e
+`SEED_W1_NOT_IMPLEMENTED`. A massa canônica
+contém 6 Departments, 7 memberships, 8 atores sintéticos, 16 Tickets,
+44 Messages, 8 Media rows e 80 AuditLogs. Os gates e a semântica de rerun
+estão fechados no report. `scripts/seed.ts` ainda aborta antes de conectar;
+o próximo lote é implementar e provar a seed. Support 0.15, RF01–RF13 e o
+gitlink permanecem intactos; sem deploy ou prontidão de produção.
+
+## Fotografia histórica — checkpoint seed W1 bloqueado
 
 Na branch documental `docs/support-seed-w1-checkpoint`, o
 [report W1](docs/reports/REPORT-SUPPORT-SEED-W1-CHECKPOINT-20260928-182459.md)

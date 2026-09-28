@@ -1,6 +1,14 @@
 # AI_FIRST
 
-## Continuidade da seed W1
+## Continuidade — seed W1 aprovada e ainda bloqueada no runtime
+
+Leia a [definição W1](docs/reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md):
+opção B aprovada, `SEED_W1_DEFINITION_READY / SEED_W1_NOT_IMPLEMENTED`.
+O próximo lote explícito deve implementar e provar a fixture de seis tabelas
+em banco descartável. `scripts/seed.ts` ainda aborta; não executar
+`npm run seed` neste estado. Support 0.15 continua fixo.
+
+## Fotografia histórica — checkpoint W1 bloqueado
 
 Leia o [checkpoint W1](docs/reports/REPORT-SUPPORT-SEED-W1-CHECKPOINT-20260928-182459.md)
 antes de trabalhar na seed. O escopo A/B não foi decidido;
@@ -15,7 +23,8 @@ Support 0.15 por causa deste checkpoint.
 HTTP estão materializadas porque RF07a/RF07b são separadas. Support 0.15 está
 fixo no gitlink `14efcdfdc70d774c4343e2ec47662b7b5c8b691b`. A CI
 remota RF13 passou no run `36456698983`. Não há RF pendente no PRD atual,
-mas não houve deploy; a seed determinística W1 permanece indefinida. Use
+mas não houve deploy; a seed determinística W1 permanecia indefinida naquela
+fotografia. Use
 [ACTUAL_STATE.md](ACTUAL_STATE.md) e o [report final](docs/reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md)
 para continuidade. Os blocos abaixo são fotografias históricas, inclusive
 as referências a RF13 ainda local ou ausente.

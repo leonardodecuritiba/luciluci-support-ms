@@ -1,6 +1,14 @@
 # DRIFT_REPORT
 
-## Checkpoint operacional W1
+## Definição operacional W1 aprovada
+
+A [decisão W1](docs/reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md)
+fecha o blocker de escopo e congela a fixture do domínio completo,
+volumes 6/16/44/80 e gates de execução descartável. A pendência local é
+agora implementação/prova da seed, sem novo drift funcional RF01–RF13.
+`scripts/seed.ts` permanece bloqueado; não houve execução ou deploy.
+
+## Fotografia histórica — checkpoint operacional W1
 
 O [report da seed W1](docs/reports/REPORT-SUPPORT-SEED-W1-CHECKPOINT-20260928-182459.md)
 classifica a pendência como definição operacional bloqueada pela escolha
@@ -19,8 +27,8 @@ RFs implementadas. Os blockers contratuais RF13 eram históricos e foram
 resolvidos antes da implementação. O [report final](docs/reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md)
 registra as evidências e limites.
 
-A seed de domínio permanece indisponível até a definição da massa
-determinística W1; é pendência operacional local separada das RFs. Deploy,
+A seed de domínio permanecia indisponível até a definição da massa
+determinística W1 naquela fotografia; era pendência operacional local separada das RFs. Deploy,
 ambiente e aceitação de produção não foram provados. NFRs de BFF/plataforma
 ou de mensageria não contratada não são promovidos automaticamente a drift
 local. As seções seguintes são fotografias históricas, inclusive afirmações
