@@ -1,6 +1,23 @@
 # AGENTS.md
 
-## Implementação local RF13 — branch funcional
+## Estado corrente — MAIN_BASELINE_RF13
+
+RF01–RF13 estão `IMPLEMENTED_AND_PROVEN / INTEGRATED_IN_MAIN` após a
+[PR #15](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/15),
+merge funcional `2aacc5554c9c2c4f25415dd8b170f5ff73b6d189`.
+RF07a/RF07b são operações separadas: 14/14 operações Support materializadas.
+Support 0.15 permanece fixo no gitlink
+`14efcdfdc70d774c4343e2ec47662b7b5c8b691b`; a CI `ci / quality` do
+head RF13 passou no run `36456698983`. Nenhuma RF do PRD atual ficou pendente
+e não houve deploy. A seed de domínio ainda requer massa determinística W1;
+não inferir prontidão de produção. Consulte [ACTUAL_STATE.md](ACTUAL_STATE.md)
+e o [report final](docs/reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md).
+Os blocos de estado abaixo são fotografias históricas do ciclo de
+implementação; suas afirmações de RF13 ausente ou branch local não descrevem
+esta baseline. As regras operacionais e de fonte de verdade continuam
+aplicáveis.
+
+## Fotografia histórica — implementação RF13 na branch funcional
 
 `feat/support-rf13-history` parte de `7f041fd` com Support 0.15 fixo em
 `14efcdf`. `GET /api/support/tickets/history` implementa ACL atual, filtro
@@ -10,7 +27,7 @@ branch estão no [report RF13](docs/reports/REPORT-SUPPORT-RF13-20260928.md).
 RF01–RF12 permanecem integradas em `main` (`1e243d3`); RF13 ainda não foi
 integrada nem implantada. Os blocos abaixo são fotografias históricas.
 
-## Contrato RF13 atual — Support 0.15
+## Fotografia histórica — contrato RF13 Support 0.15
 
 Support 0.15 congela apenas RF13 em
 `14efcdfdc70d774c4343e2ec47662b7b5c8b691b`, publicado no repositório
@@ -35,7 +52,7 @@ e paginação. Outros detalhes contratuais independentes seguem abertos,
 portanto RF13 continua bloqueada e sem runtime; Support 0.14 permanece fixo.
 O checkpoint `58fcea6` abaixo é fotografia histórica.
 
-## Estado atual após a PR #14
+## Fotografia histórica — estado após a PR #14
 
 RF01–RF12 estão implementadas/provadas e integradas em `MAIN_BASELINE_RF12`
 (merge `1e243d3` da PR #14; CI `36181786738` aprovada). RF13 está
@@ -58,7 +75,7 @@ ordem crescente, mídia em lote e fotografia PostgreSQL `REPEATABLE READ`.
 
 As seções seguintes descrevem checkpoints históricos.
 
-## Contrato atual — RF12 Support 0.14
+## Fotografia histórica — contrato RF12 Support 0.14
 
 Support 0.14 foi congelado somente para RF12 no commit canônico `820b2a8`,
 publicado e fixado no gitlink. Estado
@@ -86,7 +103,7 @@ próprias de RF12. Ver
 RF12 não podia ser criada antes da resolução expressa das lacunas. Os blocos abaixo preservam o estado
 RF11 e fotografias anteriores.
 
-## Estado funcional atual — MAIN_BASELINE_RF11
+## Fotografia histórica — MAIN_BASELINE_RF11
 
 RF01–RF11 estão implementadas/provadas e integradas em `main`. A
 [PR #12](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/12)

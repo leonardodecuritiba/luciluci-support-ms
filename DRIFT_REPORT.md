@@ -1,6 +1,25 @@
 # DRIFT_REPORT
 
-## Revisão independente RF13 — sem drift funcional residual
+## Estado corrente — MAIN_BASELINE_RF13
+
+RF01–RF13 estão implementadas, provadas e integradas em `main` no merge
+funcional `2aacc5554c9c2c4f25415dd8b170f5ff73b6d189` da PR #15. A CI
+`ci / quality` do head `2741f0e` passou no run `36456698983`. Support 0.15
+permanece fixo no gitlink `14efcdfdc70d774c4343e2ec47662b7b5c8b691b`.
+O inventário abaixo contém um drift histórico fechado,
+`DRIFT-SUP-S1-001`, e nenhum drift técnico funcional aberto identificado nas
+RFs implementadas. Os blockers contratuais RF13 eram históricos e foram
+resolvidos antes da implementação. O [report final](docs/reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md)
+registra as evidências e limites.
+
+A seed de domínio permanece indisponível até a definição da massa
+determinística W1; é pendência operacional local separada das RFs. Deploy,
+ambiente e aceitação de produção não foram provados. NFRs de BFF/plataforma
+ou de mensageria não contratada não são promovidos automaticamente a drift
+local. As seções seguintes são fotografias históricas, inclusive afirmações
+anteriores de RF13 ausente e de CI remota pendente.
+
+## Fotografia histórica — revisão independente RF13
 
 A [revisão local RF13](docs/reports/REPORT-SUPPORT-RF13-REVIEW-20260928.md)
 não encontrou vazamento de auditorias, bypass de ACL ou divergência com Support
@@ -132,7 +151,7 @@ O estado global permanece `BOOTSTRAP_IMPLEMENTED_AND_PROVEN`. A correção e as
 provas históricas estão no
 [report S1](docs/reports/REPORT-SUPPORT-S1-CLOSURE-20260910-163634.md).
 
-## Escopo atual
+## Fotografia histórica — escopo anterior RF11
 
 RF01–RF11 estão `IMPLEMENTED_AND_PROVEN` em `main`, na baseline
 `MAIN_BASELINE_RF11` (merge da PR #12 `9387b3dc6e636db4b8124785e7b3bc92ec46d054`).
