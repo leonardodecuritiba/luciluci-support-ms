@@ -1,6 +1,30 @@
 # ACTUAL_STATE
 
-## Revisão independente RF13 — remediação local concluída
+## Estado corrente — MAIN_BASELINE_RF13
+
+A [PR funcional #15](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/15)
+foi integrada em `main` por merge commit
+`2aacc5554c9c2c4f25415dd8b170f5ff73b6d189`, com parents
+`1e243d386dbca3e2d4dbf14fec7d29c8e5d1b366` e
+`2741f0e2a68fc209d13e411f9533b628d96a6843`. Essa revisão é
+`MAIN_BASELINE_RF13`: RF01–RF13, incluindo RF07a/RF07b separadamente, estão
+`IMPLEMENTED_AND_PROVEN / INTEGRATED_IN_MAIN`; as 14 operações do PRD estão
+materializadas. A CI `ci / quality` da PR #15 passou no run
+[`36456698983`](https://github.com/leonardodecuritiba/luciluci-support-ms/actions/runs/36456698983)
+no head exato `2741f0e`; a revisão independente foi
+`RF13_REVIEW_PASS / READY_FOR_PUBLICATION`. O contrato canônico Support 0.15
+permanece fixo no gitlink `14efcdfdc70d774c4343e2ec47662b7b5c8b691b`.
+Não há RF pendente no escopo atual do PRD nem deploy realizado.
+
+O [report de fechamento final](docs/reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md)
+separa essa conclusão funcional das pendências operacionais: a seed de domínio
+ainda está indisponível por falta de massa determinística W1, e implantação,
+ambiente e aceitação de produção não foram provados. O drift técnico
+`DRIFT-SUP-S1-001` permanece fechado; nenhum novo drift funcional RF13 foi
+identificado. Esta branch documental registra o estado integrado; todas as
+seções seguintes são fotografias históricas e não descrevem o estado corrente.
+
+## Fotografia histórica — revisão independente RF13 local
 
 A [revisão RF13](docs/reports/REPORT-SUPPORT-RF13-REVIEW-20260928.md)
 reconfirmou contrato Support 0.15 e ACL/privacidade do histórico sem finding
@@ -11,7 +35,7 @@ UUID não-v4. As provas RF01–RF13 e o smoke foram reexecutados localmente.
 Estado: `RF13_REVIEW_PASS / READY_FOR_PUBLICATION` na branch funcional; sem
 commit, push, PR, merge ou deploy. Os blocos abaixo registram o lote anterior.
 
-## Implementação RF13 — branch funcional local
+## Fotografia histórica — implementação RF13 na branch funcional
 
 Na branch `feat/support-rf13-history`, descendente do checkpoint `7f041fd`,
 RF13 está implementada sobre Support 0.15 (`14efcdf`). A rota
@@ -23,7 +47,7 @@ permanecem integradas em `main` (`1e243d3`); RF13 não foi integrada, publicada
 em PR ou implantada. Nenhuma migration ou evento foi criado. As seções abaixo
 são fotografias históricas.
 
-## Fechamento contratual RF13 — Support 0.15
+## Fotografia histórica — fechamento contratual RF13 Support 0.15
 
 As decisões expressas de 2026-09-28 fecharam os blockers remanescentes de
 RF13. `GET /api/support/tickets/history` está
@@ -134,7 +158,7 @@ Naquela fotografia, Support 0.14 não estava congelado; RF12/RF13 seguiam
 `NOT_IMPLEMENTED`, sem branch
 funcional RF12 ou deploy. As seções seguintes preservam fotografias anteriores.
 
-## Estado atual — MAIN_BASELINE_RF11
+## Fotografia histórica — MAIN_BASELINE_RF11
 
 RF01–RF11 estão `IMPLEMENTED_AND_PROVEN` e integradas em `main`. A
 [PR #12](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/12)

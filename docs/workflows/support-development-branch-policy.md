@@ -1,6 +1,19 @@
 # Support — política de branches após RF01
 
-## 19. Implementação local RF13
+## 20. Fechamento funcional RF13
+
+A PR #15 integrou RF13 por merge commit
+`2aacc5554c9c2c4f25415dd8b170f5ff73b6d189`, com head
+`2741f0e2a68fc209d13e411f9533b628d96a6843` e CI `ci / quality`
+aprovada no run `36456698983`. Esse merge define `MAIN_BASELINE_RF13`:
+RF01–RF13 implementadas/provadas/integradas, com 14 operações pelo desdobramento
+RF07a/RF07b. Support 0.15 permanece no gitlink `14efcdf`. Não houve deploy.
+A branch `docs/support-rf13-merge-closure` parte exatamente dessa baseline
+para registrar o [fechamento final](../reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md),
+sem alterar runtime ou contrato. Os blocos numerados abaixo, inclusive o 19,
+são fotografias históricas das etapas anteriores.
+
+## 19. Fotografia histórica — implementação local RF13
 
 `feat/support-rf13-history` nasceu de
 `docs/support-rf13-history-checkpoint` (`7f041fd`), descendente de
@@ -44,6 +57,8 @@ histórica desta política.
 - `MAIN_BASELINE_RF11`: revisão de `main` que contenha RF11
   `IMPLEMENTED_AND_PROVEN`, após integração da branch
   `feat/support-rf11-message-visibility`.
+- `MAIN_BASELINE_RF12`: merge da PR #14 `1e243d386dbca3e2d4dbf14fec7d29c8e5d1b366`.
+- `MAIN_BASELINE_RF13`: merge da PR #15 `2aacc5554c9c2c4f25415dd8b170f5ff73b6d189`.
 
 RF02 foi integrada em `main` pelo merge
 `e2dba18a7d0c54577805d6bf2f44adc40ecf0295`; essa revisão estabelece

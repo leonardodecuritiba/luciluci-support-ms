@@ -1,6 +1,18 @@
 # AI_FIRST
 
-## RF13 implementada localmente
+## Entrada corrente — MAIN_BASELINE_RF13
+
+`main` integra RF01–RF13 no merge funcional
+`2aacc5554c9c2c4f25415dd8b170f5ff73b6d189` da PR #15; 14 operações
+HTTP estão materializadas porque RF07a/RF07b são separadas. Support 0.15 está
+fixo no gitlink `14efcdfdc70d774c4343e2ec47662b7b5c8b691b`. A CI
+remota RF13 passou no run `36456698983`. Não há RF pendente no PRD atual,
+mas não houve deploy; a seed determinística W1 permanece indefinida. Use
+[ACTUAL_STATE.md](ACTUAL_STATE.md) e o [report final](docs/reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md)
+para continuidade. Os blocos abaixo são fotografias históricas, inclusive
+as referências a RF13 ainda local ou ausente.
+
+## Fotografia histórica — RF13 implementada localmente
 
 A branch `feat/support-rf13-history`, descendente do freeze `7f041fd`,
 materializa a última RF do ciclo. A rota `/api/support/tickets/history` lê
@@ -70,7 +82,7 @@ Support 0.14 não estava congelado; RF12/RF13 não tinham runtime. Ver
 `docs/reports/REPORT-SUPPORT-RF12-CHECKPOINT-20260925-182925.md` antes de
 qualquer lote funcional RF12.
 
-## Estado atual — MAIN_BASELINE_RF11
+## Fotografia histórica — MAIN_BASELINE_RF11
 
 RF01–RF11 estão implementadas/provadas e integradas em `main` sobre
 Support 0.13 (`4958fd1`). A

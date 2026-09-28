@@ -1,5 +1,12 @@
 # docs/reports
 
+O [report final de fechamento](REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md)
+é a entrada corrente: `MAIN_BASELINE_RF13` = merge funcional
+`2aacc5554c9c2c4f25415dd8b170f5ff73b6d189`, RF01–RF13
+implementadas/provadas/integradas, Support 0.15 fixo, CI remota RF13 verde e
+nenhum deploy. Os reports e parágrafos abaixo são fotografias históricas de
+suas respectivas etapas; não substituem o estado final integrado.
+
 O [review RF13](REPORT-SUPPORT-RF13-REVIEW-20260928.md) audita
 independentemente a implementação local, registra duas lacunas de prova
 remediadas e a revalidação em UTC/São Paulo, PostgreSQL, testes e imagem.

@@ -1,5 +1,15 @@
 # docs
 
+## Estado corrente
+
+O [fechamento final](reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md)
+registra `MAIN_BASELINE_RF13` no merge `2aacc5554c9c2c4f25415dd8b170f5ff73b6d189`:
+RF01–RF13 implementadas, provadas e integradas, 14 operações HTTP, contrato
+Support 0.15 fixo em `14efcdfdc70d774c4343e2ec47662b7b5c8b691b` e CI
+remota RF13 verde. Não houve deploy; a seed W1 segue sem massa definida.
+Os parágrafos abaixo preservam fotografias de lotes anteriores, não o estado
+corrente do serviço.
+
 O [review independente RF13](reports/REPORT-SUPPORT-RF13-REVIEW-20260928.md)
 registra a auditoria do diff local, correções do harness e revalidação em dois
 fusos. A branch permanece sem publicação; o report funcional abaixo é a

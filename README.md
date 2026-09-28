@@ -1,6 +1,19 @@
 # support-ms
 
-## RF13 — histórico de Ticket na branch funcional
+## Estado corrente — Support 0.15 / MAIN_BASELINE_RF13
+
+RF01–RF13 estão implementadas, provadas e integradas em `main` pela
+[PR #15](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/15),
+merge `2aacc5554c9c2c4f25415dd8b170f5ff73b6d189`. RF07a e RF07b contam
+separadamente: as **14 operações HTTP** do PRD estão materializadas. O
+contrato canônico Support 0.15 permanece no gitlink `14efcdfdc70d774c4343e2ec47662b7b5c8b691b`.
+A CI remota RF13 passou no run `36456698983`. Não houve deploy; a seed de
+domínio ainda exige definição da massa determinística W1. Ver
+[estado atual](ACTUAL_STATE.md) e [fechamento final](docs/reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md).
+As seções sobre branches e contratos anteriores abaixo são fotografias
+históricas, não o estado corrente.
+
+## Fotografia histórica — RF13 na branch funcional
 
 `GET /api/support/tickets/history` está implementado nesta branch sobre o
 contrato Support 0.15. Admin membro atual vê todas as auditorias dos Tickets
@@ -153,6 +166,8 @@ fase: o comando falha de modo explícito até a massa determinística de W1 ser 
 - `GET /api/support/tickets/{ticketId}`
 - `POST /api/support/tickets/{ticketId}/messages` (RF10)
 - `PATCH /api/support/tickets/{ticketId}/messages/{messageId}/visibility` (RF11)
+- `GET /api/support/tickets/{ticketId}/messages` (RF12)
+- `GET /api/support/tickets/history` (RF13)
 
 Consulte `api.http`, `docs/runbooks/local-development.md` e
 `docs/runbooks/infra-access.md`.
