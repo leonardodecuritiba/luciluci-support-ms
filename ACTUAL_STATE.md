@@ -1,5 +1,26 @@
 # ACTUAL_STATE
 
+## Fechamento contratual RF13 — Support 0.15
+
+As decisões expressas de 2026-09-28 fecharam os blockers remanescentes de
+RF13. `GET /api/support/tickets/history` está
+`RF13_CONTRACT_CHECKPOINT_READY / RF13_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
+Support 0.15 foi publicado na branch canônica
+`docs/support-rf13-history-contract`, commit
+`14efcdfdc70d774c4343e2ec47662b7b5c8b691b` (SHA local/remoto igual),
+agora fixado no gitlink desta branch documental do serviço. O
+[report de contrato](docs/reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md)
+registra a matriz completa. Os checkpoints `58fcea6` e `39028ec` permanecem
+históricos; `main=origin/main=1e243d3` integra RF01–RF12.
+
+RF13 exige ACL atual, filtro seguro de AuditLog antes de count/página, ordem
+`datetime DESC,id DESC`, item exato de oito campos e snapshot PostgreSQL
+`REPEATABLE READ`. Solicitante não vê `nova_mensagem` de admin. Não há
+migration, rota funcional, OpenAPI RF13, teste executado ou deploy neste lote;
+`/tickets/history` continua 404. A branch funcional
+`feat/support-rf13-history` não foi criada. As seções seguintes são
+fotografias anteriores ao fechamento.
+
 ## Decisão de visibilidade RF13 — contrato ainda bloqueado
 
 A decisão expressa de 2026-09-25 fecha somente a exposição de

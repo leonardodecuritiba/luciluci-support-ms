@@ -272,3 +272,14 @@ apenas `nova_mensagem` de backoffice/cd cuja autoria coincide com
 `ticket.requesterId`; audits `nova_mensagem` de admin são sempre ocultos do
 requester. Outros blockers independentes impedem Support 0.15. Nenhuma branch
 funcional RF13, migration ou avanço de gitlink decorre desta decisão parcial.
+
+## 18. Fechamento contratual RF13
+
+Os checkpoints `58fcea6` e `39028ec` permanecem históricos. As decisões
+expressas posteriores congelaram Support 0.15 somente para
+`GET /api/support/tickets/history` no commit canônico `14efcdf`, publicado
+em `docs/support-rf13-history-contract` e fixado no gitlink documental do
+serviço. O [report de fechamento](../reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md)
+registra `RF13_CONTRACT_CHECKPOINT_READY / RF13_CONTRACT_FROZEN /
+NOT_IMPLEMENTED`. A branch funcional `feat/support-rf13-history` não foi
+criada neste lote; sua implementação exige execução e provas próprias.

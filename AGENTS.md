@@ -1,5 +1,18 @@
 # AGENTS.md
 
+## Contrato RF13 atual — Support 0.15
+
+Support 0.15 congela apenas RF13 em
+`14efcdfdc70d774c4343e2ec47662b7b5c8b691b`, publicado no repositório
+canônico e fixado no gitlink deste checkpoint. Estado
+`RF13_CONTRACT_CHECKPOINT_READY / RF13_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
+RF01–RF12 estão integradas em `MAIN_BASELINE_RF12` (`1e243d3`). A reserva
+`/tickets/history` continua 404; nenhum runtime, teste RF13 ou deploy foi
+criado. Leia o
+[report de fechamento](docs/reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md)
+e a revisão canônica antes de abrir a branch funcional própria. Os commits
+`58fcea6` e `39028ec` e os blocos abaixo são históricos.
+
 ## Decisão RF13 parcial após o checkpoint histórico
 
 A decisão de visibilidade de `AuditLog.nova_mensagem` foi recebida e registrada

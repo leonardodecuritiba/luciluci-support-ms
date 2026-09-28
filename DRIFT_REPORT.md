@@ -1,5 +1,15 @@
 # DRIFT_REPORT
 
+## RF13 — contrato 0.15 congelado, sem drift técnico novo
+
+Os blockers documentais RF13 foram fechados somente para esta rota em Support
+0.15 (`14efcdf`), publicado e fixado no gitlink. `/tickets/history` ainda
+retorna 404 por estágio; OpenAPI, `api.http`, runtime e testes RF13 não foram
+alterados. A ausência é esperada e não é drift de `MAIN_BASELINE_RF12`.
+Nenhuma migration ou evento foi introduzido. Ver
+[report RF13](docs/reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md).
+As seções seguintes são históricas.
+
 ## RF13 — decisão de visibilidade sem drift técnico novo
 
 A política de `nova_mensagem` para admin/requester foi decidida e registrada

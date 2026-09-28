@@ -1,5 +1,10 @@
 # docs
 
+O [fechamento RF13](reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md)
+registra Support 0.15 publicado/fixado, contrato
+`RF13_CONTRACT_CHECKPOINT_READY / RF13_CONTRACT_FROZEN` e runtime ainda ausente.
+As seções abaixo preservam os checkpoints anteriores.
+
 O [report de visibilidade RF13](reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md)
 registra a decisão expressa sobre `nova_mensagem` e os blockers contratuais
 independentes ainda abertos. Support 0.14 e a reserva 404 permanecem. O

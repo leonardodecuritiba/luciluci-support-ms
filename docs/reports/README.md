@@ -1,5 +1,10 @@
 # docs/reports
 
+O [report de fechamento RF13](REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md)
+registra Support 0.15 publicado em `14efcdf`, gitlink atualizado e
+`RF13_CONTRACT_CHECKPOINT_READY / RF13_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
+Os checkpoints `58fcea6` e `39028ec` abaixo são históricos.
+
 O [report da decisão parcial RF13](REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md)
 fecha a visibilidade de `nova_mensagem` para admin/requester e mantém RF13
 bloqueada por decisões independentes de HTTP, paginação e consistência. O

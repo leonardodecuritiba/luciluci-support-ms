@@ -1,5 +1,14 @@
 # AI_FIRST
 
+## Support 0.15 — RF13 congelada, runtime ausente
+
+RF13 tem contrato canônico publicado em `14efcdf` e fixado no gitlink.
+`RF13_CONTRACT_CHECKPOINT_READY / RF13_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
+O [report RF13](docs/reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md)
+fecha visibilidade, headers, ACL, paginação/ordem, resposta/erros e fotografia
+`REPEATABLE READ`. `MAIN_BASELINE_RF12` permanece a base funcional; não há
+rota RF13 ativa. Os blocos seguintes são fotografias históricas.
+
 ## RF13: visibilidade resolvida, contrato ainda aberto
 
 O [report da decisão](docs/reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md)

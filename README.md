@@ -1,5 +1,15 @@
 # support-ms
 
+## Support 0.15 — contrato RF13
+
+O contrato `GET /api/support/tickets/history` foi congelado em Support 0.15,
+commit canônico publicado `14efcdf`, fixado no gitlink desta branch. Ver
+[report de fechamento RF13](docs/reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md).
+RF01–RF12 estão implementadas/provadas em `MAIN_BASELINE_RF12`; RF13 continua
+`NOT_IMPLEMENTED`, com `/tickets/history` em 404. Este lote não criou
+migration, executável, teste RF13, branch funcional ou deploy. As seções
+seguintes registram etapas históricas.
+
 ## Decisão parcial RF13
 
 A [decisão de visibilidade RF13](docs/reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md)
