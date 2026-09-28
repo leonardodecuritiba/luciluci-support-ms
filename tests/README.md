@@ -1,5 +1,12 @@
 # tests
 
+W1 acrescenta teste unitário de manifest, safety, classificador, writer e
+determinismo UTC/São Paulo. O bootstrap histórico agora prova recusa
+pré-conexão sem opt-in. A prova PostgreSQL dedicada está em
+`scripts/prove-seed-w1-postgres.js`; veja o
+[report W1](../docs/reports/REPORT-SUPPORT-SEED-W1-20260928-193318.md).
+O inventário RF13 abaixo permanece histórico.
+
 RF13 acrescenta parser/use case unitários, integração HTTP/SQLite com ACL,
 count sem vazamento, desempate e snapshot de seis tabelas, contrato OpenAPI e
 prova PostgreSQL do processo compilado. `scripts/prove-rf13-postgres.js` cobre

@@ -1,5 +1,9 @@
 # docs
 
+O [report funcional W1](reports/REPORT-SUPPORT-SEED-W1-20260928-193318.md)
+registra seed implementada e provada localmente em banco descartável, sem
+commit ou publicação. O fechamento documental abaixo é histórico.
+
 O [fechamento da definição W1](reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md)
 aprova a seed canônica do domínio completo (6/16/44/80) e seus gates.
 `SEED_W1_DEFINITION_READY / SEED_W1_NOT_IMPLEMENTED`: a implementação e

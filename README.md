@@ -1,5 +1,13 @@
 # support-ms
 
+## Seed W1 nesta branch funcional
+
+A seed determinística W1 está implementada e provada localmente em
+`feat/support-seed-w1`; veja o [report W1](docs/reports/REPORT-SUPPORT-SEED-W1-20260928-193318.md).
+Ela só aceita banco descartável com confirmação explícita. Ainda não houve
+commit, PR, merge ou deploy desta feature. `main` continua na baseline RF13
+com Support 0.15. O estado abaixo descreve essa baseline antes da seed.
+
 ## Estado corrente — Support 0.15 / MAIN_BASELINE_RF13
 
 RF01–RF13 estão implementadas, provadas e integradas em `main` pela
@@ -8,7 +16,7 @@ merge `2aacc5554c9c2c4f25415dd8b170f5ff73b6d189`. RF07a e RF07b contam
 separadamente: as **14 operações HTTP** do PRD estão materializadas. O
 contrato canônico Support 0.15 permanece no gitlink `14efcdfdc70d774c4343e2ec47662b7b5c8b691b`.
 A CI remota RF13 passou no run `36456698983`. Não houve deploy; a seed de
-domínio ainda exige definição da massa determinística W1. Ver
+domínio ainda exigia definição da massa determinística W1 naquela fotografia. Ver
 [estado atual](ACTUAL_STATE.md) e [fechamento final](docs/reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md).
 As seções sobre branches e contratos anteriores abaixo são fotografias
 históricas, não o estado corrente.

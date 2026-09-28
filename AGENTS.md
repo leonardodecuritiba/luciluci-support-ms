@@ -1,5 +1,15 @@
 # AGENTS.md
 
+## Feature local W1 — implementação e prova
+
+`feat/support-seed-w1` implementa a fixture aprovada de 6 Departments,
+7 memberships, 8 atores, 16 Tickets, 44 Messages, 8 Media rows e 80
+AuditLogs. O [report funcional](docs/reports/REPORT-SUPPORT-SEED-W1-20260928-193318.md)
+registra os gates, no-op, rollback e prova PostgreSQL descartável. A feature
+está local, sem commit, push, PR, merge ou deploy. `main` permanece no
+fechamento RF13 e Support 0.15; o bloco seguinte é a fotografia documental
+anterior à implementação.
+
 ## Definição W1 aprovada; seed ainda sem runtime
 
 O [report W1](docs/reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md)

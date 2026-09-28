@@ -1,5 +1,15 @@
 # docs/reports
 
+O [review W1](REPORT-SUPPORT-SEED-W1-REVIEW-20260928-200426.md) registra
+findings de segurança e concorrência remediados localmente, provas em dois
+fusos e `SEED_W1_REVIEW_PASS / READY_FOR_PUBLICATION`, ainda sem commit ou
+publicação. O report de implementação abaixo permanece como evidência do
+lote anterior.
+
+O [report funcional da seed W1](REPORT-SUPPORT-SEED-W1-20260928-193318.md)
+registra execução segura e prova PostgreSQL local na branch
+`feat/support-seed-w1`, ainda sem commit/publicação/merge/deploy.
+
 O [report de definição W1](REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md)
 congela opção B, massa 6/16/44/80 e execução somente descartável.
 `SEED_W1_DEFINITION_READY / SEED_W1_NOT_IMPLEMENTED`. O checkpoint abaixo

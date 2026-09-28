@@ -49,7 +49,8 @@
 		"proof:rf10:postgres": "node scripts/prove-rf10-postgres.js",
 		"proof:rf11:postgres": "node scripts/prove-rf11-postgres.js",
 		"proof:rf12:postgres": "node scripts/prove-rf12-postgres.js",
-		"proof:rf13:postgres": "node scripts/prove-rf13-postgres.js"
+		"proof:rf13:postgres": "node scripts/prove-rf13-postgres.js",
+		"proof:seed:w1:postgres": "node scripts/prove-seed-w1-postgres.js"
 	},
 	"lint-staged": {
 		"*.ts": [

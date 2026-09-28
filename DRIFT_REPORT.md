@@ -1,5 +1,21 @@
 # DRIFT_REPORT
 
+## Revisão local W1
+
+O [review W1](docs/reports/REPORT-SUPPORT-SEED-W1-REVIEW-20260928-200426.md)
+fechou cinco findings locais antes de publicação; nenhum drift funcional
+RF01–RF13 permanece aberto nesta feature. Estado
+`SEED_W1_REVIEW_PASS / READY_FOR_PUBLICATION`, ainda sem commit, PR ou deploy.
+O bloco seguinte preserva a fotografia anterior à revisão.
+
+## Feature local W1
+
+A [implementação W1](docs/reports/REPORT-SUPPORT-SEED-W1-20260928-193318.md)
+remove o bloqueio operacional da seed nesta branch e foi provada em bancos
+descartáveis próprios. Nenhum drift funcional RF01–RF13 foi introduzido;
+revisão independente e integração continuam pendentes. Não há deploy. O
+bloco seguinte preserva a decisão documental anterior.
+
 ## Definição operacional W1 aprovada
 
 A [decisão W1](docs/reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md)

@@ -1,5 +1,14 @@
 # AI_FIRST
 
+## Continuidade da feature W1 local
+
+O [report da seed W1](docs/reports/REPORT-SUPPORT-SEED-W1-20260928-193318.md)
+descreve implementação local e prova em DB descartável. A branch
+`feat/support-seed-w1` ainda não tem commit nem publicação. Use
+`scripts/prove-seed-w1-postgres.js` para a prova própria; `npm run seed`
+exige opt-in e banco com prefixo descartável. O bloco abaixo descreve a
+fotografia documental anterior.
+
 ## Continuidade — seed W1 aprovada e ainda bloqueada no runtime
 
 Leia a [definição W1](docs/reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md):
