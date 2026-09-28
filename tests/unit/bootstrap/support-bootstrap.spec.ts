@@ -39,13 +39,21 @@ describe('Support bootstrap S1', () => {
 		expect(result.stdout).toContain('Messaging disabled configuration OK');
 	});
 
-	it('blocks the domain seed before any database interaction', () => {
+	it('refuses an unsafe seed invocation before any database interaction', () => {
 		const result = spawnSync(process.execPath, ['-r', 'ts-node/register', 'scripts/seed.ts'], {
 			cwd: root,
 			encoding: 'utf8',
+			env: {
+				...process.env,
+				NODE_ENV: 'test',
+				DB_HOST: 'seed-unreachable.invalid',
+				DB_NAME: 'support_s1_proof_seed_bootstrap',
+				SUPPORT_SEED_CONFIRM: '',
+			},
 		});
 
 		expect(result.status).toBe(1);
-		expect(result.stderr).toContain('Support seed is unavailable during RF01');
+		expect(result.stderr).toContain('SEED_W1_REFUSED');
+		expect(result.stderr).not.toMatch(/ENOTFOUND|ECONNREFUSED|timeout/i);
 	});
 });

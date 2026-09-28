@@ -1,5 +1,17 @@
 # scripts
 
+O `seed.ts` agora valida opt-in, ambiente, nome do DB, identidade e manifest
+antes de importar o DataSource. Após conexão, exige schema migrado e classifica
+`EMPTY/EXACT_W1/DIVERGENT`; escreve 6/7/16/44/8/80 em uma transação ou
+retorna no-op exato. `prove-seed-w1-postgres.js` cria e remove seus bancos de
+prova, valida `xmin`, sequence, recusas, rollback, fusos e HTTP. Ver o
+[report W1](../docs/reports/REPORT-SUPPORT-SEED-W1-20260928-193318.md).
+Esta feature ainda é local.
+
+Na [fotografia da definição W1](../docs/reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md),
+a massa estava aprovada, mas `seed.ts` ainda abortava antes de acessar banco.
+Esse estado é histórico; o uso atual exige os gates documentados acima.
+
 `prove-rf13-postgres.js` cria e remove banco PostgreSQL exclusivo, executa o
 processo compilado e prova ACL, paginação segura, ordenação com empate,
 read-only físico e concorrência RF13×RF10/RF06/RF08/RF11. O preload
@@ -20,7 +32,8 @@ interna. Os itens abaixo mantêm o inventário anterior.
   OpenAPI atual e futuras evoluções.
 - `check-messaging-disabled.js`: prova a ausência configurada de mensageria
   em S1.
-- `seed.ts`: bloqueia a seed W1 até que a massa determinística seja definida.
+- `seed.ts`: entrypoint seguro da fixture canônica W1, exclusivo para DB
+  descartável local/CI.
 - `prove-rf01-postgres.js`: prova RF01 em PostgreSQL descartável, incluindo
   migrations, rollback, processo compilado, Swagger e rotas futuras ausentes.
 - `prove-rf02-postgres.js`: prova atualização transacional, lock e rollback.

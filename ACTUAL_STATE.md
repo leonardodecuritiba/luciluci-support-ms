@@ -1,5 +1,55 @@
 # ACTUAL_STATE
 
+## Revisão W1 local concluída
+
+A [revisão separada da seed W1](docs/reports/REPORT-SUPPORT-SEED-W1-REVIEW-20260928-200426.md)
+identificou e remediou host remoto permitido, janela com escritor externo,
+readiness/search_path, timeline de auditorias e lacunas de prova. Duas proofs
+PostgreSQL completas (UTC e São Paulo), 340 testes na suíte de coverage e o
+smoke da imagem passaram. Estado:
+`SEED_W1_REVIEW_PASS / READY_FOR_PUBLICATION` na branch local
+`feat/support-seed-w1`; nenhum commit, push, PR, merge ou deploy. Support
+0.15 e RF01–RF13 seguem fixos. O bloco seguinte registra o estado anterior
+à revisão.
+
+## Seed W1 implementada e provada localmente nesta feature
+
+Na branch `feat/support-seed-w1`, descendente da definição documental
+`4115ab5`, a seed do domínio completo está implementada com manifest
+determinístico, gates antes da conexão, classificador
+`EMPTY/EXACT_W1/DIVERGENT` e transação única. A
+[prova PostgreSQL W1](docs/reports/REPORT-SUPPORT-SEED-W1-20260928-193318.md)
+passou em bancos próprios descartáveis, incluindo no-op por `xmin`,
+divergências, rollback, fusos e smoke HTTP. Estado nesta branch:
+`SEED_W1=IMPLEMENTED_AND_PROVEN_ON_FEATURE_BRANCH`. A mudança ainda não foi
+commitada, publicada, integrada ou implantada; Support 0.15 e RF01–RF13
+permanecem fixos. Não declarar fechamento operacional final antes da
+integração. A revisão posterior está registrada acima.
+
+## Definição seed W1 aprovada; implementação pendente
+
+O [fechamento W1](docs/reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md)
+resolveu W1-01 por decisão expressa: opção B, fixture determinística do domínio
+completo. Estados `SEED_W1_DEFINITION_READY`,
+`SEED_W1_SCOPE=FULL_DOMAIN`, `SEED_W1_VOLUME=6/16/44/80` e
+`SEED_W1_NOT_IMPLEMENTED`. A massa canônica
+contém 6 Departments, 7 memberships, 8 atores sintéticos, 16 Tickets,
+44 Messages, 8 Media rows e 80 AuditLogs. Os gates e a semântica de rerun
+estão fechados no report. `scripts/seed.ts` ainda aborta antes de conectar;
+o próximo lote é implementar e provar a seed. Support 0.15, RF01–RF13 e o
+gitlink permanecem intactos; sem deploy ou prontidão de produção.
+
+## Fotografia histórica — checkpoint seed W1 bloqueado
+
+Na branch documental `docs/support-seed-w1-checkpoint`, o
+[report W1](docs/reports/REPORT-SUPPORT-SEED-W1-CHECKPOINT-20260928-182459.md)
+registra a tensão entre W1 histórica de Departments e a massa de domínio
+completo proposta no TDD. Nenhuma fonte aprova a opção A ou B: estados
+`W1_SEED_SCOPE_BLOCKED_BY_DECISION` e `SEED_W1_NOT_IMPLEMENTED`. A opção B
+recebe uma proposta pequena e verificável, sem congelamento. `scripts/seed.ts`
+segue bloqueado; o gitlink Support 0.15, RF01–RF13 e a baseline final não
+mudaram. Não houve execução da seed nem deploy.
+
 ## Estado corrente — MAIN_BASELINE_RF13
 
 A [PR funcional #15](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/15)

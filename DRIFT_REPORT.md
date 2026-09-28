@@ -1,5 +1,36 @@
 # DRIFT_REPORT
 
+## Revisão local W1
+
+O [review W1](docs/reports/REPORT-SUPPORT-SEED-W1-REVIEW-20260928-200426.md)
+fechou cinco findings locais antes de publicação; nenhum drift funcional
+RF01–RF13 permanece aberto nesta feature. Estado
+`SEED_W1_REVIEW_PASS / READY_FOR_PUBLICATION`, ainda sem commit, PR ou deploy.
+O bloco seguinte preserva a fotografia anterior à revisão.
+
+## Feature local W1
+
+A [implementação W1](docs/reports/REPORT-SUPPORT-SEED-W1-20260928-193318.md)
+remove o bloqueio operacional da seed nesta branch e foi provada em bancos
+descartáveis próprios. Nenhum drift funcional RF01–RF13 foi introduzido;
+revisão independente e integração continuam pendentes. Não há deploy. O
+bloco seguinte preserva a decisão documental anterior.
+
+## Definição operacional W1 aprovada
+
+A [decisão W1](docs/reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md)
+fecha o blocker de escopo e congela a fixture do domínio completo,
+volumes 6/16/44/80 e gates de execução descartável. A pendência local é
+agora implementação/prova da seed, sem novo drift funcional RF01–RF13.
+`scripts/seed.ts` permanece bloqueado; não houve execução ou deploy.
+
+## Fotografia histórica — checkpoint operacional W1
+
+O [report da seed W1](docs/reports/REPORT-SUPPORT-SEED-W1-CHECKPOINT-20260928-182459.md)
+classifica a pendência como definição operacional bloqueada pela escolha
+Department-only versus domínio completo. Não é drift novo das RF01–RF13.
+`scripts/seed.ts` continua indisponível e não foi executado.
+
 ## Estado corrente — MAIN_BASELINE_RF13
 
 RF01–RF13 estão implementadas, provadas e integradas em `main` no merge
@@ -12,8 +43,8 @@ RFs implementadas. Os blockers contratuais RF13 eram históricos e foram
 resolvidos antes da implementação. O [report final](docs/reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md)
 registra as evidências e limites.
 
-A seed de domínio permanece indisponível até a definição da massa
-determinística W1; é pendência operacional local separada das RFs. Deploy,
+A seed de domínio permanecia indisponível até a definição da massa
+determinística W1 naquela fotografia; era pendência operacional local separada das RFs. Deploy,
 ambiente e aceitação de produção não foram provados. NFRs de BFF/plataforma
 ou de mensageria não contratada não são promovidos automaticamente a drift
 local. As seções seguintes são fotografias históricas, inclusive afirmações
