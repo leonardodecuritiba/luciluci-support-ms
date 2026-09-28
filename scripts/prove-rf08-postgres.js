@@ -400,15 +400,6 @@ async function main() {
 				undefined,
 			);
 			assert.ok(spec.paths['/api/support/tickets/{ticketId}'].get);
-			for (const path of ['/api/support/tickets/history']) {
-				assert.equal(spec.paths[path], undefined);
-			}
-			for (const [method, path] of [['GET', '/api/support/tickets/history']]) {
-				assert.equal(
-					(await fetch(`${url}${path}`, { method, headers: headers() })).status,
-					404,
-				);
-			}
 			assert.equal(
 				(await inspection.query('SELECT count(*) FROM idempotency_keys')).rows[0].count,
 				'0',

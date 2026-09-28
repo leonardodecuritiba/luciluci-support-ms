@@ -1,5 +1,30 @@
 # docs
 
+O [review independente RF13](reports/REPORT-SUPPORT-RF13-REVIEW-20260928.md)
+registra a auditoria do diff local, correções do harness e revalidação em dois
+fusos. A branch permanece sem publicação; o report funcional abaixo é a
+evidência do lote anterior.
+
+O [report funcional RF13](reports/REPORT-SUPPORT-RF13-20260928.md) registra a
+implementação local do histórico, as provas executadas e os limites de
+integração/CI. O contrato canônico segue Support 0.15; os checkpoints abaixo
+são históricos.
+
+O [fechamento RF13](reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md)
+registra Support 0.15 publicado/fixado, contrato
+`RF13_CONTRACT_CHECKPOINT_READY / RF13_CONTRACT_FROZEN` e runtime ainda ausente.
+As seções abaixo preservam os checkpoints anteriores.
+
+O [report de visibilidade RF13](reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md)
+registra a decisão expressa sobre `nova_mensagem` e os blockers contratuais
+independentes ainda abertos. Support 0.14 e a reserva 404 permanecem. O
+checkpoint abaixo é histórico.
+
+O [checkpoint RF13](reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
+parte de `MAIN_BASELINE_RF12` (`1e243d3`), após merge e CI aprovada da PR #14.
+RF13 permanece bloqueada por decisões contratuais e sem runtime. Support 0.14
+continua fixado; o histórico abaixo descreve etapas anteriores.
+
 Documentação operacional do `support-ms`.
 
 Nesta branch funcional, RF12 foi implementada e provada sobre Support 0.14;

@@ -1,5 +1,16 @@
 # src
 
+Nesta branch funcional, RF13 acrescenta parser estrito, controller, use case,
+`IListTicketHistoryRepository` e consulta paginada de AuditLog ligada a Ticket
+com ACL atual. O filtro de auditoria de admin para requester precede count e
+offset; o repositório não consulta TicketMessage. PostgreSQL usa transação
+`REPEATABLE READ`; SQLite de teste usa transação sem nível explícito. Os
+parágrafos abaixo descrevem estados históricos.
+
+Em `MAIN_BASELINE_RF12` (`1e243d3`), RF01–RF12 estão integradas. RF13 ainda
+usa a reserva 404 em `ticket.routes.ts`; não há handler ou repository de
+histórico. A descrição da branch funcional RF12 abaixo é histórica.
+
 Nesta branch, RF12 acrescenta `GET /tickets/:ticketId/messages` em
 `features/ticket/`: parser próprio, controller, use case e repository de
 leitura. PostgreSQL usa `REPEATABLE READ`; SQLite de teste usa transação sem

@@ -1,5 +1,85 @@
 # ACTUAL_STATE
 
+## Revisão independente RF13 — remediação local concluída
+
+A [revisão RF13](docs/reports/REPORT-SUPPORT-RF13-REVIEW-20260928.md)
+reconfirmou contrato Support 0.15 e ACL/privacidade do histórico sem finding
+P0/P1. O harness PostgreSQL passou a provar `datetime` idêntico em `UTC` e
+`America/Sao_Paulo`, páginas compactadas, ausência de SELECT a TicketMessage
+após RF11 e no-ops RF06/RF08. A integração HTTP cobre body JSON, whitespace e
+UUID não-v4. As provas RF01–RF13 e o smoke foram reexecutados localmente.
+Estado: `RF13_REVIEW_PASS / READY_FOR_PUBLICATION` na branch funcional; sem
+commit, push, PR, merge ou deploy. Os blocos abaixo registram o lote anterior.
+
+## Implementação RF13 — branch funcional local
+
+Na branch `feat/support-rf13-history`, descendente do checkpoint `7f041fd`,
+RF13 está implementada sobre Support 0.15 (`14efcdf`). A rota
+`GET /api/support/tickets/history` usa ACL atual e filtra auditorias ocultas
+antes de count/página; ordena `datetime DESC,id DESC` e lê sob `REPEATABLE READ`
+no PostgreSQL. O contrato OpenAPI, `api.http`, testes e proof PostgreSQL estão
+no [report RF13](docs/reports/REPORT-SUPPORT-RF13-20260928.md). RF01–RF12
+permanecem integradas em `main` (`1e243d3`); RF13 não foi integrada, publicada
+em PR ou implantada. Nenhuma migration ou evento foi criado. As seções abaixo
+são fotografias históricas.
+
+## Fechamento contratual RF13 — Support 0.15
+
+As decisões expressas de 2026-09-28 fecharam os blockers remanescentes de
+RF13. `GET /api/support/tickets/history` está
+`RF13_CONTRACT_CHECKPOINT_READY / RF13_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
+Support 0.15 foi publicado na branch canônica
+`docs/support-rf13-history-contract`, commit
+`14efcdfdc70d774c4343e2ec47662b7b5c8b691b` (SHA local/remoto igual),
+agora fixado no gitlink desta branch documental do serviço. O
+[report de contrato](docs/reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md)
+registra a matriz completa. Os checkpoints `58fcea6` e `39028ec` permanecem
+históricos; `main=origin/main=1e243d3` integra RF01–RF12.
+
+RF13 exige ACL atual, filtro seguro de AuditLog antes de count/página, ordem
+`datetime DESC,id DESC`, item exato de oito campos e snapshot PostgreSQL
+`REPEATABLE READ`. Solicitante não vê `nova_mensagem` de admin. Não há
+migration, rota funcional, OpenAPI RF13, teste executado ou deploy neste lote;
+`/tickets/history` continua 404. A branch funcional
+`feat/support-rf13-history` não foi criada. As seções seguintes são
+fotografias anteriores ao fechamento.
+
+## Decisão de visibilidade RF13 — contrato ainda bloqueado
+
+A decisão expressa de 2026-09-25 fecha somente a exposição de
+`AuditLog.nova_mensagem`: admin autorizado vê todo AuditLog do escopo; requester
+dono vê apenas `nova_mensagem` com `origin=backoffice|cd` e
+`authorId=ticket.requesterId`, nunca `origin=admin`. Filtrar antes do count e
+da página, sem correlação heurística entre AuditLog e Message. `criacao_ticket`
+e `alteracao_status` conservam a ACL geral do Ticket. Ver o
+[report de visibilidade](docs/reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md).
+
+DEC-SUP-01/09, DEC-SUP-02, DEC-SUP-08 e a fotografia de leitura concorrente
+continuam blockers independentes no checkpoint anterior. Estado global:
+`RF13_VISIBILITY_RESOLVED / RF13_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION /
+NOT_IMPLEMENTED`. Support 0.15 não foi congelado; gitlink Support 0.14
+`820b2a8` e reserva 404 inalterados. Esta seção é posterior ao checkpoint
+histórico abaixo.
+
+## Checkpoint RF13 após MAIN_BASELINE_RF12
+
+A [PR #14](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/14)
+integrou RF12 em `main` no merge
+`1e243d386dbca3e2d4dbf14fec7d29c8e5d1b366`, com `ci` concluída em
+`success` no run `36181786738` para o head `160aa1e`. `main` local e
+`origin/main` coincidem. RF01–RF12 (incluindo RF07a/RF07b) estão
+`IMPLEMENTED_AND_PROVEN`; RF13 permanece `NOT_IMPLEMENTED`, com `/history`
+reservado em 404. O gitlink limpo continua Support 0.14 (`820b2a8`).
+
+Nesta branch documental `docs/support-rf13-history-checkpoint`, RF13 está
+`RF13_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`: a fonte não define se o
+solicitante vê uma auditoria `nova_mensagem` referente a nota interna, e o
+AuditLog não contém `messageId` ou visibility para separá-las. Headers,
+paginação/ordem, shape/erros e consistência de leitura também exigem decisão
+específica RF13. Ver [report do checkpoint](docs/reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md).
+Support 0.15 não foi congelado; nenhum runtime, prova RF13 ou deploy foi feito
+neste lote. As seções abaixo preservam fotografias históricas.
+
 ## Implementação RF12 — branch funcional
 
 Nesta branch `feat/support-rf12-list-messages`, RF12 está

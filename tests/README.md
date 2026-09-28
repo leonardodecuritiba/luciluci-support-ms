@@ -1,5 +1,17 @@
 # tests
 
+RF13 acrescenta parser/use case unitários, integração HTTP/SQLite com ACL,
+count sem vazamento, desempate e snapshot de seis tabelas, contrato OpenAPI e
+prova PostgreSQL do processo compilado. `scripts/prove-rf13-postgres.js` cobre
+`xmin` inalterado, ausência de lookup de TicketMessage e concorrências
+RF13×RF10/RF06/RF08/RF11. O smoke da imagem cobre histórico admin/requester.
+Os inventários abaixo são históricos.
+
+Na baseline `MAIN_BASELINE_RF12`, a prova RF12 foi integrada pela PR #14 e
+passou na CI `36181786738`. RF13 não possui testes unitários, de integração,
+contrato ou prova funcional próprios; seu path continua reservado em 404. O
+inventário abaixo descreve lotes anteriores.
+
 RF12 acrescenta unitários de ACL/escopo/parser, integração HTTP/SQLite e
 contrato OpenAPI. O script PostgreSQL descartável prova o processo compilado,
 snapshot físico de seis tabelas, uma consulta de mídia para oito mensagens e

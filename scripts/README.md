@@ -1,5 +1,13 @@
 # scripts
 
+`prove-rf13-postgres.js` cria e remove banco PostgreSQL exclusivo, executa o
+processo compilado e prova ACL, paginação segura, ordenação com empate,
+read-only físico e concorrência RF13×RF10/RF06/RF08/RF11. O preload
+`proof-rf13-query-gate.js` pausa a leitura após count dentro da transação e
+registra consultas para excluir correlação com TicketMessage. O smoke de
+imagem também cobre histórico admin/requester. Os itens abaixo são
+históricos.
+
 `prove-rf12-postgres.js` cria e remove banco PostgreSQL exclusivo, executa o
 processo compilado e prova ACL, filtros, paginação, read-only físico e
 concorrência RF12×RF10/RF11. `proof-rf12-query-gate.js` é preload usado somente

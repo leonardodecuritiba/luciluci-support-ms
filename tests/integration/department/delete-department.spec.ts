@@ -162,15 +162,5 @@ describe('Integration: RF04 delete department', () => {
 			)
 		).map((row: { name: string }) => row.name);
 		expect(tables).not.toEqual(expect.arrayContaining(['audit_logs', 'outbox_events']));
-
-		const futureRoutes: Array<['get' | 'post' | 'patch', string]> = [
-			['get', '/api/support/tickets/history'],
-		];
-		for (const [method, path] of futureRoutes) {
-			const response = await request(buildTestApp())
-				[method](path)
-				.set('X-Correlation-ID', correlationId);
-			expect(response.status).toBe(404);
-		}
 	});
 });

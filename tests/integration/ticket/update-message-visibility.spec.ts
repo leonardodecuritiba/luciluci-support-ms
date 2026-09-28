@@ -250,12 +250,6 @@ describe('Integration: RF11 admin Message visibility', () => {
 					.send({ isVisibleToRequester: false })
 			).status,
 		).toBe(400);
-		for (const path of ['/api/support/tickets/history']) {
-			expect(
-				(await request(buildTestApp()).get(path).set('X-Correlation-ID', correlation))
-					.status,
-			).toBe(404);
-		}
 		expect(await snapshot()).toEqual(before);
 	});
 });

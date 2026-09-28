@@ -226,6 +226,34 @@ async function main() {
 		assert.equal(requesterList.pagination.total, 2);
 		assert.ok(adminList.data.some((message) => message.id === adminMessageId));
 		assert.ok(!requesterList.data.some((message) => message.id === adminMessageId));
+		const imageHistory = async (actor, role) => {
+			const response = await fetch(
+				`${baseUrl}/api/support/tickets/history?ticketId=${ticketBody.id}`,
+				{
+					headers: {
+						'X-Correlation-ID': randomUUID(),
+						'X-Performed-By': actor,
+						'X-Performed-By-Type': role,
+					},
+				},
+			);
+			assert.equal(response.status, 200);
+			return response.json();
+		};
+		const adminHistory = await imageHistory('uid-image-admin', 'admin');
+		const requesterHistory = await imageHistory('uid-image-requester', 'cd');
+		assert.equal(adminHistory.pagination.total, 4);
+		assert.equal(requesterHistory.pagination.total, 3);
+		assert.ok(
+			adminHistory.data.some(
+				(audit) => audit.action === 'nova_mensagem' && audit.origin === 'admin',
+			),
+		);
+		assert.ok(
+			requesterHistory.data.every(
+				(audit) => audit.action !== 'nova_mensagem' || audit.origin !== 'admin',
+			),
+		);
 		const visibility = await fetch(
 			`${baseUrl}/api/support/tickets/${ticketBody.id}/messages/${adminMessageId}/visibility`,
 			{
@@ -241,6 +269,7 @@ async function main() {
 		);
 		assert.equal(visibility.status, 200);
 		assert.equal((await visibility.json()).isVisibleToRequester, true);
+		assert.deepEqual(await imageHistory('uid-image-requester', 'cd'), requesterHistory);
 		const storedVisibility = docker([
 			'exec',
 			databaseContainer,
@@ -312,7 +341,7 @@ async function main() {
 		const listAfterDeleteBody = await listedAfterDelete.json();
 		assert.equal(listAfterDeleteBody.pagination.total, 0);
 		assert.deepEqual(listAfterDeleteBody.data, []);
-		console.log('S1 production image CMD smoke with RF05/RF08/RF09/RF10/RF11/RF12 OK');
+		console.log('S1 production image CMD smoke with RF05/RF08/RF09/RF10/RF11/RF12/RF13 OK');
 	} finally {
 		docker(['rm', '-f', appContainer], true);
 		docker(['rm', '-f', databaseContainer], true);

@@ -218,6 +218,5 @@ describe('Integration: RF12 list Ticket messages', () => {
 		expect((await list('admin-1', 'wrong')).status).toBe(400);
 		expect((await list().set('X-Correlation-ID', 'bad')).status).toBe(400);
 		expect((await request(buildTestApp()).get(base)).status).toBe(400);
-		expect((await list('admin-1', 'admin', '/api/support/tickets/history')).status).toBe(404);
 	});
 });

@@ -1,5 +1,45 @@
 # support-ms
 
+## RF13 — histórico de Ticket na branch funcional
+
+`GET /api/support/tickets/history` está implementado nesta branch sobre o
+contrato Support 0.15. Admin membro atual vê todas as auditorias dos Tickets
+autorizados; requester dono vê criação e status, e somente auditorias de
+mensagem próprias (`backoffice|cd`). Filtro e paginação ocorrem no SQL, com
+leitura PostgreSQL `REPEATABLE READ`. Consulte o
+[report de implementação](docs/reports/REPORT-SUPPORT-RF13-20260928.md).
+RF13 não está integrada em `main` nem implantada. As seções seguintes são
+fotografias históricas.
+
+## Support 0.15 — contrato RF13
+
+O contrato `GET /api/support/tickets/history` foi congelado em Support 0.15,
+commit canônico publicado `14efcdf`, fixado no gitlink desta branch. Ver
+[report de fechamento RF13](docs/reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md).
+RF01–RF12 estão implementadas/provadas em `MAIN_BASELINE_RF12`; RF13 continua
+`NOT_IMPLEMENTED`, com `/tickets/history` em 404. Este lote não criou
+migration, executável, teste RF13, branch funcional ou deploy. As seções
+seguintes registram etapas históricas.
+
+## Decisão parcial RF13
+
+A [decisão de visibilidade RF13](docs/reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md)
+oculta do requester toda auditoria `nova_mensagem` de admin e preserva apenas
+as suas próprias auditorias `nova_mensagem` de backoffice/cd. Admin autorizado
+vê todas as auditorias no escopo. Outros detalhes contratuais ainda estão
+abertos; RF13 continua 404 e Support 0.14 permanece fixo. Não há Support 0.15
+nem runtime RF13 nesta revisão. O restante da página é histórico.
+
+## Baseline RF12 e checkpoint RF13
+
+A [PR #14](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/14)
+integrou RF12 em `main` (`1e243d3`), com CI remota aprovada. RF01–RF12 estão
+implementadas/provadas. RF13 ainda retorna 404: o
+[checkpoint contratual RF13](docs/reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
+registra decisões abertas, sobretudo a exposição de `nova_mensagem` de nota
+interna no histórico do solicitante. Support 0.14 segue fixado no gitlink;
+nenhum runtime RF13 ou deploy foi feito. As seções seguintes são históricas.
+
 ## RF12 nesta branch
 
 `feat/support-rf12-list-messages` implementa e prova a listagem

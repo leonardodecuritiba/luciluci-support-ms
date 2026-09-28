@@ -1,5 +1,31 @@
 # docs/reports
 
+O [review RF13](REPORT-SUPPORT-RF13-REVIEW-20260928.md) audita
+independentemente a implementação local, registra duas lacunas de prova
+remediadas e a revalidação em UTC/São Paulo, PostgreSQL, testes e imagem.
+Nenhuma publicação Git ocorreu nesse lote. Os reports abaixo registram o
+lote funcional e os checkpoints anteriores.
+
+O [report funcional RF13](REPORT-SUPPORT-RF13-20260928.md) descreve runtime,
+contrato HTTP, testes e prova local PostgreSQL da branch
+`feat/support-rf13-history`. A integração em `main` e CI remota são etapas
+posteriores. Os reports abaixo preservam o histórico contratual.
+
+O [report de fechamento RF13](REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md)
+registra Support 0.15 publicado em `14efcdf`, gitlink atualizado e
+`RF13_CONTRACT_CHECKPOINT_READY / RF13_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
+Os checkpoints `58fcea6` e `39028ec` abaixo são históricos.
+
+O [report da decisão parcial RF13](REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md)
+fecha a visibilidade de `nova_mensagem` para admin/requester e mantém RF13
+bloqueada por decisões independentes de HTTP, paginação e consistência. O
+checkpoint `58fcea6` abaixo é histórico.
+
+O [checkpoint RF13](REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
+confirma a PR #14 integrada em `MAIN_BASELINE_RF12` e registra
+`RF13_CONTRACT_CHECKPOINT_BLOCKED_BY_DECISION`, sem alterar Support 0.14 nem
+iniciar runtime RF13. Os reports abaixo preservam etapas anteriores.
+
 Artefatos de avaliação de completude do microserviço e da documentação canônica associada.
 
 O [report de implementação RF12](REPORT-SUPPORT-RF12-20260925.md) registra o

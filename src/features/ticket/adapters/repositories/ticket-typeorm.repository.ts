@@ -18,6 +18,11 @@ import IListTicketMessagesRepository, {
 	ListTicketMessagesFilters,
 	MessagePage,
 } from '../../use-cases/repositories/ilist-ticket-messages.repository';
+import IListTicketHistoryRepository, {
+	HistoryRow,
+	HistoryScope,
+	ListTicketHistoryFilters,
+} from '../../use-cases/repositories/ilist-ticket-history.repository';
 import TicketAdminStatus from '../../entities/enums/ticket-admin-status.enum';
 import DepartmentAllowedUser from '../../../department/entities/department-allowed-user.entity';
 
@@ -29,7 +34,8 @@ export default class TicketTypeormRepository
 		IGetTicketRepository,
 		ICreateTicketMessageRepository,
 		IUpdateMessageVisibilityRepository,
-		IListTicketMessagesRepository
+		IListTicketMessagesRepository,
+		IListTicketHistoryRepository
 {
 	private readonly ticketRepository: Repository<Ticket>;
 
@@ -212,6 +218,59 @@ export default class TicketTypeormRepository
 			grouped.set(item.ticketMessageId, ids);
 		}
 		return grouped;
+	}
+
+	async findHistoryPage(
+		scope: HistoryScope,
+		filters: ListTicketHistoryFilters,
+	): Promise<{ rows: HistoryRow[]; total: number }> {
+		const query = this.manager
+			.getRepository(TicketAuditLog)
+			.createQueryBuilder('audit')
+			.innerJoin('audit.ticket', 'ticket');
+		if (scope.kind === 'admin') {
+			query.where(
+				'EXISTS (SELECT 1 FROM department_allowed_users membership WHERE membership.department_id = ticket.department_id AND membership.user_id = :actorId)',
+				{ actorId: scope.actorId },
+			);
+		} else {
+			query.where('ticket.requesterId = :actorId', { actorId: scope.actorId });
+			query.andWhere(
+				"(audit.action <> 'nova_mensagem' OR (audit.origin IN ('backoffice', 'cd') AND audit.authorId = ticket.requesterId))",
+			);
+		}
+		if (filters.ticketId)
+			query.andWhere('ticket.id = :ticketId', { ticketId: filters.ticketId });
+		const total = await query.getCount();
+		const offset = (filters.page - 1) * filters.size;
+		if (!Number.isSafeInteger(offset) || offset >= total) return { rows: [], total };
+		const raw = await query
+			.select('audit.ticketId', 'ticketId')
+			.addSelect('ticket.number', 'number')
+			.addSelect('audit.datetime', 'datetime')
+			.addSelect('audit.authorId', 'authorId')
+			.addSelect('audit.origin', 'origin')
+			.addSelect('audit.action', 'action')
+			.addSelect('audit.statusType', 'statusType')
+			.addSelect('audit.newStatus', 'newStatus')
+			.orderBy('audit.datetime', 'DESC')
+			.addOrderBy('audit.id', 'DESC')
+			.offset(offset)
+			.limit(filters.size)
+			.getRawMany<HistoryRow>();
+		return {
+			rows: raw.map((row) => ({
+				ticketId: row.ticketId,
+				number: Number(row.number),
+				datetime: row.datetime,
+				authorId: row.authorId,
+				origin: row.origin,
+				action: row.action,
+				statusType: row.statusType ?? null,
+				newStatus: row.newStatus ?? null,
+			})),
+			total,
+		};
 	}
 
 	async updateMessageVisibility(messageId: string, isVisibleToRequester: boolean): Promise<void> {

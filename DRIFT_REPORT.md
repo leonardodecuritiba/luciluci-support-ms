@@ -1,5 +1,51 @@
 # DRIFT_REPORT
 
+## Revisão independente RF13 — sem drift funcional residual
+
+A [revisão local RF13](docs/reports/REPORT-SUPPORT-RF13-REVIEW-20260928.md)
+não encontrou vazamento de auditorias, bypass de ACL ou divergência com Support
+0.15. Duas lacunas no harness de prova foram fechadas; runtime, schema,
+gitlink e documentação canônica ficaram inalterados. Não houve publicação Git.
+Os registros abaixo preservam os estados anteriores.
+
+## RF13 — implementação focal sem drift novo identificado
+
+O contrato Support 0.15 está materializado na branch funcional: ACL e escopo
+de auditoria no SQL, resposta paginada, snapshot PostgreSQL e documentação
+HTTP. Nenhuma correlação heurística com TicketMessage, migration ou evento foi
+introduzido. A prova local e seus limites constam no
+[report RF13](docs/reports/REPORT-SUPPORT-RF13-20260928.md). A integração em
+`main` e a CI remota ainda dependem de lote posterior. Os registros abaixo
+são históricos.
+
+## RF13 — contrato 0.15 congelado, sem drift técnico novo
+
+Os blockers documentais RF13 foram fechados somente para esta rota em Support
+0.15 (`14efcdf`), publicado e fixado no gitlink. `/tickets/history` ainda
+retorna 404 por estágio; OpenAPI, `api.http`, runtime e testes RF13 não foram
+alterados. A ausência é esperada e não é drift de `MAIN_BASELINE_RF12`.
+Nenhuma migration ou evento foi introduzido. Ver
+[report RF13](docs/reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md).
+As seções seguintes são históricas.
+
+## RF13 — decisão de visibilidade sem drift técnico novo
+
+A política de `nova_mensagem` para admin/requester foi decidida e registrada
+no [report RF13](docs/reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md).
+Não há alteração de schema nem runtime. Os demais blockers contratuais seguem
+abertos; a reserva 404 é esperada e não é drift da baseline RF12. Support 0.14
+continua fixo. O checkpoint anterior permanece histórico abaixo.
+
+## RF13 — checkpoint contratual, sem drift técnico novo
+
+RF12 foi integrada pela PR #14 em `1e243d3`, com CI aprovada. A ausência da
+rota funcional RF13 é esperada: `/history` está reservado em 404 enquanto
+`DEC-SUP-01/02/04/08/09` permanecem abertas para esta RF. Não há evidência de
+regressão técnica RF12 nem contrato Support 0.15 congelado. O
+[checkpoint RF13](docs/reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
+registra a lacuna de visibilidade de `nova_mensagem` sem classificá-la como
+defeito do runtime existente. Os blocos seguintes são históricos.
+
 ## RF12 — implementação focal sem drift técnico aberto
 
 A ausência esperada da rota GET no checkpoint documental foi fechada somente

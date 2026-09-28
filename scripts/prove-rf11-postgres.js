@@ -544,7 +544,6 @@ async function main() {
 		assert.ok(
 			spec.paths['/api/support/tickets/{ticketId}/messages/{messageId}/visibility']?.patch,
 		);
-		assert.equal(spec.paths['/api/support/tickets/history']?.get, undefined);
 		console.log(
 			'RF11 PostgreSQL compiled process, no-op, rollback, ACL and concurrency proof OK',
 		);

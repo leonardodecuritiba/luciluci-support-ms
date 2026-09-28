@@ -1,5 +1,41 @@
 # AI_FIRST
 
+## RF13 implementada localmente
+
+A branch `feat/support-rf13-history`, descendente do freeze `7f041fd`,
+materializa a última RF do ciclo. A rota `/api/support/tickets/history` lê
+AuditLog com ACL e visibilidade filtradas no SQL, em `REPEATABLE READ` no
+PostgreSQL. Ver [report funcional](docs/reports/REPORT-SUPPORT-RF13-20260928.md).
+Support 0.15 permanece no gitlink `14efcdf`; `main` ainda integra somente
+RF01–RF12. Os estados abaixo são históricos.
+
+## Support 0.15 — RF13 congelada, runtime ausente
+
+RF13 tem contrato canônico publicado em `14efcdf` e fixado no gitlink.
+`RF13_CONTRACT_CHECKPOINT_READY / RF13_CONTRACT_FROZEN / NOT_IMPLEMENTED`.
+O [report RF13](docs/reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md)
+fecha visibilidade, headers, ACL, paginação/ordem, resposta/erros e fotografia
+`REPEATABLE READ`. `MAIN_BASELINE_RF12` permanece a base funcional; não há
+rota RF13 ativa. Os blocos seguintes são fotografias históricas.
+
+## RF13: visibilidade resolvida, contrato ainda aberto
+
+O [report da decisão](docs/reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md)
+fecha apenas a política de `nova_mensagem` no histórico. DEC-SUP-01/09,
+DEC-SUP-02, DEC-SUP-08 e consistência de leitura ainda impedem Support 0.15.
+RF13 segue 404, sem implementação; o gitlink permanece Support 0.14. As
+seções seguintes são fotografias anteriores.
+
+## Continuidade após merge RF12
+
+`MAIN_BASELINE_RF12` é o merge da PR #14 (`1e243d3`), com CI remota aprovada.
+RF13 ainda não está implementada. O
+[checkpoint RF13](docs/reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
+registra decisões abertas, principalmente a visibilidade das auditorias
+`nova_mensagem` de notas internas. Support 0.14 (`820b2a8`) permanece fixado;
+não iniciar runtime RF13 antes do fechamento contratual canônico. Os blocos
+seguintes são fotografias anteriores.
+
 ## Runtime RF12 na branch funcional
 
 `feat/support-rf12-list-messages` implementa e prova RF12 sobre o checkpoint

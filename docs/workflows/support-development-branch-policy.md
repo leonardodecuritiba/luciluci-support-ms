@@ -1,5 +1,16 @@
 # Support — política de branches após RF01
 
+## 19. Implementação local RF13
+
+`feat/support-rf13-history` nasceu de
+`docs/support-rf13-history-checkpoint` (`7f041fd`), descendente de
+`MAIN_BASELINE_RF12`, com gitlink Support 0.15 (`14efcdf`) publicado. A branch
+implementa e prova `GET /api/support/tickets/history` sem migration, evento,
+deploy ou merge. O [report RF13](../reports/REPORT-SUPPORT-RF13-20260928.md)
+registra provas e limites. `main` continua em `1e243d3`; não existe ainda
+`MAIN_BASELINE_RF13`. As seções numeradas abaixo preservam a evolução
+histórica desta política.
+
 ## 1. Baselines
 
 - `MAIN_BASELINE_RF01`: bootstrap S1 + RF01, primeiro baseline funcional estável.
@@ -251,3 +262,35 @@ canônica 0.14 já fixada; nenhum runtime RF12 foi criado neste fechamento.
 RF12 está `IMPLEMENTED_AND_PROVEN` somente nesta branch; `main` ainda integra
 até RF11. RF13 permanece fora do runtime. Publicação/PR/merge exigem lote
 posterior explícito.
+
+## 16. Integração RF12 e checkpoint RF13
+
+A PR #14 integrou RF12 em `main` no merge `1e243d3`, após `ci` aprovada no
+run `36181786738`; essa revisão é `MAIN_BASELINE_RF12`. O gitlink continua
+Support 0.14 (`820b2a8`). O
+[checkpoint RF13](../reports/REPORT-SUPPORT-RF13-CHECKPOINT-20260925-195255.md)
+foi aberto em branch documental própria sobre a `main` sincronizada.
+`/tickets/history` permanece reservado em 404, sem runtime RF13. DEC-SUP-01,
+02, 04, 08 e 09 exigem fechamento específico antes de congelar Support 0.15
+ou abrir uma branch funcional RF13.
+
+## 17. Decisão parcial de visibilidade RF13
+
+A decisão expressa sobre AuditLog `nova_mensagem` está no
+[report RF13](../reports/REPORT-SUPPORT-RF13-VISIBILITY-20260925-203223.md).
+Admin autorizado vê todas as auditorias do escopo; requester dono recebe
+apenas `nova_mensagem` de backoffice/cd cuja autoria coincide com
+`ticket.requesterId`; audits `nova_mensagem` de admin são sempre ocultos do
+requester. Outros blockers independentes impedem Support 0.15. Nenhuma branch
+funcional RF13, migration ou avanço de gitlink decorre desta decisão parcial.
+
+## 18. Fechamento contratual RF13
+
+Os checkpoints `58fcea6` e `39028ec` permanecem históricos. As decisões
+expressas posteriores congelaram Support 0.15 somente para
+`GET /api/support/tickets/history` no commit canônico `14efcdf`, publicado
+em `docs/support-rf13-history-contract` e fixado no gitlink documental do
+serviço. O [report de fechamento](../reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md)
+registra `RF13_CONTRACT_CHECKPOINT_READY / RF13_CONTRACT_FROZEN /
+NOT_IMPLEMENTED`. A branch funcional `feat/support-rf13-history` não foi
+criada neste lote; sua implementação exige execução e provas próprias.

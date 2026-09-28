@@ -368,13 +368,6 @@ async function main() {
 					'createdAt',
 				].sort(),
 			);
-			for (const path of ['/api/support/tickets/history'])
-				assert.equal(spec.paths[path], undefined);
-			for (const [method, endpoint] of [['GET', '/api/support/tickets/history']])
-				assert.equal(
-					(await fetch(`${url}${endpoint}`, { method, headers: headers() })).status,
-					404,
-				);
 
 			// Fault triggers live only in this newly created proof database.
 			await db.query(

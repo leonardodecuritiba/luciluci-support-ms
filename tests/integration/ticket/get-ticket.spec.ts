@@ -184,11 +184,4 @@ describe('Integration: RF09 get ticket by ID', () => {
 			).status,
 		).toBe(400);
 	});
-
-	it('leaves RF13 history unavailable', async () => {
-		const response = await request(buildTestApp())
-			.get('/api/support/tickets/history')
-			.set('X-Correlation-ID', correlationId);
-		expect(response.status).toBe(404);
-	});
 });
