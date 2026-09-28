@@ -1,5 +1,13 @@
 # AI_FIRST
 
+## Continuidade da seed W1
+
+Leia o [checkpoint W1](docs/reports/REPORT-SUPPORT-SEED-W1-CHECKPOINT-20260928-182459.md)
+antes de trabalhar na seed. O escopo A/B não foi decidido;
+`SEED_W1_DEFINITION_BLOCKED_BY_DECISION`. A massa e os gates detalhados no
+report são propostas. Não executar `npm run seed` nem alterar o gitlink
+Support 0.15 por causa deste checkpoint.
+
 ## Entrada corrente — MAIN_BASELINE_RF13
 
 `main` integra RF01–RF13 no merge funcional

@@ -1,5 +1,9 @@
 # docs
 
+O [checkpoint da seed W1](reports/REPORT-SUPPORT-SEED-W1-CHECKPOINT-20260928-182459.md)
+registra a decisão de escopo ainda aberta e uma proposta de massa, safety e
+provas futuras. É documentação apenas; a seed segue indisponível.
+
 ## Estado corrente
 
 O [fechamento final](reports/REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md)

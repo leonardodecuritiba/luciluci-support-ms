@@ -1,5 +1,9 @@
 # docs/reports
 
+O [checkpoint da seed W1](REPORT-SUPPORT-SEED-W1-CHECKPOINT-20260928-182459.md)
+registra `SEED_W1_DEFINITION_BLOCKED_BY_DECISION`, proposta operacional
+sem runtime e Support 0.15 preservado.
+
 O [report final de fechamento](REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md)
 é a entrada corrente: `MAIN_BASELINE_RF13` = merge funcional
 `2aacc5554c9c2c4f25415dd8b170f5ff73b6d189`, RF01–RF13

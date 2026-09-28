@@ -1,5 +1,16 @@
 # ACTUAL_STATE
 
+## Checkpoint seed W1 — definição bloqueada
+
+Na branch documental `docs/support-seed-w1-checkpoint`, o
+[report W1](docs/reports/REPORT-SUPPORT-SEED-W1-CHECKPOINT-20260928-182459.md)
+registra a tensão entre W1 histórica de Departments e a massa de domínio
+completo proposta no TDD. Nenhuma fonte aprova a opção A ou B: estados
+`W1_SEED_SCOPE_BLOCKED_BY_DECISION` e `SEED_W1_NOT_IMPLEMENTED`. A opção B
+recebe uma proposta pequena e verificável, sem congelamento. `scripts/seed.ts`
+segue bloqueado; o gitlink Support 0.15, RF01–RF13 e a baseline final não
+mudaram. Não houve execução da seed nem deploy.
+
 ## Estado corrente — MAIN_BASELINE_RF13
 
 A [PR funcional #15](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/15)

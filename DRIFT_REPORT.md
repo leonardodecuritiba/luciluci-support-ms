@@ -1,5 +1,12 @@
 # DRIFT_REPORT
 
+## Checkpoint operacional W1
+
+O [report da seed W1](docs/reports/REPORT-SUPPORT-SEED-W1-CHECKPOINT-20260928-182459.md)
+classifica a pendência como definição operacional bloqueada pela escolha
+Department-only versus domínio completo. Não é drift novo das RF01–RF13.
+`scripts/seed.ts` continua indisponível e não foi executado.
+
 ## Estado corrente — MAIN_BASELINE_RF13
 
 RF01–RF13 estão implementadas, provadas e integradas em `main` no merge
