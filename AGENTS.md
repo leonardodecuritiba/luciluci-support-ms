@@ -1,5 +1,18 @@
 # AGENTS.md
 
+## Estado integrado — W1
+
+A [PR #17](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/17)
+foi integrada em `main` no merge `1c1348d7f1bae38e5b926b69ae53564a295302e3`.
+O head `cb92228` passou na CI `ci / quality` run `36478828865`, inclusive
+proof W1 PostgreSQL, regressão RF01–RF13 e smoke da imagem. Estado:
+`SEED_W1_IMPLEMENTED_PROVEN_INTEGRATED_IN_MAIN`. Support 0.15 continua no
+gitlink `14efcdf`; não houve deploy nem execução da seed fora de DB
+descartável. Ver [ACTUAL_STATE.md](ACTUAL_STATE.md) e o
+[fechamento W1](docs/reports/REPORT-SUPPORT-SEED-W1-MERGE-CLOSURE-20260928.md).
+As seções abaixo são fotografias anteriores à integração; as regras
+operacionais continuam aplicáveis.
+
 ## Feature local W1 — implementação e prova
 
 `feat/support-seed-w1` implementa a fixture aprovada de 6 Departments,

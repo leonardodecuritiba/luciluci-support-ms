@@ -1,5 +1,16 @@
 # AI_FIRST
 
+## Continuidade após merge W1
+
+`main` contém a seed W1 pelo merge da
+[PR #17](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/17)
+`1c1348d7f1bae38e5b926b69ae53564a295302e3`. A CI `ci / quality` do
+head `cb92228` passou no run `36478828865`. Use o
+[runbook](docs/runbooks/local-development.md) apenas com banco descartável
+explícito. RF01–RF13 permanecem integradas sob Support 0.15; não houve
+deploy ou aceitação de produção. O [fechamento W1](docs/reports/REPORT-SUPPORT-SEED-W1-MERGE-CLOSURE-20260928.md)
+é a referência de publicação; os blocos abaixo são históricos.
+
 ## Continuidade da feature W1 local
 
 O [report da seed W1](docs/reports/REPORT-SUPPORT-SEED-W1-20260928-193318.md)

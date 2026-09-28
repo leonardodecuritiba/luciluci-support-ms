@@ -1,5 +1,21 @@
 # ACTUAL_STATE
 
+## Seed W1 integrada em main
+
+A [PR #17](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/17)
+integrou a seed determinística W1 no merge
+`1c1348d7f1bae38e5b926b69ae53564a295302e3` (parents `c417d8f` e
+`cb92228`). A CI `ci / quality` do head funcional `cb92228` passou no
+[run 36478828865](https://github.com/leonardodecuritiba/luciluci-support-ms/actions/runs/36478828865),
+incluindo a proof PostgreSQL W1, a regressão RF01–RF13 e o smoke da imagem.
+Estado: `SEED_W1_IMPLEMENTED_PROVEN_INTEGRATED_IN_MAIN`. A fixture continua
+restrita a bancos descartáveis local/CI; não houve deploy, seed em ambiente
+compartilhado nem aceitação de produção. Support 0.15 e as 14 operações
+RF01–RF13 permanecem fixos. O
+[fechamento W1](docs/reports/REPORT-SUPPORT-SEED-W1-MERGE-CLOSURE-20260928.md)
+registra a evidência e os limites. Os blocos seguintes são fotografias
+históricas de antes da integração.
+
 ## Revisão W1 local concluída
 
 A [revisão separada da seed W1](docs/reports/REPORT-SUPPORT-SEED-W1-REVIEW-20260928-200426.md)

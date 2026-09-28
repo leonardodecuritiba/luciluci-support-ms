@@ -1,5 +1,10 @@
 # docs/reports
 
+O [fechamento do merge W1](REPORT-SUPPORT-SEED-W1-MERGE-CLOSURE-20260928.md)
+é a entrada corrente: PR #17, merge `1c1348d`, CI remota verde no run
+`36478828865`, seed integrada apenas para uso em DB descartável e nenhum
+deploy. Os reports abaixo preservam seus estágios anteriores.
+
 O [review W1](REPORT-SUPPORT-SEED-W1-REVIEW-20260928-200426.md) registra
 findings de segurança e concorrência remediados localmente, provas em dois
 fusos e `SEED_W1_REVIEW_PASS / READY_FOR_PUBLICATION`, ainda sem commit ou

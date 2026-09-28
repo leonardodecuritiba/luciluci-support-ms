@@ -1,5 +1,15 @@
 # DRIFT_REPORT
 
+## W1 integrada sem drift funcional novo
+
+A PR #17 integrou a seed W1 em `main` no merge `1c1348d`. A CI remota
+`ci / quality` do head `cb92228` passou no run `36478828865`, incluindo
+proof W1 e RF01–RF13. Os cinco findings da revisão W1 foram fechados antes
+da publicação; nenhum drift funcional novo foi identificado. O
+[fechamento W1](docs/reports/REPORT-SUPPORT-SEED-W1-MERGE-CLOSURE-20260928.md)
+registra a evidência. Sem deploy, seed em ambiente compartilhado ou prova de
+produção. As seções abaixo preservam estados anteriores.
+
 ## Revisão local W1
 
 O [review W1](docs/reports/REPORT-SUPPORT-SEED-W1-REVIEW-20260928-200426.md)

@@ -6,7 +6,8 @@ antes de importar o DataSource. Após conexão, exige schema migrado e classific
 retorna no-op exato. `prove-seed-w1-postgres.js` cria e remove seus bancos de
 prova, valida `xmin`, sequence, recusas, rollback, fusos e HTTP. Ver o
 [report W1](../docs/reports/REPORT-SUPPORT-SEED-W1-20260928-193318.md).
-Esta feature ainda é local.
+Foi integrada em `main` pela PR #17; uso segue restrito a DB descartável
+local/CI. Ver [fechamento](../docs/reports/REPORT-SUPPORT-SEED-W1-MERGE-CLOSURE-20260928.md).
 
 Na [fotografia da definição W1](../docs/reports/REPORT-SUPPORT-SEED-W1-DEFINITION-20260928-184122.md),
 a massa estava aprovada, mas `seed.ts` ainda abortava antes de acessar banco.
