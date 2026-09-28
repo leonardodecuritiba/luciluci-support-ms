@@ -7,7 +7,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			title: 'support-ms',
 			version: '1.0.0',
 			description:
-				'Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, RF09 reads tickets by ID, RF10 creates ticket messages, RF11 edits admin message visibility, and RF12 lists ticket messages; RF13 remains unavailable.',
+				'Support OpenAPI contract. RF01–RF13 implement Departments, Tickets, messages, and scoped Ticket history.',
 		},
 		components: {
 			parameters: {
@@ -158,6 +158,45 @@ const swaggerOptions: swaggerJSDoc.Options = {
 						data: {
 							type: 'array',
 							items: { $ref: '#/components/schemas/TicketMessage' },
+						},
+						pagination: { $ref: '#/components/schemas/Pagination' },
+					},
+				},
+				TicketHistoryItem: {
+					type: 'object',
+					additionalProperties: false,
+					required: [
+						'ticketId',
+						'number',
+						'datetime',
+						'authorId',
+						'origin',
+						'action',
+						'statusType',
+						'newStatus',
+					],
+					properties: {
+						ticketId: { type: 'string', format: 'uuid' },
+						number: { type: 'integer', minimum: 1 },
+						datetime: { type: 'string', format: 'date-time' },
+						authorId: { type: 'string' },
+						origin: { type: 'string', enum: ['admin', 'backoffice', 'cd'] },
+						action: {
+							type: 'string',
+							enum: ['criacao_ticket', 'nova_mensagem', 'alteracao_status'],
+						},
+						statusType: { type: 'string', nullable: true },
+						newStatus: { type: 'string', nullable: true },
+					},
+				},
+				TicketHistoryListResponse: {
+					type: 'object',
+					additionalProperties: false,
+					required: ['data', 'pagination'],
+					properties: {
+						data: {
+							type: 'array',
+							items: { $ref: '#/components/schemas/TicketHistoryItem' },
 						},
 						pagination: { $ref: '#/components/schemas/Pagination' },
 					},
@@ -351,6 +390,89 @@ const swaggerOptions: swaggerJSDoc.Options = {
 			},
 		},
 		paths: {
+			'/api/support/tickets/history': {
+				get: {
+					summary: 'List scoped Ticket audit history',
+					description:
+						'RF13. Current Department membership or requester ownership scopes AuditLog before count and pagination. Requesters see own message audits only; admin message audits stay hidden. Ordered by datetime DESC, id DESC in a read-only REPEATABLE READ snapshot.',
+					tags: ['Tickets'],
+					parameters: [
+						{ $ref: '#/components/parameters/CorrelationIdHeader' },
+						{ $ref: '#/components/parameters/PerformedByHeader' },
+						{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+						{
+							in: 'query',
+							name: 'ticketId',
+							required: false,
+							schema: { type: 'string', format: 'uuid' },
+						},
+						{
+							in: 'query',
+							name: 'page',
+							required: false,
+							schema: { type: 'integer', minimum: 1, default: 1 },
+						},
+						{
+							in: 'query',
+							name: 'size',
+							required: false,
+							schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 },
+						},
+					],
+					responses: {
+						'200': {
+							description: 'Scoped audit history.',
+							content: {
+								'application/json': {
+									schema: {
+										$ref: '#/components/schemas/TicketHistoryListResponse',
+									},
+								},
+							},
+						},
+						'400': {
+							description: 'Missing or invalid actor or correlation headers.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'403': {
+							description: 'Ticket access denied.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'404': {
+							description: 'Ticket not found.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'422': {
+							description: 'Invalid or repeated query, or present body.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+						'500': {
+							description: 'Unexpected error.',
+							content: {
+								'application/json': {
+									schema: { $ref: '#/components/schemas/ErrorResponse' },
+								},
+							},
+						},
+					},
+				},
+			},
 			'/api/support/tickets': {
 				post: {
 					summary: 'Create a ticket with its initial message',

@@ -263,6 +263,7 @@ async function main() {
 				'/api/support/departments/{departmentId}',
 				'/api/support/tickets',
 				'/api/support/tickets/admin/{adminId}',
+				'/api/support/tickets/history',
 				'/api/support/tickets/requester/{requesterId}',
 				'/api/support/tickets/{ticketId}',
 				'/api/support/tickets/{ticketId}/messages',
@@ -275,10 +276,7 @@ async function main() {
 				(await fetch(`http://127.0.0.1:${proof.serverPort}/api-docs`)).status,
 				200,
 			);
-			const pendingRoutes = [
-				['DELETE', `/api/support/departments/${randomUUID()}`],
-				['GET', '/api/support/tickets/history'],
-			];
+			const pendingRoutes = [['DELETE', `/api/support/departments/${randomUUID()}`]];
 			for (const [method, path] of pendingRoutes) {
 				assert.equal(
 					(

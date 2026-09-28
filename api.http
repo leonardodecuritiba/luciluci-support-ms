@@ -1,6 +1,6 @@
 # support-ms bootstrap API requests
 #
-# S1 + RF01–RF12 support surface. RF13 is not implemented.
+# S1 + RF01–RF13 support surface.
 
 @baseUrl = http://localhost:3000
 @correlationId = 8a7dd7bb-7b3f-4b3b-8b8e-0b7e2819d001
@@ -16,6 +16,95 @@
 @backofficeMessageId = 550e8400-e29b-41d4-a716-446655440005
 @cdMessageId = 550e8400-e29b-41d4-a716-446655440006
 @initialMessageId = 550e8400-e29b-41d4-a716-446655440007
+
+# RF13: the admin must be a current Department member; an inactive Department
+# remains in scope. Requester owns the Ticket regardless of Ticket.origin.
+# Admin nova_mensagem audits are always hidden from the requester.
+
+### RF13 - Admin all accessible history, including admin message audits
+GET {{baseUrl}}/api/support/tickets/history
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF13 - Admin Ticket filter (also works for inactive Department)
+GET {{baseUrl}}/api/support/tickets/history?ticketId={{ticketId}}&page=1&size=20
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF13 - Requester all own history, with admin nova_mensagem hidden
+GET {{baseUrl}}/api/support/tickets/history
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: backoffice
+
+### RF13 - Requester Ticket filter, including own nova_mensagem audits
+GET {{baseUrl}}/api/support/tickets/history?ticketId={{ticketId}}&size=1&page=2
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{requesterId}}
+X-Performed-By-Type: cd
+
+### RF13 - Invalid ticketId (422)
+GET {{baseUrl}}/api/support/tickets/history?ticketId=invalid
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF13 - Missing Ticket (404)
+GET {{baseUrl}}/api/support/tickets/history?ticketId=550e8400-e29b-41d4-a716-446655440099
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF13 - Unauthorized Ticket (403; substitute another requester's Ticket)
+GET {{baseUrl}}/api/support/tickets/history?ticketId={{ticketId}}
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: uid-other-requester
+X-Performed-By-Type: cd
+
+### RF13 - Invalid page (422)
+GET {{baseUrl}}/api/support/tickets/history?page=0
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF13 - Invalid size (422)
+GET {{baseUrl}}/api/support/tickets/history?size=101
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF13 - Repeated parameter (422)
+GET {{baseUrl}}/api/support/tickets/history?page=1&page=2
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF13 - Unknown parameter (422)
+GET {{baseUrl}}/api/support/tickets/history?action=nova_mensagem
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+### RF13 - Body forbidden (422)
+GET {{baseUrl}}/api/support/tickets/history
+Content-Type: application/json
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: admin
+
+{}
+
+### RF13 - Missing actor (400)
+GET {{baseUrl}}/api/support/tickets/history
+X-Correlation-ID: {{correlationId}}
+
+### RF13 - Invalid role (400)
+GET {{baseUrl}}/api/support/tickets/history
+X-Correlation-ID: {{correlationId}}
+X-Performed-By: {{adminId}}
+X-Performed-By-Type: invalid
 
 # RF12: use a Ticket from RF05 and messages from RF10. Inactive Department
 # remains readable for current admin members and the requester owner.

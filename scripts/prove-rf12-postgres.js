@@ -346,10 +346,6 @@ async function main() {
 		assert.equal(bodyStatus, 422);
 		assert.equal((await send('GET', endpoint, '', 'admin')).status, 400);
 		assert.equal((await send('GET', endpoint, 'admin-1', 'wrong')).status, 400);
-		assert.equal(
-			(await send('GET', '/api/support/tickets/history', 'admin-1', 'admin')).status,
-			404,
-		);
 		assert.deepEqual(
 			await snapshot(),
 			beforeValidation,
@@ -465,7 +461,6 @@ async function main() {
 		);
 		const spec = await (await fetch(`${url}/api-docs-json`)).json();
 		assert.ok(spec.paths['/api/support/tickets/{ticketId}/messages']?.get);
-		assert.equal(spec.paths['/api/support/tickets/history'], undefined);
 		console.log(
 			'RF12 PostgreSQL compiled process, ACL, snapshot, read-only and concurrency proof OK',
 		);

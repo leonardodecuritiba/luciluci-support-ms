@@ -564,19 +564,6 @@ async function main() {
 			assert.ok(spec.paths['/api/support/tickets']?.post);
 			assert.ok(spec.paths['/api/support/tickets'].post.responses['201']);
 			assert.equal((await fetch(`${baseUrl}/api-docs`)).status, 200);
-			const pendingRoutes = [['GET', '/api/support/tickets/history']];
-			for (const [method, path] of pendingRoutes) {
-				assert.equal(
-					(
-						await fetch(`${baseUrl}${path}`, {
-							method,
-							headers: { 'X-Correlation-ID': randomUUID() },
-						})
-					).status,
-					404,
-					`${method} ${path} must remain unavailable`,
-				);
-			}
 			assert.equal(
 				(await inspection.query('SELECT count(*) FROM idempotency_keys')).rows[0].count,
 				'0',

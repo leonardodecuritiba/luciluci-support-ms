@@ -1,5 +1,16 @@
 # Support — política de branches após RF01
 
+## 19. Implementação local RF13
+
+`feat/support-rf13-history` nasceu de
+`docs/support-rf13-history-checkpoint` (`7f041fd`), descendente de
+`MAIN_BASELINE_RF12`, com gitlink Support 0.15 (`14efcdf`) publicado. A branch
+implementa e prova `GET /api/support/tickets/history` sem migration, evento,
+deploy ou merge. O [report RF13](../reports/REPORT-SUPPORT-RF13-20260928.md)
+registra provas e limites. `main` continua em `1e243d3`; não existe ainda
+`MAIN_BASELINE_RF13`. As seções numeradas abaixo preservam a evolução
+histórica desta política.
+
 ## 1. Baselines
 
 - `MAIN_BASELINE_RF01`: bootstrap S1 + RF01, primeiro baseline funcional estável.

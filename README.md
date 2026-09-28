@@ -1,5 +1,16 @@
 # support-ms
 
+## RF13 — histórico de Ticket na branch funcional
+
+`GET /api/support/tickets/history` está implementado nesta branch sobre o
+contrato Support 0.15. Admin membro atual vê todas as auditorias dos Tickets
+autorizados; requester dono vê criação e status, e somente auditorias de
+mensagem próprias (`backoffice|cd`). Filtro e paginação ocorrem no SQL, com
+leitura PostgreSQL `REPEATABLE READ`. Consulte o
+[report de implementação](docs/reports/REPORT-SUPPORT-RF13-20260928.md).
+RF13 não está integrada em `main` nem implantada. As seções seguintes são
+fotografias históricas.
+
 ## Support 0.15 — contrato RF13
 
 O contrato `GET /api/support/tickets/history` foi congelado em Support 0.15,

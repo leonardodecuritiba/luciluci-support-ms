@@ -1,5 +1,15 @@
 # AGENTS.md
 
+## Implementação local RF13 — branch funcional
+
+`feat/support-rf13-history` parte de `7f041fd` com Support 0.15 fixo em
+`14efcdf`. `GET /api/support/tickets/history` implementa ACL atual, filtro
+SQL de `nova_mensagem` antes de count/página e fotografia PostgreSQL
+`REPEATABLE READ`, sem writes, migration ou evento. Provas e limites desta
+branch estão no [report RF13](docs/reports/REPORT-SUPPORT-RF13-20260928.md).
+RF01–RF12 permanecem integradas em `main` (`1e243d3`); RF13 ainda não foi
+integrada nem implantada. Os blocos abaixo são fotografias históricas.
+
 ## Contrato RF13 atual — Support 0.15
 
 Support 0.15 congela apenas RF13 em

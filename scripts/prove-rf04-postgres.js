@@ -426,20 +426,6 @@ async function main() {
 				(await inspection.query('SELECT count(*) FROM idempotency_keys')).rows[0].count,
 				'0',
 			);
-
-			const pendingRoutes = [['GET', '/api/support/tickets/history']];
-			for (const [method, path] of pendingRoutes) {
-				assert.equal(
-					(
-						await fetch(`${baseUrl}${path}`, {
-							method,
-							headers: { 'X-Correlation-ID': randomUUID() },
-						})
-					).status,
-					404,
-					`${method} ${path} must remain unavailable`,
-				);
-			}
 		} finally {
 			const exitCode = child.exitCode;
 			await stop(child);

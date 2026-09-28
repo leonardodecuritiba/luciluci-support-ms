@@ -17,7 +17,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 		await destroyTestDataSource();
 	});
 
-	it('documents operational paths and RF01-RF12', () => {
+	it('documents operational paths and RF01-RF13', () => {
 		const spec = swaggerSpec as OpenAPIV3.Document;
 
 		expect(Object.keys(spec.paths ?? {}).sort()).toEqual([
@@ -27,6 +27,7 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 			'/api/support/departments/{departmentId}',
 			'/api/support/tickets',
 			'/api/support/tickets/admin/{adminId}',
+			'/api/support/tickets/history',
 			'/api/support/tickets/requester/{requesterId}',
 			'/api/support/tickets/{ticketId}',
 			'/api/support/tickets/{ticketId}/messages',
@@ -385,7 +386,66 @@ describe('Contract: Support bootstrap OpenAPI', () => {
 			?.TicketMessageListResponse as OpenAPIV3.SchemaObject;
 		expect(listMessageResponse.required).toEqual(['data', 'pagination']);
 		expect(listMessageResponse.additionalProperties).toBe(false);
-		expect(spec.paths).not.toHaveProperty('/api/support/tickets/history');
+		const history = spec.paths?.['/api/support/tickets/history']?.get;
+		expect(history?.requestBody).toBeUndefined();
+		expect(history?.parameters).toEqual([
+			{ $ref: '#/components/parameters/CorrelationIdHeader' },
+			{ $ref: '#/components/parameters/PerformedByHeader' },
+			{ $ref: '#/components/parameters/PerformedByTypeHeader' },
+			expect.objectContaining({
+				in: 'query',
+				name: 'ticketId',
+				required: false,
+				schema: { type: 'string', format: 'uuid' },
+			}),
+			expect.objectContaining({
+				in: 'query',
+				name: 'page',
+				required: false,
+				schema: { type: 'integer', minimum: 1, default: 1 },
+			}),
+			expect.objectContaining({
+				in: 'query',
+				name: 'size',
+				required: false,
+				schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 },
+			}),
+		]);
+		expect(Object.keys(history?.responses ?? {}).sort()).toEqual([
+			'200',
+			'400',
+			'403',
+			'404',
+			'422',
+			'500',
+		]);
+		const historyItem = spec.components?.schemas?.TicketHistoryItem as OpenAPIV3.SchemaObject;
+		expect(historyItem.additionalProperties).toBe(false);
+		expect(historyItem.required).toEqual([
+			'ticketId',
+			'number',
+			'datetime',
+			'authorId',
+			'origin',
+			'action',
+			'statusType',
+			'newStatus',
+		]);
+		expect(Object.keys(historyItem.properties ?? {})).toEqual(historyItem.required);
+		expect(spec.components?.schemas?.TicketHistoryListResponse).toEqual(
+			expect.objectContaining({
+				required: ['data', 'pagination'],
+				additionalProperties: false,
+			}),
+		);
+		const businessOperations = Object.entries(spec.paths ?? {}).flatMap(([path, item]) =>
+			path.startsWith('/api/support/')
+				? ['get', 'post', 'patch', 'delete'].filter(
+						(method) => item?.[method as keyof typeof item],
+					)
+				: [],
+		);
+		expect(businessOperations).toHaveLength(14);
 		const visibility =
 			spec.paths?.['/api/support/tickets/{ticketId}/messages/{messageId}/visibility']?.patch;
 		expect(visibility?.parameters).toEqual([

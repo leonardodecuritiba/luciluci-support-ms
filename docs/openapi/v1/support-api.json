@@ -229,6 +229,45 @@
 				],
 				"type": "object"
 			},
+			"TicketHistoryItem": {
+				"additionalProperties": false,
+				"properties": {
+					"action": {
+						"enum": ["criacao_ticket", "nova_mensagem", "alteracao_status"],
+						"type": "string"
+					},
+					"authorId": { "type": "string" },
+					"datetime": { "format": "date-time", "type": "string" },
+					"newStatus": { "nullable": true, "type": "string" },
+					"number": { "minimum": 1, "type": "integer" },
+					"origin": { "enum": ["admin", "backoffice", "cd"], "type": "string" },
+					"statusType": { "nullable": true, "type": "string" },
+					"ticketId": { "format": "uuid", "type": "string" }
+				},
+				"required": [
+					"ticketId",
+					"number",
+					"datetime",
+					"authorId",
+					"origin",
+					"action",
+					"statusType",
+					"newStatus"
+				],
+				"type": "object"
+			},
+			"TicketHistoryListResponse": {
+				"additionalProperties": false,
+				"properties": {
+					"data": {
+						"items": { "$ref": "#/components/schemas/TicketHistoryItem" },
+						"type": "array"
+					},
+					"pagination": { "$ref": "#/components/schemas/Pagination" }
+				},
+				"required": ["data", "pagination"],
+				"type": "object"
+			},
 			"TicketListItem": {
 				"additionalProperties": false,
 				"properties": {
@@ -336,7 +375,7 @@
 		}
 	},
 	"info": {
-		"description": "Support OpenAPI contract. RF01–RF04 manage departments, RF05 creates tickets, RF06 edits tickets, RF07a/RF07b list tickets, RF08 resolves tickets, RF09 reads tickets by ID, RF10 creates ticket messages, RF11 edits admin message visibility, and RF12 lists ticket messages; RF13 remains unavailable.",
+		"description": "Support OpenAPI contract. RF01–RF13 implement Departments, Tickets, messages, and scoped Ticket history.",
 		"title": "support-ms",
 		"version": "1.0.0"
 	},
@@ -1177,6 +1216,88 @@
 					}
 				},
 				"summary": "List tickets visible to the admin",
+				"tags": ["Tickets"]
+			}
+		},
+		"/api/support/tickets/history": {
+			"get": {
+				"description": "RF13. Current Department membership or requester ownership scopes AuditLog before count and pagination. Requesters see own message audits only; admin message audits stay hidden. Ordered by datetime DESC, id DESC in a read-only REPEATABLE READ snapshot.",
+				"parameters": [
+					{ "$ref": "#/components/parameters/CorrelationIdHeader" },
+					{ "$ref": "#/components/parameters/PerformedByHeader" },
+					{ "$ref": "#/components/parameters/PerformedByTypeHeader" },
+					{
+						"in": "query",
+						"name": "ticketId",
+						"required": false,
+						"schema": { "format": "uuid", "type": "string" }
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": { "default": 1, "minimum": 1, "type": "integer" }
+					},
+					{
+						"in": "query",
+						"name": "size",
+						"required": false,
+						"schema": { "default": 20, "maximum": 100, "minimum": 1, "type": "integer" }
+					}
+				],
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TicketHistoryListResponse"
+								}
+							}
+						},
+						"description": "Scoped audit history."
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Missing or invalid actor or correlation headers."
+					},
+					"403": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Ticket access denied."
+					},
+					"404": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Ticket not found."
+					},
+					"422": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Invalid or repeated query, or present body."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ErrorResponse" }
+							}
+						},
+						"description": "Unexpected error."
+					}
+				},
+				"summary": "List scoped Ticket audit history",
 				"tags": ["Tickets"]
 			}
 		},

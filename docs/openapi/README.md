@@ -1,5 +1,10 @@
 # docs/openapi
 
+Nesta branch, `v1/support-api.json` exporta as 14 operações RF01–RF13. RF13
+define `GET /api/support/tickets/history`, três queries opcionais, resposta
+paginada com item de oito campos e erros 400/403/404/422/500. O trecho abaixo
+é histórico.
+
 RF12 está integrada em `main` (`MAIN_BASELINE_RF12`); o contrato v1 ainda não
 inclui RF13. O checkpoint contratual RF13 permanece bloqueado por decisões.
 O trecho abaixo descreve a branch funcional RF12 antes do merge.

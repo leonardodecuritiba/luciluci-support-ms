@@ -1,5 +1,23 @@
 # DRIFT_REPORT
 
+## Revisão independente RF13 — sem drift funcional residual
+
+A [revisão local RF13](docs/reports/REPORT-SUPPORT-RF13-REVIEW-20260928.md)
+não encontrou vazamento de auditorias, bypass de ACL ou divergência com Support
+0.15. Duas lacunas no harness de prova foram fechadas; runtime, schema,
+gitlink e documentação canônica ficaram inalterados. Não houve publicação Git.
+Os registros abaixo preservam os estados anteriores.
+
+## RF13 — implementação focal sem drift novo identificado
+
+O contrato Support 0.15 está materializado na branch funcional: ACL e escopo
+de auditoria no SQL, resposta paginada, snapshot PostgreSQL e documentação
+HTTP. Nenhuma correlação heurística com TicketMessage, migration ou evento foi
+introduzido. A prova local e seus limites constam no
+[report RF13](docs/reports/REPORT-SUPPORT-RF13-20260928.md). A integração em
+`main` e a CI remota ainda dependem de lote posterior. Os registros abaixo
+são históricos.
+
 ## RF13 — contrato 0.15 congelado, sem drift técnico novo
 
 Os blockers documentais RF13 foram fechados somente para esta rota em Support

@@ -1,5 +1,28 @@
 # ACTUAL_STATE
 
+## Revisão independente RF13 — remediação local concluída
+
+A [revisão RF13](docs/reports/REPORT-SUPPORT-RF13-REVIEW-20260928.md)
+reconfirmou contrato Support 0.15 e ACL/privacidade do histórico sem finding
+P0/P1. O harness PostgreSQL passou a provar `datetime` idêntico em `UTC` e
+`America/Sao_Paulo`, páginas compactadas, ausência de SELECT a TicketMessage
+após RF11 e no-ops RF06/RF08. A integração HTTP cobre body JSON, whitespace e
+UUID não-v4. As provas RF01–RF13 e o smoke foram reexecutados localmente.
+Estado: `RF13_REVIEW_PASS / READY_FOR_PUBLICATION` na branch funcional; sem
+commit, push, PR, merge ou deploy. Os blocos abaixo registram o lote anterior.
+
+## Implementação RF13 — branch funcional local
+
+Na branch `feat/support-rf13-history`, descendente do checkpoint `7f041fd`,
+RF13 está implementada sobre Support 0.15 (`14efcdf`). A rota
+`GET /api/support/tickets/history` usa ACL atual e filtra auditorias ocultas
+antes de count/página; ordena `datetime DESC,id DESC` e lê sob `REPEATABLE READ`
+no PostgreSQL. O contrato OpenAPI, `api.http`, testes e proof PostgreSQL estão
+no [report RF13](docs/reports/REPORT-SUPPORT-RF13-20260928.md). RF01–RF12
+permanecem integradas em `main` (`1e243d3`); RF13 não foi integrada, publicada
+em PR ou implantada. Nenhuma migration ou evento foi criado. As seções abaixo
+são fotografias históricas.
+
 ## Fechamento contratual RF13 — Support 0.15
 
 As decisões expressas de 2026-09-28 fecharam os blockers remanescentes de

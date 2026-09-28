@@ -270,13 +270,6 @@ async function main() {
 				Object.keys(spec.paths['/api/support/tickets/{ticketId}'].get.responses).sort(),
 				['200', '400', '403', '404', '422', '500'],
 			);
-			for (const path of ['/api/support/tickets/history'])
-				assert.equal(spec.paths[path], undefined);
-			for (const [method, path] of [['GET', '/api/support/tickets/history']])
-				assert.equal(
-					(await fetch(`${url}${path}`, { method, headers: headers() })).status,
-					404,
-				);
 			assert.deepEqual(await snapshot(), revoked);
 		} finally {
 			const exitCode = child.exitCode;

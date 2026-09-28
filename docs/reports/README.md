@@ -1,5 +1,16 @@
 # docs/reports
 
+O [review RF13](REPORT-SUPPORT-RF13-REVIEW-20260928.md) audita
+independentemente a implementação local, registra duas lacunas de prova
+remediadas e a revalidação em UTC/São Paulo, PostgreSQL, testes e imagem.
+Nenhuma publicação Git ocorreu nesse lote. Os reports abaixo registram o
+lote funcional e os checkpoints anteriores.
+
+O [report funcional RF13](REPORT-SUPPORT-RF13-20260928.md) descreve runtime,
+contrato HTTP, testes e prova local PostgreSQL da branch
+`feat/support-rf13-history`. A integração em `main` e CI remota são etapas
+posteriores. Os reports abaixo preservam o histórico contratual.
+
 O [report de fechamento RF13](REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md)
 registra Support 0.15 publicado em `14efcdf`, gitlink atualizado e
 `RF13_CONTRACT_CHECKPOINT_READY / RF13_CONTRACT_FROZEN / NOT_IMPLEMENTED`.

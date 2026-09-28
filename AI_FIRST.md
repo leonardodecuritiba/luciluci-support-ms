@@ -1,5 +1,14 @@
 # AI_FIRST
 
+## RF13 implementada localmente
+
+A branch `feat/support-rf13-history`, descendente do freeze `7f041fd`,
+materializa a última RF do ciclo. A rota `/api/support/tickets/history` lê
+AuditLog com ACL e visibilidade filtradas no SQL, em `REPEATABLE READ` no
+PostgreSQL. Ver [report funcional](docs/reports/REPORT-SUPPORT-RF13-20260928.md).
+Support 0.15 permanece no gitlink `14efcdf`; `main` ainda integra somente
+RF01–RF12. Os estados abaixo são históricos.
+
 ## Support 0.15 — RF13 congelada, runtime ausente
 
 RF13 tem contrato canônico publicado em `14efcdf` e fixado no gitlink.

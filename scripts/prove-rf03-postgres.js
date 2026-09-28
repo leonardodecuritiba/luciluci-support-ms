@@ -292,10 +292,7 @@ async function main() {
 			assert.equal(spec.components.schemas.Pagination.properties.size.maximum, 100);
 			assert.equal((await fetch(`${baseUrl}/api-docs`)).status, 200);
 
-			const pendingRoutes = [
-				['DELETE', `/api/support/departments/${randomUUID()}`],
-				['GET', '/api/support/tickets/history'],
-			];
+			const pendingRoutes = [['DELETE', `/api/support/departments/${randomUUID()}`]];
 			for (const [method, path] of pendingRoutes) {
 				assert.equal(
 					(await fetch(`${baseUrl}${path}`, { method, headers })).status,

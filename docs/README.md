@@ -1,5 +1,15 @@
 # docs
 
+O [review independente RF13](reports/REPORT-SUPPORT-RF13-REVIEW-20260928.md)
+registra a auditoria do diff local, correções do harness e revalidação em dois
+fusos. A branch permanece sem publicação; o report funcional abaixo é a
+evidência do lote anterior.
+
+O [report funcional RF13](reports/REPORT-SUPPORT-RF13-20260928.md) registra a
+implementação local do histórico, as provas executadas e os limites de
+integração/CI. O contrato canônico segue Support 0.15; os checkpoints abaixo
+são históricos.
+
 O [fechamento RF13](reports/REPORT-SUPPORT-RF13-CONTRACT-20260928-141233.md)
 registra Support 0.15 publicado/fixado, contrato
 `RF13_CONTRACT_CHECKPOINT_READY / RF13_CONTRACT_FROZEN` e runtime ainda ausente.
