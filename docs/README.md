@@ -1,5 +1,10 @@
 # docs
 
+O [checkpoint de readiness/UAT](reports/REPORT-SUPPORT-DEPLOYMENT-READINESS-20260929-132805.md)
+registra `main=5caa771`, CD como publicador de imagem sem deploy, matriz UAT
+das 14 operações, decisões DEPLOY-01..18, blockers e critérios GO/NO-GO.
+Nenhuma tag, release ou implantação ocorreu; os textos abaixo são históricos.
+
 O [fechamento W1](reports/REPORT-SUPPORT-SEED-W1-MERGE-CLOSURE-20260928.md)
 registra a PR #17 integrada em `main` (`1c1348d`), CI `ci / quality` verde
 no run `36478828865` e seed segura disponível somente para DB descartável

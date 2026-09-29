@@ -1,5 +1,19 @@
 # ACTUAL_STATE
 
+## Checkpoint de readiness/UAT — sem deploy
+
+`main=origin/main=5caa7713ab40b64e9b499cf5bcbaf84645415200` integra a
+[PR documental #18](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/18),
+cujo head `ddff19d` passou na CI `quality` run `36494457557`. RF01–RF13
+(14 operações) e seed W1 estão integradas; Support 0.15 permanece no gitlink
+`14efcdf`. O [checkpoint de deployment readiness](docs/reports/REPORT-SUPPORT-DEPLOYMENT-READINESS-20260929-132805.md)
+classifica `DEPLOYMENT_READINESS_BLOCKED_BY_ENVIRONMENT_DECISION / NO_GO`:
+ambiente/plataforma/DB/owner, fronteira BFF, secrets, migrations controladas,
+observabilidade, UAT e rollback ainda requerem decisão/prova. O CD atual
+publica imagem GHCR por tag `v*`, sem implantar o serviço. Nenhuma tag,
+release ou deploy foi feita neste lote; W1 segue restrita a banco descartável
+local/CI. Os blocos seguintes preservam estados anteriores ao checkpoint.
+
 ## Seed W1 integrada em main
 
 A [PR #17](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/17)
