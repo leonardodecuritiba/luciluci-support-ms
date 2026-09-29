@@ -1,7 +1,13 @@
 # docs/reports
 
+O [checkpoint de readiness/UAT](REPORT-SUPPORT-DEPLOYMENT-READINESS-20260929-132805.md)
+é a entrada corrente: RF01–RF13 e W1 integrados em `main=5caa771`, mas
+`NO_GO` para deploy até definir/provar ambiente, BFF, DB, migrations,
+secrets, UAT, observabilidade e rollback. O CD atual só publica imagem.
+Os reports abaixo preservam as etapas anteriores.
+
 O [fechamento do merge W1](REPORT-SUPPORT-SEED-W1-MERGE-CLOSURE-20260928.md)
-é a entrada corrente: PR #17, merge `1c1348d`, CI remota verde no run
+registra a PR #17, merge `1c1348d`, CI remota verde no run
 `36478828865`, seed integrada apenas para uso em DB descartável e nenhum
 deploy. Os reports abaixo preservam seus estágios anteriores.
 
@@ -25,7 +31,7 @@ registra `SEED_W1_DEFINITION_BLOCKED_BY_DECISION`, proposta operacional
 sem runtime e Support 0.15 preservado.
 
 O [report final de fechamento](REPORT-SUPPORT-FINAL-CLOSURE-20260928-174429.md)
-é a entrada corrente: `MAIN_BASELINE_RF13` = merge funcional
+registra `MAIN_BASELINE_RF13` = merge funcional
 `2aacc5554c9c2c4f25415dd8b170f5ff73b6d189`, RF01–RF13
 implementadas/provadas/integradas, Support 0.15 fixo, CI remota RF13 verde e
 nenhum deploy. Os reports e parágrafos abaixo são fotografias históricas de

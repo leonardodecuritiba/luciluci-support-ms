@@ -1,5 +1,15 @@
 # AI_FIRST
 
+## Entrada de release — checkpoint bloqueado
+
+Leia o [checkpoint de readiness/UAT](docs/reports/REPORT-SUPPORT-DEPLOYMENT-READINESS-20260929-132805.md)
+antes de criar tag ou planejar deploy. `main=5caa771` contém PR #18,
+RF01–RF13 e W1; Support 0.15 está fixo. O CD apenas publica imagem ao
+receber tag `v*`; não implanta. Ambiente, DB, rede BFF, secrets, migrations,
+UAT, observabilidade e rollback ainda não têm evidência suficiente para GO.
+Estado `DEPLOYMENT_READINESS_BLOCKED_BY_ENVIRONMENT_DECISION / NO_GO`; W1
+somente em banco descartável local/CI. As seções abaixo são históricas.
+
 ## Continuidade após merge W1
 
 `main` contém a seed W1 pelo merge da

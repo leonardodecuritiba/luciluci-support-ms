@@ -1,5 +1,16 @@
 # support-ms
 
+## Checkpoint de release
+
+O [checkpoint de readiness/UAT](docs/reports/REPORT-SUPPORT-DEPLOYMENT-READINESS-20260929-132805.md)
+parte de `main=5caa771` após o merge da PR #18. Código RF01–RF13 e seed W1
+estão integrados e provados, mas o próximo ambiente, a operação do banco,
+a fronteira BFF, UAT e rollback ainda não estão definidos/provados.
+`cd-support` publica imagem no GHCR por tag `v*`; não faz deploy. Estado
+`NO_GO` para ambiente real até fechar os gates. Não houve tag, release ou
+deploy neste checkpoint; Support 0.15 permanece fixo e W1 é apenas para DB
+descartável local/CI. Os estados abaixo registram etapas anteriores.
+
 ## Estado atual — RF01–RF13 e seed W1 em main
 
 As 14 operações HTTP de RF01–RF13 estão integradas em `MAIN_BASELINE_RF13`.
