@@ -1,5 +1,17 @@
 # Support — política de branches após RF01
 
+## 21. Fechamento da seed W1
+
+A [PR #17](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/17)
+integrou a seed W1 por merge commit
+`1c1348d7f1bae38e5b926b69ae53564a295302e3`, com parents `c417d8f` e
+`cb92228`. A CI `ci / quality` do head funcional passou no run
+`36478828865`, inclusive proof W1, regressão RF01–RF13 e smoke da imagem.
+`main` é a baseline funcional com W1 integrada; Support 0.15 permanece
+fixo. A branch `docs/support-seed-w1-merge-closure` parte desse merge para
+registrar evidência e limites, sem runtime ou deploy. As seções abaixo são
+fotografias anteriores.
+
 ## 20. Fechamento funcional RF13
 
 A PR #15 integrou RF13 por merge commit

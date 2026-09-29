@@ -1,5 +1,18 @@
 # support-ms
 
+## Estado atual — RF01–RF13 e seed W1 em main
+
+As 14 operações HTTP de RF01–RF13 estão integradas em `MAIN_BASELINE_RF13`.
+A seed determinística W1 foi integrada pela
+[PR #17](https://github.com/leonardodecuritiba/luciluci-support-ms/pull/17)
+no merge `1c1348d7f1bae38e5b926b69ae53564a295302e3`; a CI do head
+`cb92228` passou no run `36478828865`. Support 0.15 permanece fixo.
+A seed exige banco novo descartável local/CI e os gates do
+[runbook](docs/runbooks/local-development.md); não houve deploy ou aceitação
+de produção. Ver [estado real](ACTUAL_STATE.md) e
+[fechamento W1](docs/reports/REPORT-SUPPORT-SEED-W1-MERGE-CLOSURE-20260928.md).
+As seções de estado abaixo são fotografias históricas.
+
 ## Seed W1 nesta branch funcional
 
 A seed determinística W1 está implementada e provada localmente em
@@ -153,8 +166,10 @@ npm run migration:run
 npm run dev
 ```
 
-O ambiente local requer apenas PostgreSQL. Não execute `npm run seed` nesta
-fase: o comando falha de modo explícito até a massa determinística de W1 ser definida.
+O ambiente local requer PostgreSQL. Para usar `npm run seed`, crie um banco
+novo e descartável com nome e confirmação exigidos no
+[runbook W1](docs/runbooks/local-development.md); não aponte para o banco
+padrão `support_ms` criado pelo fluxo acima.
 
 ## Endpoints disponíveis
 

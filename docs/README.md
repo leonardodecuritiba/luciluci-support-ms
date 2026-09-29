@@ -1,5 +1,11 @@
 # docs
 
+O [fechamento W1](reports/REPORT-SUPPORT-SEED-W1-MERGE-CLOSURE-20260928.md)
+registra a PR #17 integrada em `main` (`1c1348d`), CI `ci / quality` verde
+no run `36478828865` e seed segura disponível somente para DB descartável
+local/CI. Support 0.15 e RF01–RF13 permanecem integrados; não houve deploy.
+Os parágrafos abaixo são fotografias anteriores.
+
 O [report funcional W1](reports/REPORT-SUPPORT-SEED-W1-20260928-193318.md)
 registra seed implementada e provada localmente em banco descartável, sem
 commit ou publicação. O fechamento documental abaixo é histórico.
